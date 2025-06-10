@@ -53,6 +53,17 @@ sui-client-gen --clean
 sui-client-gen --manifest-path path/to/gen.toml --out path/to/output
 ```
 
+### Updating generated code from examples
+To regenerate TypeScript code after making changes to Move contracts:
+```bash
+# Generate TypeScript code from Move examples
+cargo run -- --manifest ./ts/examples/gen/gen.toml --out ./ts/examples/gen/
+
+# Fix any linting issues in the generated code
+cd ts
+pnpm lint:fix
+```
+
 ## Architecture
 
 The project consists of two main parts:
