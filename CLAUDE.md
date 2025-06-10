@@ -26,19 +26,19 @@ cargo install --path generator
 ### TypeScript commands (in the ts/ directory)
 ```bash
 # Install dependencies
-pnpm install
+bun install
 
 # Type check - verifies generated code is correct
-pnpm check
+bun check
 
 # Lint and fix
-pnpm lint:fix
+bun lint:fix
 
 # Run tests
-pnpm test
+bun test
 
 # Build example
-pnpm build:example
+bun build:example
 ```
 
 ### Running the generator
@@ -61,10 +61,10 @@ cargo run -- --manifest ./ts/examples/gen/gen.toml --out ./ts/examples/gen/
 
 # Fix any linting issues in the generated code
 cd ts
-pnpm lint:fix
+bun lint:fix
 
 # Verify the generated code is correct
-pnpm check
+bun check
 ```
 
 ## Architecture
