@@ -26,7 +26,7 @@ import { PKG_V31 } from "../index.js";
 import { Table } from "../table/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== TableVec =============================== */
 
@@ -241,7 +241,7 @@ export class TableVec<T0 extends PhantomTypeArgument> implements StructClass {
         );
       }
 
-      return TableVec.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return TableVec.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return TableVec.fromSuiParsedData(typeArg, data.content);

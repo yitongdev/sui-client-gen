@@ -26,7 +26,7 @@ import { PKG_V31 } from "../index.js";
 import { UID } from "../object/structs.js";
 import { BcsType, bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== Field =============================== */
 
@@ -283,7 +283,7 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
         }
       }
 
-      return Field.fromBcs(typeArgs, fromB64(data.bcs.bcsBytes));
+      return Field.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Field.fromSuiParsedData(typeArgs, data.content);

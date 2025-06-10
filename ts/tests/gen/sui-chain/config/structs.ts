@@ -30,7 +30,7 @@ import { PKG_V31 } from "../index.js";
 import { UID } from "../object/structs.js";
 import { BcsType, bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== Config =============================== */
 
@@ -236,7 +236,7 @@ export class Config<T0 extends PhantomTypeArgument> implements StructClass {
         );
       }
 
-      return Config.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return Config.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Config.fromSuiParsedData(typeArg, data.content);
@@ -485,7 +485,7 @@ export class Setting<T0 extends TypeArgument> implements StructClass {
         );
       }
 
-      return Setting.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return Setting.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Setting.fromSuiParsedData(typeArg, data.content);
@@ -765,7 +765,7 @@ export class SettingData<T0 extends TypeArgument> implements StructClass {
         );
       }
 
-      return SettingData.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return SettingData.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return SettingData.fromSuiParsedData(typeArg, data.content);

@@ -32,7 +32,7 @@ import { VecMap } from "../vec-map/structs.js";
 import { VecSet } from "../vec-set/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64, fromHEX, toHEX } from "@mysten/sui/utils";
+import { fromBase64, fromHex, toHex } from "@mysten/sui/utils";
 
 /* ============================== Token =============================== */
 
@@ -248,7 +248,7 @@ export class Token<T0 extends PhantomTypeArgument> implements StructClass {
         );
       }
 
-      return Token.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return Token.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Token.fromSuiParsedData(typeArg, data.content);
@@ -498,7 +498,7 @@ export class TokenPolicyCap<T0 extends PhantomTypeArgument>
         );
       }
 
-      return TokenPolicyCap.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return TokenPolicyCap.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return TokenPolicyCap.fromSuiParsedData(typeArg, data.content);
@@ -770,7 +770,7 @@ export class TokenPolicy<T0 extends PhantomTypeArgument>
         );
       }
 
-      return TokenPolicy.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return TokenPolicy.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return TokenPolicy.fromSuiParsedData(typeArg, data.content);
@@ -915,13 +915,13 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
       name: String.bcs,
       amount: bcs.u64(),
       sender: bcs.bytes(32).transform({
-        input: (val: string) => fromHEX(val),
-        output: (val: Uint8Array) => toHEX(val),
+        input: (val: string) => fromHex(val),
+        output: (val: Uint8Array) => toHex(val),
       }),
       recipient: Option.bcs(
         bcs.bytes(32).transform({
-          input: (val: string) => fromHEX(val),
-          output: (val: Uint8Array) => toHEX(val),
+          input: (val: string) => fromHex(val),
+          output: (val: Uint8Array) => toHex(val),
         }),
       ),
       spent_balance: Option.bcs(Balance.bcs),
@@ -1089,7 +1089,7 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
         );
       }
 
-      return ActionRequest.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return ActionRequest.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return ActionRequest.fromSuiParsedData(typeArg, data.content);
@@ -1325,7 +1325,7 @@ export class RuleKey<T0 extends PhantomTypeArgument> implements StructClass {
         );
       }
 
-      return RuleKey.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return RuleKey.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return RuleKey.fromSuiParsedData(typeArg, data.content);
@@ -1579,7 +1579,7 @@ export class TokenPolicyCreated<T0 extends PhantomTypeArgument>
         );
       }
 
-      return TokenPolicyCreated.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return TokenPolicyCreated.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return TokenPolicyCreated.fromSuiParsedData(typeArg, data.content);

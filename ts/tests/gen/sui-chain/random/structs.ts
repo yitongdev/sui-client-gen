@@ -22,7 +22,7 @@ import { UID } from "../object/structs.js";
 import { Versioned } from "../versioned/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== Random =============================== */
 
@@ -181,7 +181,7 @@ export class Random implements StructClass {
         throw new Error(`object at is not a Random object`);
       }
 
-      return Random.fromBcs(fromB64(data.bcs.bcsBytes));
+      return Random.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Random.fromSuiParsedData(data.content);
@@ -390,7 +390,7 @@ export class RandomInner implements StructClass {
         throw new Error(`object at is not a RandomInner object`);
       }
 
-      return RandomInner.fromBcs(fromB64(data.bcs.bcsBytes));
+      return RandomInner.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return RandomInner.fromSuiParsedData(data.content);
@@ -594,7 +594,7 @@ export class RandomGenerator implements StructClass {
         throw new Error(`object at is not a RandomGenerator object`);
       }
 
-      return RandomGenerator.fromBcs(fromB64(data.bcs.bcsBytes));
+      return RandomGenerator.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return RandomGenerator.fromSuiParsedData(data.content);

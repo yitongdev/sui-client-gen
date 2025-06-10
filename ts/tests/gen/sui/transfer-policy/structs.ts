@@ -31,7 +31,7 @@ import { SUI } from "../sui/structs.js";
 import { VecSet } from "../vec-set/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== TransferRequest =============================== */
 
@@ -276,7 +276,7 @@ export class TransferRequest<T extends PhantomTypeArgument>
         );
       }
 
-      return TransferRequest.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return TransferRequest.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return TransferRequest.fromSuiParsedData(typeArg, data.content);
@@ -548,7 +548,7 @@ export class TransferPolicy<T extends PhantomTypeArgument>
         );
       }
 
-      return TransferPolicy.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return TransferPolicy.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return TransferPolicy.fromSuiParsedData(typeArg, data.content);
@@ -803,7 +803,7 @@ export class TransferPolicyCap<T extends PhantomTypeArgument>
         );
       }
 
-      return TransferPolicyCap.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return TransferPolicyCap.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return TransferPolicyCap.fromSuiParsedData(typeArg, data.content);
@@ -1051,7 +1051,10 @@ export class TransferPolicyCreated<T extends PhantomTypeArgument>
         );
       }
 
-      return TransferPolicyCreated.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return TransferPolicyCreated.fromBcs(
+        typeArg,
+        fromBase64(data.bcs.bcsBytes),
+      );
     }
     if (data.content) {
       return TransferPolicyCreated.fromSuiParsedData(typeArg, data.content);
@@ -1305,7 +1308,7 @@ export class TransferPolicyDestroyed<T extends PhantomTypeArgument>
 
       return TransferPolicyDestroyed.fromBcs(
         typeArg,
-        fromB64(data.bcs.bcsBytes),
+        fromBase64(data.bcs.bcsBytes),
       );
     }
     if (data.content) {
@@ -1544,7 +1547,7 @@ export class RuleKey<T extends PhantomTypeArgument> implements StructClass {
         );
       }
 
-      return RuleKey.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return RuleKey.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return RuleKey.fromSuiParsedData(typeArg, data.content);

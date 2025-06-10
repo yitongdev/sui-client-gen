@@ -27,7 +27,7 @@ import { Vector } from "../../_framework/vector.js";
 import { PKG_V31 } from "../index.js";
 import { BcsType, bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== VecSet =============================== */
 
@@ -239,7 +239,7 @@ export class VecSet<K extends TypeArgument> implements StructClass {
         );
       }
 
-      return VecSet.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return VecSet.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return VecSet.fromSuiParsedData(typeArg, data.content);

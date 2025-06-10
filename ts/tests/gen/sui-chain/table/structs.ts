@@ -25,7 +25,7 @@ import { PKG_V31 } from "../index.js";
 import { UID } from "../object/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== Table =============================== */
 
@@ -285,7 +285,7 @@ export class Table<
         }
       }
 
-      return Table.fromBcs(typeArgs, fromB64(data.bcs.bcsBytes));
+      return Table.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Table.fromSuiParsedData(typeArgs, data.content);

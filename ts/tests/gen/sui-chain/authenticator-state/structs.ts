@@ -22,7 +22,7 @@ import { PKG_V31 } from "../index.js";
 import { UID } from "../object/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== AuthenticatorState =============================== */
 
@@ -190,7 +190,7 @@ export class AuthenticatorState implements StructClass {
         throw new Error(`object at is not a AuthenticatorState object`);
       }
 
-      return AuthenticatorState.fromBcs(fromB64(data.bcs.bcsBytes));
+      return AuthenticatorState.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return AuthenticatorState.fromSuiParsedData(data.content);
@@ -402,7 +402,7 @@ export class AuthenticatorStateInner implements StructClass {
         throw new Error(`object at is not a AuthenticatorStateInner object`);
       }
 
-      return AuthenticatorStateInner.fromBcs(fromB64(data.bcs.bcsBytes));
+      return AuthenticatorStateInner.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return AuthenticatorStateInner.fromSuiParsedData(data.content);
@@ -608,7 +608,7 @@ export class JWK implements StructClass {
         throw new Error(`object at is not a JWK object`);
       }
 
-      return JWK.fromBcs(fromB64(data.bcs.bcsBytes));
+      return JWK.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return JWK.fromSuiParsedData(data.content);
@@ -790,7 +790,7 @@ export class JwkId implements StructClass {
         throw new Error(`object at is not a JwkId object`);
       }
 
-      return JwkId.fromBcs(fromB64(data.bcs.bcsBytes));
+      return JwkId.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return JwkId.fromSuiParsedData(data.content);
@@ -984,7 +984,7 @@ export class ActiveJwk implements StructClass {
         throw new Error(`object at is not a ActiveJwk object`);
       }
 
-      return ActiveJwk.fromBcs(fromB64(data.bcs.bcsBytes));
+      return ActiveJwk.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return ActiveJwk.fromSuiParsedData(data.content);

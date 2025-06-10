@@ -27,7 +27,7 @@ import { Vector } from "../../../../_framework/vector.js";
 import { PKG_V16 } from "../index.js";
 import { BcsType, bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== Option =============================== */
 
@@ -242,7 +242,7 @@ export class Option<Element extends TypeArgument> implements StructClass {
         );
       }
 
-      return Option.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return Option.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Option.fromSuiParsedData(typeArg, data.content);

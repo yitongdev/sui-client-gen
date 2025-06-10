@@ -24,7 +24,7 @@ import { Table } from "../table/structs.js";
 import { VecSet } from "../vec-set/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== DenyList =============================== */
 
@@ -184,7 +184,7 @@ export class DenyList implements StructClass {
         throw new Error(`object at is not a DenyList object`);
       }
 
-      return DenyList.fromBcs(fromB64(data.bcs.bcsBytes));
+      return DenyList.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return DenyList.fromSuiParsedData(data.content);
@@ -410,7 +410,7 @@ export class PerTypeList implements StructClass {
         throw new Error(`object at is not a PerTypeList object`);
       }
 
-      return PerTypeList.fromBcs(fromB64(data.bcs.bcsBytes));
+      return PerTypeList.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return PerTypeList.fromSuiParsedData(data.content);

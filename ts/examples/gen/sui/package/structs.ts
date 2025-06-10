@@ -22,7 +22,7 @@ import { PKG_V31 } from "../index.js";
 import { ID, UID } from "../object/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== Publisher =============================== */
 
@@ -193,7 +193,7 @@ export class Publisher implements StructClass {
         throw new Error(`object at is not a Publisher object`);
       }
 
-      return Publisher.fromBcs(fromB64(data.bcs.bcsBytes));
+      return Publisher.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Publisher.fromSuiParsedData(data.content);
@@ -396,7 +396,7 @@ export class UpgradeCap implements StructClass {
         throw new Error(`object at is not a UpgradeCap object`);
       }
 
-      return UpgradeCap.fromBcs(fromB64(data.bcs.bcsBytes));
+      return UpgradeCap.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return UpgradeCap.fromSuiParsedData(data.content);
@@ -605,7 +605,7 @@ export class UpgradeTicket implements StructClass {
         throw new Error(`object at is not a UpgradeTicket object`);
       }
 
-      return UpgradeTicket.fromBcs(fromB64(data.bcs.bcsBytes));
+      return UpgradeTicket.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return UpgradeTicket.fromSuiParsedData(data.content);
@@ -798,7 +798,7 @@ export class UpgradeReceipt implements StructClass {
         throw new Error(`object at is not a UpgradeReceipt object`);
       }
 
-      return UpgradeReceipt.fromBcs(fromB64(data.bcs.bcsBytes));
+      return UpgradeReceipt.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return UpgradeReceipt.fromSuiParsedData(data.content);

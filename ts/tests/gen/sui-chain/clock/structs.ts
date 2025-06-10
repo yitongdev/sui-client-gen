@@ -18,7 +18,7 @@ import { PKG_V31 } from "../index.js";
 import { UID } from "../object/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== Clock =============================== */
 
@@ -177,7 +177,7 @@ export class Clock implements StructClass {
         throw new Error(`object at is not a Clock object`);
       }
 
-      return Clock.fromBcs(fromB64(data.bcs.bcsBytes));
+      return Clock.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Clock.fromSuiParsedData(data.content);

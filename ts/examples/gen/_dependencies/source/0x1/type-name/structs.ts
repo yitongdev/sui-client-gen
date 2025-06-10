@@ -18,7 +18,7 @@ import { String } from "../ascii/structs.js";
 import { PKG_V16 } from "../index.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== TypeName =============================== */
 
@@ -170,7 +170,7 @@ export class TypeName implements StructClass {
         throw new Error(`object at is not a TypeName object`);
       }
 
-      return TypeName.fromBcs(fromB64(data.bcs.bcsBytes));
+      return TypeName.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return TypeName.fromSuiParsedData(data.content);

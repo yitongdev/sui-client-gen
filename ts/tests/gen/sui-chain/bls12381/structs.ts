@@ -17,7 +17,7 @@ import {
 import { PKG_V31 } from "../index.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== Scalar =============================== */
 
@@ -168,7 +168,7 @@ export class Scalar implements StructClass {
         throw new Error(`object at is not a Scalar object`);
       }
 
-      return Scalar.fromBcs(fromB64(data.bcs.bcsBytes));
+      return Scalar.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Scalar.fromSuiParsedData(data.content);
@@ -345,7 +345,7 @@ export class G1 implements StructClass {
         throw new Error(`object at is not a G1 object`);
       }
 
-      return G1.fromBcs(fromB64(data.bcs.bcsBytes));
+      return G1.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return G1.fromSuiParsedData(data.content);
@@ -519,7 +519,7 @@ export class G2 implements StructClass {
         throw new Error(`object at is not a G2 object`);
       }
 
-      return G2.fromBcs(fromB64(data.bcs.bcsBytes));
+      return G2.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return G2.fromSuiParsedData(data.content);
@@ -693,7 +693,7 @@ export class GT implements StructClass {
         throw new Error(`object at is not a GT object`);
       }
 
-      return GT.fromBcs(fromB64(data.bcs.bcsBytes));
+      return GT.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return GT.fromSuiParsedData(data.content);
@@ -875,7 +875,7 @@ export class UncompressedG1 implements StructClass {
         throw new Error(`object at is not a UncompressedG1 object`);
       }
 
-      return UncompressedG1.fromBcs(fromB64(data.bcs.bcsBytes));
+      return UncompressedG1.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return UncompressedG1.fromSuiParsedData(data.content);

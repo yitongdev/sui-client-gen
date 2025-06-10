@@ -1214,8 +1214,8 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
         type_param_names: &[String],
     ) -> js::Tokens {
         let bcs = &js::import("@mysten/sui/bcs", "bcs");
-        let from_hex = &js::import("@mysten/sui/utils", "fromHEX");
-        let to_hex = &js::import("@mysten/sui/utils", "toHEX");
+        let from_hex = &js::import("@mysten/sui/utils", "fromHex");
+        let to_hex = &js::import("@mysten/sui/utils", "toHex");
         match ty {
             Type::U8 => quote!($bcs.u8()),
             Type::U16 => quote!($bcs.u16()),
@@ -1514,7 +1514,7 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
         let sui_client = &js::import("@mysten/sui/client", "SuiClient");
         let bcs = &js::import("@mysten/sui/bcs", "bcs");
         let bcs_type = &js::import("@mysten/sui/bcs", "BcsType");
-        let from_b64 = &js::import("@mysten/sui/utils", "fromB64");
+        let from_b64 = &js::import("@mysten/sui/utils", "fromBase64");
         let compress_sui_type = &self.framework.import("util", "compressSuiType");
 
         let struct_name = self.strct.name().to_string();

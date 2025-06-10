@@ -25,7 +25,7 @@ import { PKG_V31 } from "../index.js";
 import { ID } from "../object/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== Receiving =============================== */
 
@@ -239,7 +239,7 @@ export class Receiving<T extends PhantomTypeArgument> implements StructClass {
         );
       }
 
-      return Receiving.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return Receiving.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Receiving.fromSuiParsedData(typeArg, data.content);

@@ -31,7 +31,7 @@ import { ID, UID } from "../object/structs.js";
 import { Url } from "../url/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== Coin =============================== */
 
@@ -247,7 +247,7 @@ export class Coin<T0 extends PhantomTypeArgument> implements StructClass {
         );
       }
 
-      return Coin.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return Coin.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Coin.fromSuiParsedData(typeArg, data.content);
@@ -540,7 +540,7 @@ export class CoinMetadata<T0 extends PhantomTypeArgument>
         );
       }
 
-      return CoinMetadata.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return CoinMetadata.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return CoinMetadata.fromSuiParsedData(typeArg, data.content);
@@ -814,7 +814,10 @@ export class RegulatedCoinMetadata<T0 extends PhantomTypeArgument>
         );
       }
 
-      return RegulatedCoinMetadata.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return RegulatedCoinMetadata.fromBcs(
+        typeArg,
+        fromBase64(data.bcs.bcsBytes),
+      );
     }
     if (data.content) {
       return RegulatedCoinMetadata.fromSuiParsedData(typeArg, data.content);
@@ -1071,7 +1074,7 @@ export class TreasuryCap<T0 extends PhantomTypeArgument>
         );
       }
 
-      return TreasuryCap.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return TreasuryCap.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return TreasuryCap.fromSuiParsedData(typeArg, data.content);
@@ -1318,7 +1321,7 @@ export class DenyCapV2<T0 extends PhantomTypeArgument> implements StructClass {
         );
       }
 
-      return DenyCapV2.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return DenyCapV2.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return DenyCapV2.fromSuiParsedData(typeArg, data.content);
@@ -1560,7 +1563,7 @@ export class CurrencyCreated<T0 extends PhantomTypeArgument>
         );
       }
 
-      return CurrencyCreated.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return CurrencyCreated.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return CurrencyCreated.fromSuiParsedData(typeArg, data.content);
@@ -1796,7 +1799,7 @@ export class DenyCap<T0 extends PhantomTypeArgument> implements StructClass {
         );
       }
 
-      return DenyCap.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return DenyCap.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return DenyCap.fromSuiParsedData(typeArg, data.content);

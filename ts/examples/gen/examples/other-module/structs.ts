@@ -17,7 +17,7 @@ import {
 import { PKG_V1, PKG_V2 } from "../index.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== StructFromOtherModule =============================== */
 
@@ -179,7 +179,7 @@ export class StructFromOtherModule implements StructClass {
         throw new Error(`object at is not a StructFromOtherModule object`);
       }
 
-      return StructFromOtherModule.fromBcs(fromB64(data.bcs.bcsBytes));
+      return StructFromOtherModule.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return StructFromOtherModule.fromSuiParsedData(data.content);
@@ -369,7 +369,7 @@ export class AddedInAnUpgrade implements StructClass {
         throw new Error(`object at is not a AddedInAnUpgrade object`);
       }
 
-      return AddedInAnUpgrade.fromBcs(fromB64(data.bcs.bcsBytes));
+      return AddedInAnUpgrade.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return AddedInAnUpgrade.fromSuiParsedData(data.content);

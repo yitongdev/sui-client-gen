@@ -21,7 +21,7 @@ import { Option } from "../../move-stdlib-chain/option/structs.js";
 import { PKG_V31 } from "../index.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== PCREntry =============================== */
 
@@ -181,7 +181,7 @@ export class PCREntry implements StructClass {
         throw new Error(`object at is not a PCREntry object`);
       }
 
-      return PCREntry.fromBcs(fromB64(data.bcs.bcsBytes));
+      return PCREntry.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return PCREntry.fromSuiParsedData(data.content);
@@ -466,7 +466,7 @@ export class NitroAttestationDocument implements StructClass {
         throw new Error(`object at is not a NitroAttestationDocument object`);
       }
 
-      return NitroAttestationDocument.fromBcs(fromB64(data.bcs.bcsBytes));
+      return NitroAttestationDocument.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return NitroAttestationDocument.fromSuiParsedData(data.content);

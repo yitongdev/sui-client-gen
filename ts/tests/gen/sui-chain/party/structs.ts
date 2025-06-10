@@ -18,7 +18,7 @@ import { PKG_V31 } from "../index.js";
 import { VecMap } from "../vec-map/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64, fromHEX, toHEX } from "@mysten/sui/utils";
+import { fromBase64, fromHex, toHex } from "@mysten/sui/utils";
 
 /* ============================== Party =============================== */
 
@@ -105,8 +105,8 @@ export class Party implements StructClass {
       default: Permissions.bcs,
       members: VecMap.bcs(
         bcs.bytes(32).transform({
-          input: (val: string) => fromHEX(val),
-          output: (val: Uint8Array) => toHEX(val),
+          input: (val: string) => fromHex(val),
+          output: (val: Uint8Array) => toHex(val),
         }),
         Permissions.bcs,
       ),
@@ -195,7 +195,7 @@ export class Party implements StructClass {
         throw new Error(`object at is not a Party object`);
       }
 
-      return Party.fromBcs(fromB64(data.bcs.bcsBytes));
+      return Party.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Party.fromSuiParsedData(data.content);
@@ -374,7 +374,7 @@ export class Permissions implements StructClass {
         throw new Error(`object at is not a Permissions object`);
       }
 
-      return Permissions.fromBcs(fromB64(data.bcs.bcsBytes));
+      return Permissions.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Permissions.fromSuiParsedData(data.content);

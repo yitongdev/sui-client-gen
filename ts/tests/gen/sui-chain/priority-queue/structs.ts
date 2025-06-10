@@ -27,7 +27,7 @@ import { Vector } from "../../_framework/vector.js";
 import { PKG_V31 } from "../index.js";
 import { BcsType, bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== PriorityQueue =============================== */
 
@@ -252,7 +252,7 @@ export class PriorityQueue<T0 extends TypeArgument> implements StructClass {
         );
       }
 
-      return PriorityQueue.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return PriorityQueue.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return PriorityQueue.fromSuiParsedData(typeArg, data.content);
@@ -493,7 +493,7 @@ export class Entry<T0 extends TypeArgument> implements StructClass {
         );
       }
 
-      return Entry.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
+      return Entry.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Entry.fromSuiParsedData(typeArg, data.content);

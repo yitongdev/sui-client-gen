@@ -27,7 +27,7 @@ import { Vector } from "../../_framework/vector.js";
 import { PKG_V31 } from "../index.js";
 import { BcsType, bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== VecMap =============================== */
 
@@ -283,7 +283,7 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
         }
       }
 
-      return VecMap.fromBcs(typeArgs, fromB64(data.bcs.bcsBytes));
+      return VecMap.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return VecMap.fromSuiParsedData(typeArgs, data.content);
@@ -565,7 +565,7 @@ export class Entry<T0 extends TypeArgument, T1 extends TypeArgument>
         }
       }
 
-      return Entry.fromBcs(typeArgs, fromB64(data.bcs.bcsBytes));
+      return Entry.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Entry.fromSuiParsedData(typeArgs, data.content);

@@ -30,7 +30,7 @@ import { PKG_V31 } from "../index.js";
 import { UID } from "../object/structs.js";
 import { BcsType, bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64 } from "@mysten/sui/utils";
+import { fromBase64 } from "@mysten/sui/utils";
 
 /* ============================== LinkedTable =============================== */
 
@@ -323,7 +323,7 @@ export class LinkedTable<
         }
       }
 
-      return LinkedTable.fromBcs(typeArgs, fromB64(data.bcs.bcsBytes));
+      return LinkedTable.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return LinkedTable.fromSuiParsedData(typeArgs, data.content);
@@ -625,7 +625,7 @@ export class Node<T0 extends TypeArgument, T1 extends TypeArgument>
         }
       }
 
-      return Node.fromBcs(typeArgs, fromB64(data.bcs.bcsBytes));
+      return Node.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return Node.fromSuiParsedData(typeArgs, data.content);

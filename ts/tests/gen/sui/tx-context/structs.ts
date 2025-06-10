@@ -20,7 +20,7 @@ import { Vector } from "../../_framework/vector.js";
 import { PKG_V31 } from "../index.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
-import { fromB64, fromHEX, toHEX } from "@mysten/sui/utils";
+import { fromBase64, fromHex, toHex } from "@mysten/sui/utils";
 
 /* ============================== TxContext =============================== */
 
@@ -115,8 +115,8 @@ export class TxContext implements StructClass {
   static get bcs() {
     return bcs.struct("TxContext", {
       sender: bcs.bytes(32).transform({
-        input: (val: string) => fromHEX(val),
-        output: (val: Uint8Array) => toHEX(val),
+        input: (val: string) => fromHex(val),
+        output: (val: Uint8Array) => toHex(val),
       }),
       tx_hash: bcs.vector(bcs.u8()),
       epoch: bcs.u64(),
@@ -213,7 +213,7 @@ export class TxContext implements StructClass {
         throw new Error(`object at is not a TxContext object`);
       }
 
-      return TxContext.fromBcs(fromB64(data.bcs.bcsBytes));
+      return TxContext.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return TxContext.fromSuiParsedData(data.content);
