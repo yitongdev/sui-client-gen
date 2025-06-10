@@ -1,0 +1,36 @@
+import { obj, pure } from "../../../_framework/util.js";
+import { PUBLISHED_AT } from "../../constants.js";
+import { ID } from "../../object/structs/index.js";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionObjectInput,
+} from "@mysten/sui/transactions";
+
+export interface DelistArgs {
+  self: TransactionObjectInput;
+  cap: TransactionObjectInput;
+  id: string | TransactionArgument;
+}
+
+/**
+ * Move function: `delist`
+ * Module: `0000000000000000000000000000000000000000000000000000000000000002::kiosk`
+ *
+ * @typeParam T - Type parameter 0
+ * @param tx - The transaction object
+ * @param self - Function parameter
+ * @param cap - Function parameter
+ * @param id - Function parameter
+ */
+export function delist(tx: Transaction, typeArg: string, args: DelistArgs) {
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::kiosk::delist`,
+    typeArguments: [typeArg],
+    arguments: [
+      obj(tx, args.self),
+      obj(tx, args.cap),
+      pure(tx, args.id, `${ID.$typeName}`),
+    ],
+  });
+}

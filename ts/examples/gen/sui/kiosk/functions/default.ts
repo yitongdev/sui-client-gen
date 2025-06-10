@@ -1,0 +1,16 @@
+import { PUBLISHED_AT } from "../../constants.js";
+import { Transaction } from "@mysten/sui/transactions";
+
+/**
+ * Move function: `default`
+ * Module: `0000000000000000000000000000000000000000000000000000000000000002::kiosk`
+ *
+ * @param tx - The transaction object
+ * @param ctx - Function parameter
+ */
+export function default_(tx: Transaction) {
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::kiosk::default`,
+    arguments: [],
+  });
+}

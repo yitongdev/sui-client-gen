@@ -1,4 +1,4 @@
-import * as pool from "./pool/structs.js";
+import * as pool from "./pool/structs/index.js";
 import { StructClassLoader } from "../_framework/loader.js";
 
 export function registerClasses(loader: StructClassLoader) {

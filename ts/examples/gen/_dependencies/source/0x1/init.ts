@@ -1,9 +1,9 @@
-import * as ascii from "./ascii/structs.js";
-import * as bitVector from "./bit-vector/structs.js";
-import * as fixedPoint32 from "./fixed-point32/structs.js";
-import * as option from "./option/structs.js";
-import * as string from "./string/structs.js";
-import * as typeName from "./type-name/structs.js";
+import * as ascii from "./ascii/structs/index.js";
+import * as bitVector from "./bit-vector/structs/index.js";
+import * as fixedPoint32 from "./fixed-point32/structs/index.js";
+import * as option from "./option/structs/index.js";
+import * as string from "./string/structs/index.js";
+import * as typeName from "./type-name/structs/index.js";
 import { StructClassLoader } from "../../../_framework/loader.js";
 
 export function registerClasses(loader: StructClassLoader) {

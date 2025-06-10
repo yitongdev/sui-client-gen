@@ -1,30 +1,5 @@
-import { pure } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../constants.js";
-import { Transaction, TransactionArgument } from "@mysten/sui/transactions";
+export * from "./functions/encode.js";
 
-export function encode(
-  tx: Transaction,
-  bytes: Array<number | TransactionArgument> | TransactionArgument,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::hex::encode`,
-    arguments: [pure(tx, bytes, `vector<u8>`)],
-  });
-}
+export * from "./functions/decode.js";
 
-export function decode(
-  tx: Transaction,
-  hex: Array<number | TransactionArgument> | TransactionArgument,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::hex::decode`,
-    arguments: [pure(tx, hex, `vector<u8>`)],
-  });
-}
-
-export function decodeByte(tx: Transaction, hex: number | TransactionArgument) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::hex::decode_byte`,
-    arguments: [pure(tx, hex, `u8`)],
-  });
-}
+export * from "./functions/decode_byte.js";

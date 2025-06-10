@@ -1,220 +1,47 @@
-import { GenericArg, generic, obj, pure } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionObjectInput,
-} from "@mysten/sui/transactions";
+export * from "./functions/claim.js";
 
-export function claim(tx: Transaction, typeArg: string, otw: GenericArg) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::claim`,
-    typeArguments: [typeArg],
-    arguments: [generic(tx, `${typeArg}`, otw)],
-  });
-}
+export * from "./functions/claim_and_keep.js";
 
-export function claimAndKeep(
-  tx: Transaction,
-  typeArg: string,
-  otw: GenericArg,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::claim_and_keep`,
-    typeArguments: [typeArg],
-    arguments: [generic(tx, `${typeArg}`, otw)],
-  });
-}
+export * from "./functions/burn_publisher.js";
 
-export function burnPublisher(tx: Transaction, self: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::burn_publisher`,
-    arguments: [obj(tx, self)],
-  });
-}
+export * from "./functions/from_package.js";
 
-export function fromPackage(
-  tx: Transaction,
-  typeArg: string,
-  self: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::from_package`,
-    typeArguments: [typeArg],
-    arguments: [obj(tx, self)],
-  });
-}
+export * from "./functions/from_module.js";
 
-export function fromModule(
-  tx: Transaction,
-  typeArg: string,
-  self: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::from_module`,
-    typeArguments: [typeArg],
-    arguments: [obj(tx, self)],
-  });
-}
+export * from "./functions/published_module.js";
 
-export function publishedModule(tx: Transaction, self: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::published_module`,
-    arguments: [obj(tx, self)],
-  });
-}
+export * from "./functions/published_package.js";
 
-export function publishedPackage(
-  tx: Transaction,
-  self: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::published_package`,
-    arguments: [obj(tx, self)],
-  });
-}
+export * from "./functions/upgrade_package.js";
 
-export function upgradePackage(tx: Transaction, cap: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::upgrade_package`,
-    arguments: [obj(tx, cap)],
-  });
-}
+export * from "./functions/version.js";
 
-export function version(tx: Transaction, cap: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::version`,
-    arguments: [obj(tx, cap)],
-  });
-}
+export * from "./functions/upgrade_policy.js";
 
-export function upgradePolicy(tx: Transaction, cap: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::upgrade_policy`,
-    arguments: [obj(tx, cap)],
-  });
-}
+export * from "./functions/ticket_package.js";
 
-export function ticketPackage(tx: Transaction, ticket: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::ticket_package`,
-    arguments: [obj(tx, ticket)],
-  });
-}
+export * from "./functions/ticket_policy.js";
 
-export function ticketPolicy(tx: Transaction, ticket: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::ticket_policy`,
-    arguments: [obj(tx, ticket)],
-  });
-}
+export * from "./functions/receipt_cap.js";
 
-export function receiptCap(tx: Transaction, receipt: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::receipt_cap`,
-    arguments: [obj(tx, receipt)],
-  });
-}
+export * from "./functions/receipt_package.js";
 
-export function receiptPackage(
-  tx: Transaction,
-  receipt: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::receipt_package`,
-    arguments: [obj(tx, receipt)],
-  });
-}
+export * from "./functions/ticket_digest.js";
 
-export function ticketDigest(tx: Transaction, ticket: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::ticket_digest`,
-    arguments: [obj(tx, ticket)],
-  });
-}
+export * from "./functions/compatible_policy.js";
 
-export function compatiblePolicy(tx: Transaction) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::compatible_policy`,
-    arguments: [],
-  });
-}
+export * from "./functions/additive_policy.js";
 
-export function additivePolicy(tx: Transaction) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::additive_policy`,
-    arguments: [],
-  });
-}
+export * from "./functions/dep_only_policy.js";
 
-export function depOnlyPolicy(tx: Transaction) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::dep_only_policy`,
-    arguments: [],
-  });
-}
+export * from "./functions/only_additive_upgrades.js";
 
-export function onlyAdditiveUpgrades(
-  tx: Transaction,
-  cap: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::only_additive_upgrades`,
-    arguments: [obj(tx, cap)],
-  });
-}
+export * from "./functions/only_dep_upgrades.js";
 
-export function onlyDepUpgrades(tx: Transaction, cap: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::only_dep_upgrades`,
-    arguments: [obj(tx, cap)],
-  });
-}
+export * from "./functions/make_immutable.js";
 
-export function makeImmutable(tx: Transaction, cap: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::make_immutable`,
-    arguments: [obj(tx, cap)],
-  });
-}
+export * from "./functions/authorize_upgrade.js";
 
-export interface AuthorizeUpgradeArgs {
-  cap: TransactionObjectInput;
-  policy: number | TransactionArgument;
-  digest: Array<number | TransactionArgument> | TransactionArgument;
-}
+export * from "./functions/commit_upgrade.js";
 
-export function authorizeUpgrade(tx: Transaction, args: AuthorizeUpgradeArgs) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::authorize_upgrade`,
-    arguments: [
-      obj(tx, args.cap),
-      pure(tx, args.policy, `u8`),
-      pure(tx, args.digest, `vector<u8>`),
-    ],
-  });
-}
-
-export interface CommitUpgradeArgs {
-  cap: TransactionObjectInput;
-  receipt: TransactionObjectInput;
-}
-
-export function commitUpgrade(tx: Transaction, args: CommitUpgradeArgs) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::commit_upgrade`,
-    arguments: [obj(tx, args.cap), obj(tx, args.receipt)],
-  });
-}
-
-export interface RestrictArgs {
-  cap: TransactionObjectInput;
-  policy: number | TransactionArgument;
-}
-
-export function restrict(tx: Transaction, args: RestrictArgs) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::restrict`,
-    arguments: [obj(tx, args.cap), pure(tx, args.policy, `u8`)],
-  });
-}
+export * from "./functions/restrict.js";

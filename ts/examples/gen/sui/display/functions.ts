@@ -1,203 +1,25 @@
-import { String } from "../../_dependencies/source/0x1/string/structs.js";
-import { obj, pure } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionObjectInput,
-} from "@mysten/sui/transactions";
+export * from "./functions/new.js";
 
-export function new_(
-  tx: Transaction,
-  typeArg: string,
-  pub: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::new`,
-    typeArguments: [typeArg],
-    arguments: [obj(tx, pub)],
-  });
-}
+export * from "./functions/new_with_fields.js";
 
-export interface NewWithFieldsArgs {
-  pub: TransactionObjectInput;
-  fields: Array<string | TransactionArgument> | TransactionArgument;
-  values: Array<string | TransactionArgument> | TransactionArgument;
-}
+export * from "./functions/create_and_keep.js";
 
-export function newWithFields(
-  tx: Transaction,
-  typeArg: string,
-  args: NewWithFieldsArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::new_with_fields`,
-    typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.pub),
-      pure(tx, args.fields, `vector<${String.$typeName}>`),
-      pure(tx, args.values, `vector<${String.$typeName}>`),
-    ],
-  });
-}
+export * from "./functions/update_version.js";
 
-export function createAndKeep(
-  tx: Transaction,
-  typeArg: string,
-  pub: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::create_and_keep`,
-    typeArguments: [typeArg],
-    arguments: [obj(tx, pub)],
-  });
-}
+export * from "./functions/add.js";
 
-export function updateVersion(
-  tx: Transaction,
-  typeArg: string,
-  display: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::update_version`,
-    typeArguments: [typeArg],
-    arguments: [obj(tx, display)],
-  });
-}
+export * from "./functions/add_multiple.js";
 
-export interface AddArgs {
-  self: TransactionObjectInput;
-  name: string | TransactionArgument;
-  value: string | TransactionArgument;
-}
+export * from "./functions/edit.js";
 
-export function add(tx: Transaction, typeArg: string, args: AddArgs) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::add`,
-    typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.self),
-      pure(tx, args.name, `${String.$typeName}`),
-      pure(tx, args.value, `${String.$typeName}`),
-    ],
-  });
-}
+export * from "./functions/remove.js";
 
-export interface AddMultipleArgs {
-  self: TransactionObjectInput;
-  fields: Array<string | TransactionArgument> | TransactionArgument;
-  values: Array<string | TransactionArgument> | TransactionArgument;
-}
+export * from "./functions/is_authorized.js";
 
-export function addMultiple(
-  tx: Transaction,
-  typeArg: string,
-  args: AddMultipleArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::add_multiple`,
-    typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.self),
-      pure(tx, args.fields, `vector<${String.$typeName}>`),
-      pure(tx, args.values, `vector<${String.$typeName}>`),
-    ],
-  });
-}
+export * from "./functions/version.js";
 
-export interface EditArgs {
-  self: TransactionObjectInput;
-  name: string | TransactionArgument;
-  value: string | TransactionArgument;
-}
+export * from "./functions/fields.js";
 
-export function edit(tx: Transaction, typeArg: string, args: EditArgs) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::edit`,
-    typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.self),
-      pure(tx, args.name, `${String.$typeName}`),
-      pure(tx, args.value, `${String.$typeName}`),
-    ],
-  });
-}
+export * from "./functions/create_internal.js";
 
-export interface RemoveArgs {
-  self: TransactionObjectInput;
-  name: string | TransactionArgument;
-}
-
-export function remove(tx: Transaction, typeArg: string, args: RemoveArgs) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::remove`,
-    typeArguments: [typeArg],
-    arguments: [obj(tx, args.self), pure(tx, args.name, `${String.$typeName}`)],
-  });
-}
-
-export function isAuthorized(
-  tx: Transaction,
-  typeArg: string,
-  pub: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::is_authorized`,
-    typeArguments: [typeArg],
-    arguments: [obj(tx, pub)],
-  });
-}
-
-export function version(
-  tx: Transaction,
-  typeArg: string,
-  d: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::version`,
-    typeArguments: [typeArg],
-    arguments: [obj(tx, d)],
-  });
-}
-
-export function fields(
-  tx: Transaction,
-  typeArg: string,
-  d: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::fields`,
-    typeArguments: [typeArg],
-    arguments: [obj(tx, d)],
-  });
-}
-
-export function createInternal(tx: Transaction, typeArg: string) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::create_internal`,
-    typeArguments: [typeArg],
-    arguments: [],
-  });
-}
-
-export interface AddInternalArgs {
-  display: TransactionObjectInput;
-  name: string | TransactionArgument;
-  value: string | TransactionArgument;
-}
-
-export function addInternal(
-  tx: Transaction,
-  typeArg: string,
-  args: AddInternalArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::display::add_internal`,
-    typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.display),
-      pure(tx, args.name, `${String.$typeName}`),
-      pure(tx, args.value, `${String.$typeName}`),
-    ],
-  });
-}
+export * from "./functions/add_internal.js";

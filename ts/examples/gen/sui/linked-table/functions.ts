@@ -1,253 +1,33 @@
-import { GenericArg, generic, obj } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../constants.js";
-import { Transaction, TransactionObjectInput } from "@mysten/sui/transactions";
+export * from "./functions/new.js";
 
-export function new_(tx: Transaction, typeArgs: [string, string]) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::new`,
-    typeArguments: typeArgs,
-    arguments: [],
-  });
-}
+export * from "./functions/front.js";
 
-export function front(
-  tx: Transaction,
-  typeArgs: [string, string],
-  table: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::front`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, table)],
-  });
-}
+export * from "./functions/back.js";
 
-export function back(
-  tx: Transaction,
-  typeArgs: [string, string],
-  table: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::back`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, table)],
-  });
-}
+export * from "./functions/push_front.js";
 
-export interface PushFrontArgs {
-  table: TransactionObjectInput;
-  k: GenericArg;
-  value: GenericArg;
-}
+export * from "./functions/push_back.js";
 
-export function pushFront(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: PushFrontArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::push_front`,
-    typeArguments: typeArgs,
-    arguments: [
-      obj(tx, args.table),
-      generic(tx, `${typeArgs[0]}`, args.k),
-      generic(tx, `${typeArgs[1]}`, args.value),
-    ],
-  });
-}
+export * from "./functions/borrow.js";
 
-export interface PushBackArgs {
-  table: TransactionObjectInput;
-  k: GenericArg;
-  value: GenericArg;
-}
+export * from "./functions/borrow_mut.js";
 
-export function pushBack(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: PushBackArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::push_back`,
-    typeArguments: typeArgs,
-    arguments: [
-      obj(tx, args.table),
-      generic(tx, `${typeArgs[0]}`, args.k),
-      generic(tx, `${typeArgs[1]}`, args.value),
-    ],
-  });
-}
+export * from "./functions/prev.js";
 
-export interface BorrowArgs {
-  table: TransactionObjectInput;
-  k: GenericArg;
-}
+export * from "./functions/next.js";
 
-export function borrow(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: BorrowArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::borrow`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, args.table), generic(tx, `${typeArgs[0]}`, args.k)],
-  });
-}
+export * from "./functions/remove.js";
 
-export interface BorrowMutArgs {
-  table: TransactionObjectInput;
-  k: GenericArg;
-}
+export * from "./functions/pop_front.js";
 
-export function borrowMut(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: BorrowMutArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::borrow_mut`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, args.table), generic(tx, `${typeArgs[0]}`, args.k)],
-  });
-}
+export * from "./functions/pop_back.js";
 
-export interface PrevArgs {
-  table: TransactionObjectInput;
-  k: GenericArg;
-}
+export * from "./functions/contains.js";
 
-export function prev(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: PrevArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::prev`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, args.table), generic(tx, `${typeArgs[0]}`, args.k)],
-  });
-}
+export * from "./functions/length.js";
 
-export interface NextArgs {
-  table: TransactionObjectInput;
-  k: GenericArg;
-}
+export * from "./functions/is_empty.js";
 
-export function next(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: NextArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::next`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, args.table), generic(tx, `${typeArgs[0]}`, args.k)],
-  });
-}
+export * from "./functions/destroy_empty.js";
 
-export interface RemoveArgs {
-  table: TransactionObjectInput;
-  k: GenericArg;
-}
-
-export function remove(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: RemoveArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::remove`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, args.table), generic(tx, `${typeArgs[0]}`, args.k)],
-  });
-}
-
-export function popFront(
-  tx: Transaction,
-  typeArgs: [string, string],
-  table: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::pop_front`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, table)],
-  });
-}
-
-export function popBack(
-  tx: Transaction,
-  typeArgs: [string, string],
-  table: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::pop_back`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, table)],
-  });
-}
-
-export interface ContainsArgs {
-  table: TransactionObjectInput;
-  k: GenericArg;
-}
-
-export function contains(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: ContainsArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::contains`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, args.table), generic(tx, `${typeArgs[0]}`, args.k)],
-  });
-}
-
-export function length(
-  tx: Transaction,
-  typeArgs: [string, string],
-  table: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::length`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, table)],
-  });
-}
-
-export function isEmpty(
-  tx: Transaction,
-  typeArgs: [string, string],
-  table: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::is_empty`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, table)],
-  });
-}
-
-export function destroyEmpty(
-  tx: Transaction,
-  typeArgs: [string, string],
-  table: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::destroy_empty`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, table)],
-  });
-}
-
-export function drop(
-  tx: Transaction,
-  typeArgs: [string, string],
-  table: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::linked_table::drop`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, table)],
-  });
-}
+export * from "./functions/drop.js";

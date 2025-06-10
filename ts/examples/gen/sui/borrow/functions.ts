@@ -1,53 +1,7 @@
-import { GenericArg, generic, obj } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../constants.js";
-import { Transaction, TransactionObjectInput } from "@mysten/sui/transactions";
+export * from "./functions/new.js";
 
-export function new_(tx: Transaction, typeArg: string, value: GenericArg) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::borrow::new`,
-    typeArguments: [typeArg],
-    arguments: [generic(tx, `${typeArg}`, value)],
-  });
-}
+export * from "./functions/borrow.js";
 
-export function borrow(
-  tx: Transaction,
-  typeArg: string,
-  self: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::borrow::borrow`,
-    typeArguments: [typeArg],
-    arguments: [obj(tx, self)],
-  });
-}
+export * from "./functions/put_back.js";
 
-export interface PutBackArgs {
-  self: TransactionObjectInput;
-  value: GenericArg;
-  borrow: TransactionObjectInput;
-}
-
-export function putBack(tx: Transaction, typeArg: string, args: PutBackArgs) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::borrow::put_back`,
-    typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.self),
-      generic(tx, `${typeArg}`, args.value),
-      obj(tx, args.borrow),
-    ],
-  });
-}
-
-export function destroy(
-  tx: Transaction,
-  typeArg: string,
-  self: TransactionObjectInput,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::borrow::destroy`,
-    typeArguments: [typeArg],
-    arguments: [obj(tx, self)],
-  });
-}
+export * from "./functions/destroy.js";

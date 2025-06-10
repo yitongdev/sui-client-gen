@@ -1,1 +1,1 @@
-export * from "./structs.js";
+export * from "./structs/index.js";

@@ -1,0 +1,33 @@
+import { String } from "../../../_dependencies/source/0x1/string/structs/index.js";
+import { obj, pure } from "../../../_framework/util.js";
+import { PUBLISHED_AT } from "../../constants.js";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionObjectInput,
+} from "@mysten/sui/transactions";
+
+export interface RulesArgs {
+  self: TransactionObjectInput;
+  action: string | TransactionArgument;
+}
+
+/**
+ * Move function: `rules`
+ * Module: `0000000000000000000000000000000000000000000000000000000000000002::token`
+ *
+ * @typeParam T - Type parameter 0
+ * @param tx - The transaction object
+ * @param self - Function parameter
+ * @param action - Function parameter
+ */
+export function rules(tx: Transaction, typeArg: string, args: RulesArgs) {
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::token::rules`,
+    typeArguments: [typeArg],
+    arguments: [
+      obj(tx, args.self),
+      pure(tx, args.action, `${String.$typeName}`),
+    ],
+  });
+}

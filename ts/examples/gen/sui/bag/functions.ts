@@ -1,131 +1,19 @@
-import { GenericArg, generic, obj } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../constants.js";
-import { Transaction, TransactionObjectInput } from "@mysten/sui/transactions";
+export * from "./functions/new.js";
 
-export function new_(tx: Transaction) {
-  return tx.moveCall({ target: `${PUBLISHED_AT}::bag::new`, arguments: [] });
-}
+export * from "./functions/add.js";
 
-export interface AddArgs {
-  bag: TransactionObjectInput;
-  k: GenericArg;
-  v: GenericArg;
-}
+export * from "./functions/borrow.js";
 
-export function add(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: AddArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::bag::add`,
-    typeArguments: typeArgs,
-    arguments: [
-      obj(tx, args.bag),
-      generic(tx, `${typeArgs[0]}`, args.k),
-      generic(tx, `${typeArgs[1]}`, args.v),
-    ],
-  });
-}
+export * from "./functions/borrow_mut.js";
 
-export interface BorrowArgs {
-  bag: TransactionObjectInput;
-  k: GenericArg;
-}
+export * from "./functions/remove.js";
 
-export function borrow(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: BorrowArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::bag::borrow`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, args.bag), generic(tx, `${typeArgs[0]}`, args.k)],
-  });
-}
+export * from "./functions/contains.js";
 
-export interface BorrowMutArgs {
-  bag: TransactionObjectInput;
-  k: GenericArg;
-}
+export * from "./functions/contains_with_type.js";
 
-export function borrowMut(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: BorrowMutArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::bag::borrow_mut`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, args.bag), generic(tx, `${typeArgs[0]}`, args.k)],
-  });
-}
+export * from "./functions/length.js";
 
-export interface RemoveArgs {
-  bag: TransactionObjectInput;
-  k: GenericArg;
-}
+export * from "./functions/is_empty.js";
 
-export function remove(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: RemoveArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::bag::remove`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, args.bag), generic(tx, `${typeArgs[0]}`, args.k)],
-  });
-}
-
-export interface ContainsArgs {
-  bag: TransactionObjectInput;
-  k: GenericArg;
-}
-
-export function contains(tx: Transaction, typeArg: string, args: ContainsArgs) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::bag::contains`,
-    typeArguments: [typeArg],
-    arguments: [obj(tx, args.bag), generic(tx, `${typeArg}`, args.k)],
-  });
-}
-
-export interface ContainsWithTypeArgs {
-  bag: TransactionObjectInput;
-  k: GenericArg;
-}
-
-export function containsWithType(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: ContainsWithTypeArgs,
-) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::bag::contains_with_type`,
-    typeArguments: typeArgs,
-    arguments: [obj(tx, args.bag), generic(tx, `${typeArgs[0]}`, args.k)],
-  });
-}
-
-export function length(tx: Transaction, bag: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::bag::length`,
-    arguments: [obj(tx, bag)],
-  });
-}
-
-export function isEmpty(tx: Transaction, bag: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::bag::is_empty`,
-    arguments: [obj(tx, bag)],
-  });
-}
-
-export function destroyEmpty(tx: Transaction, bag: TransactionObjectInput) {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::bag::destroy_empty`,
-    arguments: [obj(tx, bag)],
-  });
-}
+export * from "./functions/destroy_empty.js";

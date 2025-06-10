@@ -418,46 +418,69 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
             let module_path = package_path.join(module_import_name(module.name()));
             std::fs::create_dir_all(&module_path)?;
 
-            // generate <module>/functions.ts
+            // generate individual function files
             if is_top_level {
-                let mut tokens = js::Tokens::new();
-                let mut import_ctx =
-                    &mut StructClassImportCtx::for_func_gen(&module, top_level_pkg_names);
+                let functions_path = module_path.join("functions");
+                if module.functions().count() > 0 {
+                    std::fs::create_dir_all(&functions_path)?;
+                }
+                
+                let mut function_names = Vec::new();
                 for func in module.functions() {
+                    let mut tokens = js::Tokens::new();
+                    let import_ctx =
+                        &mut StructClassImportCtx::for_individual_func_file(&module, top_level_pkg_names);
+                    
                     let func_gen_res = FunctionsGen::new(
                         import_ctx,
-                        FrameworkImportCtx::new(levels_from_root + 2),
+                        FrameworkImportCtx::new(levels_from_root + 3), // One level deeper now
                         func,
                     );
                     let mut func_gen = match func_gen_res {
                         Ok(func_gen) => func_gen,
-                        Err(ic) => {
-                            import_ctx = ic;
+                        Err(_) => {
                             continue;
                         }
                     };
+                    
                     func_gen.gen_fun_args_if(&mut tokens)?;
                     func_gen.gen_fun_binding(&mut tokens)?;
-                    import_ctx = func_gen.import_ctx;
+                    
+                    let func_name = func.name().to_string();
+                    function_names.push(func_name.clone());
+                    write_tokens_to_file(&tokens, &functions_path.join(format!("{}.ts", func_name)))?;
                 }
-                write_tokens_to_file(&tokens, &module_path.join("functions.ts"))?;
+                
+                // generate <module>/functions.ts that re-exports all function files
+                if !function_names.is_empty() {
+                    let mut tokens = js::Tokens::new();
+                    for func_name in &function_names {
+                        quote_in!(tokens => export * from $[str]($[const](format!("./{}.js", func_name)));$['\n']);
+                    }
+                    write_tokens_to_file(&tokens, &functions_path.join("index.ts"))?;
+                }
             }
 
-            // generate <module>/structs.ts
-            let mut tokens = js::Tokens::new();
-            let mut import_ctx =
-                &mut StructClassImportCtx::for_struct_gen(&module, top_level_pkg_names);
-
+            // generate individual struct files
+            let structs_path = module_path.join("structs");
+            if module.structs().count() > 0 {
+                std::fs::create_dir_all(&structs_path)?;
+            }
+            
+            let mut struct_names = Vec::new();
             for strct in module.structs() {
+                let mut tokens = js::Tokens::new();
+                let import_ctx =
+                    &mut StructClassImportCtx::for_individual_struct_file(&module, top_level_pkg_names);
+                
                 let mut structs_gen = StructsGen::new(
                     import_ctx,
-                    FrameworkImportCtx::new(levels_from_root + 2),
+                    FrameworkImportCtx::new(levels_from_root + 3), // One level deeper now
                     type_origin_table,
                     version_table,
                     strct,
                 );
-                structs_gen.gen_struct_sep_comment(&mut tokens);
-
+                
                 // type check function
                 structs_gen.gen_is_type_func(&mut tokens);
 
@@ -466,9 +489,20 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
 
                 // struct class
                 structs_gen.gen_struct_class(&mut tokens);
-                import_ctx = structs_gen.import_ctx;
+                
+                let struct_name = strct.name().to_string();
+                struct_names.push(struct_name.clone());
+                write_tokens_to_file(&tokens, &structs_path.join(format!("{}.ts", struct_name)))?;
             }
-            write_tokens_to_file(&tokens, &module_path.join("structs.ts"))?;
+            
+            // generate <module>/structs.ts that re-exports all struct files
+            if !struct_names.is_empty() {
+                let mut tokens = js::Tokens::new();
+                for struct_name in &struct_names {
+                    quote_in!(tokens => export * from $[str]($[const](format!("./{}.js", struct_name)));$['\n']);
+                }
+                write_tokens_to_file(&tokens, &structs_path.join("index.ts"))?;
+            }
 
             // generate <module>/index.ts
             let mut index_tokens = js::Tokens::new();
@@ -482,11 +516,11 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
             // Only generate files and index if there's actual content
             if has_functions || has_structs {
                 if has_functions {
-                    quote_in!(index_tokens => export * from "./functions.js";$['\n']);
+                    quote_in!(index_tokens => export * from "./functions/index.js";$['\n']);
                 }
                 
                 if has_structs {
-                    quote_in!(index_tokens => export * from "./structs.js";$['\n']);
+                    quote_in!(index_tokens => export * from "./structs/index.js";$['\n']);
                 }
             }
             

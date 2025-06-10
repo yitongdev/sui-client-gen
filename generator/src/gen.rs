@@ -90,6 +90,7 @@ pub struct StructClassImportCtx<'a> {
     is_top_level: bool,
     top_level_pkg_names: &'a BTreeMap<AccountAddress, move_symbol_pool::Symbol>,
     is_structs_gen: bool,
+    is_individual_file: bool,
 }
 
 impl<'a> StructClassImportCtx<'a> {
@@ -111,7 +112,26 @@ impl<'a> StructClassImportCtx<'a> {
             is_top_level: top_level_pkg_names.contains_key(&package_address),
             top_level_pkg_names,
             is_structs_gen,
+            is_individual_file: false,
         }
+    }
+    
+    pub fn for_individual_struct_file<const HAS_SOURCE: SourceKind>(
+        module: &model::Module<HAS_SOURCE>,
+        top_level_pkg_names: &'a BTreeMap<AccountAddress, move_symbol_pool::Symbol>,
+    ) -> Self {
+        let mut ctx = Self::for_struct_gen(module, top_level_pkg_names);
+        ctx.is_individual_file = true;
+        ctx
+    }
+    
+    pub fn for_individual_func_file<const HAS_SOURCE: SourceKind>(
+        module: &model::Module<HAS_SOURCE>,
+        top_level_pkg_names: &'a BTreeMap<AccountAddress, move_symbol_pool::Symbol>,
+    ) -> Self {
+        let mut ctx = Self::for_func_gen(module, top_level_pkg_names);
+        ctx.is_individual_file = true;
+        ctx
     }
 
     pub fn for_func_gen<const HAS_SOURCE: SourceKind>(
@@ -146,17 +166,29 @@ impl<'a> StructClassImportCtx<'a> {
         let module = strct.module();
         let module_name = module_import_name(module.name());
         let same_package = module.package().address() == self.package_address;
+        
+        // Adjust path prefix based on whether we're in an individual file
+        let path_prefix = if self.is_individual_file { "../" } else { "" };
+        
         if same_package && module.name() == self.module {
-            // if the struct is defined in the current module, we don't need to import anything
-            if self.is_structs_gen {
+            // if the struct is defined in the current module
+            if self.is_structs_gen && !self.is_individual_file {
+                // We're in structs.ts file generating all structs - no import needed
                 None
+            } else if self.is_structs_gen && self.is_individual_file {
+                // We're in an individual struct file, need to import from sibling file
+                Some(format!("./{}.js", strct.name()))
+            } else if self.is_individual_file {
+                // We're in an individual function file, import from structs
+                Some("../index.js".to_string())
             } else {
-                Some("./structs.js".to_string())
+                // We're in functions.ts
+                Some("./index.js".to_string())
             }
         } else if same_package {
             // if the struct is defined in a different module in the same package, we use
             // the short version of the import path
-            Some(format!("../{}/structs.js", module_name))
+            Some(format!("{}../{}/structs/index.js", path_prefix, module_name))
         } else {
             let strct_is_top_level = self
                 .top_level_pkg_names
@@ -170,7 +202,7 @@ impl<'a> StructClassImportCtx<'a> {
                         .unwrap(),
                 );
 
-                Some(format!("../../{}/{}/structs.js", strct_pkg_name, module_name))
+                Some(format!("{}../../{}/{}/structs/index.js", path_prefix, strct_pkg_name, module_name))
             } else if self.is_top_level {
                 let dep_dir = if HAS_SOURCE == WITH_SOURCE {
                     "source"
@@ -179,7 +211,8 @@ impl<'a> StructClassImportCtx<'a> {
                 };
 
                 Some(format!(
-                    "../../_dependencies/{}/{}/{}/structs.js",
+                    "{}../../_dependencies/{}/{}/{}/structs/index.js",
+                    path_prefix,
                     dep_dir,
                     module.package().address().to_hex_literal(),
                     module_name
@@ -193,12 +226,13 @@ impl<'a> StructClassImportCtx<'a> {
                 );
 
                 Some(format!(
-                    "../../../../{}/{}/structs.js",
-                    strct_pkg_name, module_name
+                    "{}../../../../{}/{}/structs/index.js",
+                    path_prefix, strct_pkg_name, module_name
                 ))
             } else {
                 Some(format!(
-                    "../../{}/{}/structs.js",
+                    "{}../../{}/{}/structs/index.js",
+                    path_prefix,
                     module.package().address().to_hex_literal(),
                     module_name
                 ))
@@ -292,6 +326,7 @@ fn gen_full_name_with_address<const HAS_SOURCE: SourceKind>(
     version_table: &VersionTable,
     open_quote: bool,
     as_type: bool,
+    is_individual_file: bool,
 ) -> js::Tokens {
     let origin_pkg_addr = get_origin_pkg_addr(strct, type_origin_table);
     let self_addr = strct.module().package().address();
@@ -308,7 +343,8 @@ fn gen_full_name_with_address<const HAS_SOURCE: SourceKind>(
             self_addr.to_hex_literal()
         )
     });
-    let pkg_import = js::import("../constants.js", format!("PKG_V{}", version.value()));
+    let constants_path = if is_individual_file { "../../constants.js" } else { "../constants.js" };
+    let pkg_import = js::import(constants_path, format!("PKG_V{}", version.value()));
 
     // `${PKG_V1}::module::name`
     let mut toks = js::Tokens::new();
@@ -356,7 +392,7 @@ pub fn gen_package_init_ts<const HAS_SOURCE: SourceKind>(
                     }
 
                     let module_import = &js::import(
-                        format!("./{}/structs.js", module_import_name(module.name())),
+                        format!("./{}/structs/index.js", module_import_name(module.name())),
                         imported_name,
                     )
                     .into_wildcard();
@@ -959,10 +995,52 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> FunctionsGen<'a, 'model, HAS_SOUR
         fun_name_str
     }
 
+    /// Generates JSDoc documentation for a function.
+    fn gen_function_jsdoc(&self, tokens: &mut Tokens<JavaScript>) -> Result<()> {
+        let func_name = self.func.name().to_string();
+        let module_name = self.func.module().name().to_string();
+        let package_addr = self.func.package().address();
+        
+        // Build parameter documentation
+        let param_field_names = self.params_to_field_names(false);
+        let func_type_param_names = self.func_type_param_names();
+        
+        tokens.append("/**");
+        tokens.push();
+        tokens.append(format!(" * Move function: `{}`", func_name));
+        tokens.push();
+        tokens.append(format!(" * Module: `{}::{}`", package_addr, module_name));
+        tokens.push();
+        tokens.append(" *");
+        
+        // Add type parameter documentation
+        for (i, name) in func_type_param_names.iter().enumerate() {
+            tokens.push();
+            tokens.append(format!(" * @typeParam {} - Type parameter {}", name, i));
+        }
+        
+        // Add tx parameter
+        tokens.push();
+        tokens.append(" * @param tx - The transaction object");
+        
+        // Add function parameters
+        for (name, _type) in &param_field_names {
+            tokens.push();
+            tokens.append(format!(" * @param {} - Function parameter", name));
+        }
+        
+        tokens.push();
+        tokens.append(" */");
+        tokens.push();
+        
+        Ok(())
+    }
+
     /// Generates a function binding for a function.
     pub fn gen_fun_binding(&mut self, tokens: &mut Tokens<JavaScript>) -> Result<()> {
         let transaction = &js::import("@mysten/sui/transactions", "Transaction");
-        let published_at = &js::import("../constants.js", "PUBLISHED_AT");
+        let constants_path = if self.import_ctx.is_individual_file { "../../constants.js" } else { "../constants.js" };
+        let published_at = &js::import(constants_path, "PUBLISHED_AT");
 
         let param_field_names = self.params_to_field_names(true);
 
@@ -977,6 +1055,9 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> FunctionsGen<'a, 'model, HAS_SOUR
                 name.to_owned()
             }
         };
+
+        // Generate JSDoc comment
+        self.gen_function_jsdoc(tokens)?;
 
         quote_in! { *tokens =>
             export function $(self.fun_name())(
@@ -1056,6 +1137,7 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
             self.version_table,
             open_quote,
             as_type,
+            self.import_ctx.is_individual_file,
         )
     }
 
@@ -1485,6 +1567,38 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
         toks
     }
 
+    /// Generates JSDoc documentation for a struct.
+    fn gen_struct_jsdoc(&self, tokens: &mut js::Tokens) {
+        let struct_name = self.strct.name().to_string();
+        let module_name = self.strct.module().name().to_string();
+        let package_addr = self.strct.module().package().address();
+        
+        // Get struct type parameter names
+        let type_param_names = self.strct_type_param_names();
+        let type_params = &self.strct.compiled().type_parameters;
+        
+        tokens.append("/**");
+        tokens.push();
+        tokens.append(format!(" * Move struct: `{}`", struct_name));
+        tokens.push();
+        tokens.append(format!(" * Module: `{}::{}`", package_addr, module_name));
+        
+        // Add type parameter documentation
+        if !type_param_names.is_empty() {
+            tokens.push();
+            tokens.append(" *");
+            for (i, name) in type_param_names.iter().enumerate() {
+                tokens.push();
+                let phantom_suffix = if type_params[i].is_phantom { " (phantom)" } else { "" };
+                tokens.append(format!(" * @typeParam {} - Type parameter {}{}", name, i, phantom_suffix));
+            }
+        }
+        
+        tokens.push();
+        tokens.append(" */");
+        tokens.push();
+    }
+
     /// Generates the struct class for a struct.
     pub fn gen_struct_class(&mut self, tokens: &mut js::Tokens) {
         let fields_with_types = &self.framework.import("util", "FieldsWithTypes");
@@ -1686,6 +1800,10 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
         tokens.push();
         let strct_type_arity = type_params.len();
         let fields = self.strct.compiled().fields.clone();
+        
+        // Generate JSDoc comment for the struct
+        self.gen_struct_jsdoc(tokens);
+        
         quote_in! { *tokens =>
             export class $(&struct_name)$(self.gen_params_toks(type_params.clone(), &extends_type_argument, &extends_phantom_type_argument)) implements $struct_class {
                 __StructClass = true as const;$['\n']

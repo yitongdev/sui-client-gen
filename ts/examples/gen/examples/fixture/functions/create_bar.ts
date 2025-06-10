@@ -1,0 +1,20 @@
+import { pure } from "../../../_framework/util.js";
+import { PUBLISHED_AT } from "../../constants.js";
+import { Transaction, TransactionArgument } from "@mysten/sui/transactions";
+
+/**
+ * Move function: `create_bar`
+ * Module: `8b699fdce543505aeb290ee1b6b5d20fcaa8e8b1a5fc137a8b3facdfa2902209::fixture`
+ *
+ * @param tx - The transaction object
+ * @param value - Function parameter
+ */
+export function createBar(
+  tx: Transaction,
+  value: bigint | TransactionArgument,
+) {
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::fixture::create_bar`,
+    arguments: [pure(tx, value, `u64`)],
+  });
+}
