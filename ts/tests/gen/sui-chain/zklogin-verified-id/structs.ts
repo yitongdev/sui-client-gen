@@ -8,65 +8,69 @@ import {
   decodeFromFieldsWithTypes,
   decodeFromJSONField,
   phantom,
-} from '../../_framework/reified'
-import { FieldsWithTypes, composeSuiType, compressSuiType } from '../../_framework/util'
-import { String } from '../../move-stdlib-chain/string/structs'
-import { PKG_V29 } from '../index'
-import { UID } from '../object/structs'
-import { bcs } from '@mysten/sui/bcs'
-import { SuiClient, SuiObjectData, SuiParsedData } from '@mysten/sui/client'
-import { fromB64, fromHEX, toHEX } from '@mysten/sui/utils'
+} from "../../_framework/reified.js";
+import {
+  FieldsWithTypes,
+  composeSuiType,
+  compressSuiType,
+} from "../../_framework/util.js";
+import { String } from "../../move-stdlib-chain/string/structs.js";
+import { PKG_V31 } from "../index.js";
+import { UID } from "../object/structs.js";
+import { bcs } from "@mysten/sui/bcs";
+import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
+import { fromB64, fromHEX, toHEX } from "@mysten/sui/utils";
 
 /* ============================== VerifiedID =============================== */
 
 export function isVerifiedID(type: string): boolean {
-  type = compressSuiType(type)
-  return type === `${PKG_V29}::zklogin_verified_id::VerifiedID`
+  type = compressSuiType(type);
+  return type === `${PKG_V31}::zklogin_verified_id::VerifiedID`;
 }
 
 export interface VerifiedIDFields {
-  id: ToField<UID>
-  owner: ToField<'address'>
-  keyClaimName: ToField<String>
-  keyClaimValue: ToField<String>
-  issuer: ToField<String>
-  audience: ToField<String>
+  id: ToField<UID>;
+  owner: ToField<"address">;
+  keyClaimName: ToField<String>;
+  keyClaimValue: ToField<String>;
+  issuer: ToField<String>;
+  audience: ToField<String>;
 }
 
-export type VerifiedIDReified = Reified<VerifiedID, VerifiedIDFields>
+export type VerifiedIDReified = Reified<VerifiedID, VerifiedIDFields>;
 
 export class VerifiedID implements StructClass {
-  __StructClass = true as const
+  __StructClass = true as const;
 
-  static readonly $typeName = `${PKG_V29}::zklogin_verified_id::VerifiedID`
-  static readonly $numTypeParams = 0
-  static readonly $isPhantom = [] as const
+  static readonly $typeName = `${PKG_V31}::zklogin_verified_id::VerifiedID`;
+  static readonly $numTypeParams = 0;
+  static readonly $isPhantom = [] as const;
 
-  readonly $typeName = VerifiedID.$typeName
-  readonly $fullTypeName: `${typeof PKG_V29}::zklogin_verified_id::VerifiedID`
-  readonly $typeArgs: []
-  readonly $isPhantom = VerifiedID.$isPhantom
+  readonly $typeName = VerifiedID.$typeName;
+  readonly $fullTypeName: `${typeof PKG_V31}::zklogin_verified_id::VerifiedID`;
+  readonly $typeArgs: [];
+  readonly $isPhantom = VerifiedID.$isPhantom;
 
-  readonly id: ToField<UID>
-  readonly owner: ToField<'address'>
-  readonly keyClaimName: ToField<String>
-  readonly keyClaimValue: ToField<String>
-  readonly issuer: ToField<String>
-  readonly audience: ToField<String>
+  readonly id: ToField<UID>;
+  readonly owner: ToField<"address">;
+  readonly keyClaimName: ToField<String>;
+  readonly keyClaimValue: ToField<String>;
+  readonly issuer: ToField<String>;
+  readonly audience: ToField<String>;
 
   private constructor(typeArgs: [], fields: VerifiedIDFields) {
     this.$fullTypeName = composeSuiType(
       VerifiedID.$typeName,
-      ...typeArgs
-    ) as `${typeof PKG_V29}::zklogin_verified_id::VerifiedID`
-    this.$typeArgs = typeArgs
+      ...typeArgs,
+    ) as `${typeof PKG_V31}::zklogin_verified_id::VerifiedID`;
+    this.$typeArgs = typeArgs;
 
-    this.id = fields.id
-    this.owner = fields.owner
-    this.keyClaimName = fields.keyClaimName
-    this.keyClaimValue = fields.keyClaimValue
-    this.issuer = fields.issuer
-    this.audience = fields.audience
+    this.id = fields.id;
+    this.owner = fields.owner;
+    this.keyClaimName = fields.keyClaimName;
+    this.keyClaimValue = fields.keyClaimValue;
+    this.issuer = fields.issuer;
+    this.audience = fields.audience;
   }
 
   static reified(): VerifiedIDReified {
@@ -74,40 +78,45 @@ export class VerifiedID implements StructClass {
       typeName: VerifiedID.$typeName,
       fullTypeName: composeSuiType(
         VerifiedID.$typeName,
-        ...[]
-      ) as `${typeof PKG_V29}::zklogin_verified_id::VerifiedID`,
+        ...[],
+      ) as `${typeof PKG_V31}::zklogin_verified_id::VerifiedID`,
       typeArgs: [] as [],
       isPhantom: VerifiedID.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) => VerifiedID.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) => VerifiedID.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) =>
+        VerifiedID.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) =>
+        VerifiedID.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => VerifiedID.fromBcs(data),
       bcs: VerifiedID.bcs,
       fromJSONField: (field: any) => VerifiedID.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => VerifiedID.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) => VerifiedID.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) => VerifiedID.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) => VerifiedID.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) =>
+        VerifiedID.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) =>
+        VerifiedID.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) =>
+        VerifiedID.fetch(client, id),
       new: (fields: VerifiedIDFields) => {
-        return new VerifiedID([], fields)
+        return new VerifiedID([], fields);
       },
-      kind: 'StructClassReified',
-    }
+      kind: "StructClassReified",
+    };
   }
 
   static get r() {
-    return VerifiedID.reified()
+    return VerifiedID.reified();
   }
 
   static phantom(): PhantomReified<ToTypeStr<VerifiedID>> {
-    return phantom(VerifiedID.reified())
+    return phantom(VerifiedID.reified());
   }
   static get p() {
-    return VerifiedID.phantom()
+    return VerifiedID.phantom();
   }
 
   static get bcs() {
-    return bcs.struct('VerifiedID', {
+    return bcs.struct("VerifiedID", {
       id: UID.bcs,
       owner: bcs.bytes(32).transform({
         input: (val: string) => fromHEX(val),
@@ -117,37 +126,46 @@ export class VerifiedID implements StructClass {
       key_claim_value: String.bcs,
       issuer: String.bcs,
       audience: String.bcs,
-    })
+    });
   }
 
   static fromFields(fields: Record<string, any>): VerifiedID {
     return VerifiedID.reified().new({
       id: decodeFromFields(UID.reified(), fields.id),
-      owner: decodeFromFields('address', fields.owner),
+      owner: decodeFromFields("address", fields.owner),
       keyClaimName: decodeFromFields(String.reified(), fields.key_claim_name),
       keyClaimValue: decodeFromFields(String.reified(), fields.key_claim_value),
       issuer: decodeFromFields(String.reified(), fields.issuer),
       audience: decodeFromFields(String.reified(), fields.audience),
-    })
+    });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): VerifiedID {
     if (!isVerifiedID(item.type)) {
-      throw new Error('not a VerifiedID type')
+      throw new Error("not a VerifiedID type");
     }
 
     return VerifiedID.reified().new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      owner: decodeFromFieldsWithTypes('address', item.fields.owner),
-      keyClaimName: decodeFromFieldsWithTypes(String.reified(), item.fields.key_claim_name),
-      keyClaimValue: decodeFromFieldsWithTypes(String.reified(), item.fields.key_claim_value),
+      owner: decodeFromFieldsWithTypes("address", item.fields.owner),
+      keyClaimName: decodeFromFieldsWithTypes(
+        String.reified(),
+        item.fields.key_claim_name,
+      ),
+      keyClaimValue: decodeFromFieldsWithTypes(
+        String.reified(),
+        item.fields.key_claim_value,
+      ),
       issuer: decodeFromFieldsWithTypes(String.reified(), item.fields.issuer),
-      audience: decodeFromFieldsWithTypes(String.reified(), item.fields.audience),
-    })
+      audience: decodeFromFieldsWithTypes(
+        String.reified(),
+        item.fields.audience,
+      ),
+    });
   }
 
   static fromBcs(data: Uint8Array): VerifiedID {
-    return VerifiedID.fromFields(VerifiedID.bcs.parse(data))
+    return VerifiedID.fromFields(VerifiedID.bcs.parse(data));
   }
 
   toJSONField() {
@@ -158,67 +176,78 @@ export class VerifiedID implements StructClass {
       keyClaimValue: this.keyClaimValue,
       issuer: this.issuer,
       audience: this.audience,
-    }
+    };
   }
 
   toJSON() {
-    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() }
+    return {
+      $typeName: this.$typeName,
+      $typeArgs: this.$typeArgs,
+      ...this.toJSONField(),
+    };
   }
 
   static fromJSONField(field: any): VerifiedID {
     return VerifiedID.reified().new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      owner: decodeFromJSONField('address', field.owner),
+      owner: decodeFromJSONField("address", field.owner),
       keyClaimName: decodeFromJSONField(String.reified(), field.keyClaimName),
       keyClaimValue: decodeFromJSONField(String.reified(), field.keyClaimValue),
       issuer: decodeFromJSONField(String.reified(), field.issuer),
       audience: decodeFromJSONField(String.reified(), field.audience),
-    })
+    });
   }
 
   static fromJSON(json: Record<string, any>): VerifiedID {
     if (json.$typeName !== VerifiedID.$typeName) {
-      throw new Error('not a WithTwoGenerics json object')
+      throw new Error("not a WithTwoGenerics json object");
     }
 
-    return VerifiedID.fromJSONField(json)
+    return VerifiedID.fromJSONField(json);
   }
 
   static fromSuiParsedData(content: SuiParsedData): VerifiedID {
-    if (content.dataType !== 'moveObject') {
-      throw new Error('not an object')
+    if (content.dataType !== "moveObject") {
+      throw new Error("not an object");
     }
     if (!isVerifiedID(content.type)) {
-      throw new Error(`object at ${(content.fields as any).id} is not a VerifiedID object`)
+      throw new Error(
+        `object at ${(content.fields as any).id} is not a VerifiedID object`,
+      );
     }
-    return VerifiedID.fromFieldsWithTypes(content)
+    return VerifiedID.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): VerifiedID {
     if (data.bcs) {
-      if (data.bcs.dataType !== 'moveObject' || !isVerifiedID(data.bcs.type)) {
-        throw new Error(`object at is not a VerifiedID object`)
+      if (data.bcs.dataType !== "moveObject" || !isVerifiedID(data.bcs.type)) {
+        throw new Error(`object at is not a VerifiedID object`);
       }
 
-      return VerifiedID.fromBcs(fromB64(data.bcs.bcsBytes))
+      return VerifiedID.fromBcs(fromB64(data.bcs.bcsBytes));
     }
     if (data.content) {
-      return VerifiedID.fromSuiParsedData(data.content)
+      return VerifiedID.fromSuiParsedData(data.content);
     }
     throw new Error(
-      'Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request.'
-    )
+      "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request.",
+    );
   }
 
   static async fetch(client: SuiClient, id: string): Promise<VerifiedID> {
-    const res = await client.getObject({ id, options: { showBcs: true } })
+    const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(`error fetching VerifiedID object at id ${id}: ${res.error.code}`)
+      throw new Error(
+        `error fetching VerifiedID object at id ${id}: ${res.error.code}`,
+      );
     }
-    if (res.data?.bcs?.dataType !== 'moveObject' || !isVerifiedID(res.data.bcs.type)) {
-      throw new Error(`object at id ${id} is not a VerifiedID object`)
+    if (
+      res.data?.bcs?.dataType !== "moveObject" ||
+      !isVerifiedID(res.data.bcs.type)
+    ) {
+      throw new Error(`object at id ${id} is not a VerifiedID object`);
     }
 
-    return VerifiedID.fromSuiObjectData(res.data)
+    return VerifiedID.fromSuiObjectData(res.data);
   }
 }

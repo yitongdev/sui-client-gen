@@ -1,12 +1,16 @@
-import { PUBLISHED_AT } from '..'
-import { obj, pure } from '../../_framework/util'
-import { Transaction, TransactionArgument, TransactionObjectInput } from '@mysten/sui/transactions'
+import { obj, pure } from "../../_framework/util.js";
+import { PUBLISHED_AT } from "../index.js";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionObjectInput,
+} from "@mysten/sui/transactions";
 
 export interface AddArgs {
-  denyList: TransactionObjectInput
-  perTypeIndex: bigint | TransactionArgument
-  type: Array<number | TransactionArgument> | TransactionArgument
-  addr: string | TransactionArgument
+  denyList: TransactionObjectInput;
+  perTypeIndex: bigint | TransactionArgument;
+  type: Array<number | TransactionArgument> | TransactionArgument;
+  addr: string | TransactionArgument;
 }
 
 export function add(tx: Transaction, args: AddArgs) {
@@ -18,13 +22,13 @@ export function add(tx: Transaction, args: AddArgs) {
       pure(tx, args.type, `vector<u8>`),
       pure(tx, args.addr, `address`),
     ],
-  })
+  });
 }
 
 export interface PerTypeListAddArgs {
-  list: TransactionObjectInput
-  type: Array<number | TransactionArgument> | TransactionArgument
-  addr: string | TransactionArgument
+  list: TransactionObjectInput;
+  type: Array<number | TransactionArgument> | TransactionArgument;
+  addr: string | TransactionArgument;
 }
 
 export function perTypeListAdd(tx: Transaction, args: PerTypeListAddArgs) {
@@ -35,14 +39,14 @@ export function perTypeListAdd(tx: Transaction, args: PerTypeListAddArgs) {
       pure(tx, args.type, `vector<u8>`),
       pure(tx, args.addr, `address`),
     ],
-  })
+  });
 }
 
 export interface RemoveArgs {
-  denyList: TransactionObjectInput
-  perTypeIndex: bigint | TransactionArgument
-  type: Array<number | TransactionArgument> | TransactionArgument
-  addr: string | TransactionArgument
+  denyList: TransactionObjectInput;
+  perTypeIndex: bigint | TransactionArgument;
+  type: Array<number | TransactionArgument> | TransactionArgument;
+  addr: string | TransactionArgument;
 }
 
 export function remove(tx: Transaction, args: RemoveArgs) {
@@ -54,16 +58,19 @@ export function remove(tx: Transaction, args: RemoveArgs) {
       pure(tx, args.type, `vector<u8>`),
       pure(tx, args.addr, `address`),
     ],
-  })
+  });
 }
 
 export interface PerTypeListRemoveArgs {
-  list: TransactionObjectInput
-  type: Array<number | TransactionArgument> | TransactionArgument
-  addr: string | TransactionArgument
+  list: TransactionObjectInput;
+  type: Array<number | TransactionArgument> | TransactionArgument;
+  addr: string | TransactionArgument;
 }
 
-export function perTypeListRemove(tx: Transaction, args: PerTypeListRemoveArgs) {
+export function perTypeListRemove(
+  tx: Transaction,
+  args: PerTypeListRemoveArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::per_type_list_remove`,
     arguments: [
@@ -71,14 +78,14 @@ export function perTypeListRemove(tx: Transaction, args: PerTypeListRemoveArgs) 
       pure(tx, args.type, `vector<u8>`),
       pure(tx, args.addr, `address`),
     ],
-  })
+  });
 }
 
 export interface ContainsArgs {
-  denyList: TransactionObjectInput
-  perTypeIndex: bigint | TransactionArgument
-  type: Array<number | TransactionArgument> | TransactionArgument
-  addr: string | TransactionArgument
+  denyList: TransactionObjectInput;
+  perTypeIndex: bigint | TransactionArgument;
+  type: Array<number | TransactionArgument> | TransactionArgument;
+  addr: string | TransactionArgument;
 }
 
 export function contains(tx: Transaction, args: ContainsArgs) {
@@ -90,16 +97,19 @@ export function contains(tx: Transaction, args: ContainsArgs) {
       pure(tx, args.type, `vector<u8>`),
       pure(tx, args.addr, `address`),
     ],
-  })
+  });
 }
 
 export interface PerTypeListContainsArgs {
-  list: TransactionObjectInput
-  type: Array<number | TransactionArgument> | TransactionArgument
-  addr: string | TransactionArgument
+  list: TransactionObjectInput;
+  type: Array<number | TransactionArgument> | TransactionArgument;
+  addr: string | TransactionArgument;
 }
 
-export function perTypeListContains(tx: Transaction, args: PerTypeListContainsArgs) {
+export function perTypeListContains(
+  tx: Transaction,
+  args: PerTypeListContainsArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::per_type_list_contains`,
     arguments: [
@@ -107,13 +117,19 @@ export function perTypeListContains(tx: Transaction, args: PerTypeListContainsAr
       pure(tx, args.type, `vector<u8>`),
       pure(tx, args.addr, `address`),
     ],
-  })
+  });
 }
 
 export function create(tx: Transaction) {
-  return tx.moveCall({ target: `${PUBLISHED_AT}::deny_list::create`, arguments: [] })
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::deny_list::create`,
+    arguments: [],
+  });
 }
 
 export function perTypeList(tx: Transaction) {
-  return tx.moveCall({ target: `${PUBLISHED_AT}::deny_list::per_type_list`, arguments: [] })
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::deny_list::per_type_list`,
+    arguments: [],
+  });
 }

@@ -1,4 +1,4 @@
-import * as reified from '../../_framework/reified'
+import * as reified from "../../_framework/reified.js";
 import {
   PhantomReified,
   Reified,
@@ -16,230 +16,254 @@ import {
   fieldToJSON,
   phantom,
   toBcs,
-} from '../../_framework/reified'
+} from "../../_framework/reified.js";
 import {
   FieldsWithTypes,
   composeSuiType,
   compressSuiType,
   parseTypeName,
-} from '../../_framework/util'
-import { Vector } from '../../_framework/vector'
-import { PKG_V15 } from '../index'
-import { BcsType, bcs } from '@mysten/sui/bcs'
-import { SuiClient, SuiObjectData, SuiParsedData } from '@mysten/sui/client'
-import { fromB64 } from '@mysten/sui/utils'
+} from "../../_framework/util.js";
+import { Vector } from "../../_framework/vector.js";
+import { PKG_V16 } from "../index.js";
+import { BcsType, bcs } from "@mysten/sui/bcs";
+import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
+import { fromB64 } from "@mysten/sui/utils";
 
 /* ============================== Option =============================== */
 
 export function isOption(type: string): boolean {
-  type = compressSuiType(type)
-  return type.startsWith(`${PKG_V15}::option::Option` + '<')
+  type = compressSuiType(type);
+  return type.startsWith(`${PKG_V16}::option::Option` + "<");
 }
 
 export interface OptionFields<T0 extends TypeArgument> {
-  vec: ToField<Vector<T0>>
+  vec: ToField<Vector<T0>>;
 }
 
-export type OptionReified<T0 extends TypeArgument> = Reified<Option<T0>, OptionFields<T0>>
+export type OptionReified<T0 extends TypeArgument> = Reified<
+  Option<T0>,
+  OptionFields<T0>
+>;
 
 export class Option<T0 extends TypeArgument> implements StructClass {
-  __StructClass = true as const
+  __StructClass = true as const;
 
-  static readonly $typeName = `${PKG_V15}::option::Option`
-  static readonly $numTypeParams = 1
-  static readonly $isPhantom = [false] as const
+  static readonly $typeName = `${PKG_V16}::option::Option`;
+  static readonly $numTypeParams = 1;
+  static readonly $isPhantom = [false] as const;
 
-  __inner: T0 = null as unknown as T0 // for type checking in reified.ts
+  __inner: T0 = null as unknown as T0; // for type checking in reified.ts
 
-  readonly $typeName = Option.$typeName
-  readonly $fullTypeName: `${typeof PKG_V15}::option::Option<${ToTypeStr<T0>}>`
-  readonly $typeArgs: [ToTypeStr<T0>]
-  readonly $isPhantom = Option.$isPhantom
+  readonly $typeName = Option.$typeName;
+  readonly $fullTypeName: `${typeof PKG_V16}::option::Option<${ToTypeStr<T0>}>`;
+  readonly $typeArgs: [ToTypeStr<T0>];
+  readonly $isPhantom = Option.$isPhantom;
 
-  readonly vec: ToField<Vector<T0>>
+  readonly vec: ToField<Vector<T0>>;
 
   private constructor(typeArgs: [ToTypeStr<T0>], fields: OptionFields<T0>) {
     this.$fullTypeName = composeSuiType(
       Option.$typeName,
-      ...typeArgs
-    ) as `${typeof PKG_V15}::option::Option<${ToTypeStr<T0>}>`
-    this.$typeArgs = typeArgs
+      ...typeArgs,
+    ) as `${typeof PKG_V16}::option::Option<${ToTypeStr<T0>}>`;
+    this.$typeArgs = typeArgs;
 
-    this.vec = fields.vec
+    this.vec = fields.vec;
   }
 
-  static reified<T0 extends Reified<TypeArgument, any>>(T0: T0): OptionReified<ToTypeArgument<T0>> {
+  static reified<T0 extends Reified<TypeArgument, any>>(
+    T0: T0,
+  ): OptionReified<ToTypeArgument<T0>> {
     return {
       typeName: Option.$typeName,
       fullTypeName: composeSuiType(
         Option.$typeName,
-        ...[extractType(T0)]
-      ) as `${typeof PKG_V15}::option::Option<${ToTypeStr<ToTypeArgument<T0>>}>`,
+        ...[extractType(T0)],
+      ) as `${typeof PKG_V16}::option::Option<${ToTypeStr<ToTypeArgument<T0>>}>`,
       typeArgs: [extractType(T0)] as [ToTypeStr<ToTypeArgument<T0>>],
       isPhantom: Option.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) => Option.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) => Option.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) =>
+        Option.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) =>
+        Option.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Option.fromBcs(T0, data),
       bcs: Option.bcs(toBcs(T0)),
       fromJSONField: (field: any) => Option.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Option.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) => Option.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) => Option.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) => Option.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) =>
+        Option.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) =>
+        Option.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) =>
+        Option.fetch(client, T0, id),
       new: (fields: OptionFields<ToTypeArgument<T0>>) => {
-        return new Option([extractType(T0)], fields)
+        return new Option([extractType(T0)], fields);
       },
-      kind: 'StructClassReified',
-    }
+      kind: "StructClassReified",
+    };
   }
 
   static get r() {
-    return Option.reified
+    return Option.reified;
   }
 
   static phantom<T0 extends Reified<TypeArgument, any>>(
-    T0: T0
+    T0: T0,
   ): PhantomReified<ToTypeStr<Option<ToTypeArgument<T0>>>> {
-    return phantom(Option.reified(T0))
+    return phantom(Option.reified(T0));
   }
   static get p() {
-    return Option.phantom
+    return Option.phantom;
   }
 
   static get bcs() {
     return <T0 extends BcsType<any>>(T0: T0) =>
       bcs.struct(`Option<${T0.name}>`, {
         vec: bcs.vector(T0),
-      })
+      });
   }
 
   static fromFields<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    fields: Record<string, any>
+    fields: Record<string, any>,
   ): Option<ToTypeArgument<T0>> {
     return Option.reified(typeArg).new({
       vec: decodeFromFields(reified.vector(typeArg), fields.vec),
-    })
+    });
   }
 
   static fromFieldsWithTypes<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    item: FieldsWithTypes
+    item: FieldsWithTypes,
   ): Option<ToTypeArgument<T0>> {
     if (!isOption(item.type)) {
-      throw new Error('not a Option type')
+      throw new Error("not a Option type");
     }
-    assertFieldsWithTypesArgsMatch(item, [typeArg])
+    assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
     return Option.reified(typeArg).new({
       vec: decodeFromFieldsWithTypes(reified.vector(typeArg), item.fields.vec),
-    })
+    });
   }
 
   static fromBcs<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    data: Uint8Array
+    data: Uint8Array,
   ): Option<ToTypeArgument<T0>> {
-    const typeArgs = [typeArg]
+    const typeArgs = [typeArg];
 
-    return Option.fromFields(typeArg, Option.bcs(toBcs(typeArgs[0])).parse(data))
+    return Option.fromFields(
+      typeArg,
+      Option.bcs(toBcs(typeArgs[0])).parse(data),
+    );
   }
 
   toJSONField() {
     return {
       vec: fieldToJSON<Vector<T0>>(`vector<${this.$typeArgs[0]}>`, this.vec),
-    }
+    };
   }
 
   toJSON() {
-    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() }
+    return {
+      $typeName: this.$typeName,
+      $typeArgs: this.$typeArgs,
+      ...this.toJSONField(),
+    };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    field: any
+    field: any,
   ): Option<ToTypeArgument<T0>> {
     return Option.reified(typeArg).new({
       vec: decodeFromJSONField(reified.vector(typeArg), field.vec),
-    })
+    });
   }
 
   static fromJSON<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    json: Record<string, any>
+    json: Record<string, any>,
   ): Option<ToTypeArgument<T0>> {
     if (json.$typeName !== Option.$typeName) {
-      throw new Error('not a WithTwoGenerics json object')
+      throw new Error("not a WithTwoGenerics json object");
     }
     assertReifiedTypeArgsMatch(
       composeSuiType(Option.$typeName, extractType(typeArg)),
       json.$typeArgs,
-      [typeArg]
-    )
+      [typeArg],
+    );
 
-    return Option.fromJSONField(typeArg, json)
+    return Option.fromJSONField(typeArg, json);
   }
 
   static fromSuiParsedData<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    content: SuiParsedData
+    content: SuiParsedData,
   ): Option<ToTypeArgument<T0>> {
-    if (content.dataType !== 'moveObject') {
-      throw new Error('not an object')
+    if (content.dataType !== "moveObject") {
+      throw new Error("not an object");
     }
     if (!isOption(content.type)) {
-      throw new Error(`object at ${(content.fields as any).id} is not a Option object`)
+      throw new Error(
+        `object at ${(content.fields as any).id} is not a Option object`,
+      );
     }
-    return Option.fromFieldsWithTypes(typeArg, content)
+    return Option.fromFieldsWithTypes(typeArg, content);
   }
 
   static fromSuiObjectData<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    data: SuiObjectData
+    data: SuiObjectData,
   ): Option<ToTypeArgument<T0>> {
     if (data.bcs) {
-      if (data.bcs.dataType !== 'moveObject' || !isOption(data.bcs.type)) {
-        throw new Error(`object at is not a Option object`)
+      if (data.bcs.dataType !== "moveObject" || !isOption(data.bcs.type)) {
+        throw new Error(`object at is not a Option object`);
       }
 
-      const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs
+      const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
       if (gotTypeArgs.length !== 1) {
         throw new Error(
-          `type argument mismatch: expected 1 type argument but got '${gotTypeArgs.length}'`
-        )
+          `type argument mismatch: expected 1 type argument but got '${gotTypeArgs.length}'`,
+        );
       }
-      const gotTypeArg = compressSuiType(gotTypeArgs[0])
-      const expectedTypeArg = compressSuiType(extractType(typeArg))
+      const gotTypeArg = compressSuiType(gotTypeArgs[0]);
+      const expectedTypeArg = compressSuiType(extractType(typeArg));
       if (gotTypeArg !== compressSuiType(extractType(typeArg))) {
         throw new Error(
-          `type argument mismatch: expected '${expectedTypeArg}' but got '${gotTypeArg}'`
-        )
+          `type argument mismatch: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+        );
       }
 
-      return Option.fromBcs(typeArg, fromB64(data.bcs.bcsBytes))
+      return Option.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
     }
     if (data.content) {
-      return Option.fromSuiParsedData(typeArg, data.content)
+      return Option.fromSuiParsedData(typeArg, data.content);
     }
     throw new Error(
-      'Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request.'
-    )
+      "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request.",
+    );
   }
 
   static async fetch<T0 extends Reified<TypeArgument, any>>(
     client: SuiClient,
     typeArg: T0,
-    id: string
+    id: string,
   ): Promise<Option<ToTypeArgument<T0>>> {
-    const res = await client.getObject({ id, options: { showBcs: true } })
+    const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(`error fetching Option object at id ${id}: ${res.error.code}`)
+      throw new Error(
+        `error fetching Option object at id ${id}: ${res.error.code}`,
+      );
     }
-    if (res.data?.bcs?.dataType !== 'moveObject' || !isOption(res.data.bcs.type)) {
-      throw new Error(`object at id ${id} is not a Option object`)
+    if (
+      res.data?.bcs?.dataType !== "moveObject" ||
+      !isOption(res.data.bcs.type)
+    ) {
+      throw new Error(`object at id ${id} is not a Option object`);
     }
 
-    return Option.fromSuiObjectData(typeArg, res.data)
+    return Option.fromSuiObjectData(typeArg, res.data);
   }
 }

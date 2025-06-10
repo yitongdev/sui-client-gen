@@ -1,12 +1,12 @@
-import { PUBLISHED_AT } from '..'
-import { pure } from '../../_framework/util'
-import { Transaction, TransactionArgument } from '@mysten/sui/transactions'
+import { pure } from "../../_framework/util.js";
+import { PUBLISHED_AT } from "../index.js";
+import { Transaction, TransactionArgument } from "@mysten/sui/transactions";
 
 export interface EcvrfVerifyArgs {
-  hash: Array<number | TransactionArgument> | TransactionArgument
-  alphaString: Array<number | TransactionArgument> | TransactionArgument
-  publicKey: Array<number | TransactionArgument> | TransactionArgument
-  proof: Array<number | TransactionArgument> | TransactionArgument
+  hash: Array<number | TransactionArgument> | TransactionArgument;
+  alphaString: Array<number | TransactionArgument> | TransactionArgument;
+  publicKey: Array<number | TransactionArgument> | TransactionArgument;
+  proof: Array<number | TransactionArgument> | TransactionArgument;
 }
 
 export function ecvrfVerify(tx: Transaction, args: EcvrfVerifyArgs) {
@@ -18,5 +18,5 @@ export function ecvrfVerify(tx: Transaction, args: EcvrfVerifyArgs) {
       pure(tx, args.publicKey, `vector<u8>`),
       pure(tx, args.proof, `vector<u8>`),
     ],
-  })
+  });
 }

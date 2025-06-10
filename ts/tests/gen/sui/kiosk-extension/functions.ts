@@ -1,12 +1,16 @@
-import { PUBLISHED_AT } from '..'
-import { GenericArg, generic, obj, pure } from '../../_framework/util'
-import { Transaction, TransactionArgument, TransactionObjectInput } from '@mysten/sui/transactions'
+import { GenericArg, generic, obj, pure } from "../../_framework/util.js";
+import { PUBLISHED_AT } from "../index.js";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionObjectInput,
+} from "@mysten/sui/transactions";
 
 export interface AddArgs {
-  ext: GenericArg
-  self: TransactionObjectInput
-  cap: TransactionObjectInput
-  permissions: bigint | TransactionArgument
+  ext: GenericArg;
+  self: TransactionObjectInput;
+  cap: TransactionObjectInput;
+  permissions: bigint | TransactionArgument;
 }
 
 export function add(tx: Transaction, typeArg: string, args: AddArgs) {
@@ -19,12 +23,12 @@ export function add(tx: Transaction, typeArg: string, args: AddArgs) {
       obj(tx, args.cap),
       pure(tx, args.permissions, `u128`),
     ],
-  })
+  });
 }
 
 export interface DisableArgs {
-  self: TransactionObjectInput
-  cap: TransactionObjectInput
+  self: TransactionObjectInput;
+  cap: TransactionObjectInput;
 }
 
 export function disable(tx: Transaction, typeArg: string, args: DisableArgs) {
@@ -32,12 +36,12 @@ export function disable(tx: Transaction, typeArg: string, args: DisableArgs) {
     target: `${PUBLISHED_AT}::kiosk_extension::disable`,
     typeArguments: [typeArg],
     arguments: [obj(tx, args.self), obj(tx, args.cap)],
-  })
+  });
 }
 
 export interface EnableArgs {
-  self: TransactionObjectInput
-  cap: TransactionObjectInput
+  self: TransactionObjectInput;
+  cap: TransactionObjectInput;
 }
 
 export function enable(tx: Transaction, typeArg: string, args: EnableArgs) {
@@ -45,12 +49,12 @@ export function enable(tx: Transaction, typeArg: string, args: EnableArgs) {
     target: `${PUBLISHED_AT}::kiosk_extension::enable`,
     typeArguments: [typeArg],
     arguments: [obj(tx, args.self), obj(tx, args.cap)],
-  })
+  });
 }
 
 export interface RemoveArgs {
-  self: TransactionObjectInput
-  cap: TransactionObjectInput
+  self: TransactionObjectInput;
+  cap: TransactionObjectInput;
 }
 
 export function remove(tx: Transaction, typeArg: string, args: RemoveArgs) {
@@ -58,12 +62,12 @@ export function remove(tx: Transaction, typeArg: string, args: RemoveArgs) {
     target: `${PUBLISHED_AT}::kiosk_extension::remove`,
     typeArguments: [typeArg],
     arguments: [obj(tx, args.self), obj(tx, args.cap)],
-  })
+  });
 }
 
 export interface StorageArgs {
-  ext: GenericArg
-  self: TransactionObjectInput
+  ext: GenericArg;
+  self: TransactionObjectInput;
 }
 
 export function storage(tx: Transaction, typeArg: string, args: StorageArgs) {
@@ -71,30 +75,38 @@ export function storage(tx: Transaction, typeArg: string, args: StorageArgs) {
     target: `${PUBLISHED_AT}::kiosk_extension::storage`,
     typeArguments: [typeArg],
     arguments: [generic(tx, `${typeArg}`, args.ext), obj(tx, args.self)],
-  })
+  });
 }
 
 export interface StorageMutArgs {
-  ext: GenericArg
-  self: TransactionObjectInput
+  ext: GenericArg;
+  self: TransactionObjectInput;
 }
 
-export function storageMut(tx: Transaction, typeArg: string, args: StorageMutArgs) {
+export function storageMut(
+  tx: Transaction,
+  typeArg: string,
+  args: StorageMutArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk_extension::storage_mut`,
     typeArguments: [typeArg],
     arguments: [generic(tx, `${typeArg}`, args.ext), obj(tx, args.self)],
-  })
+  });
 }
 
 export interface PlaceArgs {
-  ext: GenericArg
-  self: TransactionObjectInput
-  item: GenericArg
-  policy: TransactionObjectInput
+  ext: GenericArg;
+  self: TransactionObjectInput;
+  item: GenericArg;
+  policy: TransactionObjectInput;
 }
 
-export function place(tx: Transaction, typeArgs: [string, string], args: PlaceArgs) {
+export function place(
+  tx: Transaction,
+  typeArgs: [string, string],
+  args: PlaceArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk_extension::place`,
     typeArguments: typeArgs,
@@ -104,17 +116,21 @@ export function place(tx: Transaction, typeArgs: [string, string], args: PlaceAr
       generic(tx, `${typeArgs[1]}`, args.item),
       obj(tx, args.policy),
     ],
-  })
+  });
 }
 
 export interface LockArgs {
-  ext: GenericArg
-  self: TransactionObjectInput
-  item: GenericArg
-  policy: TransactionObjectInput
+  ext: GenericArg;
+  self: TransactionObjectInput;
+  item: GenericArg;
+  policy: TransactionObjectInput;
 }
 
-export function lock(tx: Transaction, typeArgs: [string, string], args: LockArgs) {
+export function lock(
+  tx: Transaction,
+  typeArgs: [string, string],
+  args: LockArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk_extension::lock`,
     typeArguments: typeArgs,
@@ -124,53 +140,77 @@ export function lock(tx: Transaction, typeArgs: [string, string], args: LockArgs
       generic(tx, `${typeArgs[1]}`, args.item),
       obj(tx, args.policy),
     ],
-  })
+  });
 }
 
-export function isInstalled(tx: Transaction, typeArg: string, self: TransactionObjectInput) {
+export function isInstalled(
+  tx: Transaction,
+  typeArg: string,
+  self: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk_extension::is_installed`,
     typeArguments: [typeArg],
     arguments: [obj(tx, self)],
-  })
+  });
 }
 
-export function isEnabled(tx: Transaction, typeArg: string, self: TransactionObjectInput) {
+export function isEnabled(
+  tx: Transaction,
+  typeArg: string,
+  self: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk_extension::is_enabled`,
     typeArguments: [typeArg],
     arguments: [obj(tx, self)],
-  })
+  });
 }
 
-export function canPlace(tx: Transaction, typeArg: string, self: TransactionObjectInput) {
+export function canPlace(
+  tx: Transaction,
+  typeArg: string,
+  self: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk_extension::can_place`,
     typeArguments: [typeArg],
     arguments: [obj(tx, self)],
-  })
+  });
 }
 
-export function canLock(tx: Transaction, typeArg: string, self: TransactionObjectInput) {
+export function canLock(
+  tx: Transaction,
+  typeArg: string,
+  self: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk_extension::can_lock`,
     typeArguments: [typeArg],
     arguments: [obj(tx, self)],
-  })
+  });
 }
 
-export function extension(tx: Transaction, typeArg: string, self: TransactionObjectInput) {
+export function extension(
+  tx: Transaction,
+  typeArg: string,
+  self: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk_extension::extension`,
     typeArguments: [typeArg],
     arguments: [obj(tx, self)],
-  })
+  });
 }
 
-export function extensionMut(tx: Transaction, typeArg: string, self: TransactionObjectInput) {
+export function extensionMut(
+  tx: Transaction,
+  typeArg: string,
+  self: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk_extension::extension_mut`,
     typeArguments: [typeArg],
     arguments: [obj(tx, self)],
-  })
+  });
 }

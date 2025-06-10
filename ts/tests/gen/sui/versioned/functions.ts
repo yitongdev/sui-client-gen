@@ -1,57 +1,75 @@
-import { PUBLISHED_AT } from '..'
-import { GenericArg, generic, obj, pure } from '../../_framework/util'
-import { Transaction, TransactionArgument, TransactionObjectInput } from '@mysten/sui/transactions'
+import { GenericArg, generic, obj, pure } from "../../_framework/util.js";
+import { PUBLISHED_AT } from "../index.js";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionObjectInput,
+} from "@mysten/sui/transactions";
 
 export interface CreateArgs {
-  initVersion: bigint | TransactionArgument
-  initValue: GenericArg
+  initVersion: bigint | TransactionArgument;
+  initValue: GenericArg;
 }
 
 export function create(tx: Transaction, typeArg: string, args: CreateArgs) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::versioned::create`,
     typeArguments: [typeArg],
-    arguments: [pure(tx, args.initVersion, `u64`), generic(tx, `${typeArg}`, args.initValue)],
-  })
+    arguments: [
+      pure(tx, args.initVersion, `u64`),
+      generic(tx, `${typeArg}`, args.initValue),
+    ],
+  });
 }
 
 export function version(tx: Transaction, self: TransactionObjectInput) {
-  return tx.moveCall({ target: `${PUBLISHED_AT}::versioned::version`, arguments: [obj(tx, self)] })
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::versioned::version`,
+    arguments: [obj(tx, self)],
+  });
 }
 
-export function loadValue(tx: Transaction, typeArg: string, self: TransactionObjectInput) {
+export function loadValue(
+  tx: Transaction,
+  typeArg: string,
+  self: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::versioned::load_value`,
     typeArguments: [typeArg],
     arguments: [obj(tx, self)],
-  })
+  });
 }
 
-export function loadValueMut(tx: Transaction, typeArg: string, self: TransactionObjectInput) {
+export function loadValueMut(
+  tx: Transaction,
+  typeArg: string,
+  self: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::versioned::load_value_mut`,
     typeArguments: [typeArg],
     arguments: [obj(tx, self)],
-  })
+  });
 }
 
 export function removeValueForUpgrade(
   tx: Transaction,
   typeArg: string,
-  self: TransactionObjectInput
+  self: TransactionObjectInput,
 ) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::versioned::remove_value_for_upgrade`,
     typeArguments: [typeArg],
     arguments: [obj(tx, self)],
-  })
+  });
 }
 
 export interface UpgradeArgs {
-  self: TransactionObjectInput
-  newVersion: bigint | TransactionArgument
-  newValue: GenericArg
-  cap: TransactionObjectInput
+  self: TransactionObjectInput;
+  newVersion: bigint | TransactionArgument;
+  newValue: GenericArg;
+  cap: TransactionObjectInput;
 }
 
 export function upgrade(tx: Transaction, typeArg: string, args: UpgradeArgs) {
@@ -64,13 +82,17 @@ export function upgrade(tx: Transaction, typeArg: string, args: UpgradeArgs) {
       generic(tx, `${typeArg}`, args.newValue),
       obj(tx, args.cap),
     ],
-  })
+  });
 }
 
-export function destroy(tx: Transaction, typeArg: string, self: TransactionObjectInput) {
+export function destroy(
+  tx: Transaction,
+  typeArg: string,
+  self: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::versioned::destroy`,
     typeArguments: [typeArg],
     arguments: [obj(tx, self)],
-  })
+  });
 }

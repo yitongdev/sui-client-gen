@@ -1,48 +1,67 @@
-import { PUBLISHED_AT } from '..'
-import { obj, pure } from '../../_framework/util'
-import { String } from '../../move-stdlib/string/structs'
-import { Transaction, TransactionArgument, TransactionObjectInput } from '@mysten/sui/transactions'
+import { obj, pure } from "../../_framework/util.js";
+import { String } from "../../move-stdlib/string/structs.js";
+import { PUBLISHED_AT } from "../index.js";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionObjectInput,
+} from "@mysten/sui/transactions";
 
 export function owner(tx: Transaction, verifiedIssuer: TransactionObjectInput) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_issuer::owner`,
     arguments: [obj(tx, verifiedIssuer)],
-  })
+  });
 }
 
-export function issuer(tx: Transaction, verifiedIssuer: TransactionObjectInput) {
+export function issuer(
+  tx: Transaction,
+  verifiedIssuer: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_issuer::issuer`,
     arguments: [obj(tx, verifiedIssuer)],
-  })
+  });
 }
 
-export function delete_(tx: Transaction, verifiedIssuer: TransactionObjectInput) {
+export function delete_(
+  tx: Transaction,
+  verifiedIssuer: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_issuer::delete`,
     arguments: [obj(tx, verifiedIssuer)],
-  })
+  });
 }
 
 export interface VerifyZkloginIssuerArgs {
-  addressSeed: bigint | TransactionArgument
-  issuer: string | TransactionArgument
+  addressSeed: bigint | TransactionArgument;
+  issuer: string | TransactionArgument;
 }
 
-export function verifyZkloginIssuer(tx: Transaction, args: VerifyZkloginIssuerArgs) {
+export function verifyZkloginIssuer(
+  tx: Transaction,
+  args: VerifyZkloginIssuerArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_issuer::verify_zklogin_issuer`,
-    arguments: [pure(tx, args.addressSeed, `u256`), pure(tx, args.issuer, `${String.$typeName}`)],
-  })
+    arguments: [
+      pure(tx, args.addressSeed, `u256`),
+      pure(tx, args.issuer, `${String.$typeName}`),
+    ],
+  });
 }
 
 export interface CheckZkloginIssuerArgs {
-  address: string | TransactionArgument
-  addressSeed: bigint | TransactionArgument
-  issuer: string | TransactionArgument
+  address: string | TransactionArgument;
+  addressSeed: bigint | TransactionArgument;
+  issuer: string | TransactionArgument;
 }
 
-export function checkZkloginIssuer(tx: Transaction, args: CheckZkloginIssuerArgs) {
+export function checkZkloginIssuer(
+  tx: Transaction,
+  args: CheckZkloginIssuerArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_issuer::check_zklogin_issuer`,
     arguments: [
@@ -50,16 +69,19 @@ export function checkZkloginIssuer(tx: Transaction, args: CheckZkloginIssuerArgs
       pure(tx, args.addressSeed, `u256`),
       pure(tx, args.issuer, `${String.$typeName}`),
     ],
-  })
+  });
 }
 
 export interface CheckZkloginIssuerInternalArgs {
-  address: string | TransactionArgument
-  addressSeed: bigint | TransactionArgument
-  issuer: Array<number | TransactionArgument> | TransactionArgument
+  address: string | TransactionArgument;
+  addressSeed: bigint | TransactionArgument;
+  issuer: Array<number | TransactionArgument> | TransactionArgument;
 }
 
-export function checkZkloginIssuerInternal(tx: Transaction, args: CheckZkloginIssuerInternalArgs) {
+export function checkZkloginIssuerInternal(
+  tx: Transaction,
+  args: CheckZkloginIssuerInternalArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_issuer::check_zklogin_issuer_internal`,
     arguments: [
@@ -67,5 +89,5 @@ export function checkZkloginIssuerInternal(tx: Transaction, args: CheckZkloginIs
       pure(tx, args.addressSeed, `u256`),
       pure(tx, args.issuer, `vector<u8>`),
     ],
-  })
+  });
 }

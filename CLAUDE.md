@@ -28,7 +28,7 @@ cargo install --path generator
 # Install dependencies
 pnpm install
 
-# Type check
+# Type check - verifies generated code is correct
 pnpm check
 
 # Lint and fix
@@ -62,6 +62,9 @@ cargo run -- --manifest ./ts/examples/gen/gen.toml --out ./ts/examples/gen/
 # Fix any linting issues in the generated code
 cd ts
 pnpm lint:fix
+
+# Verify the generated code is correct
+pnpm check
 ```
 
 ## Architecture

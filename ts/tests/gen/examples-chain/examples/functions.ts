@@ -1,25 +1,32 @@
-import { PUBLISHED_AT } from '..'
-import { pure, vector } from '../../_framework/util'
-import { String } from '../../move-stdlib-chain/ascii/structs'
-import { Option } from '../../move-stdlib-chain/option/structs'
-import { String as String1 } from '../../move-stdlib-chain/string/structs'
-import { ID } from '../../sui-chain/object/structs'
-import { ExampleStruct } from './structs'
-import { Transaction, TransactionArgument, TransactionObjectInput } from '@mysten/sui/transactions'
+import { pure, vector } from "../../_framework/util.js";
+import { String } from "../../move-stdlib-chain/ascii/structs.js";
+import { Option } from "../../move-stdlib-chain/option/structs.js";
+import { String as String1 } from "../../move-stdlib-chain/string/structs.js";
+import { ID } from "../../sui-chain/object/structs.js";
+import { PUBLISHED_AT } from "../index.js";
+import { ExampleStruct } from "./structs.js";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionObjectInput,
+} from "@mysten/sui/transactions";
 
 export function createExampleStruct(tx: Transaction) {
-  return tx.moveCall({ target: `${PUBLISHED_AT}::examples::create_example_struct`, arguments: [] })
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::examples::create_example_struct`,
+    arguments: [],
+  });
 }
 
 export interface SpecialTypesArgs {
-  string1: string | TransactionArgument
-  string2: string | TransactionArgument
-  vecU64: Array<bigint | TransactionArgument> | TransactionArgument
-  vecExampleStruct: Array<TransactionObjectInput> | TransactionArgument
-  id: string | TransactionArgument
-  address: string | TransactionArgument
-  option1: bigint | TransactionArgument | TransactionArgument | null
-  option2: bigint | TransactionArgument | TransactionArgument | null
+  string1: string | TransactionArgument;
+  string2: string | TransactionArgument;
+  vecU64: Array<bigint | TransactionArgument> | TransactionArgument;
+  vecExampleStruct: Array<TransactionObjectInput> | TransactionArgument;
+  id: string | TransactionArgument;
+  address: string | TransactionArgument;
+  option1: bigint | TransactionArgument | TransactionArgument | null;
+  option2: bigint | TransactionArgument | TransactionArgument | null;
 }
 
 export function specialTypes(tx: Transaction, args: SpecialTypesArgs) {
@@ -35,5 +42,5 @@ export function specialTypes(tx: Transaction, args: SpecialTypesArgs) {
       pure(tx, args.option1, `${Option.$typeName}<u64>`),
       pure(tx, args.option2, `${Option.$typeName}<u64>`),
     ],
-  })
+  });
 }

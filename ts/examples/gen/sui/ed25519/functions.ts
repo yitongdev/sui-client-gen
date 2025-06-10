@@ -1,11 +1,11 @@
-import { PUBLISHED_AT } from '..'
-import { pure } from '../../_framework/util'
-import { Transaction, TransactionArgument } from '@mysten/sui/transactions'
+import { pure } from "../../_framework/util.js";
+import { PUBLISHED_AT } from "../index.js";
+import { Transaction, TransactionArgument } from "@mysten/sui/transactions";
 
 export interface Ed25519VerifyArgs {
-  signature: Array<number | TransactionArgument> | TransactionArgument
-  publicKey: Array<number | TransactionArgument> | TransactionArgument
-  msg: Array<number | TransactionArgument> | TransactionArgument
+  signature: Array<number | TransactionArgument> | TransactionArgument;
+  publicKey: Array<number | TransactionArgument> | TransactionArgument;
+  msg: Array<number | TransactionArgument> | TransactionArgument;
 }
 
 export function ed25519Verify(tx: Transaction, args: Ed25519VerifyArgs) {
@@ -16,5 +16,5 @@ export function ed25519Verify(tx: Transaction, args: Ed25519VerifyArgs) {
       pure(tx, args.publicKey, `vector<u8>`),
       pure(tx, args.msg, `vector<u8>`),
     ],
-  })
+  });
 }

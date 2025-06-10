@@ -1,56 +1,66 @@
-import { PUBLISHED_AT } from '..'
-import { obj, pure } from '../../_framework/util'
-import { String } from '../../move-stdlib/string/structs'
-import { Transaction, TransactionArgument, TransactionObjectInput } from '@mysten/sui/transactions'
+import { obj, pure } from "../../_framework/util.js";
+import { String } from "../../move-stdlib/string/structs.js";
+import { PUBLISHED_AT } from "../index.js";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionObjectInput,
+} from "@mysten/sui/transactions";
 
 export function owner(tx: Transaction, verifiedId: TransactionObjectInput) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_id::owner`,
     arguments: [obj(tx, verifiedId)],
-  })
+  });
 }
 
-export function keyClaimName(tx: Transaction, verifiedId: TransactionObjectInput) {
+export function keyClaimName(
+  tx: Transaction,
+  verifiedId: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_id::key_claim_name`,
     arguments: [obj(tx, verifiedId)],
-  })
+  });
 }
 
-export function keyClaimValue(tx: Transaction, verifiedId: TransactionObjectInput) {
+export function keyClaimValue(
+  tx: Transaction,
+  verifiedId: TransactionObjectInput,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_id::key_claim_value`,
     arguments: [obj(tx, verifiedId)],
-  })
+  });
 }
 
 export function issuer(tx: Transaction, verifiedId: TransactionObjectInput) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_id::issuer`,
     arguments: [obj(tx, verifiedId)],
-  })
+  });
 }
 
 export function audience(tx: Transaction, verifiedId: TransactionObjectInput) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_id::audience`,
     arguments: [obj(tx, verifiedId)],
-  })
+  });
 }
 
 export function delete_(tx: Transaction, verifiedId: TransactionObjectInput) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_id::delete`,
     arguments: [obj(tx, verifiedId)],
-  })
+  });
 }
 
 export interface VerifyZkloginIdArgs {
-  keyClaimName: string | TransactionArgument
-  keyClaimValue: string | TransactionArgument
-  issuer: string | TransactionArgument
-  audience: string | TransactionArgument
-  pinHash: bigint | TransactionArgument
+  keyClaimName: string | TransactionArgument;
+  keyClaimValue: string | TransactionArgument;
+  issuer: string | TransactionArgument;
+  audience: string | TransactionArgument;
+  pinHash: bigint | TransactionArgument;
 }
 
 export function verifyZkloginId(tx: Transaction, args: VerifyZkloginIdArgs) {
@@ -63,16 +73,16 @@ export function verifyZkloginId(tx: Transaction, args: VerifyZkloginIdArgs) {
       pure(tx, args.audience, `${String.$typeName}`),
       pure(tx, args.pinHash, `u256`),
     ],
-  })
+  });
 }
 
 export interface CheckZkloginIdArgs {
-  address: string | TransactionArgument
-  keyClaimName: string | TransactionArgument
-  keyClaimValue: string | TransactionArgument
-  issuer: string | TransactionArgument
-  audience: string | TransactionArgument
-  pinHash: bigint | TransactionArgument
+  address: string | TransactionArgument;
+  keyClaimName: string | TransactionArgument;
+  keyClaimValue: string | TransactionArgument;
+  issuer: string | TransactionArgument;
+  audience: string | TransactionArgument;
+  pinHash: bigint | TransactionArgument;
 }
 
 export function checkZkloginId(tx: Transaction, args: CheckZkloginIdArgs) {
@@ -86,19 +96,22 @@ export function checkZkloginId(tx: Transaction, args: CheckZkloginIdArgs) {
       pure(tx, args.audience, `${String.$typeName}`),
       pure(tx, args.pinHash, `u256`),
     ],
-  })
+  });
 }
 
 export interface CheckZkloginIdInternalArgs {
-  address: string | TransactionArgument
-  keyClaimName: Array<number | TransactionArgument> | TransactionArgument
-  keyClaimValue: Array<number | TransactionArgument> | TransactionArgument
-  issuer: Array<number | TransactionArgument> | TransactionArgument
-  audience: Array<number | TransactionArgument> | TransactionArgument
-  pinHash: bigint | TransactionArgument
+  address: string | TransactionArgument;
+  keyClaimName: Array<number | TransactionArgument> | TransactionArgument;
+  keyClaimValue: Array<number | TransactionArgument> | TransactionArgument;
+  issuer: Array<number | TransactionArgument> | TransactionArgument;
+  audience: Array<number | TransactionArgument> | TransactionArgument;
+  pinHash: bigint | TransactionArgument;
 }
 
-export function checkZkloginIdInternal(tx: Transaction, args: CheckZkloginIdInternalArgs) {
+export function checkZkloginIdInternal(
+  tx: Transaction,
+  args: CheckZkloginIdInternalArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_id::check_zklogin_id_internal`,
     arguments: [
@@ -109,5 +122,5 @@ export function checkZkloginIdInternal(tx: Transaction, args: CheckZkloginIdInte
       pure(tx, args.audience, `vector<u8>`),
       pure(tx, args.pinHash, `u256`),
     ],
-  })
+  });
 }

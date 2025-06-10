@@ -75,7 +75,7 @@ impl FrameworkImportCtx {
     }
 
     fn import(&self, module: &str, name: &str) -> js::Import {
-        js::import(format!("{}/{}", self.framework_rel_path, module), name)
+        js::import(format!("{}/{}.js", self.framework_rel_path, module), name)
     }
 }
 
@@ -151,12 +151,12 @@ impl<'a> StructClassImportCtx<'a> {
             if self.is_structs_gen {
                 None
             } else {
-                Some("./structs".to_string())
+                Some("./structs.js".to_string())
             }
         } else if same_package {
             // if the struct is defined in a different module in the same package, we use
             // the short version of the import path
-            Some(format!("../{}/structs", module_name))
+            Some(format!("../{}/structs.js", module_name))
         } else {
             let strct_is_top_level = self
                 .top_level_pkg_names
@@ -170,7 +170,7 @@ impl<'a> StructClassImportCtx<'a> {
                         .unwrap(),
                 );
 
-                Some(format!("../../{}/{}/structs", strct_pkg_name, module_name))
+                Some(format!("../../{}/{}/structs.js", strct_pkg_name, module_name))
             } else if self.is_top_level {
                 let dep_dir = if HAS_SOURCE == WITH_SOURCE {
                     "source"
@@ -179,7 +179,7 @@ impl<'a> StructClassImportCtx<'a> {
                 };
 
                 Some(format!(
-                    "../../_dependencies/{}/{}/{}/structs",
+                    "../../_dependencies/{}/{}/{}/structs.js",
                     dep_dir,
                     module.package().address().to_hex_literal(),
                     module_name
@@ -193,12 +193,12 @@ impl<'a> StructClassImportCtx<'a> {
                 );
 
                 Some(format!(
-                    "../../../../{}/{}/structs",
+                    "../../../../{}/{}/structs.js",
                     strct_pkg_name, module_name
                 ))
             } else {
                 Some(format!(
-                    "../../{}/{}/structs",
+                    "../../{}/{}/structs.js",
                     module.package().address().to_hex_literal(),
                     module_name
                 ))
@@ -308,7 +308,7 @@ fn gen_full_name_with_address<const HAS_SOURCE: SourceKind>(
             self_addr.to_hex_literal()
         )
     });
-    let pkg_import = js::import("../index", format!("PKG_V{}", version.value()));
+    let pkg_import = js::import("../index.js", format!("PKG_V{}", version.value()));
 
     // `${PKG_V1}::module::name`
     let mut toks = js::Tokens::new();
@@ -356,7 +356,7 @@ pub fn gen_package_init_ts<const HAS_SOURCE: SourceKind>(
                     }
 
                     let module_import = &js::import(
-                        format!("./{}/structs", module_import_name(module.name())),
+                        format!("./{}/structs.js", module_import_name(module.name())),
                         imported_name,
                     )
                     .into_wildcard();
@@ -383,13 +383,13 @@ fn gen_init_loader_register_classes_fn_body_toks(
     for pkg_id in pkg_ids {
         let pkg_init_path = match top_level_pkg_names.get(&pkg_id) {
             Some(pkg_name) => {
-                format!("../{}/init", package_import_name(*pkg_name))
+                format!("../{}/init.js", package_import_name(*pkg_name))
             }
             None => {
                 if is_source {
-                    format!("../_dependencies/source/{}/init", pkg_id.to_hex_literal())
+                    format!("../_dependencies/source/{}/init.js", pkg_id.to_hex_literal())
                 } else {
-                    format!("../_dependencies/onchain/{}/init", pkg_id.to_hex_literal())
+                    format!("../_dependencies/onchain/{}/init.js", pkg_id.to_hex_literal())
                 }
             }
         };
@@ -422,7 +422,7 @@ pub fn gen_init_loader_ts(
         &BTreeMap<AccountAddress, move_symbol_pool::Symbol>,
     )>,
 ) -> js::Tokens {
-    let struct_class_loader = &js::import("./loader", "StructClassLoader");
+    let struct_class_loader = &js::import("./loader.js", "StructClassLoader");
 
     let mut toks = js::Tokens::new();
 
@@ -962,7 +962,7 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> FunctionsGen<'a, 'model, HAS_SOUR
     /// Generates a function binding for a function.
     pub fn gen_fun_binding(&mut self, tokens: &mut Tokens<JavaScript>) -> Result<()> {
         let transaction = &js::import("@mysten/sui/transactions", "Transaction");
-        let published_at = &js::import("..", "PUBLISHED_AT");
+        let published_at = &js::import("../index.js", "PUBLISHED_AT");
 
         let param_field_names = self.params_to_field_names(true);
 

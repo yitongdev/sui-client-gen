@@ -1,12 +1,16 @@
-import { PUBLISHED_AT } from '..'
-import { obj, pure } from '../../_framework/util'
-import { Transaction, TransactionArgument, TransactionObjectInput } from '@mysten/sui/transactions'
+import { obj, pure } from "../../_framework/util.js";
+import { PUBLISHED_AT } from "../index.js";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionObjectInput,
+} from "@mysten/sui/transactions";
 
 export interface V2AddArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
-  address: string | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
+  address: string | TransactionArgument;
 }
 
 export function v2Add(tx: Transaction, args: V2AddArgs) {
@@ -18,14 +22,14 @@ export function v2Add(tx: Transaction, args: V2AddArgs) {
       pure(tx, args.vecU8, `vector<u8>`),
       pure(tx, args.address, `address`),
     ],
-  })
+  });
 }
 
 export interface V2RemoveArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
-  address: string | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
+  address: string | TransactionArgument;
 }
 
 export function v2Remove(tx: Transaction, args: V2RemoveArgs) {
@@ -37,17 +41,20 @@ export function v2Remove(tx: Transaction, args: V2RemoveArgs) {
       pure(tx, args.vecU8, `vector<u8>`),
       pure(tx, args.address, `address`),
     ],
-  })
+  });
 }
 
 export interface V2ContainsCurrentEpochArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
-  address: string | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
+  address: string | TransactionArgument;
 }
 
-export function v2ContainsCurrentEpoch(tx: Transaction, args: V2ContainsCurrentEpochArgs) {
+export function v2ContainsCurrentEpoch(
+  tx: Transaction,
+  args: V2ContainsCurrentEpochArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::v2_contains_current_epoch`,
     arguments: [
@@ -56,17 +63,20 @@ export function v2ContainsCurrentEpoch(tx: Transaction, args: V2ContainsCurrentE
       pure(tx, args.vecU8, `vector<u8>`),
       pure(tx, args.address, `address`),
     ],
-  })
+  });
 }
 
 export interface V2ContainsNextEpochArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
-  address: string | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
+  address: string | TransactionArgument;
 }
 
-export function v2ContainsNextEpoch(tx: Transaction, args: V2ContainsNextEpochArgs) {
+export function v2ContainsNextEpoch(
+  tx: Transaction,
+  args: V2ContainsNextEpochArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::v2_contains_next_epoch`,
     arguments: [
@@ -75,16 +85,19 @@ export function v2ContainsNextEpoch(tx: Transaction, args: V2ContainsNextEpochAr
       pure(tx, args.vecU8, `vector<u8>`),
       pure(tx, args.address, `address`),
     ],
-  })
+  });
 }
 
 export interface V2EnableGlobalPauseArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
 }
 
-export function v2EnableGlobalPause(tx: Transaction, args: V2EnableGlobalPauseArgs) {
+export function v2EnableGlobalPause(
+  tx: Transaction,
+  args: V2EnableGlobalPauseArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::v2_enable_global_pause`,
     arguments: [
@@ -92,16 +105,19 @@ export function v2EnableGlobalPause(tx: Transaction, args: V2EnableGlobalPauseAr
       pure(tx, args.u64, `u64`),
       pure(tx, args.vecU8, `vector<u8>`),
     ],
-  })
+  });
 }
 
 export interface V2DisableGlobalPauseArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
 }
 
-export function v2DisableGlobalPause(tx: Transaction, args: V2DisableGlobalPauseArgs) {
+export function v2DisableGlobalPause(
+  tx: Transaction,
+  args: V2DisableGlobalPauseArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::v2_disable_global_pause`,
     arguments: [
@@ -109,18 +125,18 @@ export function v2DisableGlobalPause(tx: Transaction, args: V2DisableGlobalPause
       pure(tx, args.u64, `u64`),
       pure(tx, args.vecU8, `vector<u8>`),
     ],
-  })
+  });
 }
 
 export interface V2IsGlobalPauseEnabledCurrentEpochArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
 }
 
 export function v2IsGlobalPauseEnabledCurrentEpoch(
   tx: Transaction,
-  args: V2IsGlobalPauseEnabledCurrentEpochArgs
+  args: V2IsGlobalPauseEnabledCurrentEpochArgs,
 ) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::v2_is_global_pause_enabled_current_epoch`,
@@ -129,18 +145,18 @@ export function v2IsGlobalPauseEnabledCurrentEpoch(
       pure(tx, args.u64, `u64`),
       pure(tx, args.vecU8, `vector<u8>`),
     ],
-  })
+  });
 }
 
 export interface V2IsGlobalPauseEnabledNextEpochArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
 }
 
 export function v2IsGlobalPauseEnabledNextEpoch(
   tx: Transaction,
-  args: V2IsGlobalPauseEnabledNextEpochArgs
+  args: V2IsGlobalPauseEnabledNextEpochArgs,
 ) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::v2_is_global_pause_enabled_next_epoch`,
@@ -149,13 +165,13 @@ export function v2IsGlobalPauseEnabledNextEpoch(
       pure(tx, args.u64, `u64`),
       pure(tx, args.vecU8, `vector<u8>`),
     ],
-  })
+  });
 }
 
 export interface MigrateV1ToV2Args {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
 }
 
 export function migrateV1ToV2(tx: Transaction, args: MigrateV1ToV2Args) {
@@ -166,13 +182,13 @@ export function migrateV1ToV2(tx: Transaction, args: MigrateV1ToV2Args) {
       pure(tx, args.u64, `u64`),
       pure(tx, args.vecU8, `vector<u8>`),
     ],
-  })
+  });
 }
 
 export interface AddPerTypeConfigArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
 }
 
 export function addPerTypeConfig(tx: Transaction, args: AddPerTypeConfigArgs) {
@@ -183,16 +199,19 @@ export function addPerTypeConfig(tx: Transaction, args: AddPerTypeConfigArgs) {
       pure(tx, args.u64, `u64`),
       pure(tx, args.vecU8, `vector<u8>`),
     ],
-  })
+  });
 }
 
 export interface BorrowPerTypeConfigMutArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
 }
 
-export function borrowPerTypeConfigMut(tx: Transaction, args: BorrowPerTypeConfigMutArgs) {
+export function borrowPerTypeConfigMut(
+  tx: Transaction,
+  args: BorrowPerTypeConfigMutArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::borrow_per_type_config_mut`,
     arguments: [
@@ -200,16 +219,19 @@ export function borrowPerTypeConfigMut(tx: Transaction, args: BorrowPerTypeConfi
       pure(tx, args.u64, `u64`),
       pure(tx, args.vecU8, `vector<u8>`),
     ],
-  })
+  });
 }
 
 export interface BorrowPerTypeConfigArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
 }
 
-export function borrowPerTypeConfig(tx: Transaction, args: BorrowPerTypeConfigArgs) {
+export function borrowPerTypeConfig(
+  tx: Transaction,
+  args: BorrowPerTypeConfigArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::borrow_per_type_config`,
     arguments: [
@@ -217,13 +239,13 @@ export function borrowPerTypeConfig(tx: Transaction, args: BorrowPerTypeConfigAr
       pure(tx, args.u64, `u64`),
       pure(tx, args.vecU8, `vector<u8>`),
     ],
-  })
+  });
 }
 
 export interface PerTypeExistsArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
 }
 
 export function perTypeExists(tx: Transaction, args: PerTypeExistsArgs) {
@@ -234,14 +256,14 @@ export function perTypeExists(tx: Transaction, args: PerTypeExistsArgs) {
       pure(tx, args.u64, `u64`),
       pure(tx, args.vecU8, `vector<u8>`),
     ],
-  })
+  });
 }
 
 export interface V1AddArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
-  address: string | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
+  address: string | TransactionArgument;
 }
 
 export function v1Add(tx: Transaction, args: V1AddArgs) {
@@ -253,13 +275,13 @@ export function v1Add(tx: Transaction, args: V1AddArgs) {
       pure(tx, args.vecU8, `vector<u8>`),
       pure(tx, args.address, `address`),
     ],
-  })
+  });
 }
 
 export interface V1PerTypeListAddArgs {
-  perTypeList: TransactionObjectInput
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
-  address: string | TransactionArgument
+  perTypeList: TransactionObjectInput;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
+  address: string | TransactionArgument;
 }
 
 export function v1PerTypeListAdd(tx: Transaction, args: V1PerTypeListAddArgs) {
@@ -270,14 +292,14 @@ export function v1PerTypeListAdd(tx: Transaction, args: V1PerTypeListAddArgs) {
       pure(tx, args.vecU8, `vector<u8>`),
       pure(tx, args.address, `address`),
     ],
-  })
+  });
 }
 
 export interface V1RemoveArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
-  address: string | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
+  address: string | TransactionArgument;
 }
 
 export function v1Remove(tx: Transaction, args: V1RemoveArgs) {
@@ -289,16 +311,19 @@ export function v1Remove(tx: Transaction, args: V1RemoveArgs) {
       pure(tx, args.vecU8, `vector<u8>`),
       pure(tx, args.address, `address`),
     ],
-  })
+  });
 }
 
 export interface V1PerTypeListRemoveArgs {
-  perTypeList: TransactionObjectInput
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
-  address: string | TransactionArgument
+  perTypeList: TransactionObjectInput;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
+  address: string | TransactionArgument;
 }
 
-export function v1PerTypeListRemove(tx: Transaction, args: V1PerTypeListRemoveArgs) {
+export function v1PerTypeListRemove(
+  tx: Transaction,
+  args: V1PerTypeListRemoveArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::v1_per_type_list_remove`,
     arguments: [
@@ -306,14 +331,14 @@ export function v1PerTypeListRemove(tx: Transaction, args: V1PerTypeListRemoveAr
       pure(tx, args.vecU8, `vector<u8>`),
       pure(tx, args.address, `address`),
     ],
-  })
+  });
 }
 
 export interface V1ContainsArgs {
-  denyList: TransactionObjectInput
-  u64: bigint | TransactionArgument
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
-  address: string | TransactionArgument
+  denyList: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
+  address: string | TransactionArgument;
 }
 
 export function v1Contains(tx: Transaction, args: V1ContainsArgs) {
@@ -325,16 +350,19 @@ export function v1Contains(tx: Transaction, args: V1ContainsArgs) {
       pure(tx, args.vecU8, `vector<u8>`),
       pure(tx, args.address, `address`),
     ],
-  })
+  });
 }
 
 export interface V1PerTypeListContainsArgs {
-  perTypeList: TransactionObjectInput
-  vecU8: Array<number | TransactionArgument> | TransactionArgument
-  address: string | TransactionArgument
+  perTypeList: TransactionObjectInput;
+  vecU8: Array<number | TransactionArgument> | TransactionArgument;
+  address: string | TransactionArgument;
 }
 
-export function v1PerTypeListContains(tx: Transaction, args: V1PerTypeListContainsArgs) {
+export function v1PerTypeListContains(
+  tx: Transaction,
+  args: V1PerTypeListContainsArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::v1_per_type_list_contains`,
     arguments: [
@@ -342,13 +370,19 @@ export function v1PerTypeListContains(tx: Transaction, args: V1PerTypeListContai
       pure(tx, args.vecU8, `vector<u8>`),
       pure(tx, args.address, `address`),
     ],
-  })
+  });
 }
 
 export function create(tx: Transaction) {
-  return tx.moveCall({ target: `${PUBLISHED_AT}::deny_list::create`, arguments: [] })
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::deny_list::create`,
+    arguments: [],
+  });
 }
 
 export function perTypeList(tx: Transaction) {
-  return tx.moveCall({ target: `${PUBLISHED_AT}::deny_list::per_type_list`, arguments: [] })
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::deny_list::per_type_list`,
+    arguments: [],
+  });
 }

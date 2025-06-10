@@ -1,4 +1,4 @@
-import * as reified from '../../_framework/reified'
+import * as reified from "../../_framework/reified.js";
 import {
   PhantomReified,
   Reified,
@@ -16,320 +16,360 @@ import {
   fieldToJSON,
   phantom,
   toBcs,
-} from '../../_framework/reified'
+} from "../../_framework/reified.js";
 import {
   FieldsWithTypes,
   composeSuiType,
   compressSuiType,
   parseTypeName,
-} from '../../_framework/util'
-import { Vector } from '../../_framework/vector'
-import { PKG_V29 } from '../index'
-import { BcsType, bcs } from '@mysten/sui/bcs'
-import { SuiClient, SuiObjectData, SuiParsedData } from '@mysten/sui/client'
-import { fromB64 } from '@mysten/sui/utils'
+} from "../../_framework/util.js";
+import { Vector } from "../../_framework/vector.js";
+import { PKG_V31 } from "../index.js";
+import { BcsType, bcs } from "@mysten/sui/bcs";
+import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
+import { fromB64 } from "@mysten/sui/utils";
 
 /* ============================== PriorityQueue =============================== */
 
 export function isPriorityQueue(type: string): boolean {
-  type = compressSuiType(type)
-  return type.startsWith(`${PKG_V29}::priority_queue::PriorityQueue` + '<')
+  type = compressSuiType(type);
+  return type.startsWith(`${PKG_V31}::priority_queue::PriorityQueue` + "<");
 }
 
 export interface PriorityQueueFields<T0 extends TypeArgument> {
-  entries: ToField<Vector<Entry<T0>>>
+  entries: ToField<Vector<Entry<T0>>>;
 }
 
 export type PriorityQueueReified<T0 extends TypeArgument> = Reified<
   PriorityQueue<T0>,
   PriorityQueueFields<T0>
->
+>;
 
 export class PriorityQueue<T0 extends TypeArgument> implements StructClass {
-  __StructClass = true as const
+  __StructClass = true as const;
 
-  static readonly $typeName = `${PKG_V29}::priority_queue::PriorityQueue`
-  static readonly $numTypeParams = 1
-  static readonly $isPhantom = [false] as const
+  static readonly $typeName = `${PKG_V31}::priority_queue::PriorityQueue`;
+  static readonly $numTypeParams = 1;
+  static readonly $isPhantom = [false] as const;
 
-  readonly $typeName = PriorityQueue.$typeName
-  readonly $fullTypeName: `${typeof PKG_V29}::priority_queue::PriorityQueue<${ToTypeStr<T0>}>`
-  readonly $typeArgs: [ToTypeStr<T0>]
-  readonly $isPhantom = PriorityQueue.$isPhantom
+  readonly $typeName = PriorityQueue.$typeName;
+  readonly $fullTypeName: `${typeof PKG_V31}::priority_queue::PriorityQueue<${ToTypeStr<T0>}>`;
+  readonly $typeArgs: [ToTypeStr<T0>];
+  readonly $isPhantom = PriorityQueue.$isPhantom;
 
-  readonly entries: ToField<Vector<Entry<T0>>>
+  readonly entries: ToField<Vector<Entry<T0>>>;
 
-  private constructor(typeArgs: [ToTypeStr<T0>], fields: PriorityQueueFields<T0>) {
+  private constructor(
+    typeArgs: [ToTypeStr<T0>],
+    fields: PriorityQueueFields<T0>,
+  ) {
     this.$fullTypeName = composeSuiType(
       PriorityQueue.$typeName,
-      ...typeArgs
-    ) as `${typeof PKG_V29}::priority_queue::PriorityQueue<${ToTypeStr<T0>}>`
-    this.$typeArgs = typeArgs
+      ...typeArgs,
+    ) as `${typeof PKG_V31}::priority_queue::PriorityQueue<${ToTypeStr<T0>}>`;
+    this.$typeArgs = typeArgs;
 
-    this.entries = fields.entries
+    this.entries = fields.entries;
   }
 
   static reified<T0 extends Reified<TypeArgument, any>>(
-    T0: T0
+    T0: T0,
   ): PriorityQueueReified<ToTypeArgument<T0>> {
     return {
       typeName: PriorityQueue.$typeName,
       fullTypeName: composeSuiType(
         PriorityQueue.$typeName,
-        ...[extractType(T0)]
-      ) as `${typeof PKG_V29}::priority_queue::PriorityQueue<${ToTypeStr<ToTypeArgument<T0>>}>`,
+        ...[extractType(T0)],
+      ) as `${typeof PKG_V31}::priority_queue::PriorityQueue<${ToTypeStr<ToTypeArgument<T0>>}>`,
       typeArgs: [extractType(T0)] as [ToTypeStr<ToTypeArgument<T0>>],
       isPhantom: PriorityQueue.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) => PriorityQueue.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) => PriorityQueue.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) =>
+        PriorityQueue.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) =>
+        PriorityQueue.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => PriorityQueue.fromBcs(T0, data),
       bcs: PriorityQueue.bcs(toBcs(T0)),
       fromJSONField: (field: any) => PriorityQueue.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => PriorityQueue.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) => PriorityQueue.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) => PriorityQueue.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) => PriorityQueue.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) =>
+        PriorityQueue.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) =>
+        PriorityQueue.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) =>
+        PriorityQueue.fetch(client, T0, id),
       new: (fields: PriorityQueueFields<ToTypeArgument<T0>>) => {
-        return new PriorityQueue([extractType(T0)], fields)
+        return new PriorityQueue([extractType(T0)], fields);
       },
-      kind: 'StructClassReified',
-    }
+      kind: "StructClassReified",
+    };
   }
 
   static get r() {
-    return PriorityQueue.reified
+    return PriorityQueue.reified;
   }
 
   static phantom<T0 extends Reified<TypeArgument, any>>(
-    T0: T0
+    T0: T0,
   ): PhantomReified<ToTypeStr<PriorityQueue<ToTypeArgument<T0>>>> {
-    return phantom(PriorityQueue.reified(T0))
+    return phantom(PriorityQueue.reified(T0));
   }
   static get p() {
-    return PriorityQueue.phantom
+    return PriorityQueue.phantom;
   }
 
   static get bcs() {
     return <T0 extends BcsType<any>>(T0: T0) =>
       bcs.struct(`PriorityQueue<${T0.name}>`, {
         entries: bcs.vector(Entry.bcs(T0)),
-      })
+      });
   }
 
   static fromFields<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    fields: Record<string, any>
+    fields: Record<string, any>,
   ): PriorityQueue<ToTypeArgument<T0>> {
     return PriorityQueue.reified(typeArg).new({
-      entries: decodeFromFields(reified.vector(Entry.reified(typeArg)), fields.entries),
-    })
+      entries: decodeFromFields(
+        reified.vector(Entry.reified(typeArg)),
+        fields.entries,
+      ),
+    });
   }
 
   static fromFieldsWithTypes<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    item: FieldsWithTypes
+    item: FieldsWithTypes,
   ): PriorityQueue<ToTypeArgument<T0>> {
     if (!isPriorityQueue(item.type)) {
-      throw new Error('not a PriorityQueue type')
+      throw new Error("not a PriorityQueue type");
     }
-    assertFieldsWithTypesArgsMatch(item, [typeArg])
+    assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
     return PriorityQueue.reified(typeArg).new({
       entries: decodeFromFieldsWithTypes(
         reified.vector(Entry.reified(typeArg)),
-        item.fields.entries
+        item.fields.entries,
       ),
-    })
+    });
   }
 
   static fromBcs<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    data: Uint8Array
+    data: Uint8Array,
   ): PriorityQueue<ToTypeArgument<T0>> {
-    const typeArgs = [typeArg]
+    const typeArgs = [typeArg];
 
-    return PriorityQueue.fromFields(typeArg, PriorityQueue.bcs(toBcs(typeArgs[0])).parse(data))
+    return PriorityQueue.fromFields(
+      typeArg,
+      PriorityQueue.bcs(toBcs(typeArgs[0])).parse(data),
+    );
   }
 
   toJSONField() {
     return {
       entries: fieldToJSON<Vector<Entry<T0>>>(
         `vector<${Entry.$typeName}<${this.$typeArgs[0]}>>`,
-        this.entries
+        this.entries,
       ),
-    }
+    };
   }
 
   toJSON() {
-    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() }
+    return {
+      $typeName: this.$typeName,
+      $typeArgs: this.$typeArgs,
+      ...this.toJSONField(),
+    };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    field: any
+    field: any,
   ): PriorityQueue<ToTypeArgument<T0>> {
     return PriorityQueue.reified(typeArg).new({
-      entries: decodeFromJSONField(reified.vector(Entry.reified(typeArg)), field.entries),
-    })
+      entries: decodeFromJSONField(
+        reified.vector(Entry.reified(typeArg)),
+        field.entries,
+      ),
+    });
   }
 
   static fromJSON<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    json: Record<string, any>
+    json: Record<string, any>,
   ): PriorityQueue<ToTypeArgument<T0>> {
     if (json.$typeName !== PriorityQueue.$typeName) {
-      throw new Error('not a WithTwoGenerics json object')
+      throw new Error("not a WithTwoGenerics json object");
     }
     assertReifiedTypeArgsMatch(
       composeSuiType(PriorityQueue.$typeName, extractType(typeArg)),
       json.$typeArgs,
-      [typeArg]
-    )
+      [typeArg],
+    );
 
-    return PriorityQueue.fromJSONField(typeArg, json)
+    return PriorityQueue.fromJSONField(typeArg, json);
   }
 
   static fromSuiParsedData<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    content: SuiParsedData
+    content: SuiParsedData,
   ): PriorityQueue<ToTypeArgument<T0>> {
-    if (content.dataType !== 'moveObject') {
-      throw new Error('not an object')
+    if (content.dataType !== "moveObject") {
+      throw new Error("not an object");
     }
     if (!isPriorityQueue(content.type)) {
-      throw new Error(`object at ${(content.fields as any).id} is not a PriorityQueue object`)
+      throw new Error(
+        `object at ${(content.fields as any).id} is not a PriorityQueue object`,
+      );
     }
-    return PriorityQueue.fromFieldsWithTypes(typeArg, content)
+    return PriorityQueue.fromFieldsWithTypes(typeArg, content);
   }
 
   static fromSuiObjectData<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    data: SuiObjectData
+    data: SuiObjectData,
   ): PriorityQueue<ToTypeArgument<T0>> {
     if (data.bcs) {
-      if (data.bcs.dataType !== 'moveObject' || !isPriorityQueue(data.bcs.type)) {
-        throw new Error(`object at is not a PriorityQueue object`)
+      if (
+        data.bcs.dataType !== "moveObject" ||
+        !isPriorityQueue(data.bcs.type)
+      ) {
+        throw new Error(`object at is not a PriorityQueue object`);
       }
 
-      const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs
+      const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
       if (gotTypeArgs.length !== 1) {
         throw new Error(
-          `type argument mismatch: expected 1 type argument but got '${gotTypeArgs.length}'`
-        )
+          `type argument mismatch: expected 1 type argument but got '${gotTypeArgs.length}'`,
+        );
       }
-      const gotTypeArg = compressSuiType(gotTypeArgs[0])
-      const expectedTypeArg = compressSuiType(extractType(typeArg))
+      const gotTypeArg = compressSuiType(gotTypeArgs[0]);
+      const expectedTypeArg = compressSuiType(extractType(typeArg));
       if (gotTypeArg !== compressSuiType(extractType(typeArg))) {
         throw new Error(
-          `type argument mismatch: expected '${expectedTypeArg}' but got '${gotTypeArg}'`
-        )
+          `type argument mismatch: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+        );
       }
 
-      return PriorityQueue.fromBcs(typeArg, fromB64(data.bcs.bcsBytes))
+      return PriorityQueue.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
     }
     if (data.content) {
-      return PriorityQueue.fromSuiParsedData(typeArg, data.content)
+      return PriorityQueue.fromSuiParsedData(typeArg, data.content);
     }
     throw new Error(
-      'Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request.'
-    )
+      "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request.",
+    );
   }
 
   static async fetch<T0 extends Reified<TypeArgument, any>>(
     client: SuiClient,
     typeArg: T0,
-    id: string
+    id: string,
   ): Promise<PriorityQueue<ToTypeArgument<T0>>> {
-    const res = await client.getObject({ id, options: { showBcs: true } })
+    const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(`error fetching PriorityQueue object at id ${id}: ${res.error.code}`)
+      throw new Error(
+        `error fetching PriorityQueue object at id ${id}: ${res.error.code}`,
+      );
     }
-    if (res.data?.bcs?.dataType !== 'moveObject' || !isPriorityQueue(res.data.bcs.type)) {
-      throw new Error(`object at id ${id} is not a PriorityQueue object`)
+    if (
+      res.data?.bcs?.dataType !== "moveObject" ||
+      !isPriorityQueue(res.data.bcs.type)
+    ) {
+      throw new Error(`object at id ${id} is not a PriorityQueue object`);
     }
 
-    return PriorityQueue.fromSuiObjectData(typeArg, res.data)
+    return PriorityQueue.fromSuiObjectData(typeArg, res.data);
   }
 }
 
 /* ============================== Entry =============================== */
 
 export function isEntry(type: string): boolean {
-  type = compressSuiType(type)
-  return type.startsWith(`${PKG_V29}::priority_queue::Entry` + '<')
+  type = compressSuiType(type);
+  return type.startsWith(`${PKG_V31}::priority_queue::Entry` + "<");
 }
 
 export interface EntryFields<T0 extends TypeArgument> {
-  priority: ToField<'u64'>
-  value: ToField<T0>
+  priority: ToField<"u64">;
+  value: ToField<T0>;
 }
 
-export type EntryReified<T0 extends TypeArgument> = Reified<Entry<T0>, EntryFields<T0>>
+export type EntryReified<T0 extends TypeArgument> = Reified<
+  Entry<T0>,
+  EntryFields<T0>
+>;
 
 export class Entry<T0 extends TypeArgument> implements StructClass {
-  __StructClass = true as const
+  __StructClass = true as const;
 
-  static readonly $typeName = `${PKG_V29}::priority_queue::Entry`
-  static readonly $numTypeParams = 1
-  static readonly $isPhantom = [false] as const
+  static readonly $typeName = `${PKG_V31}::priority_queue::Entry`;
+  static readonly $numTypeParams = 1;
+  static readonly $isPhantom = [false] as const;
 
-  readonly $typeName = Entry.$typeName
-  readonly $fullTypeName: `${typeof PKG_V29}::priority_queue::Entry<${ToTypeStr<T0>}>`
-  readonly $typeArgs: [ToTypeStr<T0>]
-  readonly $isPhantom = Entry.$isPhantom
+  readonly $typeName = Entry.$typeName;
+  readonly $fullTypeName: `${typeof PKG_V31}::priority_queue::Entry<${ToTypeStr<T0>}>`;
+  readonly $typeArgs: [ToTypeStr<T0>];
+  readonly $isPhantom = Entry.$isPhantom;
 
-  readonly priority: ToField<'u64'>
-  readonly value: ToField<T0>
+  readonly priority: ToField<"u64">;
+  readonly value: ToField<T0>;
 
   private constructor(typeArgs: [ToTypeStr<T0>], fields: EntryFields<T0>) {
     this.$fullTypeName = composeSuiType(
       Entry.$typeName,
-      ...typeArgs
-    ) as `${typeof PKG_V29}::priority_queue::Entry<${ToTypeStr<T0>}>`
-    this.$typeArgs = typeArgs
+      ...typeArgs,
+    ) as `${typeof PKG_V31}::priority_queue::Entry<${ToTypeStr<T0>}>`;
+    this.$typeArgs = typeArgs;
 
-    this.priority = fields.priority
-    this.value = fields.value
+    this.priority = fields.priority;
+    this.value = fields.value;
   }
 
-  static reified<T0 extends Reified<TypeArgument, any>>(T0: T0): EntryReified<ToTypeArgument<T0>> {
+  static reified<T0 extends Reified<TypeArgument, any>>(
+    T0: T0,
+  ): EntryReified<ToTypeArgument<T0>> {
     return {
       typeName: Entry.$typeName,
       fullTypeName: composeSuiType(
         Entry.$typeName,
-        ...[extractType(T0)]
-      ) as `${typeof PKG_V29}::priority_queue::Entry<${ToTypeStr<ToTypeArgument<T0>>}>`,
+        ...[extractType(T0)],
+      ) as `${typeof PKG_V31}::priority_queue::Entry<${ToTypeStr<ToTypeArgument<T0>>}>`,
       typeArgs: [extractType(T0)] as [ToTypeStr<ToTypeArgument<T0>>],
       isPhantom: Entry.$isPhantom,
       reifiedTypeArgs: [T0],
       fromFields: (fields: Record<string, any>) => Entry.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) => Entry.fromFieldsWithTypes(T0, item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) =>
+        Entry.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Entry.fromBcs(T0, data),
       bcs: Entry.bcs(toBcs(T0)),
       fromJSONField: (field: any) => Entry.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Entry.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) => Entry.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) => Entry.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) => Entry.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) =>
+        Entry.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) =>
+        Entry.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) =>
+        Entry.fetch(client, T0, id),
       new: (fields: EntryFields<ToTypeArgument<T0>>) => {
-        return new Entry([extractType(T0)], fields)
+        return new Entry([extractType(T0)], fields);
       },
-      kind: 'StructClassReified',
-    }
+      kind: "StructClassReified",
+    };
   }
 
   static get r() {
-    return Entry.reified
+    return Entry.reified;
   }
 
   static phantom<T0 extends Reified<TypeArgument, any>>(
-    T0: T0
+    T0: T0,
   ): PhantomReified<ToTypeStr<Entry<ToTypeArgument<T0>>>> {
-    return phantom(Entry.reified(T0))
+    return phantom(Entry.reified(T0));
   }
   static get p() {
-    return Entry.phantom
+    return Entry.phantom;
   }
 
   static get bcs() {
@@ -337,139 +377,150 @@ export class Entry<T0 extends TypeArgument> implements StructClass {
       bcs.struct(`Entry<${T0.name}>`, {
         priority: bcs.u64(),
         value: T0,
-      })
+      });
   }
 
   static fromFields<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    fields: Record<string, any>
+    fields: Record<string, any>,
   ): Entry<ToTypeArgument<T0>> {
     return Entry.reified(typeArg).new({
-      priority: decodeFromFields('u64', fields.priority),
+      priority: decodeFromFields("u64", fields.priority),
       value: decodeFromFields(typeArg, fields.value),
-    })
+    });
   }
 
   static fromFieldsWithTypes<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    item: FieldsWithTypes
+    item: FieldsWithTypes,
   ): Entry<ToTypeArgument<T0>> {
     if (!isEntry(item.type)) {
-      throw new Error('not a Entry type')
+      throw new Error("not a Entry type");
     }
-    assertFieldsWithTypesArgsMatch(item, [typeArg])
+    assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
     return Entry.reified(typeArg).new({
-      priority: decodeFromFieldsWithTypes('u64', item.fields.priority),
+      priority: decodeFromFieldsWithTypes("u64", item.fields.priority),
       value: decodeFromFieldsWithTypes(typeArg, item.fields.value),
-    })
+    });
   }
 
   static fromBcs<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    data: Uint8Array
+    data: Uint8Array,
   ): Entry<ToTypeArgument<T0>> {
-    const typeArgs = [typeArg]
+    const typeArgs = [typeArg];
 
-    return Entry.fromFields(typeArg, Entry.bcs(toBcs(typeArgs[0])).parse(data))
+    return Entry.fromFields(typeArg, Entry.bcs(toBcs(typeArgs[0])).parse(data));
   }
 
   toJSONField() {
     return {
       priority: this.priority.toString(),
       value: fieldToJSON<T0>(this.$typeArgs[0], this.value),
-    }
+    };
   }
 
   toJSON() {
-    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() }
+    return {
+      $typeName: this.$typeName,
+      $typeArgs: this.$typeArgs,
+      ...this.toJSONField(),
+    };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    field: any
+    field: any,
   ): Entry<ToTypeArgument<T0>> {
     return Entry.reified(typeArg).new({
-      priority: decodeFromJSONField('u64', field.priority),
+      priority: decodeFromJSONField("u64", field.priority),
       value: decodeFromJSONField(typeArg, field.value),
-    })
+    });
   }
 
   static fromJSON<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    json: Record<string, any>
+    json: Record<string, any>,
   ): Entry<ToTypeArgument<T0>> {
     if (json.$typeName !== Entry.$typeName) {
-      throw new Error('not a WithTwoGenerics json object')
+      throw new Error("not a WithTwoGenerics json object");
     }
     assertReifiedTypeArgsMatch(
       composeSuiType(Entry.$typeName, extractType(typeArg)),
       json.$typeArgs,
-      [typeArg]
-    )
+      [typeArg],
+    );
 
-    return Entry.fromJSONField(typeArg, json)
+    return Entry.fromJSONField(typeArg, json);
   }
 
   static fromSuiParsedData<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    content: SuiParsedData
+    content: SuiParsedData,
   ): Entry<ToTypeArgument<T0>> {
-    if (content.dataType !== 'moveObject') {
-      throw new Error('not an object')
+    if (content.dataType !== "moveObject") {
+      throw new Error("not an object");
     }
     if (!isEntry(content.type)) {
-      throw new Error(`object at ${(content.fields as any).id} is not a Entry object`)
+      throw new Error(
+        `object at ${(content.fields as any).id} is not a Entry object`,
+      );
     }
-    return Entry.fromFieldsWithTypes(typeArg, content)
+    return Entry.fromFieldsWithTypes(typeArg, content);
   }
 
   static fromSuiObjectData<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
-    data: SuiObjectData
+    data: SuiObjectData,
   ): Entry<ToTypeArgument<T0>> {
     if (data.bcs) {
-      if (data.bcs.dataType !== 'moveObject' || !isEntry(data.bcs.type)) {
-        throw new Error(`object at is not a Entry object`)
+      if (data.bcs.dataType !== "moveObject" || !isEntry(data.bcs.type)) {
+        throw new Error(`object at is not a Entry object`);
       }
 
-      const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs
+      const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
       if (gotTypeArgs.length !== 1) {
         throw new Error(
-          `type argument mismatch: expected 1 type argument but got '${gotTypeArgs.length}'`
-        )
+          `type argument mismatch: expected 1 type argument but got '${gotTypeArgs.length}'`,
+        );
       }
-      const gotTypeArg = compressSuiType(gotTypeArgs[0])
-      const expectedTypeArg = compressSuiType(extractType(typeArg))
+      const gotTypeArg = compressSuiType(gotTypeArgs[0]);
+      const expectedTypeArg = compressSuiType(extractType(typeArg));
       if (gotTypeArg !== compressSuiType(extractType(typeArg))) {
         throw new Error(
-          `type argument mismatch: expected '${expectedTypeArg}' but got '${gotTypeArg}'`
-        )
+          `type argument mismatch: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+        );
       }
 
-      return Entry.fromBcs(typeArg, fromB64(data.bcs.bcsBytes))
+      return Entry.fromBcs(typeArg, fromB64(data.bcs.bcsBytes));
     }
     if (data.content) {
-      return Entry.fromSuiParsedData(typeArg, data.content)
+      return Entry.fromSuiParsedData(typeArg, data.content);
     }
     throw new Error(
-      'Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request.'
-    )
+      "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request.",
+    );
   }
 
   static async fetch<T0 extends Reified<TypeArgument, any>>(
     client: SuiClient,
     typeArg: T0,
-    id: string
+    id: string,
   ): Promise<Entry<ToTypeArgument<T0>>> {
-    const res = await client.getObject({ id, options: { showBcs: true } })
+    const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(`error fetching Entry object at id ${id}: ${res.error.code}`)
+      throw new Error(
+        `error fetching Entry object at id ${id}: ${res.error.code}`,
+      );
     }
-    if (res.data?.bcs?.dataType !== 'moveObject' || !isEntry(res.data.bcs.type)) {
-      throw new Error(`object at id ${id} is not a Entry object`)
+    if (
+      res.data?.bcs?.dataType !== "moveObject" ||
+      !isEntry(res.data.bcs.type)
+    ) {
+      throw new Error(`object at id ${id} is not a Entry object`);
     }
 
-    return Entry.fromSuiObjectData(typeArg, res.data)
+    return Entry.fromSuiObjectData(typeArg, res.data);
   }
 }

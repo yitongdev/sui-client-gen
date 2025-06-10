@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "ESNext",
-    "lib": [
-      "ESNext"
-    ],
-    "moduleResolution": "Node",
+    "module": "NodeNext",
+    "lib": ["ESNext"],
+    "moduleResolution": "NodeNext",
     "composite": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
@@ -16,11 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": true
   },
-  "include": [
-    "examples/",
-    "tests/",
-    "eslint.config.mjs"
-  ]
+  "include": ["examples/", "tests/", "eslint.config.mjs"]
 }

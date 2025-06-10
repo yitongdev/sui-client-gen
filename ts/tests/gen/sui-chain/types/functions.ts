@@ -1,11 +1,15 @@
-import { PUBLISHED_AT } from '..'
-import { GenericArg, generic } from '../../_framework/util'
-import { Transaction } from '@mysten/sui/transactions'
+import { GenericArg, generic } from "../../_framework/util.js";
+import { PUBLISHED_AT } from "../index.js";
+import { Transaction } from "@mysten/sui/transactions";
 
-export function isOneTimeWitness(tx: Transaction, typeArg: string, t0: GenericArg) {
+export function isOneTimeWitness(
+  tx: Transaction,
+  typeArg: string,
+  t0: GenericArg,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::types::is_one_time_witness`,
     typeArguments: [typeArg],
     arguments: [generic(tx, `${typeArg}`, t0)],
-  })
+  });
 }

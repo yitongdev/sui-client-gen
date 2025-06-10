@@ -1,25 +1,32 @@
-import { PUBLISHED_AT } from '..'
-import { String } from '../../_dependencies/source/0x1/ascii/structs'
-import { Option } from '../../_dependencies/source/0x1/option/structs'
-import { String as String1 } from '../../_dependencies/source/0x1/string/structs'
-import { pure, vector } from '../../_framework/util'
-import { ID } from '../../sui/object/structs'
-import { ExampleStruct } from './structs'
-import { Transaction, TransactionArgument, TransactionObjectInput } from '@mysten/sui/transactions'
+import { String } from "../../_dependencies/source/0x1/ascii/structs.js";
+import { Option } from "../../_dependencies/source/0x1/option/structs.js";
+import { String as String1 } from "../../_dependencies/source/0x1/string/structs.js";
+import { pure, vector } from "../../_framework/util.js";
+import { ID } from "../../sui/object/structs.js";
+import { PUBLISHED_AT } from "../index.js";
+import { ExampleStruct } from "./structs.js";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionObjectInput,
+} from "@mysten/sui/transactions";
 
 export function createExampleStruct(tx: Transaction) {
-  return tx.moveCall({ target: `${PUBLISHED_AT}::examples::create_example_struct`, arguments: [] })
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::examples::create_example_struct`,
+    arguments: [],
+  });
 }
 
 export interface SpecialTypesArgs {
-  asciiString: string | TransactionArgument
-  utf8String: string | TransactionArgument
-  vectorOfU64: Array<bigint | TransactionArgument> | TransactionArgument
-  vectorOfObjects: Array<TransactionObjectInput> | TransactionArgument
-  idField: string | TransactionArgument
-  address: string | TransactionArgument
-  optionSome: bigint | TransactionArgument | TransactionArgument | null
-  optionNone: bigint | TransactionArgument | TransactionArgument | null
+  asciiString: string | TransactionArgument;
+  utf8String: string | TransactionArgument;
+  vectorOfU64: Array<bigint | TransactionArgument> | TransactionArgument;
+  vectorOfObjects: Array<TransactionObjectInput> | TransactionArgument;
+  idField: string | TransactionArgument;
+  address: string | TransactionArgument;
+  optionSome: bigint | TransactionArgument | TransactionArgument | null;
+  optionNone: bigint | TransactionArgument | TransactionArgument | null;
 }
 
 export function specialTypes(tx: Transaction, args: SpecialTypesArgs) {
@@ -35,5 +42,5 @@ export function specialTypes(tx: Transaction, args: SpecialTypesArgs) {
       pure(tx, args.optionSome, `${Option.$typeName}<u64>`),
       pure(tx, args.optionNone, `${Option.$typeName}<u64>`),
     ],
-  })
+  });
 }

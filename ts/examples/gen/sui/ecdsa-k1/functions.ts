@@ -1,14 +1,17 @@
-import { PUBLISHED_AT } from '..'
-import { pure } from '../../_framework/util'
-import { Transaction, TransactionArgument } from '@mysten/sui/transactions'
+import { pure } from "../../_framework/util.js";
+import { PUBLISHED_AT } from "../index.js";
+import { Transaction, TransactionArgument } from "@mysten/sui/transactions";
 
 export interface Secp256k1EcrecoverArgs {
-  signature: Array<number | TransactionArgument> | TransactionArgument
-  msg: Array<number | TransactionArgument> | TransactionArgument
-  hash: number | TransactionArgument
+  signature: Array<number | TransactionArgument> | TransactionArgument;
+  msg: Array<number | TransactionArgument> | TransactionArgument;
+  hash: number | TransactionArgument;
 }
 
-export function secp256k1Ecrecover(tx: Transaction, args: Secp256k1EcrecoverArgs) {
+export function secp256k1Ecrecover(
+  tx: Transaction,
+  args: Secp256k1EcrecoverArgs,
+) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::ecdsa_k1::secp256k1_ecrecover`,
     arguments: [
@@ -16,24 +19,24 @@ export function secp256k1Ecrecover(tx: Transaction, args: Secp256k1EcrecoverArgs
       pure(tx, args.msg, `vector<u8>`),
       pure(tx, args.hash, `u8`),
     ],
-  })
+  });
 }
 
 export function decompressPubkey(
   tx: Transaction,
-  pubkey: Array<number | TransactionArgument> | TransactionArgument
+  pubkey: Array<number | TransactionArgument> | TransactionArgument,
 ) {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::ecdsa_k1::decompress_pubkey`,
     arguments: [pure(tx, pubkey, `vector<u8>`)],
-  })
+  });
 }
 
 export interface Secp256k1VerifyArgs {
-  signature: Array<number | TransactionArgument> | TransactionArgument
-  publicKey: Array<number | TransactionArgument> | TransactionArgument
-  msg: Array<number | TransactionArgument> | TransactionArgument
-  hash: number | TransactionArgument
+  signature: Array<number | TransactionArgument> | TransactionArgument;
+  publicKey: Array<number | TransactionArgument> | TransactionArgument;
+  msg: Array<number | TransactionArgument> | TransactionArgument;
+  hash: number | TransactionArgument;
 }
 
 export function secp256k1Verify(tx: Transaction, args: Secp256k1VerifyArgs) {
@@ -45,5 +48,5 @@ export function secp256k1Verify(tx: Transaction, args: Secp256k1VerifyArgs) {
       pure(tx, args.msg, `vector<u8>`),
       pure(tx, args.hash, `u8`),
     ],
-  })
+  });
 }

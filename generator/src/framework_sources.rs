@@ -8,7 +8,7 @@ pub static ESLINTRC: &str = r#"{
 "#;
 
 pub static LOADER: &str = r#"
-import { compressSuiType, parseTypeName } from './util'
+import { compressSuiType, parseTypeName } from './util.js'
 import {
   PhantomReified,
   PhantomTypeArgument,
@@ -21,8 +21,8 @@ import {
   VectorClassReified,
   phantom,
   vector,
-} from './reified'
-import { registerClasses } from './init-loader'
+} from './reified.js'
+import { registerClasses } from './init-loader.js'
 
 export type PrimitiveValue = string | number | boolean | bigint
 
@@ -500,11 +500,11 @@ export function composeSuiType(typeName: string, ...typeArgs: string[]): string 
 pub static REIFIED: &str = r#"
 import { bcs, BcsType } from '@mysten/sui/bcs'
 import { fromHEX, toHEX } from '@mysten/sui/utils'
-import { FieldsWithTypes, compressSuiType, parseTypeName } from './util'
+import { FieldsWithTypes, compressSuiType, parseTypeName } from './util.js'
 import { SuiClient, SuiParsedData, SuiObjectData } from '@mysten/sui/client'
 
 // for backwards compatibility
-export { vector } from './vector'
+export { vector } from './vector.js'
 
 export interface StructClass {
   readonly $typeName: string
@@ -955,8 +955,8 @@ import {
   VectorClass,
   VectorClassReified,
   fieldToJSON,
-} from './reified'
-import { composeSuiType, FieldsWithTypes } from './util'
+} from './reified.js'
+import { composeSuiType, FieldsWithTypes } from './util.js'
 
 export type VectorElements<T extends TypeArgument> = Array<ToField<T>>
 
