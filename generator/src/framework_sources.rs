@@ -197,13 +197,13 @@ export function isTransactionArgument(arg: GenericArg): arg is TransactionArgume
   return 'GasCoin' in arg || 'Input' in arg || 'Result' in arg || 'NestedResult' in arg
 }
 
-export function obj(tx: Transaction, arg: TransactionObjectInput) {
+export function obj(tx: Transaction, arg: TransactionObjectInput): TransactionArgument {
   return isTransactionArgument(arg) ? arg : tx.object(arg)
 }
 
 export function pure(tx: Transaction, arg: PureArg, type: string): TransactionArgument {
   if (isTransactionArgument(arg)) {
-    return obj(tx, arg)
+    return arg
   }
 
   function getBcsForType(type: string): BcsType<any> {
@@ -342,7 +342,7 @@ export function pure(tx: Transaction, arg: PureArg, type: string): TransactionAr
   }
 }
 
-export function option(tx: Transaction, type: string, arg: GenericArg | null) {
+export function option(tx: Transaction, type: string, arg: GenericArg | null): TransactionArgument {
   if (isTransactionArgument(arg)) {
     return arg
   }
@@ -368,7 +368,7 @@ export function option(tx: Transaction, type: string, arg: GenericArg | null) {
   })
 }
 
-export function generic(tx: Transaction, type: string, arg: GenericArg) {
+export function generic(tx: Transaction, type: string, arg: GenericArg): TransactionArgument {
   if (typeArgIsPure(type)) {
     return pure(tx, arg as PureArg | TransactionArgument, type)
   } else {

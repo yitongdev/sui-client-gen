@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "dist/main.js",
+  "sideEffects": false,
   "scripts": {
     "build:example": "rm -rf dist && tsup examples/main.ts --format esm --minify",
     "watch": "tsup examples/main.ts --watch --format esm",
@@ -15,22 +16,21 @@
   "keywords": [],
   "author": "",
   "devDependencies": {
-    "@eslint/js": "^9.8.0",
-    "@types/eslint__js": "^8.42.3",
-    "@types/node": "^22.1.0",
-    "@typescript-eslint/eslint-plugin": "^8.0.0",
-    "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^9.8.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "prettier": "^3.3.3",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^8.0.0",
-    "vitest": "^2.0.5"
+    "@eslint/js": "^9.28.0",
+    "@types/node": "^24.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.0",
+    "vitest": "^3.2.3"
   },
   "dependencies": {
-    "@mysten/sui": "^1.4.0",
-    "commander": "^12.1.0",
-    "tsup": "^8.2.4"
+    "@mysten/sui": "^1.30.5",
+    "commander": "^14.0.0",
+    "tsup": "^8.5.0"
   }
 }
