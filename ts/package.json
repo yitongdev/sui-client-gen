@@ -5,18 +5,19 @@
   "main": "dist/main.js",
   "sideEffects": false,
   "scripts": {
-    "build:example": "rm -rf dist && tsup examples/main.ts --format esm --minify",
-    "watch": "tsup examples/main.ts --watch --format esm",
+    "build:example": "bun build examples/main.ts --outdir dist --target bun --minify",
+    "watch": "bun build examples/main.ts --outdir dist --target bun --watch",
     "check": "tsc --noEmit",
     "lint": "eslint examples/ tests/",
     "lint:fix": "eslint examples/ tests/ --fix",
-    "test": "vitest --test-timeout=15000"
+    "test": "bun test --timeout 15000"
   },
   "type": "module",
   "keywords": [],
   "author": "",
   "devDependencies": {
     "@eslint/js": "^9.28.0",
+    "@types/bun": "latest",
     "@types/node": "^24.0.0",
     "@typescript-eslint/eslint-plugin": "^8.34.0",
     "@typescript-eslint/parser": "^8.34.0",
@@ -25,12 +26,10 @@
     "eslint-plugin-prettier": "^5.4.1",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.34.0",
-    "vitest": "^3.2.3"
+    "typescript-eslint": "^8.34.0"
   },
   "dependencies": {
     "@mysten/sui": "^1.30.5",
-    "commander": "^14.0.0",
-    "tsup": "^8.5.0"
+    "commander": "^14.0.0"
   }
 }

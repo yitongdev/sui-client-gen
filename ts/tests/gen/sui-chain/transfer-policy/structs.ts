@@ -25,7 +25,7 @@ import {
 } from "../../_framework/util.js";
 import { TypeName } from "../../move-stdlib-chain/type-name/structs.js";
 import { Balance } from "../balance/structs.js";
-import { PKG_V31 } from "../index.js";
+import { PKG_V31 } from "../constants.js";
 import { ID, UID } from "../object/structs.js";
 import { SUI } from "../sui/structs.js";
 import { VecSet } from "../vec-set/structs.js";

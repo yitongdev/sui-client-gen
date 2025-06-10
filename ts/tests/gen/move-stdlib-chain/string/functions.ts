@@ -1,6 +1,6 @@
 import { pure } from "../../_framework/util.js";
 import { String } from "../ascii/structs.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import { String as String1 } from "./structs.js";
 import { Transaction, TransactionArgument } from "@mysten/sui/transactions";
 

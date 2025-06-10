@@ -21,7 +21,7 @@ import { String } from "../../move-stdlib/ascii/structs.js";
 import { Option } from "../../move-stdlib/option/structs.js";
 import { String as String1 } from "../../move-stdlib/string/structs.js";
 import { ID, UID } from "../../sui/object/structs.js";
-import { PKG_V1 } from "../index.js";
+import { PKG_V1 } from "../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
 import { fromBase64, fromHex, toHex } from "@mysten/sui/utils";

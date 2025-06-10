@@ -26,7 +26,7 @@ import { Option } from "../../move-stdlib-chain/option/structs.js";
 import { String } from "../../move-stdlib-chain/string/structs.js";
 import { TypeName } from "../../move-stdlib-chain/type-name/structs.js";
 import { Balance } from "../balance/structs.js";
-import { PKG_V31 } from "../index.js";
+import { PKG_V31 } from "../constants.js";
 import { ID, UID } from "../object/structs.js";
 import { VecMap } from "../vec-map/structs.js";
 import { VecSet } from "../vec-set/structs.js";

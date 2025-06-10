@@ -4,6 +4,7 @@
     "module": "NodeNext",
     "lib": ["ESNext"],
     "moduleResolution": "NodeNext",
+    "types": ["bun-types"],
     "composite": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,

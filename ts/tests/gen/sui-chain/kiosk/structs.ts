@@ -24,7 +24,7 @@ import {
   parseTypeName,
 } from "../../_framework/util.js";
 import { Balance } from "../balance/structs.js";
-import { PKG_V31 } from "../index.js";
+import { PKG_V31 } from "../constants.js";
 import { ID, UID } from "../object/structs.js";
 import { SUI } from "../sui/structs.js";
 import { bcs } from "@mysten/sui/bcs";

@@ -308,7 +308,7 @@ fn gen_full_name_with_address<const HAS_SOURCE: SourceKind>(
             self_addr.to_hex_literal()
         )
     });
-    let pkg_import = js::import("../index.js", format!("PKG_V{}", version.value()));
+    let pkg_import = js::import("../constants.js", format!("PKG_V{}", version.value()));
 
     // `${PKG_V1}::module::name`
     let mut toks = js::Tokens::new();
@@ -962,7 +962,7 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> FunctionsGen<'a, 'model, HAS_SOUR
     /// Generates a function binding for a function.
     pub fn gen_fun_binding(&mut self, tokens: &mut Tokens<JavaScript>) -> Result<()> {
         let transaction = &js::import("@mysten/sui/transactions", "Transaction");
-        let published_at = &js::import("../index.js", "PUBLISHED_AT");
+        let published_at = &js::import("../constants.js", "PUBLISHED_AT");
 
         let param_field_names = self.params_to_field_names(true);
 

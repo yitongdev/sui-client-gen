@@ -1,6 +1,6 @@
 import { GenericArg, generic, obj, pure } from "../../_framework/util.js";
 import { Option } from "../../move-stdlib/option/structs.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import { ID } from "../object/structs.js";
 import {
   Transaction,

@@ -17,7 +17,7 @@ import {
   compressSuiType,
 } from "../../_framework/util.js";
 import { Vector } from "../../_framework/vector.js";
-import { PKG_V16 } from "../index.js";
+import { PKG_V16 } from "../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
 import { fromBase64 } from "@mysten/sui/utils";

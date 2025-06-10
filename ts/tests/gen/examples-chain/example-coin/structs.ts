@@ -18,7 +18,7 @@ import {
 } from "../../_framework/util.js";
 import { TreasuryCap } from "../../sui-chain/coin/structs.js";
 import { UID } from "../../sui-chain/object/structs.js";
-import { PKG_V1 } from "../index.js";
+import { PKG_V1 } from "../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
 import { fromBase64 } from "@mysten/sui/utils";

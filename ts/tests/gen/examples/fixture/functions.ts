@@ -10,7 +10,7 @@ import { String as String1 } from "../../move-stdlib/ascii/structs.js";
 import { Option } from "../../move-stdlib/option/structs.js";
 import { String } from "../../move-stdlib/string/structs.js";
 import { ID } from "../../sui/object/structs.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import { Bar, WithTwoGenerics } from "./structs.js";
 import {
   Transaction,

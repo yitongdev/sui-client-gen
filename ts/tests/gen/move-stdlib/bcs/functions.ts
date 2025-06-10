@@ -1,5 +1,5 @@
 import { GenericArg, generic } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import { Transaction } from "@mysten/sui/transactions";
 
 export function toBytes(tx: Transaction, typeArg: string, v: GenericArg) {

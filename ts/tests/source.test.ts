@@ -2,7 +2,7 @@ import { Transaction } from "@mysten/sui/transactions";
 import { SuiClient } from "@mysten/sui/client";
 import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
 import { fromB64 } from "@mysten/sui/utils";
-import { it, expect, describe } from "vitest";
+import { test, expect, describe } from "bun:test";
 import {
   Bar,
   Dummy,
@@ -49,7 +49,7 @@ const client = new SuiClient({
   url: "https://fullnode.testnet.sui.io:443/",
 });
 
-it("creates and decodes an object with object as type param", async () => {
+test("creates and decodes an object with object as type param", async () => {
   const tx = new Transaction();
 
   const T = Bar.$typeName;
@@ -231,7 +231,7 @@ it("creates and decodes an object with object as type param", async () => {
   expect(Foo.fromJSON(Bar.reified(), de.toJSON())).toEqual(exp);
 });
 
-it("creates and decodes Foo with vector of objects as type param", async () => {
+test("creates and decodes Foo with vector of objects as type param", async () => {
   const tx = new Transaction();
 
   const T = `vector<${Bar.$typeName}>`;
@@ -420,7 +420,7 @@ it("creates and decodes Foo with vector of objects as type param", async () => {
   expect(Foo.fromJSON(reifiedT, de.toJSON())).toEqual(exp);
 });
 
-it("decodes special-cased types correctly", async () => {
+test("decodes special-cased types correctly", async () => {
   const tx = new Transaction();
 
   const encoder = new TextEncoder();
@@ -510,7 +510,7 @@ it("decodes special-cased types correctly", async () => {
   );
 });
 
-it("decodes special-cased types as generics correctly", async () => {
+test("decodes special-cased types as generics correctly", async () => {
   const tx = new Transaction();
 
   const encoder = new TextEncoder();
@@ -610,7 +610,7 @@ it("decodes special-cased types as generics correctly", async () => {
   ).toEqual(exp);
 });
 
-it("calls function correctly when special types are used", async () => {
+test("calls function correctly when special types are used", async () => {
   const tx = new Transaction();
 
   const encoder = new TextEncoder();
@@ -701,7 +701,7 @@ it("calls function correctly when special types are used", async () => {
   );
 });
 
-it("calls function correctly when special types are used as generics", async () => {
+test("calls function correctly when special types are used as generics", async () => {
   const tx = new Transaction();
 
   const encoder = new TextEncoder();
@@ -795,7 +795,7 @@ it("calls function correctly when special types are used as generics", async () 
   );
 });
 
-it("calls function correctly when special types are used as as vectors", async () => {
+test("calls function correctly when special types are used as as vectors", async () => {
   const tx = new Transaction();
 
   createSpecialInVectors(tx, "vector<u64>", {
@@ -856,7 +856,7 @@ it("calls function correctly when special types are used as as vectors", async (
   );
 });
 
-it("loads with loader correctly", async () => {
+test("loads with loader correctly", async () => {
   const tx = new Transaction();
 
   const T = `${WithTwoGenerics.$typeName}<${Bar.$typeName}, vector<${WithTwoGenerics.$typeName}<${Bar.$typeName}, u8>>>`;
@@ -938,7 +938,7 @@ it("loads with loader correctly", async () => {
   );
 });
 
-it("converts to json correctly", () => {
+test("converts to json correctly", () => {
   const U = WithSpecialTypes.reified(SUI.p, "u64");
   const V = vector(WithTwoGenerics.reified(Bar.reified(), "u8"));
 
@@ -1010,7 +1010,7 @@ it("converts to json correctly", () => {
   expect(fromJSON).toEqual(obj);
 });
 
-it("decodes address field correctly", async () => {
+test("decodes address field correctly", async () => {
   const tx = new Transaction();
 
   const T = "address";
@@ -1199,7 +1199,7 @@ it("decodes address field correctly", async () => {
   expect(Foo.fromJSON("address", de.toJSON())).toEqual(exp);
 });
 
-it("fails when fetching mismatch reified type", async () => {
+test("fails when fetching mismatch reified type", async () => {
   const tx = new Transaction();
 
   const encoder = new TextEncoder();
@@ -1238,20 +1238,20 @@ it("fails when fetching mismatch reified type", async () => {
   });
   const id = res.effects!.created![0].reference.objectId;
 
-  await expect(() => {
-    return WithSpecialTypes.r(phantom("u8"), "u8").fetch(client, id);
-  }).rejects.toThrowError(
+  await expect(
+    WithSpecialTypes.r(phantom("u8"), "u8").fetch(client, id),
+  ).rejects.toThrow(
     `type argument mismatch at position 0: expected 'u8' but got '0x2::sui::SUI'`,
   );
-  await expect(() => {
-    return WithSpecialTypes.r(SUI.p, "u8").fetch(client, id);
-  }).rejects.toThrowError(
+  await expect(
+    WithSpecialTypes.r(SUI.p, "u8").fetch(client, id),
+  ).rejects.toThrow(
     `type argument mismatch at position 1: expected 'u8' but got 'u64'`,
   );
 });
 
 describe("handles function calls with vector arguments correctly", () => {
-  it("can pass in tx.pure values", async () => {
+  test("can pass in tx.pure values", async () => {
     const tx = new Transaction();
 
     createWithGenericField(tx, "vector<u8>", [tx.pure.u8(3), tx.pure.u8(4)]);
@@ -1270,7 +1270,7 @@ describe("handles function calls with vector arguments correctly", () => {
     expect(obj.genericField).toEqual([3, 4]);
   });
 
-  it("can pass in primitive values", async () => {
+  test("can pass in primitive values", async () => {
     const tx = new Transaction();
 
     createWithGenericField(tx, "vector<u8>", [3, 4]);
@@ -1289,17 +1289,17 @@ describe("handles function calls with vector arguments correctly", () => {
     expect(obj.genericField).toEqual([3, 4]);
   });
 
-  it("throws when mixing primitive and TransactionArgument values", async () => {
+  test("throws when mixing primitive and TransactionArgument values", async () => {
     const tx = new Transaction();
 
     expect(() => {
       createWithGenericField(tx, "vector<u8>", [3, tx.pure.u8(4)]);
-    }).toThrowError(
+    }).toThrow(
       "mixing primitive and TransactionArgument values is not supported",
     );
   });
 
-  it("can pass in mixed tx.pure and command result values", async () => {
+  test("can pass in mixed tx.pure and command result values", async () => {
     const tx = new Transaction();
 
     const val = sqrt(tx, 36n);
@@ -1320,17 +1320,17 @@ describe("handles function calls with vector arguments correctly", () => {
     expect(obj.genericField).toEqual([3n, 6n]);
   });
 
-  it("throws when mixing primitive and command result values", async () => {
+  test("throws when mixing primitive and command result values", async () => {
     const tx = new Transaction();
     const val = sqrt(tx, 36n);
     expect(() => {
       createWithGenericField(tx, "vector<u64>", [3, val]);
-    }).toThrowError(
+    }).toThrow(
       "mixing primitive and TransactionArgument values is not supported",
     );
   });
 
-  it("can use intents as values and can mix with tx.pure", async () => {
+  test("can use intents as values and can mix with tx.pure", async () => {
     const tx = new Transaction();
 
     const intent1 = (tx: Transaction) => tx.pure.u8(3);
@@ -1357,20 +1357,20 @@ describe("handles function calls with vector arguments correctly", () => {
     expect(obj.genericField).toEqual([3, 4, 7]);
   });
 
-  it("throws when mixing primitive and intent values", async () => {
+  test("throws when mixing primitive and intent values", async () => {
     const tx = new Transaction();
 
     const intent = (tx: Transaction) => tx.pure.u8(3);
     expect(() => {
       createWithGenericField(tx, "vector<u8>", [3, intent(tx)]);
-    }).toThrowError(
+    }).toThrow(
       "mixing primitive and TransactionArgument values is not supported",
     );
   });
 });
 
 describe("handles function calls with option arguments correctly", () => {
-  it("can use primitive value as option directly", async () => {
+  test("can use primitive value as option directly", async () => {
     const tx = new Transaction();
 
     createWithGenericField(tx, `${Option.$typeName}<u8>`, 3);
@@ -1389,7 +1389,7 @@ describe("handles function calls with option arguments correctly", () => {
     expect(obj.genericField).toEqual(3);
   });
 
-  it("can pass in tx.pure values", async () => {
+  test("can pass in tx.pure values", async () => {
     const tx = new Transaction();
 
     createWithGenericField(tx, `${Option.$typeName}<vector<u8>>`, [
@@ -1414,7 +1414,7 @@ describe("handles function calls with option arguments correctly", () => {
     expect(obj.genericField).toEqual([3, 4]);
   });
 
-  it("throws when mixing primitive and TransactionArgument values", async () => {
+  test("throws when mixing primitive and TransactionArgument values", async () => {
     const tx = new Transaction();
 
     expect(() => {
@@ -1422,12 +1422,12 @@ describe("handles function calls with option arguments correctly", () => {
         3,
         tx.pure.u8(4),
       ]);
-    }).toThrowError(
+    }).toThrow(
       "mixing primitive and TransactionArgument values is not supported",
     );
   });
 
-  it("can use none function call result as a value", async () => {
+  test("can use none function call result as a value", async () => {
     const tx = new Transaction();
 
     createWithGenericField(tx, `${Option.$typeName}<u8>`, none(tx, "u8"));
@@ -1446,7 +1446,7 @@ describe("handles function calls with option arguments correctly", () => {
     expect(obj.genericField).toEqual(null);
   });
 
-  it("can use null as values", async () => {
+  test("can use null as values", async () => {
     const tx = new Transaction();
 
     createWithGenericField(tx, `${Option.$typeName}<u8>`, null);
@@ -1465,7 +1465,7 @@ describe("handles function calls with option arguments correctly", () => {
     expect(obj.genericField).toEqual(null);
   });
 
-  it("handles nested vector of options as inner type correctly", async () => {
+  test("handles nested vector of options as inner type correctly", async () => {
     const tx = new Transaction();
 
     createWithGenericField(

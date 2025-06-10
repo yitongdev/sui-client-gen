@@ -1,6 +1,6 @@
 import { Option } from "../../_dependencies/source/0x1/option/structs.js";
 import { GenericArg, generic, obj, pure } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import { ID } from "../object/structs.js";
 import {
   Transaction,

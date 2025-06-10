@@ -8,7 +8,7 @@ import {
   pure,
 } from "../../_framework/util.js";
 import { Balance } from "../balance/structs.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import {
   Transaction,
   TransactionArgument,

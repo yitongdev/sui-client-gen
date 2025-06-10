@@ -35,7 +35,7 @@ import { Balance } from "../../sui-chain/balance/structs.js";
 import { ID, UID } from "../../sui-chain/object/structs.js";
 import { SUI } from "../../sui-chain/sui/structs.js";
 import { Url } from "../../sui-chain/url/structs.js";
-import { PKG_V1 } from "../index.js";
+import { PKG_V1 } from "../constants.js";
 import { StructFromOtherModule } from "../other-module/structs.js";
 import { BcsType, bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";

@@ -7,7 +7,7 @@ import {
   option,
   pure,
 } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import { Url } from "../url/structs.js";
 import {
   Transaction,

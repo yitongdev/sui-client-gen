@@ -18,7 +18,7 @@ import {
 } from "../../_framework/util.js";
 import { Vector } from "../../_framework/vector.js";
 import { String } from "../../move-stdlib/string/structs.js";
-import { PKG_V31 } from "../index.js";
+import { PKG_V31 } from "../constants.js";
 import { UID } from "../object/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";

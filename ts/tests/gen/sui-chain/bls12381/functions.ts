@@ -1,6 +1,6 @@
 import { obj, pure, vector } from "../../_framework/util.js";
+import { PUBLISHED_AT } from "../constants.js";
 import { Element } from "../group-ops/structs.js";
-import { PUBLISHED_AT } from "../index.js";
 import { G1, G2, Scalar, UncompressedG1 } from "./structs.js";
 import {
   Transaction,

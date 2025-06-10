@@ -185,6 +185,13 @@ async fn main() -> Result<()> {
         )?;
     }
 
+    // gen root index.ts
+    gen_root_index(
+        &source_top_level_addr_map,
+        &on_chain_top_level_addr_map,
+        &out_root,
+    )?;
+
     // gen .eslintrc.json
     write_str_to_file(
         framework_sources::ESLINTRC,
@@ -296,6 +303,30 @@ fn resolve_top_level_pkg_addr_map(
     (source_top_level_id_map, on_chain_top_level_id_map)
 }
 
+/// Returns module name for use as a JavaScript export identifier (handles reserved words).
+fn module_export_name(module: Symbol) -> String {
+    // List of JS reserved words that can't be used as identifiers
+    const JS_RESERVED_WORDS: [&str; 64] = [
+        "abstract", "arguments", "await", "boolean", "break", "byte", "case", "catch",
+        "char", "class", "const", "continue", "debugger", "default", "delete", "do",
+        "double", "else", "enum", "eval", "export", "extends", "false", "final",
+        "finally", "float", "for", "function", "goto", "if", "implements", "import",
+        "in", "instanceof", "int", "interface", "let", "long", "native", "new",
+        "null", "package", "private", "protected", "public", "return", "short", "static",
+        "super", "switch", "synchronized", "this", "throw", "throws", "transient", "true",
+        "try", "typeof", "var", "void", "volatile", "while", "with", "yield"
+    ];
+    
+    let name = module.to_string();
+    
+    // If the name is a reserved word, append "_module"
+    if JS_RESERVED_WORDS.contains(&name.as_str()) {
+        format!("{}_module", name)
+    } else {
+        name
+    }
+}
+
 fn gen_packages_for_model<const HAS_SOURCE: usize>(
     pkgs: BTreeMap<AccountAddress, model::Package<HAS_SOURCE>>,
     top_level_pkg_names: &BTreeMap<AccountAddress, Symbol>,
@@ -325,17 +356,49 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
 
         std::fs::create_dir_all(&package_path)?;
 
-        // generate index.ts
+        // generate constants.ts
         let published_at = published_at_map.get(pkg_id).unwrap_or(pkg_id);
         let versions = version_table.get(pkg_id).unwrap();
-        let tokens: js::Tokens = quote!(
+        let constants_tokens: js::Tokens = quote!(
             export const PACKAGE_ID = $[str]($[const](pkg_id.to_hex_literal()));
             export const PUBLISHED_AT = $[str]($[const](published_at.to_hex_literal()));
             $(for (published_at, version) in versions {
                 export const PKG_V$(version.value()) = $[str]($[const](published_at.to_hex_literal()));
             })
         );
-        write_tokens_to_file(&tokens, &package_path.join("index.ts"))?;
+        write_tokens_to_file(&constants_tokens, &package_path.join("constants.ts"))?;
+
+        // Track which modules have content
+        let mut modules_with_content = Vec::new();
+        
+        // Check each module to see if it has content
+        for module in pkg.modules() {
+            let has_functions = is_top_level && module.functions().count() > 0;
+            let has_structs = module.structs().count() > 0;
+            
+            if has_functions || has_structs {
+                modules_with_content.push(module);
+            }
+        }
+        
+        // generate index.ts
+        let mut index_tokens = js::Tokens::new();
+        
+        // Export only modules that have content
+        for module in &modules_with_content {
+            let module_name = module_import_name(module.name());
+            let module_export_name = module_export_name(module.name());
+            if module_export_name.contains('-') {
+                quote_in!(index_tokens => export * as $[str]($[const](module_export_name)) from $[str]($[const](format!("./{}/index.js", module_name)));$['\n']);
+            } else {
+                quote_in!(index_tokens => export * as $(&module_export_name) from $[str]($[const](format!("./{}/index.js", module_name)));$['\n']);
+            }
+        }
+        
+        // Export constants
+        quote_in!(index_tokens => $['\n']export * from "./constants.js";$['\n']);
+        
+        write_tokens_to_file(&index_tokens, &package_path.join("index.ts"))?;
 
         // generate init.ts
         let tokens = gen_package_init_ts(pkg, &FrameworkImportCtx::new(levels_from_root + 1));
@@ -343,6 +406,15 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
 
         // generate modules
         for module in pkg.modules() {
+            // Check if module has any content
+            let has_functions = is_top_level && module.functions().count() > 0;
+            let has_structs = module.structs().count() > 0;
+            
+            // Only create module directory if it has content
+            if !has_functions && !has_structs {
+                continue;
+            }
+            
             let module_path = package_path.join(module_import_name(module.name()));
             std::fs::create_dir_all(&module_path)?;
 
@@ -397,8 +469,78 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
                 import_ctx = structs_gen.import_ctx;
             }
             write_tokens_to_file(&tokens, &module_path.join("structs.ts"))?;
+
+            // generate <module>/index.ts
+            let mut index_tokens = js::Tokens::new();
+            
+            // Check if there are any functions (only for top-level packages)
+            let has_functions = is_top_level && module.functions().count() > 0;
+            
+            // Check if there are any structs
+            let has_structs = module.structs().count() > 0;
+            
+            // Only generate files and index if there's actual content
+            if has_functions || has_structs {
+                if has_functions {
+                    quote_in!(index_tokens => export * from "./functions.js";$['\n']);
+                }
+                
+                if has_structs {
+                    quote_in!(index_tokens => export * from "./structs.js";$['\n']);
+                }
+            }
+            
+            // Always write the index file, even if empty
+            // This ensures that package index.ts can import all modules
+            if index_tokens.is_empty() {
+                // Create an empty file if there are no exports
+                std::fs::File::create(&module_path.join("index.ts"))?;
+            } else {
+                write_tokens_to_file(&index_tokens, &module_path.join("index.ts"))?;
+            }
         }
     }
 
+    Ok(())
+}
+
+fn gen_root_index(
+    source_top_level_addr_map: &BTreeMap<AccountAddress, Symbol>,
+    on_chain_top_level_addr_map: &BTreeMap<AccountAddress, Symbol>,
+    out_root: &Path,
+) -> Result<()> {
+    let mut index_tokens = js::Tokens::new();
+    
+    // Combine both maps to get all top-level packages
+    let mut all_packages: BTreeMap<AccountAddress, Symbol> = BTreeMap::new();
+    all_packages.extend(source_top_level_addr_map);
+    all_packages.extend(on_chain_top_level_addr_map);
+    
+    // Sort packages by name for consistent output
+    let mut packages: Vec<(AccountAddress, Symbol)> = all_packages.into_iter().collect();
+    packages.sort_by_key(|(_, name)| *name);
+    
+    // Export each package
+    for (_addr, pkg_name) in &packages {
+        let import_name = package_import_name(*pkg_name);
+        if import_name.contains('-') {
+            quote_in!(index_tokens => export * as $[str]($[const](import_name.clone())) from $[str]($[const](format!("./{}/index.js", import_name)));$['\n']);
+        } else {
+            quote_in!(index_tokens => export * as $(&import_name) from $[str]($[const](format!("./{}/index.js", import_name)));$['\n']);
+        }
+    }
+    
+    // Add empty line before constants
+    quote_in!(index_tokens => $['\n']);
+    
+    // Export top-level constants
+    for (_addr, pkg_name) in &packages {
+        let import_name = package_import_name(*pkg_name);
+        let const_name = format!("{}_PACKAGE_ID", pkg_name.to_string().to_uppercase());
+        quote_in!(index_tokens => export { PACKAGE_ID as $(&const_name) } from $[str]($[const](format!("./{}/constants.js", import_name)));$['\n']);
+    }
+    
+    write_tokens_to_file(&index_tokens, &out_root.join("index.ts"))?;
+    
     Ok(())
 }

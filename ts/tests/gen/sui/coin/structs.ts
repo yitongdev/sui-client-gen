@@ -26,7 +26,7 @@ import { String as String1 } from "../../move-stdlib/ascii/structs.js";
 import { Option } from "../../move-stdlib/option/structs.js";
 import { String } from "../../move-stdlib/string/structs.js";
 import { Balance, Supply } from "../balance/structs.js";
-import { PKG_V31 } from "../index.js";
+import { PKG_V31 } from "../constants.js";
 import { ID, UID } from "../object/structs.js";
 import { Url } from "../url/structs.js";
 import { bcs } from "@mysten/sui/bcs";

@@ -8,7 +8,7 @@ import {
 import { Option } from "../../move-stdlib-chain/option/structs.js";
 import { String } from "../../move-stdlib-chain/string/structs.js";
 import { Balance } from "../balance/structs.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import {
   Transaction,
   TransactionArgument,

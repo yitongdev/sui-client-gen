@@ -1,6 +1,6 @@
 import { String } from "../../_dependencies/source/0x1/ascii/structs.js";
 import { obj, pure } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import {
   Transaction,
   TransactionArgument,

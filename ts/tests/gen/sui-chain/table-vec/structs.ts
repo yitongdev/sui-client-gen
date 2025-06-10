@@ -22,7 +22,7 @@ import {
   compressSuiType,
   parseTypeName,
 } from "../../_framework/util.js";
-import { PKG_V31 } from "../index.js";
+import { PKG_V31 } from "../constants.js";
 import { Table } from "../table/structs.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";

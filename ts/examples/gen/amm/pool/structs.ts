@@ -27,7 +27,7 @@ import {
 import { Balance, Supply } from "../../sui/balance/structs.js";
 import { ID, UID } from "../../sui/object/structs.js";
 import { Table } from "../../sui/table/structs.js";
-import { PKG_V1 } from "../index.js";
+import { PKG_V1 } from "../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
 import { fromBase64 } from "@mysten/sui/utils";

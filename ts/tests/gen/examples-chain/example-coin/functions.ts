@@ -1,5 +1,5 @@
 import { obj } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import { Transaction, TransactionObjectInput } from "@mysten/sui/transactions";
 
 export function init(tx: Transaction, exampleCoin: TransactionObjectInput) {

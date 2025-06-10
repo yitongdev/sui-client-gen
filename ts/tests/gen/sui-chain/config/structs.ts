@@ -26,7 +26,7 @@ import {
   parseTypeName,
 } from "../../_framework/util.js";
 import { Option } from "../../move-stdlib-chain/option/structs.js";
-import { PKG_V31 } from "../index.js";
+import { PKG_V31 } from "../constants.js";
 import { UID } from "../object/structs.js";
 import { BcsType, bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";

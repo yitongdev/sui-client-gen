@@ -1,6 +1,6 @@
 import { obj, pure, vector } from "../../_framework/util.js";
 import { String } from "../../move-stdlib/string/structs.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import { ActiveJwk } from "./structs.js";
 import {
   Transaction,

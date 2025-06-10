@@ -1,8 +1,9 @@
-export const PACKAGE_ID =
-  "0x8b699fdce543505aeb290ee1b6b5d20fcaa8e8b1a5fc137a8b3facdfa2902209";
-export const PUBLISHED_AT =
-  "0x75818a1083fface3dec10fc5f7466d3adafe7bcf2485248160ea4bb17b8afabe";
-export const PKG_V2 =
-  "0x75818a1083fface3dec10fc5f7466d3adafe7bcf2485248160ea4bb17b8afabe";
-export const PKG_V1 =
-  "0x8b699fdce543505aeb290ee1b6b5d20fcaa8e8b1a5fc137a8b3facdfa2902209";
+export * as example_coin from "./example-coin/index.js";
+
+export * as examples from "./examples/index.js";
+
+export * as fixture from "./fixture/index.js";
+
+export * as other_module from "./other-module/index.js";
+
+export * from "./constants.js";

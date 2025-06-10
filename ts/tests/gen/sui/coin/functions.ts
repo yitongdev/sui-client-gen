@@ -7,7 +7,7 @@ import {
 } from "../../_framework/util.js";
 import { String as String1 } from "../../move-stdlib/ascii/structs.js";
 import { String } from "../../move-stdlib/string/structs.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import { Url } from "../url/structs.js";
 import {
   Transaction,

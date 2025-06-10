@@ -4,7 +4,7 @@ import {
   option,
   option as option_,
 } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import { Transaction, TransactionArgument } from "@mysten/sui/transactions";
 
 export function none(tx: Transaction, typeArg: string) {

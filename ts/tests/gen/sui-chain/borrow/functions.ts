@@ -1,5 +1,5 @@
 import { GenericArg, generic, obj } from "../../_framework/util.js";
-import { PUBLISHED_AT } from "../index.js";
+import { PUBLISHED_AT } from "../constants.js";
 import { Transaction, TransactionObjectInput } from "@mysten/sui/transactions";
 
 export function new_(tx: Transaction, typeArg: string, t0: GenericArg) {
