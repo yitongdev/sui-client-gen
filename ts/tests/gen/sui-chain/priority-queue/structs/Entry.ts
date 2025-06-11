@@ -162,7 +162,7 @@ export class Entry<T0 extends TypeArgument> implements StructClass {
   toJSONField() {
     return {
       priority: this.priority.toString(),
-      value: fieldToJSON<T0>(this.$typeArgs[0], this.value),
+      value: fieldToJSON<T0>(this.$typeArgs?.[0], this.value),
     };
   }
 

@@ -17,9 +17,7 @@ export interface CreateSpecialInVectorsArgs {
   vecString2: Array<string | TransactionArgument> | TransactionArgument;
   vecId: Array<string | TransactionArgument> | TransactionArgument;
   vecBar: Array<TransactionObjectInput> | TransactionArgument;
-  vecOption1:
-    | Array<bigint | TransactionArgument | TransactionArgument | null>
-    | TransactionArgument;
+  vecOption1: Array<bigint | TransactionArgument | null> | TransactionArgument;
   vecOption2:
     | Array<GenericArg | TransactionArgument | null>
     | TransactionArgument;

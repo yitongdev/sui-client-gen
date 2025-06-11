@@ -19,9 +19,9 @@ export interface CreateSpecialArgs {
   idField: string | TransactionArgument;
   uid: TransactionObjectInput;
   balance: TransactionObjectInput;
-  option: bigint | TransactionArgument | TransactionArgument | null;
+  option: bigint | TransactionArgument | null;
   optionObj: TransactionObjectInput | TransactionArgument | null;
-  optionNone: bigint | TransactionArgument | TransactionArgument | null;
+  optionNone: bigint | TransactionArgument | null;
   balanceGeneric: TransactionObjectInput;
   optionGeneric: GenericArg | TransactionArgument | null;
   optionGenericNone: GenericArg | TransactionArgument | null;

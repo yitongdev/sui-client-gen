@@ -165,7 +165,7 @@ export class Setting<T0 extends TypeArgument> implements StructClass {
   toJSONField() {
     return {
       data: fieldToJSON<Option<SettingData1<T0>>>(
-        `${Option.$typeName}<${SettingData1.$typeName}<${this.$typeArgs[0]}>>`,
+        `${Option.$typeName}<${SettingData1.$typeName}<${this.$typeArgs?.[0]}>>`,
         this.data,
       ),
     };

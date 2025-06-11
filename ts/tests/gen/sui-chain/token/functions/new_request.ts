@@ -13,7 +13,7 @@ import {
 export interface NewRequestArgs {
   string: string | TransactionArgument;
   u64: bigint | TransactionArgument;
-  option1: string | TransactionArgument | TransactionArgument | null;
+  option1: string | TransactionArgument | null;
   option2: TransactionObjectInput | TransactionArgument | null;
 }
 

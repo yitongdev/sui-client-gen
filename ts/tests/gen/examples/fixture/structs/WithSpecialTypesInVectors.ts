@@ -252,7 +252,7 @@ export class WithSpecialTypesInVectors<T extends TypeArgument>
         this.option,
       ),
       optionGeneric: fieldToJSON<Vector<Option<T>>>(
-        `vector<${Option.$typeName}<${this.$typeArgs[0]}>>`,
+        `vector<${Option.$typeName}<${this.$typeArgs?.[0]}>>`,
         this.optionGeneric,
       ),
     };

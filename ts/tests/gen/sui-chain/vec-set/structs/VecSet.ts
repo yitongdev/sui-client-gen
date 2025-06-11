@@ -162,7 +162,7 @@ export class VecSet<T0 extends TypeArgument> implements StructClass {
   toJSONField() {
     return {
       contents: fieldToJSON<Vector<T0>>(
-        `vector<${this.$typeArgs[0]}>`,
+        `vector<${this.$typeArgs?.[0]}>`,
         this.contents,
       ),
     };

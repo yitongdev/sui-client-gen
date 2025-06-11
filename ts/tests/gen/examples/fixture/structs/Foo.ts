@@ -337,7 +337,7 @@ export class Foo<T extends TypeArgument> implements StructClass {
   toJSONField() {
     return {
       id: this.id,
-      generic: fieldToJSON<T>(this.$typeArgs[0], this.generic),
+      generic: fieldToJSON<T>(this.$typeArgs?.[0], this.generic),
       reifiedPrimitiveVec: fieldToJSON<Vector<"u64">>(
         `vector<u64>`,
         this.reifiedPrimitiveVec,
@@ -347,11 +347,11 @@ export class Foo<T extends TypeArgument> implements StructClass {
         this.reifiedObjectVec,
       ),
       genericVec: fieldToJSON<Vector<T>>(
-        `vector<${this.$typeArgs[0]}>`,
+        `vector<${this.$typeArgs?.[0]}>`,
         this.genericVec,
       ),
       genericVecNested: fieldToJSON<Vector<WithTwoGenerics1<T, "u8">>>(
-        `vector<${WithTwoGenerics1.$typeName}<${this.$typeArgs[0]}, u8>>`,
+        `vector<${WithTwoGenerics1.$typeName}<${this.$typeArgs?.[0]}, u8>>`,
         this.genericVecNested,
       ),
       twoGenerics: this.twoGenerics.toJSONField(),
@@ -363,7 +363,7 @@ export class Foo<T extends TypeArgument> implements StructClass {
       twoGenericsNestedVec: fieldToJSON<
         Vector<WithTwoGenerics1<Bar1, Vector<WithTwoGenerics1<T, "u8">>>>
       >(
-        `vector<${WithTwoGenerics1.$typeName}<${Bar1.$typeName}, vector<${WithTwoGenerics1.$typeName}<${this.$typeArgs[0]}, u8>>>>`,
+        `vector<${WithTwoGenerics1.$typeName}<${Bar1.$typeName}, vector<${WithTwoGenerics1.$typeName}<${this.$typeArgs?.[0]}, u8>>>>`,
         this.twoGenericsNestedVec,
       ),
       dummy: this.dummy.toJSONField(),

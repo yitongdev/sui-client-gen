@@ -174,7 +174,7 @@ export class WithGenericField<T0 extends TypeArgument> implements StructClass {
   toJSONField() {
     return {
       id: this.id,
-      genericField: fieldToJSON<T0>(this.$typeArgs[0], this.genericField),
+      genericField: fieldToJSON<T0>(this.$typeArgs?.[0], this.genericField),
     };
   }
 

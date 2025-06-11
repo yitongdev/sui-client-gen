@@ -1279,14 +1279,12 @@ test("fails when fetching mismatch reified type", async () => {
   }
   const id = created.reference.objectId;
 
-  await expect(
+  expect(
     WithSpecialTypes.r(phantom("u8"), "u8").fetch(client, id),
   ).rejects.toThrow(
     `type argument mismatch at position 0: expected 'u8' but got '0x2::sui::SUI'`,
   );
-  await expect(
-    WithSpecialTypes.r(SUI.p, "u8").fetch(client, id),
-  ).rejects.toThrow(
+  expect(WithSpecialTypes.r(SUI.p, "u8").fetch(client, id)).rejects.toThrow(
     `type argument mismatch at position 1: expected 'u8' but got 'u64'`,
   );
 });
@@ -1338,7 +1336,7 @@ describe("handles function calls with vector arguments correctly", () => {
     expect(obj.genericField).toEqual([3, 4]);
   });
 
-  test("throws when mixing primitive and TransactionArgument values", async () => {
+  test("throws when mixing primitive and TransactionArgument values", () => {
     const tx = new Transaction();
 
     expect(() => {
@@ -1373,7 +1371,7 @@ describe("handles function calls with vector arguments correctly", () => {
     expect(obj.genericField).toEqual([3n, 6n]);
   });
 
-  test("throws when mixing primitive and command result values", async () => {
+  test("throws when mixing primitive and command result values", () => {
     const tx = new Transaction();
     const val = sqrt(tx, 36n);
     expect(() => {
@@ -1414,7 +1412,7 @@ describe("handles function calls with vector arguments correctly", () => {
     expect(obj.genericField).toEqual([3, 4, 7]);
   });
 
-  test("throws when mixing primitive and intent values", async () => {
+  test("throws when mixing primitive and intent values", () => {
     const tx = new Transaction();
 
     const intent = (tx: Transaction) => tx.pure.u8(3);
@@ -1479,7 +1477,7 @@ describe("handles function calls with option arguments correctly", () => {
     expect(obj.genericField).toEqual([3, 4]);
   });
 
-  test("throws when mixing primitive and TransactionArgument values", async () => {
+  test("throws when mixing primitive and TransactionArgument values", () => {
     const tx = new Transaction();
 
     expect(() => {

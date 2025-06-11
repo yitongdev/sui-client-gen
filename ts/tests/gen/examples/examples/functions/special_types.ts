@@ -19,8 +19,8 @@ export interface SpecialTypesArgs {
   vectorOfObjects: Array<TransactionObjectInput> | TransactionArgument;
   idField: string | TransactionArgument;
   address: string | TransactionArgument;
-  optionSome: bigint | TransactionArgument | TransactionArgument | null;
-  optionNone: bigint | TransactionArgument | TransactionArgument | null;
+  optionSome: bigint | TransactionArgument | null;
+  optionNone: bigint | TransactionArgument | null;
 }
 
 /**

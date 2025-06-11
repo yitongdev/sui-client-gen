@@ -11,7 +11,7 @@ import {
 export interface WithdrawArgs {
   transferPolicy: TransactionObjectInput;
   transferPolicyCap: TransactionObjectInput;
-  option: bigint | TransactionArgument | TransactionArgument | null;
+  option: bigint | TransactionArgument | null;
 }
 
 /**

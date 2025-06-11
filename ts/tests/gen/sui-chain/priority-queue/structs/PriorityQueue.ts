@@ -172,7 +172,7 @@ export class PriorityQueue<T0 extends TypeArgument> implements StructClass {
   toJSONField() {
     return {
       entries: fieldToJSON<Vector<Entry1<T0>>>(
-        `vector<${Entry1.$typeName}<${this.$typeArgs[0]}>>`,
+        `vector<${Entry1.$typeName}<${this.$typeArgs?.[0]}>>`,
         this.entries,
       ),
     };

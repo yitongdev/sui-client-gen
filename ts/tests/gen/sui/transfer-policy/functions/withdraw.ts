@@ -11,7 +11,7 @@ import {
 export interface WithdrawArgs {
   self: TransactionObjectInput;
   cap: TransactionObjectInput;
-  amount: bigint | TransactionArgument | TransactionArgument | null;
+  amount: bigint | TransactionArgument | null;
 }
 
 /**

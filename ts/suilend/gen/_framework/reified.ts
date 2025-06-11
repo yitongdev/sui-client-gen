@@ -117,7 +117,10 @@ export function phantom<P extends PhantomTypeArgument>(
   phantomType: P,
 ): PhantomReified<P>;
 export function phantom(
-  type: string | Reified<TypeArgument, any>,
+  type:
+    | StructClassReified<StructClass, any>
+    | VectorClassReified<VectorClass, any>
+    | string,
 ): PhantomReified<string> {
   if (typeof type === "string") {
     return {
@@ -421,7 +424,7 @@ export function fieldToJSON<T extends TypeArgument>(
     case "u64":
     case "u128":
     case "u256":
-      return field.toString() as any;
+      return field.toString();
     case "address":
     case "signer":
       return field as any;

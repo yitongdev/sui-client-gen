@@ -156,7 +156,7 @@ export class Wrapper<T0 extends TypeArgument> implements StructClass {
 
   toJSONField() {
     return {
-      name: fieldToJSON<T0>(this.$typeArgs[0], this.name),
+      name: fieldToJSON<T0>(this.$typeArgs?.[0], this.name),
     };
   }
 

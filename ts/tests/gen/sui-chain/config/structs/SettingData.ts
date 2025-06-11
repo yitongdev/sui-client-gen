@@ -189,11 +189,11 @@ export class SettingData<T0 extends TypeArgument> implements StructClass {
     return {
       newerValueEpoch: this.newerValueEpoch.toString(),
       newerValue: fieldToJSON<Option<T0>>(
-        `${Option.$typeName}<${this.$typeArgs[0]}>`,
+        `${Option.$typeName}<${this.$typeArgs?.[0]}>`,
         this.newerValue,
       ),
       olderValueOpt: fieldToJSON<Option<T0>>(
-        `${Option.$typeName}<${this.$typeArgs[0]}>`,
+        `${Option.$typeName}<${this.$typeArgs?.[0]}>`,
         this.olderValueOpt,
       ),
     };

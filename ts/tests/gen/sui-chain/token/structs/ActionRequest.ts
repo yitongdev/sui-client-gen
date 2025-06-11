@@ -228,7 +228,7 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
         this.recipient,
       ),
       spentBalance: fieldToJSON<Option<Balance<T0>>>(
-        `${Option.$typeName}<${Balance.$typeName}<${this.$typeArgs[0]}>>`,
+        `${Option.$typeName}<${Balance.$typeName}<${this.$typeArgs?.[0]}>>`,
         this.spentBalance,
       ),
       approvals: this.approvals.toJSONField(),

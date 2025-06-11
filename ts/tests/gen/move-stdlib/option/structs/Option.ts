@@ -164,7 +164,7 @@ export class Option<Element extends TypeArgument> implements StructClass {
   toJSONField() {
     return {
       vec: fieldToJSON<Vector<Element>>(
-        `vector<${this.$typeArgs[0]}>`,
+        `vector<${this.$typeArgs?.[0]}>`,
         this.vec,
       ),
     };

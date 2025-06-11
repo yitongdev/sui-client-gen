@@ -13,7 +13,7 @@ import {
 export interface NewRequestArgs {
   name: string | TransactionArgument;
   amount: bigint | TransactionArgument;
-  recipient: string | TransactionArgument | TransactionArgument | null;
+  recipient: string | TransactionArgument | null;
   spentBalance: TransactionObjectInput | TransactionArgument | null;
 }
 

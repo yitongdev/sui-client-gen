@@ -174,7 +174,7 @@ export class Referent<T extends TypeArgument> implements StructClass {
     return {
       id: this.id,
       value: fieldToJSON<Option<T>>(
-        `${Option.$typeName}<${this.$typeArgs[0]}>`,
+        `${Option.$typeName}<${this.$typeArgs?.[0]}>`,
         this.value,
       ),
     };

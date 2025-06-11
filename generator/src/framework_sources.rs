@@ -622,7 +622,7 @@ export function phantom<T extends Reified<TypeArgument, any>>(
   reified: T
 ): PhantomReified<ToTypeStr<ToTypeArgument<T>>>
 export function phantom<P extends PhantomTypeArgument>(phantomType: P): PhantomReified<P>
-export function phantom(type: string | Reified<TypeArgument, any>): PhantomReified<string> {
+export function phantom(type: StructClassReified<StructClass, any> | VectorClassReified<VectorClass, any> | string): PhantomReified<string> {
   if (typeof type === 'string') {
     return {
       phantomType: type,

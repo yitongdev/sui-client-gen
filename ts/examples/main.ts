@@ -89,7 +89,7 @@ async function fetchPoolCreationEvents() {
     },
   });
   res.data.map((e) => {
-    console.log(PoolCreationEvent.fromBcs(fromB64(e.bcs!)));
+    console.log(PoolCreationEvent.fromBcs(fromB64(e.bcs)));
   });
 }
 

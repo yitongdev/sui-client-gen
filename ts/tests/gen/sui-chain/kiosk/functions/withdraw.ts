@@ -11,7 +11,7 @@ import {
 export interface WithdrawArgs {
   kiosk: TransactionObjectInput;
   kioskOwnerCap: TransactionObjectInput;
-  option: bigint | TransactionArgument | TransactionArgument | null;
+  option: bigint | TransactionArgument | null;
 }
 
 /**
