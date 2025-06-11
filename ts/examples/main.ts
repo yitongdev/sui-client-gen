@@ -103,10 +103,15 @@ async function fetchPoolRegistryItems() {
     parentId: registry.table.id,
   });
 
+  const firstField = fields.data[0];
+  if (!firstField) {
+    throw new Error("No dynamic fields found");
+  }
+
   const item = await Field.fetch(
     client,
     [PoolRegistryItem.reified(), "bool"],
-    fields.data[0].objectId,
+    firstField.objectId,
   );
   console.log(item);
 }

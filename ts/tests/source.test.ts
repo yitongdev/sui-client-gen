@@ -143,7 +143,11 @@ test("creates and decodes an object with object as type param", async () => {
     digest: res.digest,
   });
 
-  const id = res.effects!.created![0].reference.objectId;
+  const created = res.effects?.created?.[0];
+  if (!created) {
+    throw new Error("No objects were created");
+  }
+  const id = created.reference.objectId;
 
   const foo = await client.getObject({
     id,
@@ -333,7 +337,11 @@ test("creates and decodes Foo with vector of objects as type param", async () =>
     digest: res.digest,
   });
 
-  const id = res.effects!.created![0].reference.objectId;
+  const created = res.effects?.created?.[0];
+  if (!created) {
+    throw new Error("No objects were created");
+  }
+  const id = created.reference.objectId;
 
   const foo = await client.getObject({
     id,
@@ -463,7 +471,11 @@ test("decodes special-cased types correctly", async () => {
     digest: res.digest,
   });
 
-  const id = res.effects!.created![0].reference.objectId;
+  const created = res.effects?.created?.[0];
+  if (!created) {
+    throw new Error("No objects were created");
+  }
+  const id = created.reference.objectId;
 
   const obj = await client.getObject({
     id,
@@ -567,7 +579,11 @@ test("decodes special-cased types as generics correctly", async () => {
     digest: res.digest,
   });
 
-  const id = res.effects!.created![0].reference.objectId;
+  const created = res.effects?.created?.[0];
+  if (!created) {
+    throw new Error("No objects were created");
+  }
+  const id = created.reference.objectId;
 
   const obj = await client.getObject({
     id,
@@ -662,7 +678,11 @@ test("calls function correctly when special types are used", async () => {
     digest: res.digest,
   });
 
-  const id = res.effects!.created![0].reference.objectId;
+  const created = res.effects?.created?.[0];
+  if (!created) {
+    throw new Error("No objects were created");
+  }
+  const id = created.reference.objectId;
 
   const obj = await client.getObject({
     id,
@@ -679,13 +699,11 @@ test("calls function correctly when special types are used", async () => {
     throw new Error(`not a moveObject`);
   }
 
+  const [, secondArg] = reifiedArgs;
   expect(
-    WithSpecialTypes.fromFieldsWithTypes(
-      [SUI.p, reifiedArgs[1]],
-      obj.data.content,
-    ),
+    WithSpecialTypes.fromFieldsWithTypes([SUI.p, secondArg], obj.data.content),
   ).toEqual(
-    WithSpecialTypes.r(SUI.p, reifiedArgs[1]).new({
+    WithSpecialTypes.r(SUI.p, secondArg).new({
       id,
       string: "string",
       asciiString: "ascii",
@@ -761,7 +779,11 @@ test("calls function correctly when special types are used as generics", async (
     digest: res.digest,
   });
 
-  const id = res.effects!.created![0].reference.objectId;
+  const created = res.effects?.created?.[0];
+  if (!created) {
+    throw new Error("No objects were created");
+  }
+  const id = created.reference.objectId;
 
   const obj = await client.getObject({
     id,
@@ -821,7 +843,11 @@ test("calls function correctly when special types are used as as vectors", async
     digest: res.digest,
   });
 
-  const id = res.effects!.created![0].reference.objectId;
+  const created = res.effects?.created?.[0];
+  if (!created) {
+    throw new Error("No objects were created");
+  }
+  const id = created.reference.objectId;
 
   const obj = await client.getObject({
     id,
@@ -897,7 +923,11 @@ test("loads with loader correctly", async () => {
     digest: res.digest,
   });
 
-  const id = res.effects!.created![0].reference.objectId;
+  const created = res.effects?.created?.[0];
+  if (!created) {
+    throw new Error("No objects were created");
+  }
+  const id = created.reference.objectId;
 
   const obj = await client.getObject({
     id,
@@ -1104,7 +1134,11 @@ test("decodes address field correctly", async () => {
     digest: res.digest,
   });
 
-  const id = res.effects!.created![0].reference.objectId;
+  const created = res.effects?.created?.[0];
+  if (!created) {
+    throw new Error("No objects were created");
+  }
+  const id = created.reference.objectId;
 
   const foo = await client.getObject({
     id,
@@ -1239,7 +1273,11 @@ test("fails when fetching mismatch reified type", async () => {
   await client.waitForTransaction({
     digest: res.digest,
   });
-  const id = res.effects!.created![0].reference.objectId;
+  const created = res.effects?.created?.[0];
+  if (!created) {
+    throw new Error("No objects were created");
+  }
+  const id = created.reference.objectId;
 
   await expect(
     WithSpecialTypes.r(phantom("u8"), "u8").fetch(client, id),
@@ -1268,7 +1306,11 @@ describe("handles function calls with vector arguments correctly", () => {
     await client.waitForTransaction({
       digest: txRes.digest,
     });
-    const id = txRes.effects!.created![0].reference.objectId;
+    const created = txRes.effects?.created?.[0];
+    if (!created) {
+      throw new Error("No objects were created");
+    }
+    const id = created.reference.objectId;
     const obj = await WithGenericField.r(vector("u8")).fetch(client, id);
     expect(obj.genericField).toEqual([3, 4]);
   });
@@ -1287,7 +1329,11 @@ describe("handles function calls with vector arguments correctly", () => {
     await client.waitForTransaction({
       digest: txRes.digest,
     });
-    const id = txRes.effects!.created![0].reference.objectId;
+    const created = txRes.effects?.created?.[0];
+    if (!created) {
+      throw new Error("No objects were created");
+    }
+    const id = created.reference.objectId;
     const obj = await WithGenericField.r(vector("u8")).fetch(client, id);
     expect(obj.genericField).toEqual([3, 4]);
   });
@@ -1318,7 +1364,11 @@ describe("handles function calls with vector arguments correctly", () => {
     await client.waitForTransaction({
       digest: txRes.digest,
     });
-    const id = txRes.effects!.created![0].reference.objectId;
+    const created = txRes.effects?.created?.[0];
+    if (!created) {
+      throw new Error("No objects were created");
+    }
+    const id = created.reference.objectId;
     const obj = await WithGenericField.r(vector("u64")).fetch(client, id);
     expect(obj.genericField).toEqual([3n, 6n]);
   });
@@ -1355,7 +1405,11 @@ describe("handles function calls with vector arguments correctly", () => {
     await client.waitForTransaction({
       digest: txRes.digest,
     });
-    const id = txRes.effects!.created![0].reference.objectId;
+    const created = txRes.effects?.created?.[0];
+    if (!created) {
+      throw new Error("No objects were created");
+    }
+    const id = created.reference.objectId;
     const obj = await WithGenericField.r(vector("u8")).fetch(client, id);
     expect(obj.genericField).toEqual([3, 4, 7]);
   });
@@ -1387,7 +1441,11 @@ describe("handles function calls with option arguments correctly", () => {
     await client.waitForTransaction({
       digest: txRes.digest,
     });
-    const id = txRes.effects!.created![0].reference.objectId;
+    const created = txRes.effects?.created?.[0];
+    if (!created) {
+      throw new Error("No objects were created");
+    }
+    const id = created.reference.objectId;
     const obj = await WithGenericField.r(Option.r("u8")).fetch(client, id);
     expect(obj.genericField).toEqual(3);
   });
@@ -1409,7 +1467,11 @@ describe("handles function calls with option arguments correctly", () => {
     await client.waitForTransaction({
       digest: txRes.digest,
     });
-    const id = txRes.effects!.created![0].reference.objectId;
+    const created = txRes.effects?.created?.[0];
+    if (!created) {
+      throw new Error("No objects were created");
+    }
+    const id = created.reference.objectId;
     const obj = await WithGenericField.r(Option.r(vector("u8"))).fetch(
       client,
       id,
@@ -1444,7 +1506,11 @@ describe("handles function calls with option arguments correctly", () => {
     await client.waitForTransaction({
       digest: txRes.digest,
     });
-    const id = txRes.effects!.created![0].reference.objectId;
+    const created = txRes.effects?.created?.[0];
+    if (!created) {
+      throw new Error("No objects were created");
+    }
+    const id = created.reference.objectId;
     const obj = await WithGenericField.r(Option.r("u8")).fetch(client, id);
     expect(obj.genericField).toEqual(null);
   });
@@ -1463,7 +1529,11 @@ describe("handles function calls with option arguments correctly", () => {
     await client.waitForTransaction({
       digest: txRes.digest,
     });
-    const id = txRes.effects!.created![0].reference.objectId;
+    const created = txRes.effects?.created?.[0];
+    if (!created) {
+      throw new Error("No objects were created");
+    }
+    const id = created.reference.objectId;
     const obj = await WithGenericField.r(Option.r("u8")).fetch(client, id);
     expect(obj.genericField).toEqual(null);
   });
@@ -1486,7 +1556,11 @@ describe("handles function calls with option arguments correctly", () => {
     await client.waitForTransaction({
       digest: txRes.digest,
     });
-    const id = txRes.effects!.created![0].reference.objectId;
+    const created = txRes.effects?.created?.[0];
+    if (!created) {
+      throw new Error("No objects were created");
+    }
+    const id = created.reference.objectId;
     const obj = await WithGenericField.r(
       Option.r(vector(Option.r("u8"))),
     ).fetch(client, id);
