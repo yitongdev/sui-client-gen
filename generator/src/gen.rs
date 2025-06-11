@@ -1029,11 +1029,37 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> FunctionsGen<'a, 'model, HAS_SOUR
             tokens.append(format!(" * @param {} - Function parameter", name));
         }
         
+        // Add return type documentation
+        if let Some(compiled) = self.func.maybe_compiled() {
+            let returns = &compiled.returns;
+            if !returns.is_empty() {
+                tokens.push();
+                tokens.append(" * @returns TransactionResult - The transaction result");
+            }
+        }
+        
         tokens.push();
         tokens.append(" */");
         tokens.push();
         
         Ok(())
+    }
+
+    /// Generates the return type annotation for a function.
+    fn gen_return_type(&mut self) -> js::Tokens {
+        let transaction_result = &js::import("@mysten/sui/transactions", "TransactionResult");
+        
+        // Get the return types from the compiled function
+        if let Some(compiled) = self.func.maybe_compiled() {
+            let _returns = &compiled.returns;
+            
+            // For now, always return TransactionResult as the SDK doesn't expose
+            // the tuple types directly. The destructuring happens at runtime.
+            quote!($transaction_result)
+        } else {
+            // Fallback for functions without compiled representation
+            quote!($transaction_result)
+        }
     }
 
     /// Generates a function binding for a function.
@@ -1068,7 +1094,7 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> FunctionsGen<'a, 'model, HAS_SOUR
                     1 => $(convert_reserved_if_needed(&param_field_names[0].0)): $(self.param_type_to_field_type(&param_field_names[0].1)),
                     _ => args: $(self.fun_arg_if_name())
                 })
-            ) {
+            ): $(self.gen_return_type()) {
                 return tx.moveCall({
                     target: $[str]($($published_at)::$[const](func_full_name(&self.func))),
                     $(match type_arg_count {
