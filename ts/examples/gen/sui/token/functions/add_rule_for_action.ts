@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface AddRuleForActionArgs {
@@ -29,7 +30,7 @@ export function addRuleForAction(
   tx: Transaction,
   typeArgs: [string, string],
   args: AddRuleForActionArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::token::add_rule_for_action`,
     typeArguments: typeArgs,

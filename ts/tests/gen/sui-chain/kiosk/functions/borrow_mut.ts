@@ -1,0 +1,42 @@
+import { obj, pure } from "../../../_framework/util.js";
+import { PUBLISHED_AT } from "../../constants.js";
+import { ID } from "../../object/structs/index.js";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionObjectInput,
+  TransactionResult,
+} from "@mysten/sui/transactions";
+
+export interface BorrowMutArgs {
+  kiosk: TransactionObjectInput;
+  kioskOwnerCap: TransactionObjectInput;
+  id: string | TransactionArgument;
+}
+
+/**
+ * Move function: `borrow_mut`
+ * Module: `0000000000000000000000000000000000000000000000000000000000000002::kiosk`
+ *
+ * @typeParam T0 - Type parameter 0
+ * @param tx - The transaction object
+ * @param kiosk - Function parameter
+ * @param kioskOwnerCap - Function parameter
+ * @param id - Function parameter
+ * @returns TransactionResult - The transaction result
+ */
+export function borrowMut(
+  tx: Transaction,
+  typeArg: string,
+  args: BorrowMutArgs,
+): TransactionResult {
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::kiosk::borrow_mut`,
+    typeArguments: [typeArg],
+    arguments: [
+      obj(tx, args.kiosk),
+      obj(tx, args.kioskOwnerCap),
+      pure(tx, args.id, `${ID.$typeName}`),
+    ],
+  });
+}

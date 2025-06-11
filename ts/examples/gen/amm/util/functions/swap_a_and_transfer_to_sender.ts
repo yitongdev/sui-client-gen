@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface SwapAAndTransferToSenderArgs {
@@ -28,7 +29,7 @@ export function swapAAndTransferToSender(
   tx: Transaction,
   typeArgs: [string, string],
   args: SwapAAndTransferToSenderArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::swap_a_and_transfer_to_sender`,
     typeArguments: typeArgs,

@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface NewWithFieldsArgs {
@@ -23,12 +24,13 @@ export interface NewWithFieldsArgs {
  * @param fields - Function parameter
  * @param values - Function parameter
  * @param ctx - Function parameter
+ * @returns TransactionResult - The transaction result
  */
 export function newWithFields(
   tx: Transaction,
   typeArg: string,
   args: NewWithFieldsArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::display::new_with_fields`,
     typeArguments: [typeArg],

@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface SwapAArgs {
@@ -22,12 +23,13 @@ export interface SwapAArgs {
  * @param pool - Function parameter
  * @param input - Function parameter
  * @param minOut - Function parameter
+ * @returns TransactionResult - The transaction result
  */
 export function swapA(
   tx: Transaction,
   typeArgs: [string, string],
   args: SwapAArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pool::swap_a`,
     typeArguments: typeArgs,

@@ -7,6 +7,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface NewRequestArgs {
@@ -27,12 +28,13 @@ export interface NewRequestArgs {
  * @param recipient - Function parameter
  * @param spentBalance - Function parameter
  * @param ctx - Function parameter
+ * @returns TransactionResult - The transaction result
  */
 export function newRequest(
   tx: Transaction,
   typeArg: string,
   args: NewRequestArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::token::new_request`,
     typeArguments: [typeArg],

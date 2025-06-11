@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface AddArgs {
@@ -23,7 +24,11 @@ export interface AddArgs {
  * @param name - Function parameter
  * @param value - Function parameter
  */
-export function add(tx: Transaction, typeArg: string, args: AddArgs) {
+export function add(
+  tx: Transaction,
+  typeArg: string,
+  args: AddArgs,
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::display::add`,
     typeArguments: [typeArg],

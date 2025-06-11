@@ -1,3 +1,3 @@
-export * from "./functions.js";
+export * from "./functions/index.js";
 
-export * from "./structs.js";
+export * from "./structs/index.js";

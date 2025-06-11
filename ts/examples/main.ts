@@ -2,27 +2,27 @@ import { Ed25519Keypair } from "@mysten/sui/keypairs/ed25519";
 import { fromB64, normalizeSuiAddress } from "@mysten/sui/utils";
 import { SuiClient } from "@mysten/sui/client";
 import { Transaction } from "@mysten/sui/transactions";
-import { createPoolWithCoins } from "./gen/amm/util/functions.js";
+import { createPoolWithCoins } from "./gen/amm/util/functions/index.js";
 import { PACKAGE_ID as EXAMPLES_PACKAGE_ID } from "./gen/examples/index.js";
-import { faucetMint } from "./gen/examples/example-coin/functions.js";
+import { faucetMint } from "./gen/examples/example-coin/functions/index.js";
 import { Command } from "commander";
 import {
   Pool,
   PoolCreationEvent,
   PoolRegistry,
   PoolRegistryItem,
-} from "./gen/amm/pool/structs.js";
-import { createWithGenericField } from "./gen/examples/fixture/functions.js";
-import { WithGenericField } from "./gen/examples/fixture/structs.js";
-import { Field } from "./gen/sui/dynamic-field/structs.js";
-import { EXAMPLE_COIN } from "./gen/examples/example-coin/structs.js";
+} from "./gen/amm/pool/structs/index.js";
+import { createWithGenericField } from "./gen/examples/fixture/functions/index.js";
+import { WithGenericField } from "./gen/examples/fixture/structs/index.js";
+import { Field } from "./gen/sui/dynamic-field/structs/index.js";
+import { EXAMPLE_COIN } from "./gen/examples/example-coin/structs/index.js";
 import {
   createExampleStruct,
   specialTypes,
-} from "./gen/examples/examples/functions.js";
+} from "./gen/examples/examples/functions/index.js";
 import { bcs } from "@mysten/sui/bcs";
-import { ExampleStruct } from "./gen/examples/examples/structs.js";
-import { SUI } from "./gen/sui/sui/structs.js";
+import { ExampleStruct } from "./gen/examples/examples/structs/index.js";
+import { SUI } from "./gen/sui/sui/structs/index.js";
 import { vector } from "./gen/_framework/reified.js";
 
 const EXAMPLE_COIN_FAUCET_ID =

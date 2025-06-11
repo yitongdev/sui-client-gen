@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface RemoveRuleForActionArgs {
@@ -29,7 +30,7 @@ export function removeRuleForAction(
   tx: Transaction,
   typeArgs: [string, string],
   args: RemoveRuleForActionArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::token::remove_rule_for_action`,
     typeArguments: typeArgs,

@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface DisallowArgs {
@@ -24,7 +25,11 @@ export interface DisallowArgs {
  * @param action - Function parameter
  * @param ctx - Function parameter
  */
-export function disallow(tx: Transaction, typeArg: string, args: DisallowArgs) {
+export function disallow(
+  tx: Transaction,
+  typeArg: string,
+  args: DisallowArgs,
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::token::disallow`,
     typeArguments: [typeArg],

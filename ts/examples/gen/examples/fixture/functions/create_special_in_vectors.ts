@@ -9,6 +9,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface CreateSpecialInVectorsArgs {
@@ -42,7 +43,7 @@ export function createSpecialInVectors(
   tx: Transaction,
   typeArg: string,
   args: CreateSpecialInVectorsArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::fixture::create_special_in_vectors`,
     typeArguments: [typeArg],

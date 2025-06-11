@@ -9,6 +9,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface CreateSpecialArgs {
@@ -51,7 +52,7 @@ export function createSpecial(
   tx: Transaction,
   typeArgs: [string, string],
   args: CreateSpecialArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::fixture::create_special`,
     typeArguments: typeArgs,

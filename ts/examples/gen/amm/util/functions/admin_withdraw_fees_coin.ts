@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface AdminWithdrawFeesCoinArgs {
@@ -23,12 +24,13 @@ export interface AdminWithdrawFeesCoinArgs {
  * @param adminCap - Function parameter
  * @param amount - Function parameter
  * @param ctx - Function parameter
+ * @returns TransactionResult - The transaction result
  */
 export function adminWithdrawFeesCoin(
   tx: Transaction,
   typeArgs: [string, string],
   args: AdminWithdrawFeesCoinArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::admin_withdraw_fees_coin`,
     typeArguments: typeArgs,

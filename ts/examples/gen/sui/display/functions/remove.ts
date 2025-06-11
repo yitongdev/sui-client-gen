@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface RemoveArgs {
@@ -21,7 +22,11 @@ export interface RemoveArgs {
  * @param self - Function parameter
  * @param name - Function parameter
  */
-export function remove(tx: Transaction, typeArg: string, args: RemoveArgs) {
+export function remove(
+  tx: Transaction,
+  typeArg: string,
+  args: RemoveArgs,
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::display::remove`,
     typeArguments: [typeArg],

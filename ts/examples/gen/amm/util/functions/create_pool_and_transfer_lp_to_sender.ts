@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface CreatePoolAndTransferLpToSenderArgs {
@@ -32,7 +33,7 @@ export function createPoolAndTransferLpToSender(
   tx: Transaction,
   typeArgs: [string, string],
   args: CreatePoolAndTransferLpToSenderArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::create_pool_and_transfer_lp_to_sender`,
     typeArguments: typeArgs,

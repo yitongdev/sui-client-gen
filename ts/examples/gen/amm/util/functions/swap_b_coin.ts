@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface SwapBCoinArgs {
@@ -23,12 +24,13 @@ export interface SwapBCoinArgs {
  * @param input - Function parameter
  * @param minOut - Function parameter
  * @param ctx - Function parameter
+ * @returns TransactionResult - The transaction result
  */
 export function swapBCoin(
   tx: Transaction,
   typeArgs: [string, string],
   args: SwapBCoinArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::swap_b_coin`,
     typeArguments: typeArgs,

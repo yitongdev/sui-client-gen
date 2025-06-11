@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface WithdrawAndTransferToSenderArgs {
@@ -30,7 +31,7 @@ export function withdrawAndTransferToSender(
   tx: Transaction,
   typeArgs: [string, string],
   args: WithdrawAndTransferToSenderArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::withdraw_and_transfer_to_sender`,
     typeArguments: typeArgs,

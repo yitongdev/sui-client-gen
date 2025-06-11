@@ -1,7 +1,7 @@
-import * as exampleCoin from "./example-coin/structs.js";
-import * as examples from "./examples/structs.js";
-import * as fixture from "./fixture/structs.js";
-import * as otherModule from "./other-module/structs.js";
+import * as exampleCoin from "./example-coin/structs/index.js";
+import * as examples from "./examples/structs/index.js";
+import * as fixture from "./fixture/structs/index.js";
+import * as otherModule from "./other-module/structs/index.js";
 import { StructClassLoader } from "../_framework/loader.js";
 
 export function registerClasses(loader: StructClassLoader) {

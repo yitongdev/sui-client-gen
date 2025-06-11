@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface SwapBAndTransferToSenderArgs {
@@ -28,7 +29,7 @@ export function swapBAndTransferToSender(
   tx: Transaction,
   typeArgs: [string, string],
   args: SwapBAndTransferToSenderArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::swap_b_and_transfer_to_sender`,
     typeArguments: typeArgs,

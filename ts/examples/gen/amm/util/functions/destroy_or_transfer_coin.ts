@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface DestroyOrTransferCoinArgs {
@@ -24,7 +25,7 @@ export function destroyOrTransferCoin(
   tx: Transaction,
   typeArg: string,
   args: DestroyOrTransferCoinArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::destroy_or_transfer_coin`,
     typeArguments: [typeArg],

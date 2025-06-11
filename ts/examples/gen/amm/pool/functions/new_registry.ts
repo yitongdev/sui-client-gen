@@ -1,5 +1,5 @@
 import { PUBLISHED_AT } from "../../constants.js";
-import { Transaction } from "@mysten/sui/transactions";
+import { Transaction, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `new_registry`
@@ -7,8 +7,9 @@ import { Transaction } from "@mysten/sui/transactions";
  *
  * @param tx - The transaction object
  * @param ctx - Function parameter
+ * @returns TransactionResult - The transaction result
  */
-export function newRegistry(tx: Transaction) {
+export function newRegistry(tx: Transaction): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pool::new_registry`,
     arguments: [],

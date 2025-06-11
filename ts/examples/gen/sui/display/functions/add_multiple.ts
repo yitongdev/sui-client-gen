@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface AddMultipleArgs {
@@ -27,7 +28,7 @@ export function addMultiple(
   tx: Transaction,
   typeArg: string,
   args: AddMultipleArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::display::add_multiple`,
     typeArguments: [typeArg],

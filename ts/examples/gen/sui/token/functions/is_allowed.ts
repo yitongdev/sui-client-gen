@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface IsAllowedArgs {
@@ -20,12 +21,13 @@ export interface IsAllowedArgs {
  * @param tx - The transaction object
  * @param self - Function parameter
  * @param action - Function parameter
+ * @returns TransactionResult - The transaction result
  */
 export function isAllowed(
   tx: Transaction,
   typeArg: string,
   args: IsAllowedArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::token::is_allowed`,
     typeArguments: [typeArg],

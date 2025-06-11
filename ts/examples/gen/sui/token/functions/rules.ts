@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface RulesArgs {
@@ -20,8 +21,13 @@ export interface RulesArgs {
  * @param tx - The transaction object
  * @param self - Function parameter
  * @param action - Function parameter
+ * @returns TransactionResult - The transaction result
  */
-export function rules(tx: Transaction, typeArg: string, args: RulesArgs) {
+export function rules(
+  tx: Transaction,
+  typeArg: string,
+  args: RulesArgs,
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::token::rules`,
     typeArguments: [typeArg],

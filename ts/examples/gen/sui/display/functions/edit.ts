@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface EditArgs {
@@ -23,7 +24,11 @@ export interface EditArgs {
  * @param name - Function parameter
  * @param value - Function parameter
  */
-export function edit(tx: Transaction, typeArg: string, args: EditArgs) {
+export function edit(
+  tx: Transaction,
+  typeArg: string,
+  args: EditArgs,
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::display::edit`,
     typeArguments: [typeArg],

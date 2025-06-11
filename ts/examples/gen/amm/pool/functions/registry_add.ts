@@ -1,6 +1,10 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import { Transaction, TransactionObjectInput } from "@mysten/sui/transactions";
+import {
+  Transaction,
+  TransactionObjectInput,
+  TransactionResult,
+} from "@mysten/sui/transactions";
 
 /**
  * Move function: `registry_add`
@@ -15,7 +19,7 @@ export function registryAdd(
   tx: Transaction,
   typeArgs: [string, string],
   self: TransactionObjectInput,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pool::registry_add`,
     typeArguments: typeArgs,

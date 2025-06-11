@@ -1,5 +1,5 @@
 import { PUBLISHED_AT } from "../../constants.js";
-import { Transaction } from "@mysten/sui/transactions";
+import { Transaction, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `init`
@@ -8,6 +8,6 @@ import { Transaction } from "@mysten/sui/transactions";
  * @param tx - The transaction object
  * @param ctx - Function parameter
  */
-export function init(tx: Transaction) {
+export function init(tx: Transaction): TransactionResult {
   return tx.moveCall({ target: `${PUBLISHED_AT}::pool::init`, arguments: [] });
 }

@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface DepositAndTransferToSenderArgs {
@@ -30,7 +31,7 @@ export function depositAndTransferToSender(
   tx: Transaction,
   typeArgs: [string, string],
   args: DepositAndTransferToSenderArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::deposit_and_transfer_to_sender`,
     typeArguments: typeArgs,

@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface WithdrawArgs {
@@ -24,12 +25,13 @@ export interface WithdrawArgs {
  * @param lpIn - Function parameter
  * @param minAOut - Function parameter
  * @param minBOut - Function parameter
+ * @returns TransactionResult - The transaction result
  */
 export function withdraw(
   tx: Transaction,
   typeArgs: [string, string],
   args: WithdrawArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pool::withdraw`,
     typeArguments: typeArgs,

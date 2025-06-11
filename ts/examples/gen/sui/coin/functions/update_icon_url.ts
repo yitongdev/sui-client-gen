@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface UpdateIconUrlArgs {
@@ -27,7 +28,7 @@ export function updateIconUrl(
   tx: Transaction,
   typeArg: string,
   args: UpdateIconUrlArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::coin::update_icon_url`,
     typeArguments: [typeArg],

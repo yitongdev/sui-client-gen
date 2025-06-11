@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface AddInternalArgs {
@@ -27,7 +28,7 @@ export function addInternal(
   tx: Transaction,
   typeArg: string,
   args: AddInternalArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::display::add_internal`,
     typeArguments: [typeArg],

@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface UpdateNameArgs {
@@ -27,7 +28,7 @@ export function updateName(
   tx: Transaction,
   typeArg: string,
   args: UpdateNameArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::coin::update_name`,
     typeArguments: [typeArg],

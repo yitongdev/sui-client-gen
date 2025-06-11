@@ -5,6 +5,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface UpdateArgs {
@@ -20,7 +21,7 @@ export interface UpdateArgs {
  * @param self - Function parameter
  * @param url - Function parameter
  */
-export function update(tx: Transaction, args: UpdateArgs) {
+export function update(tx: Transaction, args: UpdateArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::url::update`,
     arguments: [obj(tx, args.self), pure(tx, args.url, `${String.$typeName}`)],

@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface AdminWithdrawFeesAndTransferToSenderArgs {
@@ -28,7 +29,7 @@ export function adminWithdrawFeesAndTransferToSender(
   tx: Transaction,
   typeArgs: [string, string],
   args: AdminWithdrawFeesAndTransferToSenderArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::admin_withdraw_fees_and_transfer_to_sender`,
     typeArguments: typeArgs,

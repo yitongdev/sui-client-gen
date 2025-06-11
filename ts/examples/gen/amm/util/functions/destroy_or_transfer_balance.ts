@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface DestroyOrTransferBalanceArgs {
@@ -25,7 +26,7 @@ export function destroyOrTransferBalance(
   tx: Transaction,
   typeArg: string,
   args: DestroyOrTransferBalanceArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::destroy_or_transfer_balance`,
     typeArguments: [typeArg],

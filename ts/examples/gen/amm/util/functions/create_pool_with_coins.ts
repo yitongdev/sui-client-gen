@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface CreatePoolWithCoinsArgs {
@@ -27,12 +28,13 @@ export interface CreatePoolWithCoinsArgs {
  * @param lpFeeBps - Function parameter
  * @param adminFeePct - Function parameter
  * @param ctx - Function parameter
+ * @returns TransactionResult - The transaction result
  */
 export function createPoolWithCoins(
   tx: Transaction,
   typeArgs: [string, string],
   args: CreatePoolWithCoinsArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::create_pool_with_coins`,
     typeArguments: typeArgs,

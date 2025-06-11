@@ -1,6 +1,10 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import { Transaction, TransactionArgument } from "@mysten/sui/transactions";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionResult,
+} from "@mysten/sui/transactions";
 
 export interface MulsqrtArgs {
   a: bigint | TransactionArgument;
@@ -14,8 +18,9 @@ export interface MulsqrtArgs {
  * @param tx - The transaction object
  * @param a - Function parameter
  * @param b - Function parameter
+ * @returns TransactionResult - The transaction result
  */
-export function mulsqrt(tx: Transaction, args: MulsqrtArgs) {
+export function mulsqrt(tx: Transaction, args: MulsqrtArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pool::mulsqrt`,
     arguments: [pure(tx, args.a, `u64`), pure(tx, args.b, `u64`)],

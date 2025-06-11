@@ -12,7 +12,7 @@ import {
   WithSpecialTypesAsGenerics,
   WithSpecialTypesInVectors,
   WithTwoGenerics,
-} from "./gen/examples/fixture/structs.js";
+} from "./gen/examples/fixture/structs/index.js";
 import {
   createBar,
   createFoo,
@@ -21,25 +21,28 @@ import {
   createSpecialInVectors,
   createWithGenericField,
   createWithTwoGenerics,
-} from "./gen/examples/fixture/functions.js";
-import { StructFromOtherModule } from "./gen/examples/other-module/structs.js";
-import { string } from "./gen/move-stdlib/ascii/functions.js";
-import { utf8 } from "./gen/move-stdlib/string/functions.js";
-import { none, some } from "./gen/move-stdlib/option/functions.js";
-import { newUnsafeFromBytes } from "./gen/sui/url/functions.js";
-import { new_ as newUid, idFromAddress } from "./gen/sui/object/functions.js";
-import { zero } from "./gen/sui/balance/functions.js";
-import { Balance } from "./gen/sui/balance/structs.js";
+} from "./gen/examples/fixture/functions/index.js";
+import { StructFromOtherModule } from "./gen/examples/other-module/structs/index.js";
+import { string } from "./gen/move-stdlib/ascii/functions/index.js";
+import { utf8 } from "./gen/move-stdlib/string/functions/index.js";
+import { none, some } from "./gen/move-stdlib/option/functions/index.js";
+import { newUnsafeFromBytes } from "./gen/sui/url/functions/index.js";
+import {
+  new_ as newUid,
+  idFromAddress,
+} from "./gen/sui/object/functions/index.js";
+import { zero } from "./gen/sui/balance/functions/index.js";
+import { Balance } from "./gen/sui/balance/structs/index.js";
 import { extractType, phantom, vector } from "./gen/_framework/reified.js";
-import { SUI } from "./gen/sui/sui/structs.js";
-import { Option } from "./gen/move-stdlib/option/structs.js";
-import { String as Utf8String } from "./gen/move-stdlib/string/structs.js";
-import { String as AsciiString } from "./gen/move-stdlib/ascii/structs.js";
-import { Url } from "./gen/sui/url/structs.js";
-import { ID, UID } from "./gen/sui/object/structs.js";
+import { SUI } from "./gen/sui/sui/structs/index.js";
+import { Option } from "./gen/move-stdlib/option/structs/index.js";
+import { String as Utf8String } from "./gen/move-stdlib/string/structs/index.js";
+import { String as AsciiString } from "./gen/move-stdlib/ascii/structs/index.js";
+import { Url } from "./gen/sui/url/structs/index.js";
+import { ID, UID } from "./gen/sui/object/structs/index.js";
 import { loader } from "./gen/_framework/loader.js";
 import { PKG_V1 } from "./gen/examples/index.js";
-import { sqrt } from "./gen/sui/math/functions.js";
+import { sqrt } from "./gen/sui/math/functions/index.js";
 
 const keypair = Ed25519Keypair.fromSecretKey(
   fromB64("AMVT58FaLF2tJtg/g8X2z1/vG0FvNn0jvRu9X2Wl8F+u").slice(1),

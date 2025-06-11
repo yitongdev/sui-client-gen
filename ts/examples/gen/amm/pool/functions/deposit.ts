@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionArgument,
   TransactionObjectInput,
+  TransactionResult,
 } from "@mysten/sui/transactions";
 
 export interface DepositArgs {
@@ -24,12 +25,13 @@ export interface DepositArgs {
  * @param inputA - Function parameter
  * @param inputB - Function parameter
  * @param minLpOut - Function parameter
+ * @returns TransactionResult - The transaction result
  */
 export function deposit(
   tx: Transaction,
   typeArgs: [string, string],
   args: DepositArgs,
-) {
+): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pool::deposit`,
     typeArguments: typeArgs,
