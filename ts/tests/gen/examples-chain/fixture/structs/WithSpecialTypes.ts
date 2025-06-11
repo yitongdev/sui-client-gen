@@ -223,7 +223,8 @@ export class WithSpecialTypes<
     typeArgs: [T0, T1],
     fields: Record<string, any>,
   ): WithSpecialTypes<ToPhantomTypeArgument<T0>, ToTypeArgument<T1>> {
-    return WithSpecialTypes.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return WithSpecialTypes.reified(typeArg0, typeArg1).new({
       id: decodeFromFields(UID.reified(), fields.id),
       string: decodeFromFields(String.reified(), fields.string),
       asciiString: decodeFromFields(String1.reified(), fields.ascii_string),
@@ -241,15 +242,15 @@ export class WithSpecialTypes<
       ),
       optionNone: decodeFromFields(Option.reified("u64"), fields.option_none),
       balanceGeneric: decodeFromFields(
-        Balance.reified(typeArgs[0]),
+        Balance.reified(typeArg0),
         fields.balance_generic,
       ),
       optionGeneric: decodeFromFields(
-        Option.reified(typeArgs[1]),
+        Option.reified(typeArg1),
         fields.option_generic,
       ),
       optionGenericNone: decodeFromFields(
-        Option.reified(typeArgs[1]),
+        Option.reified(typeArg1),
         fields.option_generic_none,
       ),
     });
@@ -265,9 +266,10 @@ export class WithSpecialTypes<
     if (!isWithSpecialTypes(item.type)) {
       throw new Error("not a WithSpecialTypes type");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
-    return WithSpecialTypes.reified(typeArgs[0], typeArgs[1]).new({
+    return WithSpecialTypes.reified(typeArg0, typeArg1).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
       string: decodeFromFieldsWithTypes(String.reified(), item.fields.string),
       asciiString: decodeFromFieldsWithTypes(
@@ -294,15 +296,15 @@ export class WithSpecialTypes<
         item.fields.option_none,
       ),
       balanceGeneric: decodeFromFieldsWithTypes(
-        Balance.reified(typeArgs[0]),
+        Balance.reified(typeArg0),
         item.fields.balance_generic,
       ),
       optionGeneric: decodeFromFieldsWithTypes(
-        Option.reified(typeArgs[1]),
+        Option.reified(typeArg1),
         item.fields.option_generic,
       ),
       optionGenericNone: decodeFromFieldsWithTypes(
-        Option.reified(typeArgs[1]),
+        Option.reified(typeArg1),
         item.fields.option_generic_none,
       ),
     });
@@ -315,13 +317,15 @@ export class WithSpecialTypes<
     typeArgs: [T0, T1],
     data: Uint8Array,
   ): WithSpecialTypes<ToPhantomTypeArgument<T0>, ToTypeArgument<T1>> {
+    const [typeArg0, typeArg1] = typeArgs;
     return WithSpecialTypes.fromFields(
-      typeArgs,
-      WithSpecialTypes.bcs(toBcs(typeArgs[1])).parse(data),
+      [typeArg0, typeArg1],
+      WithSpecialTypes.bcs(toBcs(typeArg1)).parse(data),
     );
   }
 
   toJSONField() {
+    const [typeArg0, typeArg1] = this.$typeArgs;
     return {
       id: this.id,
       string: this.string,
@@ -344,11 +348,11 @@ export class WithSpecialTypes<
       ),
       balanceGeneric: this.balanceGeneric.toJSONField(),
       optionGeneric: fieldToJSON<Option<T1>>(
-        `${Option.$typeName}<${this.$typeArgs[1]}>`,
+        `${Option.$typeName}<${typeArg1}>`,
         this.optionGeneric,
       ),
       optionGenericNone: fieldToJSON<Option<T1>>(
-        `${Option.$typeName}<${this.$typeArgs[1]}>`,
+        `${Option.$typeName}<${typeArg1}>`,
         this.optionGenericNone,
       ),
     };
@@ -369,7 +373,8 @@ export class WithSpecialTypes<
     typeArgs: [T0, T1],
     field: any,
   ): WithSpecialTypes<ToPhantomTypeArgument<T0>, ToTypeArgument<T1>> {
-    return WithSpecialTypes.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return WithSpecialTypes.reified(typeArg0, typeArg1).new({
       id: decodeFromJSONField(UID.reified(), field.id),
       string: decodeFromJSONField(String.reified(), field.string),
       asciiString: decodeFromJSONField(String1.reified(), field.asciiString),
@@ -387,15 +392,15 @@ export class WithSpecialTypes<
       ),
       optionNone: decodeFromJSONField(Option.reified("u64"), field.optionNone),
       balanceGeneric: decodeFromJSONField(
-        Balance.reified(typeArgs[0]),
+        Balance.reified(typeArg0),
         field.balanceGeneric,
       ),
       optionGeneric: decodeFromJSONField(
-        Option.reified(typeArgs[1]),
+        Option.reified(typeArg1),
         field.optionGeneric,
       ),
       optionGenericNone: decodeFromJSONField(
-        Option.reified(typeArgs[1]),
+        Option.reified(typeArg1),
         field.optionGenericNone,
       ),
     });
@@ -411,13 +416,17 @@ export class WithSpecialTypes<
     if (json.$typeName !== WithSpecialTypes.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(WithSpecialTypes.$typeName, ...typeArgs.map(extractType)),
+      composeSuiType(
+        WithSpecialTypes.$typeName,
+        ...[typeArg0, typeArg1].map(extractType),
+      ),
       json.$typeArgs,
-      typeArgs,
+      [typeArg0, typeArg1],
     );
 
-    return WithSpecialTypes.fromJSONField(typeArgs, json);
+    return WithSpecialTypes.fromJSONField([typeArg0, typeArg1], json);
   }
 
   static fromSuiParsedData<
@@ -459,15 +468,19 @@ export class WithSpecialTypes<
           `type argument mismatch: expected 2 type arguments but got ${gotTypeArgs.length}`,
         );
       }
-      for (let i = 0; i < 2; i++) {
-        const gotTypeArg = compressSuiType(gotTypeArgs[i]);
-        const expectedTypeArg = compressSuiType(extractType(typeArgs[i]));
-        if (gotTypeArg !== expectedTypeArg) {
+      gotTypeArgs.forEach((gotTypeArg, i) => {
+        const compressedGotType = compressSuiType(gotTypeArg);
+        const typeArg = typeArgs[i];
+        if (!typeArg) {
+          throw new Error(`missing type argument at position ${i}`);
+        }
+        const expectedTypeArg = compressSuiType(extractType(typeArg));
+        if (compressedGotType !== expectedTypeArg) {
           throw new Error(
-            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
           );
         }
-      }
+      });
 
       return WithSpecialTypes.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }

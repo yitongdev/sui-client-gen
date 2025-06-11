@@ -154,10 +154,11 @@ export class Node<K extends TypeArgument, V extends TypeArgument>
     typeArgs: [K, V],
     fields: Record<string, any>,
   ): Node<ToTypeArgument<K>, ToTypeArgument<V>> {
-    return Node.reified(typeArgs[0], typeArgs[1]).new({
-      prev: decodeFromFields(Option.reified(typeArgs[0]), fields.prev),
-      next: decodeFromFields(Option.reified(typeArgs[0]), fields.next),
-      value: decodeFromFields(typeArgs[1], fields.value),
+    const [typeArg0, typeArg1] = typeArgs;
+    return Node.reified(typeArg0, typeArg1).new({
+      prev: decodeFromFields(Option.reified(typeArg0), fields.prev),
+      next: decodeFromFields(Option.reified(typeArg0), fields.next),
+      value: decodeFromFields(typeArg1, fields.value),
     });
   }
 
@@ -171,18 +172,19 @@ export class Node<K extends TypeArgument, V extends TypeArgument>
     if (!isNode(item.type)) {
       throw new Error("not a Node type");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
-    return Node.reified(typeArgs[0], typeArgs[1]).new({
+    return Node.reified(typeArg0, typeArg1).new({
       prev: decodeFromFieldsWithTypes(
-        Option.reified(typeArgs[0]),
+        Option.reified(typeArg0),
         item.fields.prev,
       ),
       next: decodeFromFieldsWithTypes(
-        Option.reified(typeArgs[0]),
+        Option.reified(typeArg0),
         item.fields.next,
       ),
-      value: decodeFromFieldsWithTypes(typeArgs[1], item.fields.value),
+      value: decodeFromFieldsWithTypes(typeArg1, item.fields.value),
     });
   }
 
@@ -193,23 +195,25 @@ export class Node<K extends TypeArgument, V extends TypeArgument>
     typeArgs: [K, V],
     data: Uint8Array,
   ): Node<ToTypeArgument<K>, ToTypeArgument<V>> {
+    const [typeArg0, typeArg1] = typeArgs;
     return Node.fromFields(
-      typeArgs,
-      Node.bcs(toBcs(typeArgs[0]), toBcs(typeArgs[1])).parse(data),
+      [typeArg0, typeArg1],
+      Node.bcs(toBcs(typeArg0), toBcs(typeArg1)).parse(data),
     );
   }
 
   toJSONField() {
+    const [typeArg0, typeArg1] = this.$typeArgs;
     return {
       prev: fieldToJSON<Option<K>>(
-        `${Option.$typeName}<${this.$typeArgs[0]}>`,
+        `${Option.$typeName}<${typeArg0}>`,
         this.prev,
       ),
       next: fieldToJSON<Option<K>>(
-        `${Option.$typeName}<${this.$typeArgs[0]}>`,
+        `${Option.$typeName}<${typeArg0}>`,
         this.next,
       ),
-      value: fieldToJSON<V>(this.$typeArgs[1], this.value),
+      value: fieldToJSON<V>(typeArg1, this.value),
     };
   }
 
@@ -225,10 +229,11 @@ export class Node<K extends TypeArgument, V extends TypeArgument>
     K extends Reified<TypeArgument, any>,
     V extends Reified<TypeArgument, any>,
   >(typeArgs: [K, V], field: any): Node<ToTypeArgument<K>, ToTypeArgument<V>> {
-    return Node.reified(typeArgs[0], typeArgs[1]).new({
-      prev: decodeFromJSONField(Option.reified(typeArgs[0]), field.prev),
-      next: decodeFromJSONField(Option.reified(typeArgs[0]), field.next),
-      value: decodeFromJSONField(typeArgs[1], field.value),
+    const [typeArg0, typeArg1] = typeArgs;
+    return Node.reified(typeArg0, typeArg1).new({
+      prev: decodeFromJSONField(Option.reified(typeArg0), field.prev),
+      next: decodeFromJSONField(Option.reified(typeArg0), field.next),
+      value: decodeFromJSONField(typeArg1, field.value),
     });
   }
 
@@ -242,13 +247,14 @@ export class Node<K extends TypeArgument, V extends TypeArgument>
     if (json.$typeName !== Node.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(Node.$typeName, ...typeArgs.map(extractType)),
+      composeSuiType(Node.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
-      typeArgs,
+      [typeArg0, typeArg1],
     );
 
-    return Node.fromJSONField(typeArgs, json);
+    return Node.fromJSONField([typeArg0, typeArg1], json);
   }
 
   static fromSuiParsedData<
@@ -287,15 +293,19 @@ export class Node<K extends TypeArgument, V extends TypeArgument>
           `type argument mismatch: expected 2 type arguments but got ${gotTypeArgs.length}`,
         );
       }
-      for (let i = 0; i < 2; i++) {
-        const gotTypeArg = compressSuiType(gotTypeArgs[i]);
-        const expectedTypeArg = compressSuiType(extractType(typeArgs[i]));
-        if (gotTypeArg !== expectedTypeArg) {
+      gotTypeArgs.forEach((gotTypeArg, i) => {
+        const compressedGotType = compressSuiType(gotTypeArg);
+        const typeArg = typeArgs[i];
+        if (!typeArg) {
+          throw new Error(`missing type argument at position ${i}`);
+        }
+        const expectedTypeArg = compressSuiType(extractType(typeArg));
+        if (compressedGotType !== expectedTypeArg) {
           throw new Error(
-            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
           );
         }
-      }
+      });
 
       return Node.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }

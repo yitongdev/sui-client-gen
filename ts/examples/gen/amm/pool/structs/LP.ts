@@ -150,7 +150,8 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
     typeArgs: [A, B],
     fields: Record<string, any>,
   ): LP<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
-    return LP.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return LP.reified(typeArg0, typeArg1).new({
       dummyField: decodeFromFields("bool", fields.dummy_field),
     });
   }
@@ -165,9 +166,10 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
     if (!isLP(item.type)) {
       throw new Error("not a LP type");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
-    return LP.reified(typeArgs[0], typeArgs[1]).new({
+    return LP.reified(typeArg0, typeArg1).new({
       dummyField: decodeFromFieldsWithTypes("bool", item.fields.dummy_field),
     });
   }
@@ -179,10 +181,12 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
     typeArgs: [A, B],
     data: Uint8Array,
   ): LP<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
-    return LP.fromFields(typeArgs, LP.bcs.parse(data));
+    const [typeArg0, typeArg1] = typeArgs;
+    return LP.fromFields([typeArg0, typeArg1], LP.bcs.parse(data));
   }
 
   toJSONField() {
+    const [typeArg0, typeArg1] = this.$typeArgs;
     return {
       dummyField: this.dummyField,
     };
@@ -203,7 +207,8 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
     typeArgs: [A, B],
     field: any,
   ): LP<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
-    return LP.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return LP.reified(typeArg0, typeArg1).new({
       dummyField: decodeFromJSONField("bool", field.dummyField),
     });
   }
@@ -218,13 +223,14 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
     if (json.$typeName !== LP.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(LP.$typeName, ...typeArgs.map(extractType)),
+      composeSuiType(LP.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
-      typeArgs,
+      [typeArg0, typeArg1],
     );
 
-    return LP.fromJSONField(typeArgs, json);
+    return LP.fromJSONField([typeArg0, typeArg1], json);
   }
 
   static fromSuiParsedData<
@@ -263,15 +269,19 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
           `type argument mismatch: expected 2 type arguments but got ${gotTypeArgs.length}`,
         );
       }
-      for (let i = 0; i < 2; i++) {
-        const gotTypeArg = compressSuiType(gotTypeArgs[i]);
-        const expectedTypeArg = compressSuiType(extractType(typeArgs[i]));
-        if (gotTypeArg !== expectedTypeArg) {
+      gotTypeArgs.forEach((gotTypeArg, i) => {
+        const compressedGotType = compressSuiType(gotTypeArg);
+        const typeArg = typeArgs[i];
+        if (!typeArg) {
+          throw new Error(`missing type argument at position ${i}`);
+        }
+        const expectedTypeArg = compressSuiType(extractType(typeArg));
+        if (compressedGotType !== expectedTypeArg) {
           throw new Error(
-            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
           );
         }
-      }
+      });
 
       return LP.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }

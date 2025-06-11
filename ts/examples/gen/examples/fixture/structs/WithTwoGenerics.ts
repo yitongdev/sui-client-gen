@@ -158,9 +158,10 @@ export class WithTwoGenerics<T extends TypeArgument, U extends TypeArgument>
     typeArgs: [T, U],
     fields: Record<string, any>,
   ): WithTwoGenerics<ToTypeArgument<T>, ToTypeArgument<U>> {
-    return WithTwoGenerics.reified(typeArgs[0], typeArgs[1]).new({
-      genericField1: decodeFromFields(typeArgs[0], fields.generic_field_1),
-      genericField2: decodeFromFields(typeArgs[1], fields.generic_field_2),
+    const [typeArg0, typeArg1] = typeArgs;
+    return WithTwoGenerics.reified(typeArg0, typeArg1).new({
+      genericField1: decodeFromFields(typeArg0, fields.generic_field_1),
+      genericField2: decodeFromFields(typeArg1, fields.generic_field_2),
     });
   }
 
@@ -174,15 +175,16 @@ export class WithTwoGenerics<T extends TypeArgument, U extends TypeArgument>
     if (!isWithTwoGenerics(item.type)) {
       throw new Error("not a WithTwoGenerics type");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
-    return WithTwoGenerics.reified(typeArgs[0], typeArgs[1]).new({
+    return WithTwoGenerics.reified(typeArg0, typeArg1).new({
       genericField1: decodeFromFieldsWithTypes(
-        typeArgs[0],
+        typeArg0,
         item.fields.generic_field_1,
       ),
       genericField2: decodeFromFieldsWithTypes(
-        typeArgs[1],
+        typeArg1,
         item.fields.generic_field_2,
       ),
     });
@@ -195,16 +197,18 @@ export class WithTwoGenerics<T extends TypeArgument, U extends TypeArgument>
     typeArgs: [T, U],
     data: Uint8Array,
   ): WithTwoGenerics<ToTypeArgument<T>, ToTypeArgument<U>> {
+    const [typeArg0, typeArg1] = typeArgs;
     return WithTwoGenerics.fromFields(
-      typeArgs,
-      WithTwoGenerics.bcs(toBcs(typeArgs[0]), toBcs(typeArgs[1])).parse(data),
+      [typeArg0, typeArg1],
+      WithTwoGenerics.bcs(toBcs(typeArg0), toBcs(typeArg1)).parse(data),
     );
   }
 
   toJSONField() {
+    const [typeArg0, typeArg1] = this.$typeArgs;
     return {
-      genericField1: fieldToJSON<T>(this.$typeArgs[0], this.genericField1),
-      genericField2: fieldToJSON<U>(this.$typeArgs[1], this.genericField2),
+      genericField1: fieldToJSON<T>(typeArg0, this.genericField1),
+      genericField2: fieldToJSON<U>(typeArg1, this.genericField2),
     };
   }
 
@@ -223,9 +227,10 @@ export class WithTwoGenerics<T extends TypeArgument, U extends TypeArgument>
     typeArgs: [T, U],
     field: any,
   ): WithTwoGenerics<ToTypeArgument<T>, ToTypeArgument<U>> {
-    return WithTwoGenerics.reified(typeArgs[0], typeArgs[1]).new({
-      genericField1: decodeFromJSONField(typeArgs[0], field.genericField1),
-      genericField2: decodeFromJSONField(typeArgs[1], field.genericField2),
+    const [typeArg0, typeArg1] = typeArgs;
+    return WithTwoGenerics.reified(typeArg0, typeArg1).new({
+      genericField1: decodeFromJSONField(typeArg0, field.genericField1),
+      genericField2: decodeFromJSONField(typeArg1, field.genericField2),
     });
   }
 
@@ -239,13 +244,17 @@ export class WithTwoGenerics<T extends TypeArgument, U extends TypeArgument>
     if (json.$typeName !== WithTwoGenerics.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(WithTwoGenerics.$typeName, ...typeArgs.map(extractType)),
+      composeSuiType(
+        WithTwoGenerics.$typeName,
+        ...[typeArg0, typeArg1].map(extractType),
+      ),
       json.$typeArgs,
-      typeArgs,
+      [typeArg0, typeArg1],
     );
 
-    return WithTwoGenerics.fromJSONField(typeArgs, json);
+    return WithTwoGenerics.fromJSONField([typeArg0, typeArg1], json);
   }
 
   static fromSuiParsedData<
@@ -287,15 +296,19 @@ export class WithTwoGenerics<T extends TypeArgument, U extends TypeArgument>
           `type argument mismatch: expected 2 type arguments but got ${gotTypeArgs.length}`,
         );
       }
-      for (let i = 0; i < 2; i++) {
-        const gotTypeArg = compressSuiType(gotTypeArgs[i]);
-        const expectedTypeArg = compressSuiType(extractType(typeArgs[i]));
-        if (gotTypeArg !== expectedTypeArg) {
+      gotTypeArgs.forEach((gotTypeArg, i) => {
+        const compressedGotType = compressSuiType(gotTypeArg);
+        const typeArg = typeArgs[i];
+        if (!typeArg) {
+          throw new Error(`missing type argument at position ${i}`);
+        }
+        const expectedTypeArg = compressSuiType(extractType(typeArg));
+        if (compressedGotType !== expectedTypeArg) {
           throw new Error(
-            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
           );
         }
-      }
+      });
 
       return WithTwoGenerics.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }

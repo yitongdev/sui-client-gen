@@ -164,7 +164,8 @@ export class ObjectTable<
     typeArgs: [K, V],
     fields: Record<string, any>,
   ): ObjectTable<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>> {
-    return ObjectTable.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return ObjectTable.reified(typeArg0, typeArg1).new({
       id: decodeFromFields(UID.reified(), fields.id),
       size: decodeFromFields("u64", fields.size),
     });
@@ -180,9 +181,10 @@ export class ObjectTable<
     if (!isObjectTable(item.type)) {
       throw new Error("not a ObjectTable type");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
-    return ObjectTable.reified(typeArgs[0], typeArgs[1]).new({
+    return ObjectTable.reified(typeArg0, typeArg1).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
       size: decodeFromFieldsWithTypes("u64", item.fields.size),
     });
@@ -195,10 +197,15 @@ export class ObjectTable<
     typeArgs: [K, V],
     data: Uint8Array,
   ): ObjectTable<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>> {
-    return ObjectTable.fromFields(typeArgs, ObjectTable.bcs.parse(data));
+    const [typeArg0, typeArg1] = typeArgs;
+    return ObjectTable.fromFields(
+      [typeArg0, typeArg1],
+      ObjectTable.bcs.parse(data),
+    );
   }
 
   toJSONField() {
+    const [typeArg0, typeArg1] = this.$typeArgs;
     return {
       id: this.id,
       size: this.size.toString(),
@@ -220,7 +227,8 @@ export class ObjectTable<
     typeArgs: [K, V],
     field: any,
   ): ObjectTable<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>> {
-    return ObjectTable.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return ObjectTable.reified(typeArg0, typeArg1).new({
       id: decodeFromJSONField(UID.reified(), field.id),
       size: decodeFromJSONField("u64", field.size),
     });
@@ -236,13 +244,17 @@ export class ObjectTable<
     if (json.$typeName !== ObjectTable.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(ObjectTable.$typeName, ...typeArgs.map(extractType)),
+      composeSuiType(
+        ObjectTable.$typeName,
+        ...[typeArg0, typeArg1].map(extractType),
+      ),
       json.$typeArgs,
-      typeArgs,
+      [typeArg0, typeArg1],
     );
 
-    return ObjectTable.fromJSONField(typeArgs, json);
+    return ObjectTable.fromJSONField([typeArg0, typeArg1], json);
   }
 
   static fromSuiParsedData<
@@ -281,15 +293,19 @@ export class ObjectTable<
           `type argument mismatch: expected 2 type arguments but got ${gotTypeArgs.length}`,
         );
       }
-      for (let i = 0; i < 2; i++) {
-        const gotTypeArg = compressSuiType(gotTypeArgs[i]);
-        const expectedTypeArg = compressSuiType(extractType(typeArgs[i]));
-        if (gotTypeArg !== expectedTypeArg) {
+      gotTypeArgs.forEach((gotTypeArg, i) => {
+        const compressedGotType = compressSuiType(gotTypeArg);
+        const typeArg = typeArgs[i];
+        if (!typeArg) {
+          throw new Error(`missing type argument at position ${i}`);
+        }
+        const expectedTypeArg = compressSuiType(extractType(typeArg));
+        if (compressedGotType !== expectedTypeArg) {
           throw new Error(
-            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
           );
         }
-      }
+      });
 
       return ObjectTable.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }

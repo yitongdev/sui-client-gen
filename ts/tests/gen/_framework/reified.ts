@@ -318,7 +318,8 @@ export function decodeFromFields(
       if (field.vec.length === 0) {
         return null;
       }
-      return (reified.fromFields(field) as any).vec[0];
+      const vec = (reified.fromFields(field) as any).vec;
+      return vec[0];
     }
     default:
       return reified.fromFields(field);
@@ -359,10 +360,11 @@ export function decodeFromFieldsWithTypes(
       if (item === null) {
         return null;
       }
-      return decodeFromFieldsWithTypes(
-        (reified as any).reifiedTypeArgs[0],
-        item,
-      );
+      const innerType = (reified as any).reifiedTypeArgs[0] as Reified<
+        TypeArgument,
+        any
+      >;
+      return decodeFromFieldsWithTypes(innerType, item);
     }
     default:
       return reified.fromFieldsWithTypes(item);
@@ -380,14 +382,17 @@ export function assertReifiedTypeArgsMatch(
     );
   }
   for (let i = 0; i < typeArgs.length; i++) {
+    const typeArg = typeArgs[i] as string;
+    const reifiedTypeArg = reifiedTypeArgs[i] as
+      | Reified<TypeArgument, any>
+      | PhantomReified<string>;
     if (
-      compressSuiType(typeArgs[i]) !==
-      compressSuiType(extractType(reifiedTypeArgs[i]))
+      compressSuiType(typeArg) !== compressSuiType(extractType(reifiedTypeArg))
     ) {
       throw new Error(
         `provided item has mismatching type argments ${fullType} (expected ${extractType(
-          reifiedTypeArgs[i],
-        )}, got ${typeArgs[i]}))`,
+          reifiedTypeArg,
+        )}, got ${typeArg}))`,
       );
     }
   }
@@ -422,7 +427,7 @@ export function fieldToJSON<T extends TypeArgument>(
       return field as any;
     case "vector":
       return (field as any[]).map((item: any) =>
-        fieldToJSON(typeArgs[0], item),
+        fieldToJSON(typeArgs[0] as string, item),
       ) as any;
     // handle special types
     case "0x1::string::String":
@@ -435,7 +440,7 @@ export function fieldToJSON<T extends TypeArgument>(
       if (field === null) {
         return null as any;
       }
-      return fieldToJSON(typeArgs[0], field);
+      return fieldToJSON(typeArgs[0] as string, field);
     }
     default:
       return (field as any).toJSONField();
@@ -473,7 +478,8 @@ export function decodeFromJSONField(
       if (field === null) {
         return null;
       }
-      return decodeFromJSONField(typeArg.reifiedTypeArgs[0] as any, field);
+      const innerType = typeArg.reifiedTypeArgs[0] as any;
+      return decodeFromJSONField(innerType, field);
     }
     default:
       return typeArg.fromJSONField(field);

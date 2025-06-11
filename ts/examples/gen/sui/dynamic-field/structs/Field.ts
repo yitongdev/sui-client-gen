@@ -168,10 +168,11 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
     typeArgs: [Name, Value],
     fields: Record<string, any>,
   ): Field<ToTypeArgument<Name>, ToTypeArgument<Value>> {
-    return Field.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return Field.reified(typeArg0, typeArg1).new({
       id: decodeFromFields(UID.reified(), fields.id),
-      name: decodeFromFields(typeArgs[0], fields.name),
-      value: decodeFromFields(typeArgs[1], fields.value),
+      name: decodeFromFields(typeArg0, fields.name),
+      value: decodeFromFields(typeArg1, fields.value),
     });
   }
 
@@ -185,12 +186,13 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
     if (!isField(item.type)) {
       throw new Error("not a Field type");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
-    return Field.reified(typeArgs[0], typeArgs[1]).new({
+    return Field.reified(typeArg0, typeArg1).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      name: decodeFromFieldsWithTypes(typeArgs[0], item.fields.name),
-      value: decodeFromFieldsWithTypes(typeArgs[1], item.fields.value),
+      name: decodeFromFieldsWithTypes(typeArg0, item.fields.name),
+      value: decodeFromFieldsWithTypes(typeArg1, item.fields.value),
     });
   }
 
@@ -201,17 +203,19 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
     typeArgs: [Name, Value],
     data: Uint8Array,
   ): Field<ToTypeArgument<Name>, ToTypeArgument<Value>> {
+    const [typeArg0, typeArg1] = typeArgs;
     return Field.fromFields(
-      typeArgs,
-      Field.bcs(toBcs(typeArgs[0]), toBcs(typeArgs[1])).parse(data),
+      [typeArg0, typeArg1],
+      Field.bcs(toBcs(typeArg0), toBcs(typeArg1)).parse(data),
     );
   }
 
   toJSONField() {
+    const [typeArg0, typeArg1] = this.$typeArgs;
     return {
       id: this.id,
-      name: fieldToJSON<Name>(this.$typeArgs[0], this.name),
-      value: fieldToJSON<Value>(this.$typeArgs[1], this.value),
+      name: fieldToJSON<Name>(typeArg0, this.name),
+      value: fieldToJSON<Value>(typeArg1, this.value),
     };
   }
 
@@ -230,10 +234,11 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
     typeArgs: [Name, Value],
     field: any,
   ): Field<ToTypeArgument<Name>, ToTypeArgument<Value>> {
-    return Field.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return Field.reified(typeArg0, typeArg1).new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      name: decodeFromJSONField(typeArgs[0], field.name),
-      value: decodeFromJSONField(typeArgs[1], field.value),
+      name: decodeFromJSONField(typeArg0, field.name),
+      value: decodeFromJSONField(typeArg1, field.value),
     });
   }
 
@@ -247,13 +252,14 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
     if (json.$typeName !== Field.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(Field.$typeName, ...typeArgs.map(extractType)),
+      composeSuiType(Field.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
-      typeArgs,
+      [typeArg0, typeArg1],
     );
 
-    return Field.fromJSONField(typeArgs, json);
+    return Field.fromJSONField([typeArg0, typeArg1], json);
   }
 
   static fromSuiParsedData<
@@ -292,15 +298,19 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
           `type argument mismatch: expected 2 type arguments but got ${gotTypeArgs.length}`,
         );
       }
-      for (let i = 0; i < 2; i++) {
-        const gotTypeArg = compressSuiType(gotTypeArgs[i]);
-        const expectedTypeArg = compressSuiType(extractType(typeArgs[i]));
-        if (gotTypeArg !== expectedTypeArg) {
+      gotTypeArgs.forEach((gotTypeArg, i) => {
+        const compressedGotType = compressSuiType(gotTypeArg);
+        const typeArg = typeArgs[i];
+        if (!typeArg) {
+          throw new Error(`missing type argument at position ${i}`);
+        }
+        const expectedTypeArg = compressSuiType(extractType(typeArg));
+        if (compressedGotType !== expectedTypeArg) {
           throw new Error(
-            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
           );
         }
-      }
+      });
 
       return Field.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }

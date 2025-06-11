@@ -156,9 +156,7 @@ export class Entry<T0 extends TypeArgument> implements StructClass {
     typeArg: T0,
     data: Uint8Array,
   ): Entry<ToTypeArgument<T0>> {
-    const typeArgs = [typeArg];
-
-    return Entry.fromFields(typeArg, Entry.bcs(toBcs(typeArgs[0])).parse(data));
+    return Entry.fromFields(typeArg, Entry.bcs(toBcs(typeArg)).parse(data));
   }
 
   toJSONField() {
@@ -232,11 +230,12 @@ export class Entry<T0 extends TypeArgument> implements StructClass {
           `type argument mismatch: expected 1 type argument but got '${gotTypeArgs.length}'`,
         );
       }
-      const gotTypeArg = compressSuiType(gotTypeArgs[0]);
+      const gotTypeArg = gotTypeArgs[0] as string;
+      const compressedGotType = compressSuiType(gotTypeArg);
       const expectedTypeArg = compressSuiType(extractType(typeArg));
-      if (gotTypeArg !== compressSuiType(extractType(typeArg))) {
+      if (compressedGotType !== expectedTypeArg) {
         throw new Error(
-          `type argument mismatch: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+          `type argument mismatch: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
         );
       }
 

@@ -65,7 +65,7 @@ export class StructClassLoader {
         if (typeArgs.length !== 1) {
           throw new Error(`Vector expects 1 type argument, but got ${typeArgs.length}`)
         }
-        return vector(this.reified(typeArgs[0]))
+        return vector(this.reified(typeArgs[0] as string))
       }
     }
 
@@ -83,10 +83,18 @@ export class StructClassLoader {
     const reifiedTypeArgs: Array<Reified<TypeArgument, any> | PhantomReified<PhantomTypeArgument>> =
       []
     for (let i = 0; i < typeArgs.length; i++) {
-      if (cls.$isPhantom[i]) {
-        reifiedTypeArgs.push(phantom(typeArgs[i]))
+      const isPhantom = cls.$isPhantom[i]
+      const typeArg = typeArgs[i]
+      if (isPhantom === undefined) {
+        throw new Error(`Missing phantom type information for type parameter ${i} of ${typeName}`)
+      }
+      if (typeArg === undefined) {
+        throw new Error(`Missing type argument at index ${i} for ${typeName}`)
+      }
+      if (isPhantom === true) {
+        reifiedTypeArgs.push(phantom(typeArg))
       } else {
-        reifiedTypeArgs.push(this.reified(typeArgs[i]))
+        reifiedTypeArgs.push(this.reified(typeArg))
       }
     }
 
@@ -115,6 +123,15 @@ export interface FieldsWithTypes {
 
 export type ObjectId = string
 
+// Helper for safe array access when we know the element exists
+export function safeAccess<T>(arr: readonly T[], index: number): T {
+  const element = arr[index]
+  if (element === undefined) {
+    throw new Error(`Array index ${index} out of bounds`)
+  }
+  return element
+}
+
 export type PureArg =
   | bigint
   | string
@@ -140,7 +157,7 @@ export function splitGenericParameters(
   let nestedAngleBrackets = 0
 
   for (let i = 0; i < str.length; i++) {
-    const char = str[i]
+    const char = str.charAt(i)
     if (char === left) {
       nestedAngleBrackets++
     }
@@ -231,9 +248,9 @@ export function pure(tx: Transaction, arg: PureArg, type: string): TransactionAr
       case '0x2::object::ID':
         return bcs.Address
       case '0x1::option::Option':
-        return bcs.option(getBcsForType(typeArgs[0]))
+        return bcs.option(getBcsForType(typeArgs[0] as string))
       case 'vector':
-        return bcs.vector(getBcsForType(typeArgs[0]))
+        return bcs.vector(getBcsForType(typeArgs[0] as string))
       default:
         throw new Error(`invalid primitive type ${type}`)
     }
@@ -313,8 +330,8 @@ export function pure(tx: Transaction, arg: PureArg, type: string): TransactionAr
       // wrap it with some
       return tx.moveCall({
         target: `0x1::option::some`,
-        typeArguments: [typeArgs[0]],
-        arguments: [pure(tx, arg, typeArgs[0])],
+        typeArguments: [typeArgs[0] as string],
+        arguments: [pure(tx, arg, typeArgs[0] as string)],
       })
     case 'vector':
       if (!Array.isArray(arg)) {
@@ -334,7 +351,7 @@ export function pure(tx: Transaction, arg: PureArg, type: string): TransactionAr
       }
 
       return tx.makeMoveVec({
-        type: typeArgs[0],
+        type: typeArgs[0] as string,
         elements: arg as Array<TransactionObjectArgument>,
       })
     default:
@@ -374,7 +391,7 @@ export function generic(tx: Transaction, type: string, arg: GenericArg): Transac
   } else {
     const { typeName, typeArgs } = parseTypeName(type)
     if (typeName === 'vector' && Array.isArray(arg)) {
-      const itemType = typeArgs[0]
+      const itemType = typeArgs[0] as string
 
       return tx.makeMoveVec({
         type: itemType,
@@ -405,7 +422,7 @@ export function vector(
     const { typeName: itemTypeName, typeArgs: itemTypeArgs } = parseTypeName(itemType)
     if (itemTypeName === '0x1::option::Option') {
       const elements = items.map(item =>
-        option(tx, itemTypeArgs[0], item)
+        option(tx, itemTypeArgs[0] as string, item)
       ) as Array<TransactionObjectArgument>
       return tx.makeMoveVec({
         type: itemType,
@@ -434,13 +451,13 @@ export function typeArgIsPure(type: string): boolean {
     case 'signer':
       return true
     case 'vector':
-      return typeArgIsPure(typeArgs[0])
+      return typeArgIsPure(typeArgs[0] as string)
     case '0x1::string::String':
     case '0x1::ascii::String':
     case '0x2::object::ID':
       return true
     case '0x1::option::Option':
-      return typeArgIsPure(typeArgs[0])
+      return typeArgIsPure(typeArgs[0] as string)
     default:
       return false
   }
@@ -450,7 +467,7 @@ export function compressSuiAddress(addr: string): string {
   // remove leading zeros
   const stripped = addr.split('0x').join('')
   for (let i = 0; i < stripped.length; i++) {
-    if (stripped[i] !== '0') {
+    if (stripped.charAt(i) !== '0') {
       return `0x${stripped.substring(i)}`
     }
   }
@@ -473,11 +490,17 @@ export function compressSuiType(type: string): string {
     case 'signer':
       return typeName
     case 'vector':
-      return `vector<${compressSuiType(typeArgs[0])}>`
+      return `vector<${compressSuiType(typeArgs[0] as string)}>`
     default: {
       const tok = typeName.split('::')
-      tok[0] = compressSuiAddress(tok[0])
-      const compressedName = tok.join('::')
+      if (tok.length === 0) {
+        return typeName
+      }
+      const [firstPart, ...rest] = tok
+      if (firstPart === undefined) {
+        return typeName
+      }
+      const compressedName = [compressSuiAddress(firstPart), ...rest].join('::')
       if (typeArgs.length > 0) {
         return `${compressedName}<${typeArgs.map(typeArg => compressSuiType(typeArg)).join(',')}>`
       } else {
@@ -792,7 +815,8 @@ export function decodeFromFields(reified: Reified<TypeArgument, any>, field: any
       if (field.vec.length === 0) {
         return null
       }
-      return (reified.fromFields(field) as any).vec[0]
+      const vec = (reified.fromFields(field) as any).vec
+      return vec[0]
     }
     default:
       return reified.fromFields(field)
@@ -830,7 +854,8 @@ export function decodeFromFieldsWithTypes(reified: Reified<TypeArgument, any>, i
       if (item === null) {
         return null
       }
-      return decodeFromFieldsWithTypes((reified as any).reifiedTypeArgs[0], item)
+      const innerType = (reified as any).reifiedTypeArgs[0] as Reified<TypeArgument, any>
+      return decodeFromFieldsWithTypes(innerType, item)
     }
     default:
       return reified.fromFieldsWithTypes(item)
@@ -848,11 +873,13 @@ export function assertReifiedTypeArgsMatch(
     )
   }
   for (let i = 0; i < typeArgs.length; i++) {
-    if (compressSuiType(typeArgs[i]) !== compressSuiType(extractType(reifiedTypeArgs[i]))) {
+    const typeArg = typeArgs[i] as string
+    const reifiedTypeArg = reifiedTypeArgs[i] as Reified<TypeArgument, any> | PhantomReified<string>
+    if (compressSuiType(typeArg) !== compressSuiType(extractType(reifiedTypeArg))) {
       throw new Error(
         `provided item has mismatching type argments ${fullType} (expected ${extractType(
-          reifiedTypeArgs[i]
-        )}, got ${typeArgs[i]}))`
+          reifiedTypeArg
+        )}, got ${typeArg}))`
       )
     }
   }
@@ -883,7 +910,7 @@ export function fieldToJSON<T extends TypeArgument>(type: string, field: ToField
     case 'signer':
       return field as any
     case 'vector':
-      return (field as any[]).map((item: any) => fieldToJSON(typeArgs[0], item)) as any
+      return (field as any[]).map((item: any) => fieldToJSON(typeArgs[0] as string, item)) as any
     // handle special types
     case '0x1::string::String':
     case '0x1::ascii::String':
@@ -895,7 +922,7 @@ export function fieldToJSON<T extends TypeArgument>(type: string, field: ToField
       if (field === null) {
         return null as any
       }
-      return fieldToJSON(typeArgs[0], field)
+      return fieldToJSON(typeArgs[0] as string, field)
     }
     default:
       return (field as any).toJSONField()
@@ -930,7 +957,8 @@ export function decodeFromJSONField(typeArg: Reified<TypeArgument, any>, field: 
       if (field === null) {
         return null
       }
-      return decodeFromJSONField(typeArg.reifiedTypeArgs[0] as any, field)
+      const innerType = typeArg.reifiedTypeArgs[0] as any
+      return decodeFromJSONField(innerType, field)
     }
     default:
       return typeArg.fromJSONField(field)
@@ -1038,7 +1066,7 @@ export class Vector<T extends TypeArgument> implements VectorClass {
   }
 
   toJSONField() {
-    return this.elements.map(element => fieldToJSON(this.$typeArgs[0], element))
+    return this.elements.map(element => fieldToJSON(this.$typeArgs[0] as string, element))
   }
 
   toJSON() {

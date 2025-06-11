@@ -182,24 +182,19 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
     typeArgs: [A, B],
     fields: Record<string, any>,
   ): Pool<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
-    return Pool.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return Pool.reified(typeArg0, typeArg1).new({
       id: decodeFromFields(UID.reified(), fields.id),
-      balanceA: decodeFromFields(
-        Balance.reified(typeArgs[0]),
-        fields.balance_a,
-      ),
-      balanceB: decodeFromFields(
-        Balance.reified(typeArgs[1]),
-        fields.balance_b,
-      ),
+      balanceA: decodeFromFields(Balance.reified(typeArg0), fields.balance_a),
+      balanceB: decodeFromFields(Balance.reified(typeArg1), fields.balance_b),
       lpSupply: decodeFromFields(
-        Supply.reified(reified.phantom(LP1.reified(typeArgs[0], typeArgs[1]))),
+        Supply.reified(reified.phantom(LP1.reified(typeArg0, typeArg1))),
         fields.lp_supply,
       ),
       lpFeeBps: decodeFromFields("u64", fields.lp_fee_bps),
       adminFeePct: decodeFromFields("u64", fields.admin_fee_pct),
       adminFeeBalance: decodeFromFields(
-        Balance.reified(reified.phantom(LP1.reified(typeArgs[0], typeArgs[1]))),
+        Balance.reified(reified.phantom(LP1.reified(typeArg0, typeArg1))),
         fields.admin_fee_balance,
       ),
     });
@@ -215,26 +210,27 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
     if (!isPool(item.type)) {
       throw new Error("not a Pool type");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
-    return Pool.reified(typeArgs[0], typeArgs[1]).new({
+    return Pool.reified(typeArg0, typeArg1).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
       balanceA: decodeFromFieldsWithTypes(
-        Balance.reified(typeArgs[0]),
+        Balance.reified(typeArg0),
         item.fields.balance_a,
       ),
       balanceB: decodeFromFieldsWithTypes(
-        Balance.reified(typeArgs[1]),
+        Balance.reified(typeArg1),
         item.fields.balance_b,
       ),
       lpSupply: decodeFromFieldsWithTypes(
-        Supply.reified(reified.phantom(LP1.reified(typeArgs[0], typeArgs[1]))),
+        Supply.reified(reified.phantom(LP1.reified(typeArg0, typeArg1))),
         item.fields.lp_supply,
       ),
       lpFeeBps: decodeFromFieldsWithTypes("u64", item.fields.lp_fee_bps),
       adminFeePct: decodeFromFieldsWithTypes("u64", item.fields.admin_fee_pct),
       adminFeeBalance: decodeFromFieldsWithTypes(
-        Balance.reified(reified.phantom(LP1.reified(typeArgs[0], typeArgs[1]))),
+        Balance.reified(reified.phantom(LP1.reified(typeArg0, typeArg1))),
         item.fields.admin_fee_balance,
       ),
     });
@@ -247,10 +243,12 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
     typeArgs: [A, B],
     data: Uint8Array,
   ): Pool<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
-    return Pool.fromFields(typeArgs, Pool.bcs.parse(data));
+    const [typeArg0, typeArg1] = typeArgs;
+    return Pool.fromFields([typeArg0, typeArg1], Pool.bcs.parse(data));
   }
 
   toJSONField() {
+    const [typeArg0, typeArg1] = this.$typeArgs;
     return {
       id: this.id,
       balanceA: this.balanceA.toJSONField(),
@@ -277,24 +275,19 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
     typeArgs: [A, B],
     field: any,
   ): Pool<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
-    return Pool.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return Pool.reified(typeArg0, typeArg1).new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      balanceA: decodeFromJSONField(
-        Balance.reified(typeArgs[0]),
-        field.balanceA,
-      ),
-      balanceB: decodeFromJSONField(
-        Balance.reified(typeArgs[1]),
-        field.balanceB,
-      ),
+      balanceA: decodeFromJSONField(Balance.reified(typeArg0), field.balanceA),
+      balanceB: decodeFromJSONField(Balance.reified(typeArg1), field.balanceB),
       lpSupply: decodeFromJSONField(
-        Supply.reified(reified.phantom(LP1.reified(typeArgs[0], typeArgs[1]))),
+        Supply.reified(reified.phantom(LP1.reified(typeArg0, typeArg1))),
         field.lpSupply,
       ),
       lpFeeBps: decodeFromJSONField("u64", field.lpFeeBps),
       adminFeePct: decodeFromJSONField("u64", field.adminFeePct),
       adminFeeBalance: decodeFromJSONField(
-        Balance.reified(reified.phantom(LP1.reified(typeArgs[0], typeArgs[1]))),
+        Balance.reified(reified.phantom(LP1.reified(typeArg0, typeArg1))),
         field.adminFeeBalance,
       ),
     });
@@ -310,13 +303,14 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
     if (json.$typeName !== Pool.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(Pool.$typeName, ...typeArgs.map(extractType)),
+      composeSuiType(Pool.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
-      typeArgs,
+      [typeArg0, typeArg1],
     );
 
-    return Pool.fromJSONField(typeArgs, json);
+    return Pool.fromJSONField([typeArg0, typeArg1], json);
   }
 
   static fromSuiParsedData<
@@ -355,15 +349,19 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
           `type argument mismatch: expected 2 type arguments but got ${gotTypeArgs.length}`,
         );
       }
-      for (let i = 0; i < 2; i++) {
-        const gotTypeArg = compressSuiType(gotTypeArgs[i]);
-        const expectedTypeArg = compressSuiType(extractType(typeArgs[i]));
-        if (gotTypeArg !== expectedTypeArg) {
+      gotTypeArgs.forEach((gotTypeArg, i) => {
+        const compressedGotType = compressSuiType(gotTypeArg);
+        const typeArg = typeArgs[i];
+        if (!typeArg) {
+          throw new Error(`missing type argument at position ${i}`);
+        }
+        const expectedTypeArg = compressSuiType(extractType(typeArg));
+        if (compressedGotType !== expectedTypeArg) {
           throw new Error(
-            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
           );
         }
-      }
+      });
 
       return Pool.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }

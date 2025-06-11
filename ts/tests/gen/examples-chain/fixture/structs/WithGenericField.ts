@@ -165,11 +165,9 @@ export class WithGenericField<T0 extends TypeArgument> implements StructClass {
     typeArg: T0,
     data: Uint8Array,
   ): WithGenericField<ToTypeArgument<T0>> {
-    const typeArgs = [typeArg];
-
     return WithGenericField.fromFields(
       typeArg,
-      WithGenericField.bcs(toBcs(typeArgs[0])).parse(data),
+      WithGenericField.bcs(toBcs(typeArg)).parse(data),
     );
   }
 
@@ -247,11 +245,12 @@ export class WithGenericField<T0 extends TypeArgument> implements StructClass {
           `type argument mismatch: expected 1 type argument but got '${gotTypeArgs.length}'`,
         );
       }
-      const gotTypeArg = compressSuiType(gotTypeArgs[0]);
+      const gotTypeArg = gotTypeArgs[0] as string;
+      const compressedGotType = compressSuiType(gotTypeArg);
       const expectedTypeArg = compressSuiType(extractType(typeArg));
-      if (gotTypeArg !== compressSuiType(extractType(typeArg))) {
+      if (compressedGotType !== expectedTypeArg) {
         throw new Error(
-          `type argument mismatch: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+          `type argument mismatch: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
         );
       }
 

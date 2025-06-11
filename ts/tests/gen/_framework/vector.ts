@@ -110,7 +110,7 @@ export class Vector<T extends TypeArgument> implements VectorClass {
 
   toJSONField() {
     return this.elements.map((element) =>
-      fieldToJSON(this.$typeArgs[0], element),
+      fieldToJSON(this.$typeArgs[0] as string, element),
     );
   }
 

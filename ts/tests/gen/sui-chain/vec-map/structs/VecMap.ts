@@ -151,9 +151,10 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
     typeArgs: [T0, T1],
     fields: Record<string, any>,
   ): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
-    return VecMap.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return VecMap.reified(typeArg0, typeArg1).new({
       contents: decodeFromFields(
-        reified.vector(Entry1.reified(typeArgs[0], typeArgs[1])),
+        reified.vector(Entry1.reified(typeArg0, typeArg1)),
         fields.contents,
       ),
     });
@@ -169,11 +170,12 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
     if (!isVecMap(item.type)) {
       throw new Error("not a VecMap type");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
-    return VecMap.reified(typeArgs[0], typeArgs[1]).new({
+    return VecMap.reified(typeArg0, typeArg1).new({
       contents: decodeFromFieldsWithTypes(
-        reified.vector(Entry1.reified(typeArgs[0], typeArgs[1])),
+        reified.vector(Entry1.reified(typeArg0, typeArg1)),
         item.fields.contents,
       ),
     });
@@ -186,16 +188,18 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
     typeArgs: [T0, T1],
     data: Uint8Array,
   ): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+    const [typeArg0, typeArg1] = typeArgs;
     return VecMap.fromFields(
-      typeArgs,
-      VecMap.bcs(toBcs(typeArgs[0]), toBcs(typeArgs[1])).parse(data),
+      [typeArg0, typeArg1],
+      VecMap.bcs(toBcs(typeArg0), toBcs(typeArg1)).parse(data),
     );
   }
 
   toJSONField() {
+    const [typeArg0, typeArg1] = this.$typeArgs;
     return {
       contents: fieldToJSON<Vector<Entry1<T0, T1>>>(
-        `vector<${Entry1.$typeName}<${this.$typeArgs[0]}, ${this.$typeArgs[1]}>>`,
+        `vector<${Entry1.$typeName}<${typeArg0}, ${typeArg1}>>`,
         this.contents,
       ),
     };
@@ -216,9 +220,10 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
     typeArgs: [T0, T1],
     field: any,
   ): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
-    return VecMap.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return VecMap.reified(typeArg0, typeArg1).new({
       contents: decodeFromJSONField(
-        reified.vector(Entry1.reified(typeArgs[0], typeArgs[1])),
+        reified.vector(Entry1.reified(typeArg0, typeArg1)),
         field.contents,
       ),
     });
@@ -234,13 +239,17 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
     if (json.$typeName !== VecMap.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(VecMap.$typeName, ...typeArgs.map(extractType)),
+      composeSuiType(
+        VecMap.$typeName,
+        ...[typeArg0, typeArg1].map(extractType),
+      ),
       json.$typeArgs,
-      typeArgs,
+      [typeArg0, typeArg1],
     );
 
-    return VecMap.fromJSONField(typeArgs, json);
+    return VecMap.fromJSONField([typeArg0, typeArg1], json);
   }
 
   static fromSuiParsedData<
@@ -279,15 +288,19 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
           `type argument mismatch: expected 2 type arguments but got ${gotTypeArgs.length}`,
         );
       }
-      for (let i = 0; i < 2; i++) {
-        const gotTypeArg = compressSuiType(gotTypeArgs[i]);
-        const expectedTypeArg = compressSuiType(extractType(typeArgs[i]));
-        if (gotTypeArg !== expectedTypeArg) {
+      gotTypeArgs.forEach((gotTypeArg, i) => {
+        const compressedGotType = compressSuiType(gotTypeArg);
+        const typeArg = typeArgs[i];
+        if (!typeArg) {
+          throw new Error(`missing type argument at position ${i}`);
+        }
+        const expectedTypeArg = compressSuiType(extractType(typeArg));
+        if (compressedGotType !== expectedTypeArg) {
           throw new Error(
-            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
           );
         }
-      }
+      });
 
       return VecMap.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }

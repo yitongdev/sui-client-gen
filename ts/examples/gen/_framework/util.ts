@@ -13,6 +13,15 @@ export interface FieldsWithTypes {
 
 export type ObjectId = string;
 
+// Helper for safe array access when we know the element exists
+export function safeAccess<T>(arr: readonly T[], index: number): T {
+  const element = arr[index];
+  if (element === undefined) {
+    throw new Error(`Array index ${index} out of bounds`);
+  }
+  return element;
+}
+
 export type PureArg =
   | bigint
   | string
@@ -38,7 +47,7 @@ export function splitGenericParameters(
   let nestedAngleBrackets = 0;
 
   for (let i = 0; i < str.length; i++) {
-    const char = str[i];
+    const char = str.charAt(i);
     if (char === left) {
       nestedAngleBrackets++;
     }
@@ -146,9 +155,9 @@ export function pure(
       case "0x2::object::ID":
         return bcs.Address;
       case "0x1::option::Option":
-        return bcs.option(getBcsForType(typeArgs[0]));
+        return bcs.option(getBcsForType(typeArgs[0] as string));
       case "vector":
-        return bcs.vector(getBcsForType(typeArgs[0]));
+        return bcs.vector(getBcsForType(typeArgs[0] as string));
       default:
         throw new Error(`invalid primitive type ${type}`);
     }
@@ -230,8 +239,8 @@ export function pure(
       // wrap it with some
       return tx.moveCall({
         target: `0x1::option::some`,
-        typeArguments: [typeArgs[0]],
-        arguments: [pure(tx, arg, typeArgs[0])],
+        typeArguments: [typeArgs[0] as string],
+        arguments: [pure(tx, arg, typeArgs[0] as string)],
       });
     case "vector":
       if (!Array.isArray(arg)) {
@@ -253,7 +262,7 @@ export function pure(
       }
 
       return tx.makeMoveVec({
-        type: typeArgs[0],
+        type: typeArgs[0] as string,
         elements: arg as Array<TransactionObjectArgument>,
       });
     default:
@@ -305,7 +314,7 @@ export function generic(
   } else {
     const { typeName, typeArgs } = parseTypeName(type);
     if (typeName === "vector" && Array.isArray(arg)) {
-      const itemType = typeArgs[0];
+      const itemType = typeArgs[0] as string;
 
       return tx.makeMoveVec({
         type: itemType,
@@ -337,7 +346,7 @@ export function vector(
       parseTypeName(itemType);
     if (itemTypeName === "0x1::option::Option") {
       const elements = items.map((item) =>
-        option(tx, itemTypeArgs[0], item),
+        option(tx, itemTypeArgs[0] as string, item),
       ) as Array<TransactionObjectArgument>;
       return tx.makeMoveVec({
         type: itemType,
@@ -366,13 +375,13 @@ export function typeArgIsPure(type: string): boolean {
     case "signer":
       return true;
     case "vector":
-      return typeArgIsPure(typeArgs[0]);
+      return typeArgIsPure(typeArgs[0] as string);
     case "0x1::string::String":
     case "0x1::ascii::String":
     case "0x2::object::ID":
       return true;
     case "0x1::option::Option":
-      return typeArgIsPure(typeArgs[0]);
+      return typeArgIsPure(typeArgs[0] as string);
     default:
       return false;
   }
@@ -382,7 +391,7 @@ export function compressSuiAddress(addr: string): string {
   // remove leading zeros
   const stripped = addr.split("0x").join("");
   for (let i = 0; i < stripped.length; i++) {
-    if (stripped[i] !== "0") {
+    if (stripped.charAt(i) !== "0") {
       return `0x${stripped.substring(i)}`;
     }
   }
@@ -405,11 +414,19 @@ export function compressSuiType(type: string): string {
     case "signer":
       return typeName;
     case "vector":
-      return `vector<${compressSuiType(typeArgs[0])}>`;
+      return `vector<${compressSuiType(typeArgs[0] as string)}>`;
     default: {
       const tok = typeName.split("::");
-      tok[0] = compressSuiAddress(tok[0]);
-      const compressedName = tok.join("::");
+      if (tok.length === 0) {
+        return typeName;
+      }
+      const [firstPart, ...rest] = tok;
+      if (firstPart === undefined) {
+        return typeName;
+      }
+      const compressedName = [compressSuiAddress(firstPart), ...rest].join(
+        "::",
+      );
       if (typeArgs.length > 0) {
         return `${compressedName}<${typeArgs.map((typeArg) => compressSuiType(typeArg)).join(",")}>`;
       } else {

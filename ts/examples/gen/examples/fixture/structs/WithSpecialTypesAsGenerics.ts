@@ -410,25 +410,35 @@ export class WithSpecialTypesAsGenerics<
     ToTypeArgument<T6>,
     ToTypeArgument<T7>
   > {
+    const [
+      typeArg0,
+      typeArg1,
+      typeArg2,
+      typeArg3,
+      typeArg4,
+      typeArg5,
+      typeArg6,
+      typeArg7,
+    ] = typeArgs;
     return WithSpecialTypesAsGenerics.reified(
-      typeArgs[0],
-      typeArgs[1],
-      typeArgs[2],
-      typeArgs[3],
-      typeArgs[4],
-      typeArgs[5],
-      typeArgs[6],
-      typeArgs[7],
+      typeArg0,
+      typeArg1,
+      typeArg2,
+      typeArg3,
+      typeArg4,
+      typeArg5,
+      typeArg6,
+      typeArg7,
     ).new({
       id: decodeFromFields(UID.reified(), fields.id),
-      string: decodeFromFields(typeArgs[0], fields.string),
-      asciiString: decodeFromFields(typeArgs[1], fields.ascii_string),
-      url: decodeFromFields(typeArgs[2], fields.url),
-      idField: decodeFromFields(typeArgs[3], fields.id_field),
-      uid: decodeFromFields(typeArgs[4], fields.uid),
-      balance: decodeFromFields(typeArgs[5], fields.balance),
-      option: decodeFromFields(typeArgs[6], fields.option),
-      optionNone: decodeFromFields(typeArgs[7], fields.option_none),
+      string: decodeFromFields(typeArg0, fields.string),
+      asciiString: decodeFromFields(typeArg1, fields.ascii_string),
+      url: decodeFromFields(typeArg2, fields.url),
+      idField: decodeFromFields(typeArg3, fields.id_field),
+      uid: decodeFromFields(typeArg4, fields.uid),
+      balance: decodeFromFields(typeArg5, fields.balance),
+      option: decodeFromFields(typeArg6, fields.option),
+      optionNone: decodeFromFields(typeArg7, fields.option_none),
     });
   }
 
@@ -457,33 +467,40 @@ export class WithSpecialTypesAsGenerics<
     if (!isWithSpecialTypesAsGenerics(item.type)) {
       throw new Error("not a WithSpecialTypesAsGenerics type");
     }
+    const [
+      typeArg0,
+      typeArg1,
+      typeArg2,
+      typeArg3,
+      typeArg4,
+      typeArg5,
+      typeArg6,
+      typeArg7,
+    ] = typeArgs;
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
     return WithSpecialTypesAsGenerics.reified(
-      typeArgs[0],
-      typeArgs[1],
-      typeArgs[2],
-      typeArgs[3],
-      typeArgs[4],
-      typeArgs[5],
-      typeArgs[6],
-      typeArgs[7],
+      typeArg0,
+      typeArg1,
+      typeArg2,
+      typeArg3,
+      typeArg4,
+      typeArg5,
+      typeArg6,
+      typeArg7,
     ).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      string: decodeFromFieldsWithTypes(typeArgs[0], item.fields.string),
+      string: decodeFromFieldsWithTypes(typeArg0, item.fields.string),
       asciiString: decodeFromFieldsWithTypes(
-        typeArgs[1],
+        typeArg1,
         item.fields.ascii_string,
       ),
-      url: decodeFromFieldsWithTypes(typeArgs[2], item.fields.url),
-      idField: decodeFromFieldsWithTypes(typeArgs[3], item.fields.id_field),
-      uid: decodeFromFieldsWithTypes(typeArgs[4], item.fields.uid),
-      balance: decodeFromFieldsWithTypes(typeArgs[5], item.fields.balance),
-      option: decodeFromFieldsWithTypes(typeArgs[6], item.fields.option),
-      optionNone: decodeFromFieldsWithTypes(
-        typeArgs[7],
-        item.fields.option_none,
-      ),
+      url: decodeFromFieldsWithTypes(typeArg2, item.fields.url),
+      idField: decodeFromFieldsWithTypes(typeArg3, item.fields.id_field),
+      uid: decodeFromFieldsWithTypes(typeArg4, item.fields.uid),
+      balance: decodeFromFieldsWithTypes(typeArg5, item.fields.balance),
+      option: decodeFromFieldsWithTypes(typeArg6, item.fields.option),
+      optionNone: decodeFromFieldsWithTypes(typeArg7, item.fields.option_none),
     });
   }
 
@@ -509,32 +526,61 @@ export class WithSpecialTypesAsGenerics<
     ToTypeArgument<T6>,
     ToTypeArgument<T7>
   > {
+    const [
+      typeArg0,
+      typeArg1,
+      typeArg2,
+      typeArg3,
+      typeArg4,
+      typeArg5,
+      typeArg6,
+      typeArg7,
+    ] = typeArgs;
     return WithSpecialTypesAsGenerics.fromFields(
-      typeArgs,
+      [
+        typeArg0,
+        typeArg1,
+        typeArg2,
+        typeArg3,
+        typeArg4,
+        typeArg5,
+        typeArg6,
+        typeArg7,
+      ],
       WithSpecialTypesAsGenerics.bcs(
-        toBcs(typeArgs[0]),
-        toBcs(typeArgs[1]),
-        toBcs(typeArgs[2]),
-        toBcs(typeArgs[3]),
-        toBcs(typeArgs[4]),
-        toBcs(typeArgs[5]),
-        toBcs(typeArgs[6]),
-        toBcs(typeArgs[7]),
+        toBcs(typeArg0),
+        toBcs(typeArg1),
+        toBcs(typeArg2),
+        toBcs(typeArg3),
+        toBcs(typeArg4),
+        toBcs(typeArg5),
+        toBcs(typeArg6),
+        toBcs(typeArg7),
       ).parse(data),
     );
   }
 
   toJSONField() {
+    const [
+      typeArg0,
+      typeArg1,
+      typeArg2,
+      typeArg3,
+      typeArg4,
+      typeArg5,
+      typeArg6,
+      typeArg7,
+    ] = this.$typeArgs;
     return {
       id: this.id,
-      string: fieldToJSON<T0>(this.$typeArgs[0], this.string),
-      asciiString: fieldToJSON<T1>(this.$typeArgs[1], this.asciiString),
-      url: fieldToJSON<T2>(this.$typeArgs[2], this.url),
-      idField: fieldToJSON<T3>(this.$typeArgs[3], this.idField),
-      uid: fieldToJSON<T4>(this.$typeArgs[4], this.uid),
-      balance: fieldToJSON<T5>(this.$typeArgs[5], this.balance),
-      option: fieldToJSON<T6>(this.$typeArgs[6], this.option),
-      optionNone: fieldToJSON<T7>(this.$typeArgs[7], this.optionNone),
+      string: fieldToJSON<T0>(typeArg0, this.string),
+      asciiString: fieldToJSON<T1>(typeArg1, this.asciiString),
+      url: fieldToJSON<T2>(typeArg2, this.url),
+      idField: fieldToJSON<T3>(typeArg3, this.idField),
+      uid: fieldToJSON<T4>(typeArg4, this.uid),
+      balance: fieldToJSON<T5>(typeArg5, this.balance),
+      option: fieldToJSON<T6>(typeArg6, this.option),
+      optionNone: fieldToJSON<T7>(typeArg7, this.optionNone),
     };
   }
 
@@ -568,25 +614,35 @@ export class WithSpecialTypesAsGenerics<
     ToTypeArgument<T6>,
     ToTypeArgument<T7>
   > {
+    const [
+      typeArg0,
+      typeArg1,
+      typeArg2,
+      typeArg3,
+      typeArg4,
+      typeArg5,
+      typeArg6,
+      typeArg7,
+    ] = typeArgs;
     return WithSpecialTypesAsGenerics.reified(
-      typeArgs[0],
-      typeArgs[1],
-      typeArgs[2],
-      typeArgs[3],
-      typeArgs[4],
-      typeArgs[5],
-      typeArgs[6],
-      typeArgs[7],
+      typeArg0,
+      typeArg1,
+      typeArg2,
+      typeArg3,
+      typeArg4,
+      typeArg5,
+      typeArg6,
+      typeArg7,
     ).new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      string: decodeFromJSONField(typeArgs[0], field.string),
-      asciiString: decodeFromJSONField(typeArgs[1], field.asciiString),
-      url: decodeFromJSONField(typeArgs[2], field.url),
-      idField: decodeFromJSONField(typeArgs[3], field.idField),
-      uid: decodeFromJSONField(typeArgs[4], field.uid),
-      balance: decodeFromJSONField(typeArgs[5], field.balance),
-      option: decodeFromJSONField(typeArgs[6], field.option),
-      optionNone: decodeFromJSONField(typeArgs[7], field.optionNone),
+      string: decodeFromJSONField(typeArg0, field.string),
+      asciiString: decodeFromJSONField(typeArg1, field.asciiString),
+      url: decodeFromJSONField(typeArg2, field.url),
+      idField: decodeFromJSONField(typeArg3, field.idField),
+      uid: decodeFromJSONField(typeArg4, field.uid),
+      balance: decodeFromJSONField(typeArg5, field.balance),
+      option: decodeFromJSONField(typeArg6, field.option),
+      optionNone: decodeFromJSONField(typeArg7, field.optionNone),
     });
   }
 
@@ -615,16 +671,56 @@ export class WithSpecialTypesAsGenerics<
     if (json.$typeName !== WithSpecialTypesAsGenerics.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
+    const [
+      typeArg0,
+      typeArg1,
+      typeArg2,
+      typeArg3,
+      typeArg4,
+      typeArg5,
+      typeArg6,
+      typeArg7,
+    ] = typeArgs;
     assertReifiedTypeArgsMatch(
       composeSuiType(
         WithSpecialTypesAsGenerics.$typeName,
-        ...typeArgs.map(extractType),
+        ...[
+          typeArg0,
+          typeArg1,
+          typeArg2,
+          typeArg3,
+          typeArg4,
+          typeArg5,
+          typeArg6,
+          typeArg7,
+        ].map(extractType),
       ),
       json.$typeArgs,
-      typeArgs,
+      [
+        typeArg0,
+        typeArg1,
+        typeArg2,
+        typeArg3,
+        typeArg4,
+        typeArg5,
+        typeArg6,
+        typeArg7,
+      ],
     );
 
-    return WithSpecialTypesAsGenerics.fromJSONField(typeArgs, json);
+    return WithSpecialTypesAsGenerics.fromJSONField(
+      [
+        typeArg0,
+        typeArg1,
+        typeArg2,
+        typeArg3,
+        typeArg4,
+        typeArg5,
+        typeArg6,
+        typeArg7,
+      ],
+      json,
+    );
   }
 
   static fromSuiParsedData<
@@ -696,15 +792,19 @@ export class WithSpecialTypesAsGenerics<
           `type argument mismatch: expected 8 type arguments but got ${gotTypeArgs.length}`,
         );
       }
-      for (let i = 0; i < 8; i++) {
-        const gotTypeArg = compressSuiType(gotTypeArgs[i]);
-        const expectedTypeArg = compressSuiType(extractType(typeArgs[i]));
-        if (gotTypeArg !== expectedTypeArg) {
+      gotTypeArgs.forEach((gotTypeArg, i) => {
+        const compressedGotType = compressSuiType(gotTypeArg);
+        const typeArg = typeArgs[i];
+        if (!typeArg) {
+          throw new Error(`missing type argument at position ${i}`);
+        }
+        const expectedTypeArg = compressSuiType(extractType(typeArg));
+        if (compressedGotType !== expectedTypeArg) {
           throw new Error(
-            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
           );
         }
-      }
+      });
 
       return WithSpecialTypesAsGenerics.fromBcs(
         typeArgs,

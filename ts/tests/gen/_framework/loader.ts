@@ -62,7 +62,7 @@ export class StructClassLoader {
             `Vector expects 1 type argument, but got ${typeArgs.length}`,
           );
         }
-        return vector(this.reified(typeArgs[0]));
+        return vector(this.reified(typeArgs[0] as string));
       }
     }
 
@@ -81,10 +81,20 @@ export class StructClassLoader {
       Reified<TypeArgument, any> | PhantomReified<PhantomTypeArgument>
     > = [];
     for (let i = 0; i < typeArgs.length; i++) {
-      if (cls.$isPhantom[i]) {
-        reifiedTypeArgs.push(phantom(typeArgs[i]));
+      const isPhantom = cls.$isPhantom[i];
+      const typeArg = typeArgs[i];
+      if (isPhantom === undefined) {
+        throw new Error(
+          `Missing phantom type information for type parameter ${i} of ${typeName}`,
+        );
+      }
+      if (typeArg === undefined) {
+        throw new Error(`Missing type argument at index ${i} for ${typeName}`);
+      }
+      if (isPhantom === true) {
+        reifiedTypeArgs.push(phantom(typeArg));
       } else {
-        reifiedTypeArgs.push(this.reified(typeArgs[i]));
+        reifiedTypeArgs.push(this.reified(typeArg));
       }
     }
 

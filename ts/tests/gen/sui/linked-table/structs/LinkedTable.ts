@@ -173,11 +173,12 @@ export class LinkedTable<K extends TypeArgument, V extends PhantomTypeArgument>
     typeArgs: [K, V],
     fields: Record<string, any>,
   ): LinkedTable<ToTypeArgument<K>, ToPhantomTypeArgument<V>> {
-    return LinkedTable.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return LinkedTable.reified(typeArg0, typeArg1).new({
       id: decodeFromFields(UID.reified(), fields.id),
       size: decodeFromFields("u64", fields.size),
-      head: decodeFromFields(Option.reified(typeArgs[0]), fields.head),
-      tail: decodeFromFields(Option.reified(typeArgs[0]), fields.tail),
+      head: decodeFromFields(Option.reified(typeArg0), fields.head),
+      tail: decodeFromFields(Option.reified(typeArg0), fields.tail),
     });
   }
 
@@ -191,17 +192,18 @@ export class LinkedTable<K extends TypeArgument, V extends PhantomTypeArgument>
     if (!isLinkedTable(item.type)) {
       throw new Error("not a LinkedTable type");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
-    return LinkedTable.reified(typeArgs[0], typeArgs[1]).new({
+    return LinkedTable.reified(typeArg0, typeArg1).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
       size: decodeFromFieldsWithTypes("u64", item.fields.size),
       head: decodeFromFieldsWithTypes(
-        Option.reified(typeArgs[0]),
+        Option.reified(typeArg0),
         item.fields.head,
       ),
       tail: decodeFromFieldsWithTypes(
-        Option.reified(typeArgs[0]),
+        Option.reified(typeArg0),
         item.fields.tail,
       ),
     });
@@ -214,22 +216,24 @@ export class LinkedTable<K extends TypeArgument, V extends PhantomTypeArgument>
     typeArgs: [K, V],
     data: Uint8Array,
   ): LinkedTable<ToTypeArgument<K>, ToPhantomTypeArgument<V>> {
+    const [typeArg0, typeArg1] = typeArgs;
     return LinkedTable.fromFields(
-      typeArgs,
-      LinkedTable.bcs(toBcs(typeArgs[0])).parse(data),
+      [typeArg0, typeArg1],
+      LinkedTable.bcs(toBcs(typeArg0)).parse(data),
     );
   }
 
   toJSONField() {
+    const [typeArg0, typeArg1] = this.$typeArgs;
     return {
       id: this.id,
       size: this.size.toString(),
       head: fieldToJSON<Option<K>>(
-        `${Option.$typeName}<${this.$typeArgs[0]}>`,
+        `${Option.$typeName}<${typeArg0}>`,
         this.head,
       ),
       tail: fieldToJSON<Option<K>>(
-        `${Option.$typeName}<${this.$typeArgs[0]}>`,
+        `${Option.$typeName}<${typeArg0}>`,
         this.tail,
       ),
     };
@@ -250,11 +254,12 @@ export class LinkedTable<K extends TypeArgument, V extends PhantomTypeArgument>
     typeArgs: [K, V],
     field: any,
   ): LinkedTable<ToTypeArgument<K>, ToPhantomTypeArgument<V>> {
-    return LinkedTable.reified(typeArgs[0], typeArgs[1]).new({
+    const [typeArg0, typeArg1] = typeArgs;
+    return LinkedTable.reified(typeArg0, typeArg1).new({
       id: decodeFromJSONField(UID.reified(), field.id),
       size: decodeFromJSONField("u64", field.size),
-      head: decodeFromJSONField(Option.reified(typeArgs[0]), field.head),
-      tail: decodeFromJSONField(Option.reified(typeArgs[0]), field.tail),
+      head: decodeFromJSONField(Option.reified(typeArg0), field.head),
+      tail: decodeFromJSONField(Option.reified(typeArg0), field.tail),
     });
   }
 
@@ -268,13 +273,17 @@ export class LinkedTable<K extends TypeArgument, V extends PhantomTypeArgument>
     if (json.$typeName !== LinkedTable.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(LinkedTable.$typeName, ...typeArgs.map(extractType)),
+      composeSuiType(
+        LinkedTable.$typeName,
+        ...[typeArg0, typeArg1].map(extractType),
+      ),
       json.$typeArgs,
-      typeArgs,
+      [typeArg0, typeArg1],
     );
 
-    return LinkedTable.fromJSONField(typeArgs, json);
+    return LinkedTable.fromJSONField([typeArg0, typeArg1], json);
   }
 
   static fromSuiParsedData<
@@ -313,15 +322,19 @@ export class LinkedTable<K extends TypeArgument, V extends PhantomTypeArgument>
           `type argument mismatch: expected 2 type arguments but got ${gotTypeArgs.length}`,
         );
       }
-      for (let i = 0; i < 2; i++) {
-        const gotTypeArg = compressSuiType(gotTypeArgs[i]);
-        const expectedTypeArg = compressSuiType(extractType(typeArgs[i]));
-        if (gotTypeArg !== expectedTypeArg) {
+      gotTypeArgs.forEach((gotTypeArg, i) => {
+        const compressedGotType = compressSuiType(gotTypeArg);
+        const typeArg = typeArgs[i];
+        if (!typeArg) {
+          throw new Error(`missing type argument at position ${i}`);
+        }
+        const expectedTypeArg = compressSuiType(extractType(typeArg));
+        if (compressedGotType !== expectedTypeArg) {
           throw new Error(
-            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
           );
         }
-      }
+      });
 
       return LinkedTable.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }

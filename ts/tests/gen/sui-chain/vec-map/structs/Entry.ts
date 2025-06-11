@@ -149,9 +149,10 @@ export class Entry<T0 extends TypeArgument, T1 extends TypeArgument>
     typeArgs: [T0, T1],
     fields: Record<string, any>,
   ): Entry<ToTypeArgument<T0>, ToTypeArgument<T1>> {
-    return Entry.reified(typeArgs[0], typeArgs[1]).new({
-      key: decodeFromFields(typeArgs[0], fields.key),
-      value: decodeFromFields(typeArgs[1], fields.value),
+    const [typeArg0, typeArg1] = typeArgs;
+    return Entry.reified(typeArg0, typeArg1).new({
+      key: decodeFromFields(typeArg0, fields.key),
+      value: decodeFromFields(typeArg1, fields.value),
     });
   }
 
@@ -165,11 +166,12 @@ export class Entry<T0 extends TypeArgument, T1 extends TypeArgument>
     if (!isEntry(item.type)) {
       throw new Error("not a Entry type");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
-    return Entry.reified(typeArgs[0], typeArgs[1]).new({
-      key: decodeFromFieldsWithTypes(typeArgs[0], item.fields.key),
-      value: decodeFromFieldsWithTypes(typeArgs[1], item.fields.value),
+    return Entry.reified(typeArg0, typeArg1).new({
+      key: decodeFromFieldsWithTypes(typeArg0, item.fields.key),
+      value: decodeFromFieldsWithTypes(typeArg1, item.fields.value),
     });
   }
 
@@ -180,16 +182,18 @@ export class Entry<T0 extends TypeArgument, T1 extends TypeArgument>
     typeArgs: [T0, T1],
     data: Uint8Array,
   ): Entry<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+    const [typeArg0, typeArg1] = typeArgs;
     return Entry.fromFields(
-      typeArgs,
-      Entry.bcs(toBcs(typeArgs[0]), toBcs(typeArgs[1])).parse(data),
+      [typeArg0, typeArg1],
+      Entry.bcs(toBcs(typeArg0), toBcs(typeArg1)).parse(data),
     );
   }
 
   toJSONField() {
+    const [typeArg0, typeArg1] = this.$typeArgs;
     return {
-      key: fieldToJSON<T0>(this.$typeArgs[0], this.key),
-      value: fieldToJSON<T1>(this.$typeArgs[1], this.value),
+      key: fieldToJSON<T0>(typeArg0, this.key),
+      value: fieldToJSON<T1>(typeArg1, this.value),
     };
   }
 
@@ -208,9 +212,10 @@ export class Entry<T0 extends TypeArgument, T1 extends TypeArgument>
     typeArgs: [T0, T1],
     field: any,
   ): Entry<ToTypeArgument<T0>, ToTypeArgument<T1>> {
-    return Entry.reified(typeArgs[0], typeArgs[1]).new({
-      key: decodeFromJSONField(typeArgs[0], field.key),
-      value: decodeFromJSONField(typeArgs[1], field.value),
+    const [typeArg0, typeArg1] = typeArgs;
+    return Entry.reified(typeArg0, typeArg1).new({
+      key: decodeFromJSONField(typeArg0, field.key),
+      value: decodeFromJSONField(typeArg1, field.value),
     });
   }
 
@@ -224,13 +229,14 @@ export class Entry<T0 extends TypeArgument, T1 extends TypeArgument>
     if (json.$typeName !== Entry.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
+    const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(Entry.$typeName, ...typeArgs.map(extractType)),
+      composeSuiType(Entry.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
-      typeArgs,
+      [typeArg0, typeArg1],
     );
 
-    return Entry.fromJSONField(typeArgs, json);
+    return Entry.fromJSONField([typeArg0, typeArg1], json);
   }
 
   static fromSuiParsedData<
@@ -269,15 +275,19 @@ export class Entry<T0 extends TypeArgument, T1 extends TypeArgument>
           `type argument mismatch: expected 2 type arguments but got ${gotTypeArgs.length}`,
         );
       }
-      for (let i = 0; i < 2; i++) {
-        const gotTypeArg = compressSuiType(gotTypeArgs[i]);
-        const expectedTypeArg = compressSuiType(extractType(typeArgs[i]));
-        if (gotTypeArg !== expectedTypeArg) {
+      gotTypeArgs.forEach((gotTypeArg, i) => {
+        const compressedGotType = compressSuiType(gotTypeArg);
+        const typeArg = typeArgs[i];
+        if (!typeArg) {
+          throw new Error(`missing type argument at position ${i}`);
+        }
+        const expectedTypeArg = compressSuiType(extractType(typeArg));
+        if (compressedGotType !== expectedTypeArg) {
           throw new Error(
-            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${gotTypeArg}'`,
+            `type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${compressedGotType}'`,
           );
         }
-      }
+      });
 
       return Entry.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }

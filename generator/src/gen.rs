@@ -1429,7 +1429,7 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
         let type_param_names = match strct_type_arity {
             0 => vec![],
             1 => vec![quote!(typeArg)],
-            n => (0..n).map(|idx| quote!(typeArgs[$idx])).collect::<Vec<_>>(),
+            n => (0..n).map(|idx| quote!(typeArg$idx)).collect::<Vec<_>>(),
         };
         let reified = self.gen_reified(type_, &type_param_names);
 
@@ -1453,7 +1453,7 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
         let type_param_names = match strct_type_arity {
             0 => vec![],
             1 => vec![quote!(typeArg)],
-            n => (0..n).map(|idx| quote!(typeArgs[$idx])).collect::<Vec<_>>(),
+            n => (0..n).map(|idx| quote!(typeArg$idx)).collect::<Vec<_>>(),
         };
         let reified = self.gen_reified(type_, &type_param_names);
 
@@ -1475,7 +1475,7 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
         let type_param_names = match strct_type_arity {
             0 => vec![],
             1 => vec![quote!(typeArg)],
-            n => (0..n).map(|idx| quote!(typeArgs[$idx])).collect::<Vec<_>>(),
+            n => (0..n).map(|idx| quote!(typeArg$idx)).collect::<Vec<_>>(),
         };
         let reified = self.gen_reified(type_, &type_param_names);
 
@@ -2029,11 +2029,18 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
                 static fromFields$(params_toks_for_reified)(
                     $type_args_param_if_any fields: Record<string, any>
                 ): $(&struct_name)$(params_toks_for_to_type_argument) {
+                    $(match type_params.len() {
+                        0 => (),
+                        1 => (),
+                        n => {
+                            const [$(for idx in 0..n join (, ) => typeArg$idx)] = typeArgs;
+                        }
+                    })
                     return $(&struct_name).reified(
                         $(match type_params.len() {
                             0 => (),
                             1 => { typeArg, },
-                            _ => { $(for idx in 0..type_params.len() join (, ) => typeArgs[$idx]), },
+                            _ => { $(for idx in 0..type_params.len() join (, ) => typeArg$idx), },
                         })
                     ).new(
                         $(match fields.len() {
@@ -2053,6 +2060,13 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
                     if (!is$(&struct_name)(item.type)) {
                         throw new Error($[str]($[const](format!("not a {} type", &struct_name))));$['\n']
                     }
+                    $(match type_params.len() {
+                        0 => (),
+                        1 => (),
+                        n => {
+                            const [$(for idx in 0..n join (, ) => typeArg$idx)] = typeArgs;
+                        }
+                    })
                     $(ref toks {
                         if !type_params.is_empty() {
                             let type_args_name = match type_params.len() {
@@ -2069,7 +2083,7 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
                         $(match type_params.len() {
                             0 => (),
                             1 => { typeArg, },
-                            _ => { $(for idx in 0..type_params.len() join (, ) => typeArgs[$idx]), },
+                            _ => { $(for idx in 0..type_params.len() join (, ) => typeArg$idx), },
                         })
                     ).new(
                         $(match fields.len() {
@@ -2086,29 +2100,52 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
                 static fromBcs$(params_toks_for_reified)(
                     $type_args_param_if_any data: Uint8Array
                 ): $(&struct_name)$(params_toks_for_to_type_argument) {
-                    $(if type_params.len() == 1 && !non_phantom_params.is_empty() {
-                        const typeArgs = [typeArg];$['\n']
+                    $(match type_params.len() {
+                        0 => (),
+                        1 => (),
+                        n => {
+                            const [$(for idx in 0..n join (, ) => typeArg$idx)] = typeArgs;
+                        }
                     })
 
                     return $(&struct_name).fromFields(
                         $(match type_params.len() {
                             0 => (),
                             1 => { typeArg, },
-                            _ => { typeArgs, },
+                            _ => { [$(for idx in 0..type_params.len() join (, ) => typeArg$idx)], },
                         })
-                        $(match non_phantom_params.len() {
-                            0 => $(&struct_name).bcs.parse(data),
-                            len => $(&struct_name).bcs(
-                                $(for i in 0..len join (, ) => $to_bcs(typeArgs[$(non_phantom_param_idxs[i])]))
-                            ).parse(data),
+                        $(match (type_params.len(), non_phantom_params.len()) {
+                            (_, 0) => $(&struct_name).bcs.parse(data),
+                            (1, 1) => $(&struct_name).bcs($to_bcs(typeArg)).parse(data),
+                            (_n, _) => {
+                                $(match non_phantom_params.len() {
+                                    0 => $(&struct_name).bcs.parse(data),
+                                    len => $(&struct_name).bcs(
+                                        $(for i in 0..len join (, ) => $to_bcs(typeArg$(non_phantom_param_idxs[i])))
+                                    ).parse(data),
+                                })
+                            }
                         })
                     )
                 }$['\n']
 
                 toJSONField() {
+                    $(match type_params.len() {
+                        0 => (),
+                        1 => (),
+                        n => {
+                            const [$(for idx in 0..n join (, ) => typeArg$idx)] = this.$$typeArgs;
+                        }
+                    })
                     return {$['\n']
                         $(ref toks {
-                            let this_type_args = |idx: usize| quote!(this.$$typeArgs[$idx]);
+                            let this_type_args = |idx: usize| {
+                                match type_params.len() {
+                                    0 => panic!("no type params"), 
+                                    1 => quote!(this.$$typeArgs?.[0]),
+                                    _ => quote!(typeArg$idx),
+                                }
+                            };
                             let type_param_names = (0..strct_type_arity)
                                 .map(|idx| QuoteItem::Interpolated(this_type_args(idx)))
                                 .collect::<Vec<_>>();
@@ -2189,11 +2226,18 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
                 static fromJSONField$(params_toks_for_reified)(
                     $type_args_param_if_any field: any
                 ): $(&struct_name)$(params_toks_for_to_type_argument) {
+                    $(match type_params.len() {
+                        0 => (),
+                        1 => (),
+                        n => {
+                            const [$(for idx in 0..n join (, ) => typeArg$idx)] = typeArgs;
+                        }
+                    })
                     return $(&struct_name).reified(
                         $(match type_params.len() {
                             0 => (),
                             1 => { typeArg, },
-                            _ => { $(for idx in 0..type_params.len() join (, ) => typeArgs[$idx]), },
+                            _ => { $(for idx in 0..type_params.len() join (, ) => typeArg$idx), },
                         })
                     ).new(
                         $(match fields.len() {
@@ -2213,17 +2257,24 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
                     if (json.$$typeName !==  $(&struct_name).$$typeName) {
                         throw new Error("not a WithTwoGenerics json object")
                     };
+                    $(match type_params.len() {
+                        0 => (),
+                        1 => (),
+                        n => {
+                            const [$(for idx in 0..n join (, ) => typeArg$idx)] = typeArgs;
+                        }
+                    })
                     $(if !type_params.is_empty() {
                         $assert_reified_type_args_match(
                             $compose_sui_type($(&struct_name).$$typeName,
                             $(match type_params.len() {
                                 1 => { $extract_type(typeArg) },
-                                _ => { ...typeArgs.map($extract_type) },
+                                _ => { ...[$(for idx in 0..type_params.len() join (, ) => typeArg$idx)].map($extract_type) },
                             })),
                             json.$$typeArgs,
                             $(match type_params.len() {
                                 1 => { [typeArg] },
-                                _ => { typeArgs },
+                                _ => { [$(for idx in 0..type_params.len() join (, ) => typeArg$idx)] },
                             }),
                         )
                     })$['\n']
@@ -2232,7 +2283,7 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
                         $(match type_params.len() {
                             0 => (),
                             1 => { typeArg, },
-                            _ => { typeArgs, },
+                            _ => { [$(for idx in 0..type_params.len() join (, ) => typeArg$idx)], },
                         })
                         json,
                     )
@@ -2277,11 +2328,12 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
                                         "type argument mismatch: expected 1 type argument but got '${gotTypeArgs.length}'".to_string()
                                     )));
                                 };
-                                const gotTypeArg = $compress_sui_type(gotTypeArgs[0]);
+                                const gotTypeArg = gotTypeArgs[0] as string;
+                                const compressedGotType = $compress_sui_type(gotTypeArg);
                                 const expectedTypeArg = $compress_sui_type($extract_type(typeArg));
-                                if (gotTypeArg !== $compress_sui_type($extract_type(typeArg))) {
+                                if (compressedGotType !== expectedTypeArg) {
                                     throw new Error($(self.interpolate(
-                                        "type argument mismatch: expected '${expectedTypeArg}' but got '${gotTypeArg}'".to_string()
+                                        "type argument mismatch: expected '${expectedTypeArg}' but got '${compressedGotType}'".to_string()
                                     )));
                                 };
                             },
@@ -2292,15 +2344,19 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
                                         format!("type argument mismatch: expected {} type arguments but got ${{gotTypeArgs.length}}", n)
                                     )));
                                 };
-                                for (let i = 0; i < $n; i++) {
-                                    const gotTypeArg = $compress_sui_type(gotTypeArgs[i]);
-                                    const expectedTypeArg = $compress_sui_type($extract_type(typeArgs[i]));
-                                    if (gotTypeArg !== expectedTypeArg) {
+                                gotTypeArgs.forEach((gotTypeArg, i) => {
+                                    const compressedGotType = $compress_sui_type(gotTypeArg);
+                                    const typeArg = typeArgs[i];
+                                    if (!typeArg) {
+                                        throw new Error($(self.interpolate("missing type argument at position ${i}".to_string())));
+                                    }
+                                    const expectedTypeArg = $compress_sui_type($extract_type(typeArg));
+                                    if (compressedGotType !== expectedTypeArg) {
                                         throw new Error($(self.interpolate(
-                                            "type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${gotTypeArg}'".to_string()
+                                            "type argument mismatch at position ${i}: expected '${expectedTypeArg}' but got '${compressedGotType}'".to_string()
                                         )));
                                     }
-                                };
+                                });
                             }
                         })$['\n']
 
