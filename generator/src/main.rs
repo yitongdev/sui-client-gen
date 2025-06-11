@@ -307,18 +307,74 @@ fn resolve_top_level_pkg_addr_map(
 fn module_export_name(module: Symbol) -> String {
     // List of JS reserved words that can't be used as identifiers
     const JS_RESERVED_WORDS: [&str; 64] = [
-        "abstract", "arguments", "await", "boolean", "break", "byte", "case", "catch",
-        "char", "class", "const", "continue", "debugger", "default", "delete", "do",
-        "double", "else", "enum", "eval", "export", "extends", "false", "final",
-        "finally", "float", "for", "function", "goto", "if", "implements", "import",
-        "in", "instanceof", "int", "interface", "let", "long", "native", "new",
-        "null", "package", "private", "protected", "public", "return", "short", "static",
-        "super", "switch", "synchronized", "this", "throw", "throws", "transient", "true",
-        "try", "typeof", "var", "void", "volatile", "while", "with", "yield"
+        "abstract",
+        "arguments",
+        "await",
+        "boolean",
+        "break",
+        "byte",
+        "case",
+        "catch",
+        "char",
+        "class",
+        "const",
+        "continue",
+        "debugger",
+        "default",
+        "delete",
+        "do",
+        "double",
+        "else",
+        "enum",
+        "eval",
+        "export",
+        "extends",
+        "false",
+        "final",
+        "finally",
+        "float",
+        "for",
+        "function",
+        "goto",
+        "if",
+        "implements",
+        "import",
+        "in",
+        "instanceof",
+        "int",
+        "interface",
+        "let",
+        "long",
+        "native",
+        "new",
+        "null",
+        "package",
+        "private",
+        "protected",
+        "public",
+        "return",
+        "short",
+        "static",
+        "super",
+        "switch",
+        "synchronized",
+        "this",
+        "throw",
+        "throws",
+        "transient",
+        "true",
+        "try",
+        "typeof",
+        "var",
+        "void",
+        "volatile",
+        "while",
+        "with",
+        "yield",
     ];
-    
+
     let name = module.to_string();
-    
+
     // If the name is a reserved word, append "_module"
     if JS_RESERVED_WORDS.contains(&name.as_str()) {
         format!("{}_module", name)
@@ -370,20 +426,20 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
 
         // Track which modules have content
         let mut modules_with_content = Vec::new();
-        
+
         // Check each module to see if it has content
         for module in pkg.modules() {
             let has_functions = is_top_level && module.functions().count() > 0;
             let has_structs = module.structs().count() > 0;
-            
+
             if has_functions || has_structs {
                 modules_with_content.push(module);
             }
         }
-        
+
         // generate index.ts
         let mut index_tokens = js::Tokens::new();
-        
+
         // Export only modules that have content
         for module in &modules_with_content {
             let module_name = module_import_name(module.name());
@@ -394,10 +450,10 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
                 quote_in!(index_tokens => export * as $(&module_export_name) from $[str]($[const](format!("./{}/index.js", module_name)));$['\n']);
             }
         }
-        
+
         // Export constants
         quote_in!(index_tokens => $['\n']export * from "./constants.js";$['\n']);
-        
+
         write_tokens_to_file(&index_tokens, &package_path.join("index.ts"))?;
 
         // generate init.ts
@@ -409,12 +465,12 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
             // Check if module has any content
             let has_functions = is_top_level && module.functions().count() > 0;
             let has_structs = module.structs().count() > 0;
-            
+
             // Only create module directory if it has content
             if !has_functions && !has_structs {
                 continue;
             }
-            
+
             let module_path = package_path.join(module_import_name(module.name()));
             std::fs::create_dir_all(&module_path)?;
 
@@ -424,13 +480,15 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
                 if module.functions().count() > 0 {
                     std::fs::create_dir_all(&functions_path)?;
                 }
-                
+
                 let mut function_names = Vec::new();
                 for func in module.functions() {
                     let mut tokens = js::Tokens::new();
-                    let import_ctx =
-                        &mut StructClassImportCtx::for_individual_func_file(&module, top_level_pkg_names);
-                    
+                    let import_ctx = &mut StructClassImportCtx::for_individual_func_file(
+                        &module,
+                        top_level_pkg_names,
+                    );
+
                     let func_gen_res = FunctionsGen::new(
                         import_ctx,
                         FrameworkImportCtx::new(levels_from_root + 3), // One level deeper now
@@ -442,15 +500,18 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
                             continue;
                         }
                     };
-                    
+
                     func_gen.gen_fun_args_if(&mut tokens)?;
                     func_gen.gen_fun_binding(&mut tokens)?;
-                    
+
                     let func_name = func.name().to_string();
                     function_names.push(func_name.clone());
-                    write_tokens_to_file(&tokens, &functions_path.join(format!("{}.ts", func_name)))?;
+                    write_tokens_to_file(
+                        &tokens,
+                        &functions_path.join(format!("{}.ts", func_name)),
+                    )?;
                 }
-                
+
                 // generate <module>/functions.ts that re-exports all function files
                 if !function_names.is_empty() {
                     let mut tokens = js::Tokens::new();
@@ -466,13 +527,15 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
             if module.structs().count() > 0 {
                 std::fs::create_dir_all(&structs_path)?;
             }
-            
+
             let mut struct_names = Vec::new();
             for strct in module.structs() {
                 let mut tokens = js::Tokens::new();
-                let import_ctx =
-                    &mut StructClassImportCtx::for_individual_struct_file(&module, top_level_pkg_names);
-                
+                let import_ctx = &mut StructClassImportCtx::for_individual_struct_file(
+                    &module,
+                    top_level_pkg_names,
+                );
+
                 let mut structs_gen = StructsGen::new(
                     import_ctx,
                     FrameworkImportCtx::new(levels_from_root + 3), // One level deeper now
@@ -480,7 +543,7 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
                     version_table,
                     strct,
                 );
-                
+
                 // type check function
                 structs_gen.gen_is_type_func(&mut tokens);
 
@@ -489,12 +552,12 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
 
                 // struct class
                 structs_gen.gen_struct_class(&mut tokens);
-                
+
                 let struct_name = strct.name().to_string();
                 struct_names.push(struct_name.clone());
                 write_tokens_to_file(&tokens, &structs_path.join(format!("{}.ts", struct_name)))?;
             }
-            
+
             // generate <module>/structs.ts that re-exports all struct files
             if !struct_names.is_empty() {
                 let mut tokens = js::Tokens::new();
@@ -506,24 +569,24 @@ fn gen_packages_for_model<const HAS_SOURCE: usize>(
 
             // generate <module>/index.ts
             let mut index_tokens = js::Tokens::new();
-            
+
             // Check if there are any functions (only for top-level packages)
             let has_functions = is_top_level && module.functions().count() > 0;
-            
+
             // Check if there are any structs
             let has_structs = module.structs().count() > 0;
-            
+
             // Only generate files and index if there's actual content
             if has_functions || has_structs {
                 if has_functions {
                     quote_in!(index_tokens => export * from "./functions/index.js";$['\n']);
                 }
-                
+
                 if has_structs {
                     quote_in!(index_tokens => export * from "./structs/index.js";$['\n']);
                 }
             }
-            
+
             // Always write the index file, even if empty
             // This ensures that package index.ts can import all modules
             if index_tokens.is_empty() {
@@ -544,16 +607,16 @@ fn gen_root_index(
     out_root: &Path,
 ) -> Result<()> {
     let mut index_tokens = js::Tokens::new();
-    
+
     // Combine both maps to get all top-level packages
     let mut all_packages: BTreeMap<AccountAddress, Symbol> = BTreeMap::new();
     all_packages.extend(source_top_level_addr_map);
     all_packages.extend(on_chain_top_level_addr_map);
-    
+
     // Sort packages by name for consistent output
     let mut packages: Vec<(AccountAddress, Symbol)> = all_packages.into_iter().collect();
     packages.sort_by_key(|(_, name)| *name);
-    
+
     // Export each package
     for (_addr, pkg_name) in &packages {
         let import_name = package_import_name(*pkg_name);
@@ -563,18 +626,18 @@ fn gen_root_index(
             quote_in!(index_tokens => export * as $(&import_name) from $[str]($[const](format!("./{}/index.js", import_name)));$['\n']);
         }
     }
-    
+
     // Add empty line before constants
     quote_in!(index_tokens => $['\n']);
-    
+
     // Export top-level constants
     for (_addr, pkg_name) in &packages {
         let import_name = package_import_name(*pkg_name);
         let const_name = format!("{}_PACKAGE_ID", pkg_name.to_string().to_uppercase());
         quote_in!(index_tokens => export { PACKAGE_ID as $(&const_name) } from $[str]($[const](format!("./{}/constants.js", import_name)));$['\n']);
     }
-    
+
     write_tokens_to_file(&index_tokens, &out_root.join("index.ts"))?;
-    
+
     Ok(())
 }
