@@ -1,0 +1,7 @@
+[config]
+rpc = "https://fullnode.mainnet.sui.io:443"
+
+[packages]
+# Using on-chain packages avoids dependency conflicts
+suilend = { id = "0x43d25be6a55db4e7cc08dd914b8326e7d56fb64c67f0fb961a349e2872f4cc08" }
+springsui = { id = "0x8d196820b321bb3c56863b3eb0dd90a49f9eb52e3473373efcebf4388bf04416" }

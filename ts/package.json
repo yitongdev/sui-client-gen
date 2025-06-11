@@ -8,8 +8,8 @@
     "build:example": "bun build examples/main.ts --outdir dist --target bun --minify",
     "watch": "bun build examples/main.ts --outdir dist --target bun --watch",
     "check": "tsc --noEmit",
-    "lint": "eslint examples/ tests/",
-    "lint:fix": "eslint examples/ tests/ --fix",
+    "lint": "eslint examples/ tests/ suilend/",
+    "lint:fix": "eslint examples/ tests/ suilend/ --fix",
     "test": "bun test --timeout 15000"
   },
   "type": "module",

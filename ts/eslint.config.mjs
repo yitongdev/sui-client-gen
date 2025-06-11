@@ -27,9 +27,8 @@ export default [
     },
   },
   {
-    files: ['tests/gen/**/*.ts', 'examples/gen/**/*.ts'],
+    files: ['tests/gen/**/*.ts', 'examples/gen/**/*.ts', 'suilend/gen/**/*.ts'],
     rules: {
-      '@typescript-eslint/ban-types': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
     },

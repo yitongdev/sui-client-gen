@@ -1,0 +1,35 @@
+import { obj, pure } from "../../../_framework/util.js";
+import { PUBLISHED_AT } from "../../constants.js";
+import {
+  Transaction,
+  TransactionArgument,
+  TransactionObjectInput,
+  TransactionResult,
+} from "@mysten/sui/transactions";
+
+export interface FindDepositIndexByReserveArrayIndexArgs {
+  obligation: TransactionObjectInput;
+  u64: bigint | TransactionArgument;
+}
+
+/**
+ * Move function: `find_deposit_index_by_reserve_array_index`
+ * Module: `f95b06141ed4a174f239417323bde3f209b972f5930d8521ea38a52aff3a6ddf::obligation`
+ *
+ * @typeParam T0 - Type parameter 0
+ * @param tx - The transaction object
+ * @param obligation - Function parameter
+ * @param u64 - Function parameter
+ * @returns TransactionResult - The transaction result
+ */
+export function findDepositIndexByReserveArrayIndex(
+  tx: Transaction,
+  typeArg: string,
+  args: FindDepositIndexByReserveArrayIndexArgs,
+): TransactionResult {
+  return tx.moveCall({
+    target: `${PUBLISHED_AT}::obligation::find_deposit_index_by_reserve_array_index`,
+    typeArguments: [typeArg],
+    arguments: [obj(tx, args.obligation), pure(tx, args.u64, `u64`)],
+  });
+}
