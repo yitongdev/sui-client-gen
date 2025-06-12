@@ -33,10 +33,7 @@ export interface RandomGeneratorFields {
   buffer: ToField<Vector<"u8">>;
 }
 
-export type RandomGeneratorReified = Reified<
-  RandomGenerator,
-  RandomGeneratorFields
->;
+export type RandomGeneratorReified = Reified<RandomGenerator, RandomGeneratorFields>;
 
 /**
  * Move struct: `RandomGenerator`
@@ -80,20 +77,15 @@ export class RandomGenerator implements StructClass {
       typeArgs: [] as [],
       isPhantom: RandomGenerator.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        RandomGenerator.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        RandomGenerator.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => RandomGenerator.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => RandomGenerator.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => RandomGenerator.fromBcs(data),
       bcs: RandomGenerator.bcs,
       fromJSONField: (field: any) => RandomGenerator.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => RandomGenerator.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        RandomGenerator.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        RandomGenerator.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        RandomGenerator.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => RandomGenerator.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => RandomGenerator.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => RandomGenerator.fetch(client, id),
       new: (fields: RandomGeneratorFields) => {
         return new RandomGenerator([], fields);
       },
@@ -136,10 +128,7 @@ export class RandomGenerator implements StructClass {
     return RandomGenerator.reified().new({
       seed: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.seed),
       counter: decodeFromFieldsWithTypes("u16", item.fields.counter),
-      buffer: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.buffer,
-      ),
+      buffer: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.buffer),
     });
   }
 
@@ -156,11 +145,7 @@ export class RandomGenerator implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): RandomGenerator {
@@ -184,20 +169,15 @@ export class RandomGenerator implements StructClass {
       throw new Error("not an object");
     }
     if (!isRandomGenerator(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a RandomGenerator object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a RandomGenerator object`);
     }
     return RandomGenerator.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): RandomGenerator {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isRandomGenerator(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a RandomGenerator object`);
+      if (data.bcs.dataType !== "moveObject" || !isRandomGenerator(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a RandomGenerator object`);
       }
 
       return RandomGenerator.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -213,14 +193,9 @@ export class RandomGenerator implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<RandomGenerator> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching RandomGenerator object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching RandomGenerator object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isRandomGenerator(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isRandomGenerator(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a RandomGenerator object`);
     }
 

@@ -21,10 +21,7 @@ export interface SetRedeemFeeBpsArgs {
  * @param u64 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function setRedeemFeeBps(
-  tx: Transaction,
-  args: SetRedeemFeeBpsArgs,
-): TransactionResult {
+export function setRedeemFeeBps(tx: Transaction, args: SetRedeemFeeBpsArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::fees::set_redeem_fee_bps`,
     arguments: [obj(tx, args.feeConfigBuilder), pure(tx, args.u64, `u64`)],

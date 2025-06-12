@@ -1,10 +1,6 @@
 import { GenericArg, pure, vector } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface RemoveArgs {
   vecT0: Array<GenericArg> | TransactionArgument;
@@ -21,17 +17,10 @@ export interface RemoveArgs {
  * @param u64 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function remove(
-  tx: Transaction,
-  typeArg: string,
-  args: RemoveArgs,
-): TransactionResult {
+export function remove(tx: Transaction, typeArg: string, args: RemoveArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::vector::remove`,
     typeArguments: [typeArg],
-    arguments: [
-      vector(tx, `${typeArg}`, args.vecT0),
-      pure(tx, args.u64, `u64`),
-    ],
+    arguments: [vector(tx, `${typeArg}`, args.vecT0), pure(tx, args.u64, `u64`)],
   });
 }

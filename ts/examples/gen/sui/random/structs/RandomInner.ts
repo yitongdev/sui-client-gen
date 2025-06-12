@@ -11,11 +11,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -80,20 +76,15 @@ export class RandomInner implements StructClass {
       typeArgs: [] as [],
       isPhantom: RandomInner.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        RandomInner.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        RandomInner.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => RandomInner.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => RandomInner.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => RandomInner.fromBcs(data),
       bcs: RandomInner.bcs,
       fromJSONField: (field: any) => RandomInner.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => RandomInner.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        RandomInner.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        RandomInner.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        RandomInner.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => RandomInner.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => RandomInner.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => RandomInner.fetch(client, id),
       new: (fields: RandomInnerFields) => {
         return new RandomInner([], fields);
       },
@@ -138,14 +129,8 @@ export class RandomInner implements StructClass {
     return RandomInner.reified().new({
       version: decodeFromFieldsWithTypes("u64", item.fields.version),
       epoch: decodeFromFieldsWithTypes("u64", item.fields.epoch),
-      randomnessRound: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.randomness_round,
-      ),
-      randomBytes: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.random_bytes,
-      ),
+      randomnessRound: decodeFromFieldsWithTypes("u64", item.fields.randomness_round),
+      randomBytes: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.random_bytes),
     });
   }
 
@@ -163,11 +148,7 @@ export class RandomInner implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): RandomInner {
@@ -192,9 +173,7 @@ export class RandomInner implements StructClass {
       throw new Error("not an object");
     }
     if (!isRandomInner(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a RandomInner object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a RandomInner object`);
     }
     return RandomInner.fromFieldsWithTypes(content);
   }
@@ -202,7 +181,7 @@ export class RandomInner implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): RandomInner {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isRandomInner(data.bcs.type)) {
-        throw new Error(`object at is not a RandomInner object`);
+        throw new Error(`object at ${data.objectId} is not a RandomInner object`);
       }
 
       return RandomInner.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -218,14 +197,9 @@ export class RandomInner implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<RandomInner> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching RandomInner object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching RandomInner object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isRandomInner(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isRandomInner(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a RandomInner object`);
     }
 

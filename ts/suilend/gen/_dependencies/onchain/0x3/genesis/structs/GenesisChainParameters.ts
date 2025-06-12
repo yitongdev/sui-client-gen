@@ -84,8 +84,7 @@ export class GenesisChainParameters implements StructClass {
     this.chainStartTimestampMs = fields.chainStartTimestampMs;
     this.epochDurationMs = fields.epochDurationMs;
     this.stakeSubsidyStartEpoch = fields.stakeSubsidyStartEpoch;
-    this.stakeSubsidyInitialDistributionAmount =
-      fields.stakeSubsidyInitialDistributionAmount;
+    this.stakeSubsidyInitialDistributionAmount = fields.stakeSubsidyInitialDistributionAmount;
     this.stakeSubsidyPeriodLength = fields.stakeSubsidyPeriodLength;
     this.stakeSubsidyDecreaseRate = fields.stakeSubsidyDecreaseRate;
     this.maxValidatorCount = fields.maxValidatorCount;
@@ -105,22 +104,18 @@ export class GenesisChainParameters implements StructClass {
       typeArgs: [] as [],
       isPhantom: GenesisChainParameters.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        GenesisChainParameters.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => GenesisChainParameters.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         GenesisChainParameters.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => GenesisChainParameters.fromBcs(data),
       bcs: GenesisChainParameters.bcs,
-      fromJSONField: (field: any) =>
-        GenesisChainParameters.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        GenesisChainParameters.fromJSON(json),
+      fromJSONField: (field: any) => GenesisChainParameters.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => GenesisChainParameters.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         GenesisChainParameters.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         GenesisChainParameters.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        GenesisChainParameters.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => GenesisChainParameters.fetch(client, id),
       new: (fields: GenesisChainParametersFields) => {
         return new GenesisChainParameters([], fields);
       },
@@ -159,36 +154,18 @@ export class GenesisChainParameters implements StructClass {
   static fromFields(fields: Record<string, any>): GenesisChainParameters {
     return GenesisChainParameters.reified().new({
       protocolVersion: decodeFromFields("u64", fields.protocol_version),
-      chainStartTimestampMs: decodeFromFields(
-        "u64",
-        fields.chain_start_timestamp_ms,
-      ),
+      chainStartTimestampMs: decodeFromFields("u64", fields.chain_start_timestamp_ms),
       epochDurationMs: decodeFromFields("u64", fields.epoch_duration_ms),
-      stakeSubsidyStartEpoch: decodeFromFields(
-        "u64",
-        fields.stake_subsidy_start_epoch,
-      ),
+      stakeSubsidyStartEpoch: decodeFromFields("u64", fields.stake_subsidy_start_epoch),
       stakeSubsidyInitialDistributionAmount: decodeFromFields(
         "u64",
         fields.stake_subsidy_initial_distribution_amount,
       ),
-      stakeSubsidyPeriodLength: decodeFromFields(
-        "u64",
-        fields.stake_subsidy_period_length,
-      ),
-      stakeSubsidyDecreaseRate: decodeFromFields(
-        "u16",
-        fields.stake_subsidy_decrease_rate,
-      ),
+      stakeSubsidyPeriodLength: decodeFromFields("u64", fields.stake_subsidy_period_length),
+      stakeSubsidyDecreaseRate: decodeFromFields("u16", fields.stake_subsidy_decrease_rate),
       maxValidatorCount: decodeFromFields("u64", fields.max_validator_count),
-      minValidatorJoiningStake: decodeFromFields(
-        "u64",
-        fields.min_validator_joining_stake,
-      ),
-      validatorLowStakeThreshold: decodeFromFields(
-        "u64",
-        fields.validator_low_stake_threshold,
-      ),
+      minValidatorJoiningStake: decodeFromFields("u64", fields.min_validator_joining_stake),
+      validatorLowStakeThreshold: decodeFromFields("u64", fields.validator_low_stake_threshold),
       validatorVeryLowStakeThreshold: decodeFromFields(
         "u64",
         fields.validator_very_low_stake_threshold,
@@ -206,18 +183,9 @@ export class GenesisChainParameters implements StructClass {
     }
 
     return GenesisChainParameters.reified().new({
-      protocolVersion: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.protocol_version,
-      ),
-      chainStartTimestampMs: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.chain_start_timestamp_ms,
-      ),
-      epochDurationMs: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.epoch_duration_ms,
-      ),
+      protocolVersion: decodeFromFieldsWithTypes("u64", item.fields.protocol_version),
+      chainStartTimestampMs: decodeFromFieldsWithTypes("u64", item.fields.chain_start_timestamp_ms),
+      epochDurationMs: decodeFromFieldsWithTypes("u64", item.fields.epoch_duration_ms),
       stakeSubsidyStartEpoch: decodeFromFieldsWithTypes(
         "u64",
         item.fields.stake_subsidy_start_epoch,
@@ -234,10 +202,7 @@ export class GenesisChainParameters implements StructClass {
         "u16",
         item.fields.stake_subsidy_decrease_rate,
       ),
-      maxValidatorCount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.max_validator_count,
-      ),
+      maxValidatorCount: decodeFromFieldsWithTypes("u64", item.fields.max_validator_count),
       minValidatorJoiningStake: decodeFromFieldsWithTypes(
         "u64",
         item.fields.min_validator_joining_stake,
@@ -258,9 +223,7 @@ export class GenesisChainParameters implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): GenesisChainParameters {
-    return GenesisChainParameters.fromFields(
-      GenesisChainParameters.bcs.parse(data),
-    );
+    return GenesisChainParameters.fromFields(GenesisChainParameters.bcs.parse(data));
   }
 
   toJSONField() {
@@ -269,69 +232,41 @@ export class GenesisChainParameters implements StructClass {
       chainStartTimestampMs: this.chainStartTimestampMs.toString(),
       epochDurationMs: this.epochDurationMs.toString(),
       stakeSubsidyStartEpoch: this.stakeSubsidyStartEpoch.toString(),
-      stakeSubsidyInitialDistributionAmount:
-        this.stakeSubsidyInitialDistributionAmount.toString(),
+      stakeSubsidyInitialDistributionAmount: this.stakeSubsidyInitialDistributionAmount.toString(),
       stakeSubsidyPeriodLength: this.stakeSubsidyPeriodLength.toString(),
       stakeSubsidyDecreaseRate: this.stakeSubsidyDecreaseRate,
       maxValidatorCount: this.maxValidatorCount.toString(),
       minValidatorJoiningStake: this.minValidatorJoiningStake.toString(),
       validatorLowStakeThreshold: this.validatorLowStakeThreshold.toString(),
-      validatorVeryLowStakeThreshold:
-        this.validatorVeryLowStakeThreshold.toString(),
-      validatorLowStakeGracePeriod:
-        this.validatorLowStakeGracePeriod.toString(),
+      validatorVeryLowStakeThreshold: this.validatorVeryLowStakeThreshold.toString(),
+      validatorLowStakeGracePeriod: this.validatorLowStakeGracePeriod.toString(),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): GenesisChainParameters {
     return GenesisChainParameters.reified().new({
       protocolVersion: decodeFromJSONField("u64", field.protocolVersion),
-      chainStartTimestampMs: decodeFromJSONField(
-        "u64",
-        field.chainStartTimestampMs,
-      ),
+      chainStartTimestampMs: decodeFromJSONField("u64", field.chainStartTimestampMs),
       epochDurationMs: decodeFromJSONField("u64", field.epochDurationMs),
-      stakeSubsidyStartEpoch: decodeFromJSONField(
-        "u64",
-        field.stakeSubsidyStartEpoch,
-      ),
+      stakeSubsidyStartEpoch: decodeFromJSONField("u64", field.stakeSubsidyStartEpoch),
       stakeSubsidyInitialDistributionAmount: decodeFromJSONField(
         "u64",
         field.stakeSubsidyInitialDistributionAmount,
       ),
-      stakeSubsidyPeriodLength: decodeFromJSONField(
-        "u64",
-        field.stakeSubsidyPeriodLength,
-      ),
-      stakeSubsidyDecreaseRate: decodeFromJSONField(
-        "u16",
-        field.stakeSubsidyDecreaseRate,
-      ),
+      stakeSubsidyPeriodLength: decodeFromJSONField("u64", field.stakeSubsidyPeriodLength),
+      stakeSubsidyDecreaseRate: decodeFromJSONField("u16", field.stakeSubsidyDecreaseRate),
       maxValidatorCount: decodeFromJSONField("u64", field.maxValidatorCount),
-      minValidatorJoiningStake: decodeFromJSONField(
-        "u64",
-        field.minValidatorJoiningStake,
-      ),
-      validatorLowStakeThreshold: decodeFromJSONField(
-        "u64",
-        field.validatorLowStakeThreshold,
-      ),
+      minValidatorJoiningStake: decodeFromJSONField("u64", field.minValidatorJoiningStake),
+      validatorLowStakeThreshold: decodeFromJSONField("u64", field.validatorLowStakeThreshold),
       validatorVeryLowStakeThreshold: decodeFromJSONField(
         "u64",
         field.validatorVeryLowStakeThreshold,
       ),
-      validatorLowStakeGracePeriod: decodeFromJSONField(
-        "u64",
-        field.validatorLowStakeGracePeriod,
-      ),
+      validatorLowStakeGracePeriod: decodeFromJSONField("u64", field.validatorLowStakeGracePeriod),
     });
   }
 
@@ -357,11 +292,8 @@ export class GenesisChainParameters implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): GenesisChainParameters {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isGenesisChainParameters(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a GenesisChainParameters object`);
+      if (data.bcs.dataType !== "moveObject" || !isGenesisChainParameters(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a GenesisChainParameters object`);
       }
 
       return GenesisChainParameters.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -374,23 +306,15 @@ export class GenesisChainParameters implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<GenesisChainParameters> {
+  static async fetch(client: SuiClient, id: string): Promise<GenesisChainParameters> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
         `error fetching GenesisChainParameters object at id ${id}: ${res.error.code}`,
       );
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isGenesisChainParameters(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a GenesisChainParameters object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isGenesisChainParameters(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a GenesisChainParameters object`);
     }
 
     return GenesisChainParameters.fromSuiObjectData(res.data);

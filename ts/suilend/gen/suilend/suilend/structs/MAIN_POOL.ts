@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -69,18 +65,14 @@ export class MAIN_POOL implements StructClass {
       isPhantom: MAIN_POOL.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => MAIN_POOL.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        MAIN_POOL.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => MAIN_POOL.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => MAIN_POOL.fromBcs(data),
       bcs: MAIN_POOL.bcs,
       fromJSONField: (field: any) => MAIN_POOL.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => MAIN_POOL.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        MAIN_POOL.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        MAIN_POOL.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        MAIN_POOL.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => MAIN_POOL.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => MAIN_POOL.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => MAIN_POOL.fetch(client, id),
       new: (fields: MAIN_POOLFields) => {
         return new MAIN_POOL([], fields);
       },
@@ -106,9 +98,7 @@ export class MAIN_POOL implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): MAIN_POOL {
-    return MAIN_POOL.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return MAIN_POOL.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): MAIN_POOL {
@@ -132,17 +122,11 @@ export class MAIN_POOL implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): MAIN_POOL {
-    return MAIN_POOL.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return MAIN_POOL.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): MAIN_POOL {
@@ -158,9 +142,7 @@ export class MAIN_POOL implements StructClass {
       throw new Error("not an object");
     }
     if (!isMAIN_POOL(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a MAIN_POOL object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a MAIN_POOL object`);
     }
     return MAIN_POOL.fromFieldsWithTypes(content);
   }
@@ -168,7 +150,7 @@ export class MAIN_POOL implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): MAIN_POOL {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isMAIN_POOL(data.bcs.type)) {
-        throw new Error(`object at is not a MAIN_POOL object`);
+        throw new Error(`object at ${data.objectId} is not a MAIN_POOL object`);
       }
 
       return MAIN_POOL.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -184,14 +166,9 @@ export class MAIN_POOL implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<MAIN_POOL> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching MAIN_POOL object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching MAIN_POOL object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isMAIN_POOL(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isMAIN_POOL(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a MAIN_POOL object`);
     }
 

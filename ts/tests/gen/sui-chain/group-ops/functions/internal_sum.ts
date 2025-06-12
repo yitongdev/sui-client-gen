@@ -1,16 +1,10 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface InternalSumArgs {
   u8: number | TransactionArgument;
-  vecVecU8:
-    | Array<Array<number | TransactionArgument> | TransactionArgument>
-    | TransactionArgument;
+  vecVecU8: Array<Array<number | TransactionArgument> | TransactionArgument> | TransactionArgument;
 }
 
 /**
@@ -22,15 +16,9 @@ export interface InternalSumArgs {
  * @param vecVecU8 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function internalSum(
-  tx: Transaction,
-  args: InternalSumArgs,
-): TransactionResult {
+export function internalSum(tx: Transaction, args: InternalSumArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::group_ops::internal_sum`,
-    arguments: [
-      pure(tx, args.u8, `u8`),
-      pure(tx, args.vecVecU8, `vector<vector<u8>>`),
-    ],
+    arguments: [pure(tx, args.u8, `u8`), pure(tx, args.vecVecU8, `vector<vector<u8>>`)],
   });
 }

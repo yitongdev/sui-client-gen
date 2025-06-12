@@ -1,10 +1,6 @@
 import { GenericArg, generic, pure, vector } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface InsertArgs {
   v: Array<GenericArg> | TransactionArgument;
@@ -22,11 +18,7 @@ export interface InsertArgs {
  * @param e - Function parameter
  * @param i - Function parameter
  */
-export function insert(
-  tx: Transaction,
-  typeArg: string,
-  args: InsertArgs,
-): TransactionResult {
+export function insert(tx: Transaction, typeArg: string, args: InsertArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::vector::insert`,
     typeArguments: [typeArg],

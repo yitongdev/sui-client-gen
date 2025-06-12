@@ -1,10 +1,6 @@
 import { GenericArg, pure, vector } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface BorrowArgs {
   v: Array<GenericArg> | TransactionArgument;
@@ -21,11 +17,7 @@ export interface BorrowArgs {
  * @param i - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function borrow(
-  tx: Transaction,
-  typeArg: string,
-  args: BorrowArgs,
-): TransactionResult {
+export function borrow(tx: Transaction, typeArg: string, args: BorrowArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::vector::borrow`,
     typeArguments: [typeArg],

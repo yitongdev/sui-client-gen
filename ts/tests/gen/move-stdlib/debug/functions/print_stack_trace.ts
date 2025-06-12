@@ -8,8 +8,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param tx - The transaction object
  */
 export function printStackTrace(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::debug::print_stack_trace`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::debug::print_stack_trace`, arguments: [] });
 }

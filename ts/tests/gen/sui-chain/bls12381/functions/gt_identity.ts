@@ -9,8 +9,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @returns TransactionResult - The transaction result
  */
 export function gtIdentity(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::bls12381::gt_identity`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::bls12381::gt_identity`, arguments: [] });
 }

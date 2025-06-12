@@ -21,10 +21,7 @@ export interface MultiplyU64Args {
  * @param fixedPoint32 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function multiplyU64(
-  tx: Transaction,
-  args: MultiplyU64Args,
-): TransactionResult {
+export function multiplyU64(tx: Transaction, args: MultiplyU64Args): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::fixed_point32::multiply_u64`,
     arguments: [pure(tx, args.u64, `u64`), obj(tx, args.fixedPoint32)],

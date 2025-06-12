@@ -24,16 +24,9 @@ export interface TakeActiveStakeArgs {
  * @param txContext - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function takeActiveStake(
-  tx: Transaction,
-  args: TakeActiveStakeArgs,
-): TransactionResult {
+export function takeActiveStake(tx: Transaction, args: TakeActiveStakeArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::storage::take_active_stake`,
-    arguments: [
-      obj(tx, args.storage),
-      obj(tx, args.suiSystemState),
-      pure(tx, args.u64, `u64`),
-    ],
+    arguments: [obj(tx, args.storage), obj(tx, args.suiSystemState), pure(tx, args.u64, `u64`)],
   });
 }

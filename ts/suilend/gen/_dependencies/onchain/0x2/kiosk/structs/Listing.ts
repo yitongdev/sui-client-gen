@@ -65,24 +65,18 @@ export class Listing implements StructClass {
   static reified(): ListingReified {
     return {
       typeName: Listing.$typeName,
-      fullTypeName: composeSuiType(
-        Listing.$typeName,
-        ...[],
-      ) as `${typeof PKG_V35}::kiosk::Listing`,
+      fullTypeName: composeSuiType(Listing.$typeName, ...[]) as `${typeof PKG_V35}::kiosk::Listing`,
       typeArgs: [] as [],
       isPhantom: Listing.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Listing.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Listing.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Listing.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Listing.fromBcs(data),
       bcs: Listing.bcs,
       fromJSONField: (field: any) => Listing.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Listing.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Listing.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Listing.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Listing.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Listing.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Listing.fetch(client, id),
       new: (fields: ListingFields) => {
         return new Listing([], fields);
@@ -139,11 +133,7 @@ export class Listing implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Listing {
@@ -166,9 +156,7 @@ export class Listing implements StructClass {
       throw new Error("not an object");
     }
     if (!isListing(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Listing object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Listing object`);
     }
     return Listing.fromFieldsWithTypes(content);
   }
@@ -176,7 +164,7 @@ export class Listing implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Listing {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isListing(data.bcs.type)) {
-        throw new Error(`object at is not a Listing object`);
+        throw new Error(`object at ${data.objectId} is not a Listing object`);
       }
 
       return Listing.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -192,14 +180,9 @@ export class Listing implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Listing> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Listing object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Listing object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isListing(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isListing(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Listing object`);
     }
 

@@ -116,22 +116,18 @@ export class GenesisValidatorMetadata implements StructClass {
       typeArgs: [] as [],
       isPhantom: GenesisValidatorMetadata.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        GenesisValidatorMetadata.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => GenesisValidatorMetadata.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         GenesisValidatorMetadata.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => GenesisValidatorMetadata.fromBcs(data),
       bcs: GenesisValidatorMetadata.bcs,
-      fromJSONField: (field: any) =>
-        GenesisValidatorMetadata.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        GenesisValidatorMetadata.fromJSON(json),
+      fromJSONField: (field: any) => GenesisValidatorMetadata.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => GenesisValidatorMetadata.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         GenesisValidatorMetadata.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         GenesisValidatorMetadata.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        GenesisValidatorMetadata.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => GenesisValidatorMetadata.fetch(client, id),
       new: (fields: GenesisValidatorMetadataFields) => {
         return new GenesisValidatorMetadata([], fields);
       },
@@ -182,35 +178,14 @@ export class GenesisValidatorMetadata implements StructClass {
       suiAddress: decodeFromFields("address", fields.sui_address),
       gasPrice: decodeFromFields("u64", fields.gas_price),
       commissionRate: decodeFromFields("u64", fields.commission_rate),
-      protocolPublicKey: decodeFromFields(
-        reified.vector("u8"),
-        fields.protocol_public_key,
-      ),
-      proofOfPossession: decodeFromFields(
-        reified.vector("u8"),
-        fields.proof_of_possession,
-      ),
-      networkPublicKey: decodeFromFields(
-        reified.vector("u8"),
-        fields.network_public_key,
-      ),
-      workerPublicKey: decodeFromFields(
-        reified.vector("u8"),
-        fields.worker_public_key,
-      ),
-      networkAddress: decodeFromFields(
-        reified.vector("u8"),
-        fields.network_address,
-      ),
+      protocolPublicKey: decodeFromFields(reified.vector("u8"), fields.protocol_public_key),
+      proofOfPossession: decodeFromFields(reified.vector("u8"), fields.proof_of_possession),
+      networkPublicKey: decodeFromFields(reified.vector("u8"), fields.network_public_key),
+      workerPublicKey: decodeFromFields(reified.vector("u8"), fields.worker_public_key),
+      networkAddress: decodeFromFields(reified.vector("u8"), fields.network_address),
       p2PAddress: decodeFromFields(reified.vector("u8"), fields.p2p_address),
-      primaryAddress: decodeFromFields(
-        reified.vector("u8"),
-        fields.primary_address,
-      ),
-      workerAddress: decodeFromFields(
-        reified.vector("u8"),
-        fields.worker_address,
-      ),
+      primaryAddress: decodeFromFields(reified.vector("u8"), fields.primary_address),
+      workerAddress: decodeFromFields(reified.vector("u8"), fields.worker_address),
     });
   }
 
@@ -221,24 +196,12 @@ export class GenesisValidatorMetadata implements StructClass {
 
     return GenesisValidatorMetadata.reified().new({
       name: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.name),
-      description: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.description,
-      ),
-      imageUrl: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.image_url,
-      ),
-      projectUrl: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.project_url,
-      ),
+      description: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.description),
+      imageUrl: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.image_url),
+      projectUrl: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.project_url),
       suiAddress: decodeFromFieldsWithTypes("address", item.fields.sui_address),
       gasPrice: decodeFromFieldsWithTypes("u64", item.fields.gas_price),
-      commissionRate: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.commission_rate,
-      ),
+      commissionRate: decodeFromFieldsWithTypes("u64", item.fields.commission_rate),
       protocolPublicKey: decodeFromFieldsWithTypes(
         reified.vector("u8"),
         item.fields.protocol_public_key,
@@ -255,29 +218,15 @@ export class GenesisValidatorMetadata implements StructClass {
         reified.vector("u8"),
         item.fields.worker_public_key,
       ),
-      networkAddress: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.network_address,
-      ),
-      p2PAddress: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.p2p_address,
-      ),
-      primaryAddress: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.primary_address,
-      ),
-      workerAddress: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.worker_address,
-      ),
+      networkAddress: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.network_address),
+      p2PAddress: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.p2p_address),
+      primaryAddress: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.primary_address),
+      workerAddress: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.worker_address),
     });
   }
 
   static fromBcs(data: Uint8Array): GenesisValidatorMetadata {
-    return GenesisValidatorMetadata.fromFields(
-      GenesisValidatorMetadata.bcs.parse(data),
-    );
+    return GenesisValidatorMetadata.fromFields(GenesisValidatorMetadata.bcs.parse(data));
   }
 
   toJSONField() {
@@ -289,44 +238,19 @@ export class GenesisValidatorMetadata implements StructClass {
       suiAddress: this.suiAddress,
       gasPrice: this.gasPrice.toString(),
       commissionRate: this.commissionRate.toString(),
-      protocolPublicKey: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.protocolPublicKey,
-      ),
-      proofOfPossession: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.proofOfPossession,
-      ),
-      networkPublicKey: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.networkPublicKey,
-      ),
-      workerPublicKey: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.workerPublicKey,
-      ),
-      networkAddress: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.networkAddress,
-      ),
+      protocolPublicKey: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.protocolPublicKey),
+      proofOfPossession: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.proofOfPossession),
+      networkPublicKey: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.networkPublicKey),
+      workerPublicKey: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.workerPublicKey),
+      networkAddress: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.networkAddress),
       p2PAddress: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.p2PAddress),
-      primaryAddress: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.primaryAddress,
-      ),
-      workerAddress: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.workerAddress,
-      ),
+      primaryAddress: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.primaryAddress),
+      workerAddress: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.workerAddress),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): GenesisValidatorMetadata {
@@ -338,35 +262,14 @@ export class GenesisValidatorMetadata implements StructClass {
       suiAddress: decodeFromJSONField("address", field.suiAddress),
       gasPrice: decodeFromJSONField("u64", field.gasPrice),
       commissionRate: decodeFromJSONField("u64", field.commissionRate),
-      protocolPublicKey: decodeFromJSONField(
-        reified.vector("u8"),
-        field.protocolPublicKey,
-      ),
-      proofOfPossession: decodeFromJSONField(
-        reified.vector("u8"),
-        field.proofOfPossession,
-      ),
-      networkPublicKey: decodeFromJSONField(
-        reified.vector("u8"),
-        field.networkPublicKey,
-      ),
-      workerPublicKey: decodeFromJSONField(
-        reified.vector("u8"),
-        field.workerPublicKey,
-      ),
-      networkAddress: decodeFromJSONField(
-        reified.vector("u8"),
-        field.networkAddress,
-      ),
+      protocolPublicKey: decodeFromJSONField(reified.vector("u8"), field.protocolPublicKey),
+      proofOfPossession: decodeFromJSONField(reified.vector("u8"), field.proofOfPossession),
+      networkPublicKey: decodeFromJSONField(reified.vector("u8"), field.networkPublicKey),
+      workerPublicKey: decodeFromJSONField(reified.vector("u8"), field.workerPublicKey),
+      networkAddress: decodeFromJSONField(reified.vector("u8"), field.networkAddress),
       p2PAddress: decodeFromJSONField(reified.vector("u8"), field.p2PAddress),
-      primaryAddress: decodeFromJSONField(
-        reified.vector("u8"),
-        field.primaryAddress,
-      ),
-      workerAddress: decodeFromJSONField(
-        reified.vector("u8"),
-        field.workerAddress,
-      ),
+      primaryAddress: decodeFromJSONField(reified.vector("u8"), field.primaryAddress),
+      workerAddress: decodeFromJSONField(reified.vector("u8"), field.workerAddress),
     });
   }
 
@@ -392,11 +295,8 @@ export class GenesisValidatorMetadata implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): GenesisValidatorMetadata {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isGenesisValidatorMetadata(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a GenesisValidatorMetadata object`);
+      if (data.bcs.dataType !== "moveObject" || !isGenesisValidatorMetadata(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a GenesisValidatorMetadata object`);
       }
 
       return GenesisValidatorMetadata.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -409,10 +309,7 @@ export class GenesisValidatorMetadata implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<GenesisValidatorMetadata> {
+  static async fetch(client: SuiClient, id: string): Promise<GenesisValidatorMetadata> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
@@ -423,9 +320,7 @@ export class GenesisValidatorMetadata implements StructClass {
       res.data?.bcs?.dataType !== "moveObject" ||
       !isGenesisValidatorMetadata(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a GenesisValidatorMetadata object`,
-      );
+      throw new Error(`object at id ${id} is not a GenesisValidatorMetadata object`);
     }
 
     return GenesisValidatorMetadata.fromSuiObjectData(res.data);

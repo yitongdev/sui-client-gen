@@ -21,10 +21,7 @@ export interface RemainingOutflowArgs {
  * @param u64 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function remainingOutflow(
-  tx: Transaction,
-  args: RemainingOutflowArgs,
-): TransactionResult {
+export function remainingOutflow(tx: Transaction, args: RemainingOutflowArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::rate_limiter::remaining_outflow`,
     arguments: [obj(tx, args.rateLimiter), pure(tx, args.u64, `u64`)],

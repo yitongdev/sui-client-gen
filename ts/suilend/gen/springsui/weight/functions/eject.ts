@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface EjectArgs {
   weightHook: TransactionObjectInput;
@@ -21,11 +17,7 @@ export interface EjectArgs {
  * @param weightHookAdminCap - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function eject(
-  tx: Transaction,
-  typeArg: string,
-  args: EjectArgs,
-): TransactionResult {
+export function eject(tx: Transaction, typeArg: string, args: EjectArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::weight::eject`,
     typeArguments: [typeArg],

@@ -32,10 +32,7 @@ export function isObjectTable(type: string): boolean {
   return type.startsWith(`${PKG_V31}::object_table::ObjectTable` + "<");
 }
 
-export interface ObjectTableFields<
-  K extends PhantomTypeArgument,
-  V extends PhantomTypeArgument,
-> {
+export interface ObjectTableFields<K extends PhantomTypeArgument, V extends PhantomTypeArgument> {
   id: ToField<UID>;
   size: ToField<"u64">;
 }
@@ -52,10 +49,8 @@ export type ObjectTableReified<
  * @typeParam K - Type parameter 0 (phantom)
  * @typeParam V - Type parameter 1 (phantom)
  */
-export class ObjectTable<
-  K extends PhantomTypeArgument,
-  V extends PhantomTypeArgument,
-> implements StructClass
+export class ObjectTable<K extends PhantomTypeArgument, V extends PhantomTypeArgument>
+  implements StructClass
 {
   __StructClass = true as const;
 
@@ -88,10 +83,7 @@ export class ObjectTable<
   static reified<
     K extends PhantomReified<PhantomTypeArgument>,
     V extends PhantomReified<PhantomTypeArgument>,
-  >(
-    K: K,
-    V: V,
-  ): ObjectTableReified<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>> {
+  >(K: K, V: V): ObjectTableReified<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>> {
     return {
       typeName: ObjectTable.$typeName,
       fullTypeName: composeSuiType(
@@ -104,27 +96,16 @@ export class ObjectTable<
       ],
       isPhantom: ObjectTable.$isPhantom,
       reifiedTypeArgs: [K, V],
-      fromFields: (fields: Record<string, any>) =>
-        ObjectTable.fromFields([K, V], fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ObjectTable.fromFieldsWithTypes([K, V], item),
+      fromFields: (fields: Record<string, any>) => ObjectTable.fromFields([K, V], fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ObjectTable.fromFieldsWithTypes([K, V], item),
       fromBcs: (data: Uint8Array) => ObjectTable.fromBcs([K, V], data),
       bcs: ObjectTable.bcs,
       fromJSONField: (field: any) => ObjectTable.fromJSONField([K, V], field),
-      fromJSON: (json: Record<string, any>) =>
-        ObjectTable.fromJSON([K, V], json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ObjectTable.fromSuiParsedData([K, V], content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ObjectTable.fromSuiObjectData([K, V], content),
-      fetch: async (client: SuiClient, id: string) =>
-        ObjectTable.fetch(client, [K, V], id),
-      new: (
-        fields: ObjectTableFields<
-          ToPhantomTypeArgument<K>,
-          ToPhantomTypeArgument<V>
-        >,
-      ) => {
+      fromJSON: (json: Record<string, any>) => ObjectTable.fromJSON([K, V], json),
+      fromSuiParsedData: (content: SuiParsedData) => ObjectTable.fromSuiParsedData([K, V], content),
+      fromSuiObjectData: (content: SuiObjectData) => ObjectTable.fromSuiObjectData([K, V], content),
+      fetch: async (client: SuiClient, id: string) => ObjectTable.fetch(client, [K, V], id),
+      new: (fields: ObjectTableFields<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>>) => {
         return new ObjectTable([extractType(K), extractType(V)], fields);
       },
       kind: "StructClassReified",
@@ -141,9 +122,7 @@ export class ObjectTable<
   >(
     K: K,
     V: V,
-  ): PhantomReified<
-    ToTypeStr<ObjectTable<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>>>
-  > {
+  ): PhantomReified<ToTypeStr<ObjectTable<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>>>> {
     return phantom(ObjectTable.reified(K, V));
   }
   static get p() {
@@ -198,10 +177,7 @@ export class ObjectTable<
     data: Uint8Array,
   ): ObjectTable<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>> {
     const [typeArg0, typeArg1] = typeArgs;
-    return ObjectTable.fromFields(
-      [typeArg0, typeArg1],
-      ObjectTable.bcs.parse(data),
-    );
+    return ObjectTable.fromFields([typeArg0, typeArg1], ObjectTable.bcs.parse(data));
   }
 
   toJSONField() {
@@ -213,20 +189,13 @@ export class ObjectTable<
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
     K extends PhantomReified<PhantomTypeArgument>,
     V extends PhantomReified<PhantomTypeArgument>,
-  >(
-    typeArgs: [K, V],
-    field: any,
-  ): ObjectTable<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>> {
+  >(typeArgs: [K, V], field: any): ObjectTable<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>> {
     const [typeArg0, typeArg1] = typeArgs;
     return ObjectTable.reified(typeArg0, typeArg1).new({
       id: decodeFromJSONField(UID.reified(), field.id),
@@ -246,10 +215,7 @@ export class ObjectTable<
     }
     const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(
-        ObjectTable.$typeName,
-        ...[typeArg0, typeArg1].map(extractType),
-      ),
+      composeSuiType(ObjectTable.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
       [typeArg0, typeArg1],
     );
@@ -268,9 +234,7 @@ export class ObjectTable<
       throw new Error("not an object");
     }
     if (!isObjectTable(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ObjectTable object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ObjectTable object`);
     }
     return ObjectTable.fromFieldsWithTypes(typeArgs, content);
   }
@@ -284,7 +248,7 @@ export class ObjectTable<
   ): ObjectTable<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isObjectTable(data.bcs.type)) {
-        throw new Error(`object at is not a ObjectTable object`);
+        throw new Error(`object at ${data.objectId} is not a ObjectTable object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -327,14 +291,9 @@ export class ObjectTable<
   ): Promise<ObjectTable<ToPhantomTypeArgument<K>, ToPhantomTypeArgument<V>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ObjectTable object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ObjectTable object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isObjectTable(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isObjectTable(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ObjectTable object`);
     }
 

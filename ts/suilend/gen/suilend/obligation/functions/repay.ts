@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface RepayArgs {
   obligation: TransactionObjectInput;
@@ -25,11 +21,7 @@ export interface RepayArgs {
  * @param decimal - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function repay(
-  tx: Transaction,
-  typeArg: string,
-  args: RepayArgs,
-): TransactionResult {
+export function repay(tx: Transaction, typeArg: string, args: RepayArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::obligation::repay`,
     typeArguments: [typeArg],

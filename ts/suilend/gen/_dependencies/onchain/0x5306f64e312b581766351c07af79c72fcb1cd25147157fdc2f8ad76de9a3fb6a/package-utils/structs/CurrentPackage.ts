@@ -28,10 +28,7 @@ export interface CurrentPackageFields {
   dummyField: ToField<"bool">;
 }
 
-export type CurrentPackageReified = Reified<
-  CurrentPackage,
-  CurrentPackageFields
->;
+export type CurrentPackageReified = Reified<CurrentPackage, CurrentPackageFields>;
 
 /**
  * Move struct: `CurrentPackage`
@@ -71,20 +68,15 @@ export class CurrentPackage implements StructClass {
       typeArgs: [] as [],
       isPhantom: CurrentPackage.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        CurrentPackage.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        CurrentPackage.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => CurrentPackage.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => CurrentPackage.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => CurrentPackage.fromBcs(data),
       bcs: CurrentPackage.bcs,
       fromJSONField: (field: any) => CurrentPackage.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => CurrentPackage.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        CurrentPackage.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        CurrentPackage.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        CurrentPackage.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => CurrentPackage.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => CurrentPackage.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => CurrentPackage.fetch(client, id),
       new: (fields: CurrentPackageFields) => {
         return new CurrentPackage([], fields);
       },
@@ -136,11 +128,7 @@ export class CurrentPackage implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): CurrentPackage {
@@ -162,20 +150,15 @@ export class CurrentPackage implements StructClass {
       throw new Error("not an object");
     }
     if (!isCurrentPackage(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a CurrentPackage object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a CurrentPackage object`);
     }
     return CurrentPackage.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): CurrentPackage {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isCurrentPackage(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a CurrentPackage object`);
+      if (data.bcs.dataType !== "moveObject" || !isCurrentPackage(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a CurrentPackage object`);
       }
 
       return CurrentPackage.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,14 +174,9 @@ export class CurrentPackage implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<CurrentPackage> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching CurrentPackage object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching CurrentPackage object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isCurrentPackage(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isCurrentPackage(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a CurrentPackage object`);
     }
 

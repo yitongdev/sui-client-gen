@@ -78,22 +78,18 @@ export class TokenDistributionSchedule implements StructClass {
       typeArgs: [] as [],
       isPhantom: TokenDistributionSchedule.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        TokenDistributionSchedule.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => TokenDistributionSchedule.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         TokenDistributionSchedule.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => TokenDistributionSchedule.fromBcs(data),
       bcs: TokenDistributionSchedule.bcs,
-      fromJSONField: (field: any) =>
-        TokenDistributionSchedule.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        TokenDistributionSchedule.fromJSON(json),
+      fromJSONField: (field: any) => TokenDistributionSchedule.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => TokenDistributionSchedule.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         TokenDistributionSchedule.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         TokenDistributionSchedule.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        TokenDistributionSchedule.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => TokenDistributionSchedule.fetch(client, id),
       new: (fields: TokenDistributionScheduleFields) => {
         return new TokenDistributionSchedule([], fields);
       },
@@ -121,14 +117,8 @@ export class TokenDistributionSchedule implements StructClass {
 
   static fromFields(fields: Record<string, any>): TokenDistributionSchedule {
     return TokenDistributionSchedule.reified().new({
-      stakeSubsidyFundMist: decodeFromFields(
-        "u64",
-        fields.stake_subsidy_fund_mist,
-      ),
-      allocations: decodeFromFields(
-        reified.vector(TokenAllocation1.reified()),
-        fields.allocations,
-      ),
+      stakeSubsidyFundMist: decodeFromFields("u64", fields.stake_subsidy_fund_mist),
+      allocations: decodeFromFields(reified.vector(TokenAllocation1.reified()), fields.allocations),
     });
   }
 
@@ -138,10 +128,7 @@ export class TokenDistributionSchedule implements StructClass {
     }
 
     return TokenDistributionSchedule.reified().new({
-      stakeSubsidyFundMist: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.stake_subsidy_fund_mist,
-      ),
+      stakeSubsidyFundMist: decodeFromFieldsWithTypes("u64", item.fields.stake_subsidy_fund_mist),
       allocations: decodeFromFieldsWithTypes(
         reified.vector(TokenAllocation1.reified()),
         item.fields.allocations,
@@ -150,9 +137,7 @@ export class TokenDistributionSchedule implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): TokenDistributionSchedule {
-    return TokenDistributionSchedule.fromFields(
-      TokenDistributionSchedule.bcs.parse(data),
-    );
+    return TokenDistributionSchedule.fromFields(TokenDistributionSchedule.bcs.parse(data));
   }
 
   toJSONField() {
@@ -166,19 +151,12 @@ export class TokenDistributionSchedule implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): TokenDistributionSchedule {
     return TokenDistributionSchedule.reified().new({
-      stakeSubsidyFundMist: decodeFromJSONField(
-        "u64",
-        field.stakeSubsidyFundMist,
-      ),
+      stakeSubsidyFundMist: decodeFromJSONField("u64", field.stakeSubsidyFundMist),
       allocations: decodeFromJSONField(
         reified.vector(TokenAllocation1.reified()),
         field.allocations,
@@ -208,11 +186,8 @@ export class TokenDistributionSchedule implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): TokenDistributionSchedule {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isTokenDistributionSchedule(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a TokenDistributionSchedule object`);
+      if (data.bcs.dataType !== "moveObject" || !isTokenDistributionSchedule(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a TokenDistributionSchedule object`);
       }
 
       return TokenDistributionSchedule.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -225,10 +200,7 @@ export class TokenDistributionSchedule implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<TokenDistributionSchedule> {
+  static async fetch(client: SuiClient, id: string): Promise<TokenDistributionSchedule> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
@@ -239,9 +211,7 @@ export class TokenDistributionSchedule implements StructClass {
       res.data?.bcs?.dataType !== "moveObject" ||
       !isTokenDistributionSchedule(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a TokenDistributionSchedule object`,
-      );
+      throw new Error(`object at id ${id} is not a TokenDistributionSchedule object`);
     }
 
     return TokenDistributionSchedule.fromSuiObjectData(res.data);

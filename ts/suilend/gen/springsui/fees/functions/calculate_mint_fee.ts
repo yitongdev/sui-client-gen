@@ -21,10 +21,7 @@ export interface CalculateMintFeeArgs {
  * @param u64 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function calculateMintFee(
-  tx: Transaction,
-  args: CalculateMintFeeArgs,
-): TransactionResult {
+export function calculateMintFee(tx: Transaction, args: CalculateMintFeeArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::fees::calculate_mint_fee`,
     arguments: [obj(tx, args.feeConfig), pure(tx, args.u64, `u64`)],

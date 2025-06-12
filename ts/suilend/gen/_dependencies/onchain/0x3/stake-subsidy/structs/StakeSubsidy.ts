@@ -88,20 +88,15 @@ export class StakeSubsidy implements StructClass {
       typeArgs: [] as [],
       isPhantom: StakeSubsidy.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        StakeSubsidy.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        StakeSubsidy.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => StakeSubsidy.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => StakeSubsidy.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => StakeSubsidy.fromBcs(data),
       bcs: StakeSubsidy.bcs,
       fromJSONField: (field: any) => StakeSubsidy.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => StakeSubsidy.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        StakeSubsidy.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        StakeSubsidy.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        StakeSubsidy.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => StakeSubsidy.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => StakeSubsidy.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => StakeSubsidy.fetch(client, id),
       new: (fields: StakeSubsidyFields) => {
         return new StakeSubsidy([], fields);
       },
@@ -133,23 +128,11 @@ export class StakeSubsidy implements StructClass {
 
   static fromFields(fields: Record<string, any>): StakeSubsidy {
     return StakeSubsidy.reified().new({
-      balance: decodeFromFields(
-        Balance.reified(reified.phantom(SUI.reified())),
-        fields.balance,
-      ),
+      balance: decodeFromFields(Balance.reified(reified.phantom(SUI.reified())), fields.balance),
       distributionCounter: decodeFromFields("u64", fields.distribution_counter),
-      currentDistributionAmount: decodeFromFields(
-        "u64",
-        fields.current_distribution_amount,
-      ),
-      stakeSubsidyPeriodLength: decodeFromFields(
-        "u64",
-        fields.stake_subsidy_period_length,
-      ),
-      stakeSubsidyDecreaseRate: decodeFromFields(
-        "u16",
-        fields.stake_subsidy_decrease_rate,
-      ),
+      currentDistributionAmount: decodeFromFields("u64", fields.current_distribution_amount),
+      stakeSubsidyPeriodLength: decodeFromFields("u64", fields.stake_subsidy_period_length),
+      stakeSubsidyDecreaseRate: decodeFromFields("u16", fields.stake_subsidy_decrease_rate),
       extraFields: decodeFromFields(Bag.reified(), fields.extra_fields),
     });
   }
@@ -164,10 +147,7 @@ export class StakeSubsidy implements StructClass {
         Balance.reified(reified.phantom(SUI.reified())),
         item.fields.balance,
       ),
-      distributionCounter: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.distribution_counter,
-      ),
+      distributionCounter: decodeFromFieldsWithTypes("u64", item.fields.distribution_counter),
       currentDistributionAmount: decodeFromFieldsWithTypes(
         "u64",
         item.fields.current_distribution_amount,
@@ -180,10 +160,7 @@ export class StakeSubsidy implements StructClass {
         "u16",
         item.fields.stake_subsidy_decrease_rate,
       ),
-      extraFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.extra_fields,
-      ),
+      extraFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.extra_fields),
     });
   }
 
@@ -203,35 +180,16 @@ export class StakeSubsidy implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): StakeSubsidy {
     return StakeSubsidy.reified().new({
-      balance: decodeFromJSONField(
-        Balance.reified(reified.phantom(SUI.reified())),
-        field.balance,
-      ),
-      distributionCounter: decodeFromJSONField(
-        "u64",
-        field.distributionCounter,
-      ),
-      currentDistributionAmount: decodeFromJSONField(
-        "u64",
-        field.currentDistributionAmount,
-      ),
-      stakeSubsidyPeriodLength: decodeFromJSONField(
-        "u64",
-        field.stakeSubsidyPeriodLength,
-      ),
-      stakeSubsidyDecreaseRate: decodeFromJSONField(
-        "u16",
-        field.stakeSubsidyDecreaseRate,
-      ),
+      balance: decodeFromJSONField(Balance.reified(reified.phantom(SUI.reified())), field.balance),
+      distributionCounter: decodeFromJSONField("u64", field.distributionCounter),
+      currentDistributionAmount: decodeFromJSONField("u64", field.currentDistributionAmount),
+      stakeSubsidyPeriodLength: decodeFromJSONField("u64", field.stakeSubsidyPeriodLength),
+      stakeSubsidyDecreaseRate: decodeFromJSONField("u16", field.stakeSubsidyDecreaseRate),
       extraFields: decodeFromJSONField(Bag.reified(), field.extraFields),
     });
   }
@@ -249,20 +207,15 @@ export class StakeSubsidy implements StructClass {
       throw new Error("not an object");
     }
     if (!isStakeSubsidy(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a StakeSubsidy object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a StakeSubsidy object`);
     }
     return StakeSubsidy.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): StakeSubsidy {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isStakeSubsidy(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a StakeSubsidy object`);
+      if (data.bcs.dataType !== "moveObject" || !isStakeSubsidy(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a StakeSubsidy object`);
       }
 
       return StakeSubsidy.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -278,14 +231,9 @@ export class StakeSubsidy implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<StakeSubsidy> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching StakeSubsidy object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching StakeSubsidy object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isStakeSubsidy(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isStakeSubsidy(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a StakeSubsidy object`);
     }
 

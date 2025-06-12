@@ -41,9 +41,7 @@ export interface ValidatorSetFields {
   pendingActiveValidators: ToField<TableVec<ToPhantom<Validator>>>;
   pendingRemovals: ToField<Vector<"u64">>;
   stakingPoolMappings: ToField<Table<ToPhantom<ID>, "address">>;
-  inactiveValidators: ToField<
-    Table<ToPhantom<ID>, ToPhantom<ValidatorWrapper>>
-  >;
+  inactiveValidators: ToField<Table<ToPhantom<ID>, ToPhantom<ValidatorWrapper>>>;
   validatorCandidates: ToField<Table<"address", ToPhantom<ValidatorWrapper>>>;
   atRiskValidators: ToField<VecMap<"address", "u64">>;
   extraFields: ToField<Bag>;
@@ -72,12 +70,8 @@ export class ValidatorSet implements StructClass {
   readonly pendingActiveValidators: ToField<TableVec<ToPhantom<Validator>>>;
   readonly pendingRemovals: ToField<Vector<"u64">>;
   readonly stakingPoolMappings: ToField<Table<ToPhantom<ID>, "address">>;
-  readonly inactiveValidators: ToField<
-    Table<ToPhantom<ID>, ToPhantom<ValidatorWrapper>>
-  >;
-  readonly validatorCandidates: ToField<
-    Table<"address", ToPhantom<ValidatorWrapper>>
-  >;
+  readonly inactiveValidators: ToField<Table<ToPhantom<ID>, ToPhantom<ValidatorWrapper>>>;
+  readonly validatorCandidates: ToField<Table<"address", ToPhantom<ValidatorWrapper>>>;
   readonly atRiskValidators: ToField<VecMap<"address", "u64">>;
   readonly extraFields: ToField<Bag>;
 
@@ -109,20 +103,15 @@ export class ValidatorSet implements StructClass {
       typeArgs: [] as [],
       isPhantom: ValidatorSet.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ValidatorSet.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ValidatorSet.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ValidatorSet.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ValidatorSet.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ValidatorSet.fromBcs(data),
       bcs: ValidatorSet.bcs,
       fromJSONField: (field: any) => ValidatorSet.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ValidatorSet.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ValidatorSet.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ValidatorSet.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ValidatorSet.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ValidatorSet.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ValidatorSet.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ValidatorSet.fetch(client, id),
       new: (fields: ValidatorSetFields) => {
         return new ValidatorSet([], fields);
       },
@@ -172,29 +161,17 @@ export class ValidatorSet implements StructClass {
         TableVec.reified(reified.phantom(Validator.reified())),
         fields.pending_active_validators,
       ),
-      pendingRemovals: decodeFromFields(
-        reified.vector("u64"),
-        fields.pending_removals,
-      ),
+      pendingRemovals: decodeFromFields(reified.vector("u64"), fields.pending_removals),
       stakingPoolMappings: decodeFromFields(
-        Table.reified(
-          reified.phantom(ID.reified()),
-          reified.phantom("address"),
-        ),
+        Table.reified(reified.phantom(ID.reified()), reified.phantom("address")),
         fields.staking_pool_mappings,
       ),
       inactiveValidators: decodeFromFields(
-        Table.reified(
-          reified.phantom(ID.reified()),
-          reified.phantom(ValidatorWrapper.reified()),
-        ),
+        Table.reified(reified.phantom(ID.reified()), reified.phantom(ValidatorWrapper.reified())),
         fields.inactive_validators,
       ),
       validatorCandidates: decodeFromFields(
-        Table.reified(
-          reified.phantom("address"),
-          reified.phantom(ValidatorWrapper.reified()),
-        ),
+        Table.reified(reified.phantom("address"), reified.phantom(ValidatorWrapper.reified())),
         fields.validator_candidates,
       ),
       atRiskValidators: decodeFromFields(
@@ -225,34 +202,22 @@ export class ValidatorSet implements StructClass {
         item.fields.pending_removals,
       ),
       stakingPoolMappings: decodeFromFieldsWithTypes(
-        Table.reified(
-          reified.phantom(ID.reified()),
-          reified.phantom("address"),
-        ),
+        Table.reified(reified.phantom(ID.reified()), reified.phantom("address")),
         item.fields.staking_pool_mappings,
       ),
       inactiveValidators: decodeFromFieldsWithTypes(
-        Table.reified(
-          reified.phantom(ID.reified()),
-          reified.phantom(ValidatorWrapper.reified()),
-        ),
+        Table.reified(reified.phantom(ID.reified()), reified.phantom(ValidatorWrapper.reified())),
         item.fields.inactive_validators,
       ),
       validatorCandidates: decodeFromFieldsWithTypes(
-        Table.reified(
-          reified.phantom("address"),
-          reified.phantom(ValidatorWrapper.reified()),
-        ),
+        Table.reified(reified.phantom("address"), reified.phantom(ValidatorWrapper.reified())),
         item.fields.validator_candidates,
       ),
       atRiskValidators: decodeFromFieldsWithTypes(
         VecMap.reified("address", "u64"),
         item.fields.at_risk_validators,
       ),
-      extraFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.extra_fields,
-      ),
+      extraFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.extra_fields),
     });
   }
 
@@ -268,10 +233,7 @@ export class ValidatorSet implements StructClass {
         this.activeValidators,
       ),
       pendingActiveValidators: this.pendingActiveValidators.toJSONField(),
-      pendingRemovals: fieldToJSON<Vector<"u64">>(
-        `vector<u64>`,
-        this.pendingRemovals,
-      ),
+      pendingRemovals: fieldToJSON<Vector<"u64">>(`vector<u64>`, this.pendingRemovals),
       stakingPoolMappings: this.stakingPoolMappings.toJSONField(),
       inactiveValidators: this.inactiveValidators.toJSONField(),
       validatorCandidates: this.validatorCandidates.toJSONField(),
@@ -281,11 +243,7 @@ export class ValidatorSet implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ValidatorSet {
@@ -299,29 +257,17 @@ export class ValidatorSet implements StructClass {
         TableVec.reified(reified.phantom(Validator.reified())),
         field.pendingActiveValidators,
       ),
-      pendingRemovals: decodeFromJSONField(
-        reified.vector("u64"),
-        field.pendingRemovals,
-      ),
+      pendingRemovals: decodeFromJSONField(reified.vector("u64"), field.pendingRemovals),
       stakingPoolMappings: decodeFromJSONField(
-        Table.reified(
-          reified.phantom(ID.reified()),
-          reified.phantom("address"),
-        ),
+        Table.reified(reified.phantom(ID.reified()), reified.phantom("address")),
         field.stakingPoolMappings,
       ),
       inactiveValidators: decodeFromJSONField(
-        Table.reified(
-          reified.phantom(ID.reified()),
-          reified.phantom(ValidatorWrapper.reified()),
-        ),
+        Table.reified(reified.phantom(ID.reified()), reified.phantom(ValidatorWrapper.reified())),
         field.inactiveValidators,
       ),
       validatorCandidates: decodeFromJSONField(
-        Table.reified(
-          reified.phantom("address"),
-          reified.phantom(ValidatorWrapper.reified()),
-        ),
+        Table.reified(reified.phantom("address"), reified.phantom(ValidatorWrapper.reified())),
         field.validatorCandidates,
       ),
       atRiskValidators: decodeFromJSONField(
@@ -345,20 +291,15 @@ export class ValidatorSet implements StructClass {
       throw new Error("not an object");
     }
     if (!isValidatorSet(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ValidatorSet object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ValidatorSet object`);
     }
     return ValidatorSet.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ValidatorSet {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isValidatorSet(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ValidatorSet object`);
+      if (data.bcs.dataType !== "moveObject" || !isValidatorSet(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ValidatorSet object`);
       }
 
       return ValidatorSet.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -374,14 +315,9 @@ export class ValidatorSet implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ValidatorSet> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ValidatorSet object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ValidatorSet object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isValidatorSet(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isValidatorSet(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ValidatorSet object`);
     }
 

@@ -20,10 +20,7 @@ export interface SetBorrowLimitUsdArgs {
  * @param reserveConfigBuilder - Function parameter
  * @param u64 - Function parameter
  */
-export function setBorrowLimitUsd(
-  tx: Transaction,
-  args: SetBorrowLimitUsdArgs,
-): TransactionResult {
+export function setBorrowLimitUsd(tx: Transaction, args: SetBorrowLimitUsdArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve_config::set_borrow_limit_usd`,
     arguments: [obj(tx, args.reserveConfigBuilder), pure(tx, args.u64, `u64`)],

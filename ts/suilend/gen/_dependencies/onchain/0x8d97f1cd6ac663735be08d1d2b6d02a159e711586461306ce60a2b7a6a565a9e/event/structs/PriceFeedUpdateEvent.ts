@@ -30,10 +30,7 @@ export interface PriceFeedUpdateEventFields {
   timestamp: ToField<"u64">;
 }
 
-export type PriceFeedUpdateEventReified = Reified<
-  PriceFeedUpdateEvent,
-  PriceFeedUpdateEventFields
->;
+export type PriceFeedUpdateEventReified = Reified<PriceFeedUpdateEvent, PriceFeedUpdateEventFields>;
 
 /**
  * Move struct: `PriceFeedUpdateEvent`
@@ -75,21 +72,18 @@ export class PriceFeedUpdateEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: PriceFeedUpdateEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PriceFeedUpdateEvent.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => PriceFeedUpdateEvent.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         PriceFeedUpdateEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PriceFeedUpdateEvent.fromBcs(data),
       bcs: PriceFeedUpdateEvent.bcs,
       fromJSONField: (field: any) => PriceFeedUpdateEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        PriceFeedUpdateEvent.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => PriceFeedUpdateEvent.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         PriceFeedUpdateEvent.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         PriceFeedUpdateEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PriceFeedUpdateEvent.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => PriceFeedUpdateEvent.fetch(client, id),
       new: (fields: PriceFeedUpdateEventFields) => {
         return new PriceFeedUpdateEvent([], fields);
       },
@@ -128,18 +122,13 @@ export class PriceFeedUpdateEvent implements StructClass {
     }
 
     return PriceFeedUpdateEvent.reified().new({
-      priceFeed: decodeFromFieldsWithTypes(
-        PriceFeed.reified(),
-        item.fields.price_feed,
-      ),
+      priceFeed: decodeFromFieldsWithTypes(PriceFeed.reified(), item.fields.price_feed),
       timestamp: decodeFromFieldsWithTypes("u64", item.fields.timestamp),
     });
   }
 
   static fromBcs(data: Uint8Array): PriceFeedUpdateEvent {
-    return PriceFeedUpdateEvent.fromFields(
-      PriceFeedUpdateEvent.bcs.parse(data),
-    );
+    return PriceFeedUpdateEvent.fromFields(PriceFeedUpdateEvent.bcs.parse(data));
   }
 
   toJSONField() {
@@ -150,11 +139,7 @@ export class PriceFeedUpdateEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PriceFeedUpdateEvent {
@@ -186,11 +171,8 @@ export class PriceFeedUpdateEvent implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): PriceFeedUpdateEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPriceFeedUpdateEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PriceFeedUpdateEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isPriceFeedUpdateEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PriceFeedUpdateEvent object`);
       }
 
       return PriceFeedUpdateEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -203,23 +185,13 @@ export class PriceFeedUpdateEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<PriceFeedUpdateEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<PriceFeedUpdateEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PriceFeedUpdateEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PriceFeedUpdateEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPriceFeedUpdateEvent(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a PriceFeedUpdateEvent object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPriceFeedUpdateEvent(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a PriceFeedUpdateEvent object`);
     }
 
     return PriceFeedUpdateEvent.fromSuiObjectData(res.data);

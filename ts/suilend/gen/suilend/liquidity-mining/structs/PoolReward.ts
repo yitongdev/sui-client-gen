@@ -1,9 +1,6 @@
 import { TypeName } from "../../../_dependencies/onchain/0x1/type-name/structs/index.js";
 import { Bag } from "../../../_dependencies/onchain/0x2/bag/structs/index.js";
-import {
-  ID,
-  UID,
-} from "../../../_dependencies/onchain/0x2/object/structs/index.js";
+import { ID, UID } from "../../../_dependencies/onchain/0x2/object/structs/index.js";
 import {
   PhantomReified,
   Reified,
@@ -15,11 +12,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { Decimal } from "../../decimal/structs/index.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -102,20 +95,15 @@ export class PoolReward implements StructClass {
       typeArgs: [] as [],
       isPhantom: PoolReward.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PoolReward.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PoolReward.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => PoolReward.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PoolReward.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PoolReward.fromBcs(data),
       bcs: PoolReward.bcs,
       fromJSONField: (field: any) => PoolReward.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PoolReward.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PoolReward.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PoolReward.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PoolReward.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PoolReward.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PoolReward.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PoolReward.fetch(client, id),
       new: (fields: PoolRewardFields) => {
         return new PoolReward([], fields);
       },
@@ -152,30 +140,18 @@ export class PoolReward implements StructClass {
   static fromFields(fields: Record<string, any>): PoolReward {
     return PoolReward.reified().new({
       id: decodeFromFields(UID.reified(), fields.id),
-      poolRewardManagerId: decodeFromFields(
-        ID.reified(),
-        fields.pool_reward_manager_id,
-      ),
+      poolRewardManagerId: decodeFromFields(ID.reified(), fields.pool_reward_manager_id),
       coinType: decodeFromFields(TypeName.reified(), fields.coin_type),
       startTimeMs: decodeFromFields("u64", fields.start_time_ms),
       endTimeMs: decodeFromFields("u64", fields.end_time_ms),
       totalRewards: decodeFromFields("u64", fields.total_rewards),
-      allocatedRewards: decodeFromFields(
-        Decimal.reified(),
-        fields.allocated_rewards,
-      ),
+      allocatedRewards: decodeFromFields(Decimal.reified(), fields.allocated_rewards),
       cumulativeRewardsPerShare: decodeFromFields(
         Decimal.reified(),
         fields.cumulative_rewards_per_share,
       ),
-      numUserRewardManagers: decodeFromFields(
-        "u64",
-        fields.num_user_reward_managers,
-      ),
-      additionalFields: decodeFromFields(
-        Bag.reified(),
-        fields.additional_fields,
-      ),
+      numUserRewardManagers: decodeFromFields("u64", fields.num_user_reward_managers),
+      additionalFields: decodeFromFields(Bag.reified(), fields.additional_fields),
     });
   }
 
@@ -190,29 +166,17 @@ export class PoolReward implements StructClass {
         ID.reified(),
         item.fields.pool_reward_manager_id,
       ),
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
       startTimeMs: decodeFromFieldsWithTypes("u64", item.fields.start_time_ms),
       endTimeMs: decodeFromFieldsWithTypes("u64", item.fields.end_time_ms),
       totalRewards: decodeFromFieldsWithTypes("u64", item.fields.total_rewards),
-      allocatedRewards: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.allocated_rewards,
-      ),
+      allocatedRewards: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.allocated_rewards),
       cumulativeRewardsPerShare: decodeFromFieldsWithTypes(
         Decimal.reified(),
         item.fields.cumulative_rewards_per_share,
       ),
-      numUserRewardManagers: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.num_user_reward_managers,
-      ),
-      additionalFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.additional_fields,
-      ),
+      numUserRewardManagers: decodeFromFieldsWithTypes("u64", item.fields.num_user_reward_managers),
+      additionalFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.additional_fields),
     });
   }
 
@@ -236,40 +200,24 @@ export class PoolReward implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PoolReward {
     return PoolReward.reified().new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      poolRewardManagerId: decodeFromJSONField(
-        ID.reified(),
-        field.poolRewardManagerId,
-      ),
+      poolRewardManagerId: decodeFromJSONField(ID.reified(), field.poolRewardManagerId),
       coinType: decodeFromJSONField(TypeName.reified(), field.coinType),
       startTimeMs: decodeFromJSONField("u64", field.startTimeMs),
       endTimeMs: decodeFromJSONField("u64", field.endTimeMs),
       totalRewards: decodeFromJSONField("u64", field.totalRewards),
-      allocatedRewards: decodeFromJSONField(
-        Decimal.reified(),
-        field.allocatedRewards,
-      ),
+      allocatedRewards: decodeFromJSONField(Decimal.reified(), field.allocatedRewards),
       cumulativeRewardsPerShare: decodeFromJSONField(
         Decimal.reified(),
         field.cumulativeRewardsPerShare,
       ),
-      numUserRewardManagers: decodeFromJSONField(
-        "u64",
-        field.numUserRewardManagers,
-      ),
-      additionalFields: decodeFromJSONField(
-        Bag.reified(),
-        field.additionalFields,
-      ),
+      numUserRewardManagers: decodeFromJSONField("u64", field.numUserRewardManagers),
+      additionalFields: decodeFromJSONField(Bag.reified(), field.additionalFields),
     });
   }
 
@@ -286,9 +234,7 @@ export class PoolReward implements StructClass {
       throw new Error("not an object");
     }
     if (!isPoolReward(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PoolReward object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PoolReward object`);
     }
     return PoolReward.fromFieldsWithTypes(content);
   }
@@ -296,7 +242,7 @@ export class PoolReward implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): PoolReward {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isPoolReward(data.bcs.type)) {
-        throw new Error(`object at is not a PoolReward object`);
+        throw new Error(`object at ${data.objectId} is not a PoolReward object`);
       }
 
       return PoolReward.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -312,14 +258,9 @@ export class PoolReward implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<PoolReward> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PoolReward object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PoolReward object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPoolReward(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPoolReward(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PoolReward object`);
     }
 

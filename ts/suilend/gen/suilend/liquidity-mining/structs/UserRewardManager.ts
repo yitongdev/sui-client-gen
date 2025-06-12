@@ -13,11 +13,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V1 } from "../../constants.js";
 import { UserReward as UserReward1 } from "./UserReward.js";
@@ -37,10 +33,7 @@ export interface UserRewardManagerFields {
   lastUpdateTimeMs: ToField<"u64">;
 }
 
-export type UserRewardManagerReified = Reified<
-  UserRewardManager,
-  UserRewardManagerFields
->;
+export type UserRewardManagerReified = Reified<UserRewardManager, UserRewardManagerFields>;
 
 /**
  * Move struct: `UserRewardManager`
@@ -86,20 +79,15 @@ export class UserRewardManager implements StructClass {
       typeArgs: [] as [],
       isPhantom: UserRewardManager.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        UserRewardManager.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        UserRewardManager.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => UserRewardManager.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => UserRewardManager.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => UserRewardManager.fromBcs(data),
       bcs: UserRewardManager.bcs,
       fromJSONField: (field: any) => UserRewardManager.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => UserRewardManager.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        UserRewardManager.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        UserRewardManager.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        UserRewardManager.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => UserRewardManager.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => UserRewardManager.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => UserRewardManager.fetch(client, id),
       new: (fields: UserRewardManagerFields) => {
         return new UserRewardManager([], fields);
       },
@@ -129,10 +117,7 @@ export class UserRewardManager implements StructClass {
 
   static fromFields(fields: Record<string, any>): UserRewardManager {
     return UserRewardManager.reified().new({
-      poolRewardManagerId: decodeFromFields(
-        ID.reified(),
-        fields.pool_reward_manager_id,
-      ),
+      poolRewardManagerId: decodeFromFields(ID.reified(), fields.pool_reward_manager_id),
       share: decodeFromFields("u64", fields.share),
       rewards: decodeFromFields(
         reified.vector(Option.reified(UserReward1.reified())),
@@ -157,10 +142,7 @@ export class UserRewardManager implements StructClass {
         reified.vector(Option.reified(UserReward1.reified())),
         item.fields.rewards,
       ),
-      lastUpdateTimeMs: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.last_update_time_ms,
-      ),
+      lastUpdateTimeMs: decodeFromFieldsWithTypes("u64", item.fields.last_update_time_ms),
     });
   }
 
@@ -181,19 +163,12 @@ export class UserRewardManager implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UserRewardManager {
     return UserRewardManager.reified().new({
-      poolRewardManagerId: decodeFromJSONField(
-        ID.reified(),
-        field.poolRewardManagerId,
-      ),
+      poolRewardManagerId: decodeFromJSONField(ID.reified(), field.poolRewardManagerId),
       share: decodeFromJSONField("u64", field.share),
       rewards: decodeFromJSONField(
         reified.vector(Option.reified(UserReward1.reified())),
@@ -216,20 +191,15 @@ export class UserRewardManager implements StructClass {
       throw new Error("not an object");
     }
     if (!isUserRewardManager(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a UserRewardManager object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a UserRewardManager object`);
     }
     return UserRewardManager.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): UserRewardManager {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isUserRewardManager(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a UserRewardManager object`);
+      if (data.bcs.dataType !== "moveObject" || !isUserRewardManager(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a UserRewardManager object`);
       }
 
       return UserRewardManager.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -242,20 +212,12 @@ export class UserRewardManager implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<UserRewardManager> {
+  static async fetch(client: SuiClient, id: string): Promise<UserRewardManager> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching UserRewardManager object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching UserRewardManager object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isUserRewardManager(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isUserRewardManager(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a UserRewardManager object`);
     }
 

@@ -1,10 +1,6 @@
 import { GenericArg, generic, option } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface SwapArgs {
   t: GenericArg | TransactionArgument | null;
@@ -21,17 +17,10 @@ export interface SwapArgs {
  * @param e - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function swap(
-  tx: Transaction,
-  typeArg: string,
-  args: SwapArgs,
-): TransactionResult {
+export function swap(tx: Transaction, typeArg: string, args: SwapArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::option::swap`,
     typeArguments: [typeArg],
-    arguments: [
-      option(tx, `${typeArg}`, args.t),
-      generic(tx, `${typeArg}`, args.e),
-    ],
+    arguments: [option(tx, `${typeArg}`, args.t), generic(tx, `${typeArg}`, args.e)],
   });
 }

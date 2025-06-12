@@ -47,9 +47,7 @@ export type DisplayCreatedReified<T extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T - Type parameter 0 (phantom)
  */
-export class DisplayCreated<T extends PhantomTypeArgument>
-  implements StructClass
-{
+export class DisplayCreated<T extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::display::DisplayCreated`;
@@ -63,10 +61,7 @@ export class DisplayCreated<T extends PhantomTypeArgument>
 
   readonly id: ToField<ID>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: DisplayCreatedFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: DisplayCreatedFields<T>) {
     this.$fullTypeName = composeSuiType(
       DisplayCreated.$typeName,
       ...typeArgs,
@@ -85,25 +80,18 @@ export class DisplayCreated<T extends PhantomTypeArgument>
         DisplayCreated.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::display::DisplayCreated<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: DisplayCreated.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        DisplayCreated.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        DisplayCreated.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => DisplayCreated.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => DisplayCreated.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => DisplayCreated.fromBcs(T, data),
       bcs: DisplayCreated.bcs,
       fromJSONField: (field: any) => DisplayCreated.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => DisplayCreated.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        DisplayCreated.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        DisplayCreated.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        DisplayCreated.fetch(client, T, id),
+      fromSuiParsedData: (content: SuiParsedData) => DisplayCreated.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => DisplayCreated.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => DisplayCreated.fetch(client, T, id),
       new: (fields: DisplayCreatedFields<ToPhantomTypeArgument<T>>) => {
         return new DisplayCreated([extractType(T)], fields);
       },
@@ -134,9 +122,7 @@ export class DisplayCreated<T extends PhantomTypeArgument>
     typeArg: T,
     fields: Record<string, any>,
   ): DisplayCreated<ToPhantomTypeArgument<T>> {
-    return DisplayCreated.reified(typeArg).new({
-      id: decodeFromFields(ID.reified(), fields.id),
-    });
+    return DisplayCreated.reified(typeArg).new({ id: decodeFromFields(ID.reified(), fields.id) });
   }
 
   static fromFieldsWithTypes<T extends PhantomReified<PhantomTypeArgument>>(
@@ -167,20 +153,14 @@ export class DisplayCreated<T extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
     typeArg: T,
     field: any,
   ): DisplayCreated<ToPhantomTypeArgument<T>> {
-    return DisplayCreated.reified(typeArg).new({
-      id: decodeFromJSONField(ID.reified(), field.id),
-    });
+    return DisplayCreated.reified(typeArg).new({ id: decodeFromJSONField(ID.reified(), field.id) });
   }
 
   static fromJSON<T extends PhantomReified<PhantomTypeArgument>>(
@@ -207,9 +187,7 @@ export class DisplayCreated<T extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isDisplayCreated(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a DisplayCreated object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a DisplayCreated object`);
     }
     return DisplayCreated.fromFieldsWithTypes(typeArg, content);
   }
@@ -219,11 +197,8 @@ export class DisplayCreated<T extends PhantomTypeArgument>
     data: SuiObjectData,
   ): DisplayCreated<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isDisplayCreated(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a DisplayCreated object`);
+      if (data.bcs.dataType !== "moveObject" || !isDisplayCreated(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a DisplayCreated object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -258,14 +233,9 @@ export class DisplayCreated<T extends PhantomTypeArgument>
   ): Promise<DisplayCreated<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching DisplayCreated object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching DisplayCreated object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDisplayCreated(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDisplayCreated(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a DisplayCreated object`);
     }
 

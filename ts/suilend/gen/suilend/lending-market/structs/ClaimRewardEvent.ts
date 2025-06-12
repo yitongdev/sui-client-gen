@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -35,10 +31,7 @@ export interface ClaimRewardEventFields {
   liquidityAmount: ToField<"u64">;
 }
 
-export type ClaimRewardEventReified = Reified<
-  ClaimRewardEvent,
-  ClaimRewardEventFields
->;
+export type ClaimRewardEventReified = Reified<ClaimRewardEvent, ClaimRewardEventFields>;
 
 /**
  * Move struct: `ClaimRewardEvent`
@@ -90,20 +83,15 @@ export class ClaimRewardEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: ClaimRewardEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ClaimRewardEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ClaimRewardEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ClaimRewardEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ClaimRewardEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ClaimRewardEvent.fromBcs(data),
       bcs: ClaimRewardEvent.bcs,
       fromJSONField: (field: any) => ClaimRewardEvent.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ClaimRewardEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ClaimRewardEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ClaimRewardEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ClaimRewardEvent.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ClaimRewardEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ClaimRewardEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ClaimRewardEvent.fetch(client, id),
       new: (fields: ClaimRewardEventFields) => {
         return new ClaimRewardEvent([], fields);
       },
@@ -164,31 +152,13 @@ export class ClaimRewardEvent implements StructClass {
     }
 
     return ClaimRewardEvent.reified().new({
-      lendingMarketId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.lending_market_id,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes("address", item.fields.lending_market_id),
       reserveId: decodeFromFieldsWithTypes("address", item.fields.reserve_id),
-      obligationId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.obligation_id,
-      ),
-      isDepositReward: decodeFromFieldsWithTypes(
-        "bool",
-        item.fields.is_deposit_reward,
-      ),
-      poolRewardId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.pool_reward_id,
-      ),
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
-      liquidityAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.liquidity_amount,
-      ),
+      obligationId: decodeFromFieldsWithTypes("address", item.fields.obligation_id),
+      isDepositReward: decodeFromFieldsWithTypes("bool", item.fields.is_deposit_reward),
+      poolRewardId: decodeFromFieldsWithTypes("address", item.fields.pool_reward_id),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
+      liquidityAmount: decodeFromFieldsWithTypes("u64", item.fields.liquidity_amount),
     });
   }
 
@@ -209,11 +179,7 @@ export class ClaimRewardEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ClaimRewardEvent {
@@ -241,20 +207,15 @@ export class ClaimRewardEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isClaimRewardEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ClaimRewardEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ClaimRewardEvent object`);
     }
     return ClaimRewardEvent.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ClaimRewardEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isClaimRewardEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ClaimRewardEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isClaimRewardEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ClaimRewardEvent object`);
       }
 
       return ClaimRewardEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -270,14 +231,9 @@ export class ClaimRewardEvent implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ClaimRewardEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ClaimRewardEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ClaimRewardEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isClaimRewardEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isClaimRewardEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ClaimRewardEvent object`);
     }
 

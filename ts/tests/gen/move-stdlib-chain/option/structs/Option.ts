@@ -38,10 +38,7 @@ export interface OptionFields<T0 extends TypeArgument> {
   vec: ToField<Vector<T0>>;
 }
 
-export type OptionReified<T0 extends TypeArgument> = Reified<
-  Option<T0>,
-  OptionFields<T0>
->;
+export type OptionReified<T0 extends TypeArgument> = Reified<Option<T0>, OptionFields<T0>>;
 
 /**
  * Move struct: `Option`
@@ -75,9 +72,7 @@ export class Option<T0 extends TypeArgument> implements StructClass {
     this.vec = fields.vec;
   }
 
-  static reified<T0 extends Reified<TypeArgument, any>>(
-    T0: T0,
-  ): OptionReified<ToTypeArgument<T0>> {
+  static reified<T0 extends Reified<TypeArgument, any>>(T0: T0): OptionReified<ToTypeArgument<T0>> {
     return {
       typeName: Option.$typeName,
       fullTypeName: composeSuiType(
@@ -87,20 +82,15 @@ export class Option<T0 extends TypeArgument> implements StructClass {
       typeArgs: [extractType(T0)] as [ToTypeStr<ToTypeArgument<T0>>],
       isPhantom: Option.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        Option.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Option.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => Option.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Option.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Option.fromBcs(T0, data),
       bcs: Option.bcs(toBcs(T0)),
       fromJSONField: (field: any) => Option.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Option.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Option.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Option.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Option.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Option.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Option.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Option.fetch(client, T0, id),
       new: (fields: OptionFields<ToTypeArgument<T0>>) => {
         return new Option([extractType(T0)], fields);
       },
@@ -165,11 +155,7 @@ export class Option<T0 extends TypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
@@ -205,9 +191,7 @@ export class Option<T0 extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isOption(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Option object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Option object`);
     }
     return Option.fromFieldsWithTypes(typeArg, content);
   }
@@ -218,7 +202,7 @@ export class Option<T0 extends TypeArgument> implements StructClass {
   ): Option<ToTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isOption(data.bcs.type)) {
-        throw new Error(`object at is not a Option object`);
+        throw new Error(`object at ${data.objectId} is not a Option object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -253,14 +237,9 @@ export class Option<T0 extends TypeArgument> implements StructClass {
   ): Promise<Option<ToTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Option object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Option object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isOption(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isOption(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Option object`);
     }
 

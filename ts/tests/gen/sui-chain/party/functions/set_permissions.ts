@@ -22,16 +22,9 @@ export interface SetPermissionsArgs {
  * @param address - Function parameter
  * @param permissions - Function parameter
  */
-export function setPermissions(
-  tx: Transaction,
-  args: SetPermissionsArgs,
-): TransactionResult {
+export function setPermissions(tx: Transaction, args: SetPermissionsArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::party::set_permissions`,
-    arguments: [
-      obj(tx, args.party),
-      pure(tx, args.address, `address`),
-      obj(tx, args.permissions),
-    ],
+    arguments: [obj(tx, args.party), pure(tx, args.address, `address`), obj(tx, args.permissions)],
   });
 }

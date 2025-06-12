@@ -28,10 +28,7 @@ export interface CurrentVersionFields {
   dummyField: ToField<"bool">;
 }
 
-export type CurrentVersionReified = Reified<
-  CurrentVersion,
-  CurrentVersionFields
->;
+export type CurrentVersionReified = Reified<CurrentVersion, CurrentVersionFields>;
 
 /**
  * Move struct: `CurrentVersion`
@@ -71,20 +68,15 @@ export class CurrentVersion implements StructClass {
       typeArgs: [] as [],
       isPhantom: CurrentVersion.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        CurrentVersion.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        CurrentVersion.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => CurrentVersion.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => CurrentVersion.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => CurrentVersion.fromBcs(data),
       bcs: CurrentVersion.bcs,
       fromJSONField: (field: any) => CurrentVersion.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => CurrentVersion.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        CurrentVersion.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        CurrentVersion.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        CurrentVersion.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => CurrentVersion.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => CurrentVersion.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => CurrentVersion.fetch(client, id),
       new: (fields: CurrentVersionFields) => {
         return new CurrentVersion([], fields);
       },
@@ -136,11 +128,7 @@ export class CurrentVersion implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): CurrentVersion {
@@ -162,20 +150,15 @@ export class CurrentVersion implements StructClass {
       throw new Error("not an object");
     }
     if (!isCurrentVersion(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a CurrentVersion object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a CurrentVersion object`);
     }
     return CurrentVersion.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): CurrentVersion {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isCurrentVersion(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a CurrentVersion object`);
+      if (data.bcs.dataType !== "moveObject" || !isCurrentVersion(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a CurrentVersion object`);
       }
 
       return CurrentVersion.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,14 +174,9 @@ export class CurrentVersion implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<CurrentVersion> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching CurrentVersion object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching CurrentVersion object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isCurrentVersion(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isCurrentVersion(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a CurrentVersion object`);
     }
 

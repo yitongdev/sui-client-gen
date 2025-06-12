@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -81,20 +77,15 @@ export class ForgiveEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: ForgiveEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ForgiveEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ForgiveEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ForgiveEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ForgiveEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ForgiveEvent.fromBcs(data),
       bcs: ForgiveEvent.bcs,
       fromJSONField: (field: any) => ForgiveEvent.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ForgiveEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ForgiveEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ForgiveEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ForgiveEvent.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ForgiveEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ForgiveEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ForgiveEvent.fetch(client, id),
       new: (fields: ForgiveEventFields) => {
         return new ForgiveEvent([], fields);
       },
@@ -148,23 +139,11 @@ export class ForgiveEvent implements StructClass {
     }
 
     return ForgiveEvent.reified().new({
-      lendingMarketId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.lending_market_id,
-      ),
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes("address", item.fields.lending_market_id),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
       reserveId: decodeFromFieldsWithTypes("address", item.fields.reserve_id),
-      obligationId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.obligation_id,
-      ),
-      liquidityAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.liquidity_amount,
-      ),
+      obligationId: decodeFromFieldsWithTypes("address", item.fields.obligation_id),
+      liquidityAmount: decodeFromFieldsWithTypes("u64", item.fields.liquidity_amount),
     });
   }
 
@@ -183,11 +162,7 @@ export class ForgiveEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ForgiveEvent {
@@ -213,20 +188,15 @@ export class ForgiveEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isForgiveEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ForgiveEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ForgiveEvent object`);
     }
     return ForgiveEvent.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ForgiveEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isForgiveEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ForgiveEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isForgiveEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ForgiveEvent object`);
       }
 
       return ForgiveEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -242,14 +212,9 @@ export class ForgiveEvent implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ForgiveEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ForgiveEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ForgiveEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isForgiveEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isForgiveEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ForgiveEvent object`);
     }
 

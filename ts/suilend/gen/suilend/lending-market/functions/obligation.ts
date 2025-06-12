@@ -31,9 +31,6 @@ export function obligation(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::lending_market::obligation`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.lendingMarket),
-      pure(tx, args.id, `${ID.$typeName}`),
-    ],
+    arguments: [obj(tx, args.lendingMarket), pure(tx, args.id, `${ID.$typeName}`)],
   });
 }

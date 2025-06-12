@@ -32,10 +32,7 @@ export function isObjectTable(type: string): boolean {
   return type.startsWith(`${PKG_V35}::object_table::ObjectTable` + "<");
 }
 
-export interface ObjectTableFields<
-  T0 extends PhantomTypeArgument,
-  T1 extends PhantomTypeArgument,
-> {
+export interface ObjectTableFields<T0 extends PhantomTypeArgument, T1 extends PhantomTypeArgument> {
   id: ToField<UID>;
   size: ToField<"u64">;
 }
@@ -52,10 +49,8 @@ export type ObjectTableReified<
  * @typeParam T0 - Type parameter 0 (phantom)
  * @typeParam T1 - Type parameter 1 (phantom)
  */
-export class ObjectTable<
-  T0 extends PhantomTypeArgument,
-  T1 extends PhantomTypeArgument,
-> implements StructClass
+export class ObjectTable<T0 extends PhantomTypeArgument, T1 extends PhantomTypeArgument>
+  implements StructClass
 {
   __StructClass = true as const;
 
@@ -88,10 +83,7 @@ export class ObjectTable<
   static reified<
     T0 extends PhantomReified<PhantomTypeArgument>,
     T1 extends PhantomReified<PhantomTypeArgument>,
-  >(
-    T0: T0,
-    T1: T1,
-  ): ObjectTableReified<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
+  >(T0: T0, T1: T1): ObjectTableReified<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     return {
       typeName: ObjectTable.$typeName,
       fullTypeName: composeSuiType(
@@ -104,27 +96,19 @@ export class ObjectTable<
       ],
       isPhantom: ObjectTable.$isPhantom,
       reifiedTypeArgs: [T0, T1],
-      fromFields: (fields: Record<string, any>) =>
-        ObjectTable.fromFields([T0, T1], fields),
+      fromFields: (fields: Record<string, any>) => ObjectTable.fromFields([T0, T1], fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         ObjectTable.fromFieldsWithTypes([T0, T1], item),
       fromBcs: (data: Uint8Array) => ObjectTable.fromBcs([T0, T1], data),
       bcs: ObjectTable.bcs,
       fromJSONField: (field: any) => ObjectTable.fromJSONField([T0, T1], field),
-      fromJSON: (json: Record<string, any>) =>
-        ObjectTable.fromJSON([T0, T1], json),
+      fromJSON: (json: Record<string, any>) => ObjectTable.fromJSON([T0, T1], json),
       fromSuiParsedData: (content: SuiParsedData) =>
         ObjectTable.fromSuiParsedData([T0, T1], content),
       fromSuiObjectData: (content: SuiObjectData) =>
         ObjectTable.fromSuiObjectData([T0, T1], content),
-      fetch: async (client: SuiClient, id: string) =>
-        ObjectTable.fetch(client, [T0, T1], id),
-      new: (
-        fields: ObjectTableFields<
-          ToPhantomTypeArgument<T0>,
-          ToPhantomTypeArgument<T1>
-        >,
-      ) => {
+      fetch: async (client: SuiClient, id: string) => ObjectTable.fetch(client, [T0, T1], id),
+      new: (fields: ObjectTableFields<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>) => {
         return new ObjectTable([extractType(T0), extractType(T1)], fields);
       },
       kind: "StructClassReified",
@@ -141,9 +125,7 @@ export class ObjectTable<
   >(
     T0: T0,
     T1: T1,
-  ): PhantomReified<
-    ToTypeStr<ObjectTable<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>>
-  > {
+  ): PhantomReified<ToTypeStr<ObjectTable<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>>> {
     return phantom(ObjectTable.reified(T0, T1));
   }
   static get p() {
@@ -198,10 +180,7 @@ export class ObjectTable<
     data: Uint8Array,
   ): ObjectTable<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     const [typeArg0, typeArg1] = typeArgs;
-    return ObjectTable.fromFields(
-      [typeArg0, typeArg1],
-      ObjectTable.bcs.parse(data),
-    );
+    return ObjectTable.fromFields([typeArg0, typeArg1], ObjectTable.bcs.parse(data));
   }
 
   toJSONField() {
@@ -213,11 +192,7 @@ export class ObjectTable<
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
@@ -246,10 +221,7 @@ export class ObjectTable<
     }
     const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(
-        ObjectTable.$typeName,
-        ...[typeArg0, typeArg1].map(extractType),
-      ),
+      composeSuiType(ObjectTable.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
       [typeArg0, typeArg1],
     );
@@ -268,9 +240,7 @@ export class ObjectTable<
       throw new Error("not an object");
     }
     if (!isObjectTable(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ObjectTable object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ObjectTable object`);
     }
     return ObjectTable.fromFieldsWithTypes(typeArgs, content);
   }
@@ -284,7 +254,7 @@ export class ObjectTable<
   ): ObjectTable<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isObjectTable(data.bcs.type)) {
-        throw new Error(`object at is not a ObjectTable object`);
+        throw new Error(`object at ${data.objectId} is not a ObjectTable object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -324,19 +294,12 @@ export class ObjectTable<
     client: SuiClient,
     typeArgs: [T0, T1],
     id: string,
-  ): Promise<
-    ObjectTable<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>
-  > {
+  ): Promise<ObjectTable<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ObjectTable object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ObjectTable object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isObjectTable(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isObjectTable(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ObjectTable object`);
     }
 

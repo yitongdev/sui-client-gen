@@ -21,10 +21,7 @@ export interface DivideU64Args {
  * @param divisor - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function divideU64(
-  tx: Transaction,
-  args: DivideU64Args,
-): TransactionResult {
+export function divideU64(tx: Transaction, args: DivideU64Args): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::fixed_point32::divide_u64`,
     arguments: [pure(tx, args.val, `u64`), obj(tx, args.divisor)],

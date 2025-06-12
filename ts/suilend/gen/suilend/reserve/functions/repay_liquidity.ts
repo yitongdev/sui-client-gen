@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface RepayLiquidityArgs {
   reserve: TransactionObjectInput;
@@ -31,10 +27,6 @@ export function repayLiquidity(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve::repay_liquidity`,
     typeArguments: typeArgs,
-    arguments: [
-      obj(tx, args.reserve),
-      obj(tx, args.balance),
-      obj(tx, args.decimal),
-    ],
+    arguments: [obj(tx, args.reserve), obj(tx, args.balance), obj(tx, args.decimal)],
   });
 }

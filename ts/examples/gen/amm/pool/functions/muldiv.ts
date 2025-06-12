@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface MuldivArgs {
   a: bigint | TransactionArgument;
@@ -25,10 +21,6 @@ export interface MuldivArgs {
 export function muldiv(tx: Transaction, args: MuldivArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pool::muldiv`,
-    arguments: [
-      pure(tx, args.a, `u64`),
-      pure(tx, args.b, `u64`),
-      pure(tx, args.c, `u64`),
-    ],
+    arguments: [pure(tx, args.a, `u64`), pure(tx, args.b, `u64`), pure(tx, args.c, `u64`)],
   });
 }

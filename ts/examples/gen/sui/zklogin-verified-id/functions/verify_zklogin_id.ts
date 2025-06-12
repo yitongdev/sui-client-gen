@@ -1,11 +1,7 @@
 import { String } from "../../../_dependencies/source/0x1/string/structs/index.js";
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface VerifyZkloginIdArgs {
   keyClaimName: string | TransactionArgument;
@@ -27,10 +23,7 @@ export interface VerifyZkloginIdArgs {
  * @param pinHash - Function parameter
  * @param ctx - Function parameter
  */
-export function verifyZkloginId(
-  tx: Transaction,
-  args: VerifyZkloginIdArgs,
-): TransactionResult {
+export function verifyZkloginId(tx: Transaction, args: VerifyZkloginIdArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_id::verify_zklogin_id`,
     arguments: [

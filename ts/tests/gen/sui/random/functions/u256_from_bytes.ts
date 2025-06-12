@@ -21,10 +21,7 @@ export interface U256FromBytesArgs {
  * @param numOfBytes - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function u256FromBytes(
-  tx: Transaction,
-  args: U256FromBytesArgs,
-): TransactionResult {
+export function u256FromBytes(tx: Transaction, args: U256FromBytesArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::random::u256_from_bytes`,
     arguments: [obj(tx, args.g), pure(tx, args.numOfBytes, `u8`)],

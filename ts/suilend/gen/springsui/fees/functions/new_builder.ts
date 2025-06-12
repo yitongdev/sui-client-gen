@@ -10,8 +10,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @returns TransactionResult - The transaction result
  */
 export function newBuilder(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::fees::new_builder`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::fees::new_builder`, arguments: [] });
 }

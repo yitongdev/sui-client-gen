@@ -38,10 +38,7 @@ export interface CursorFields<T0 extends TypeArgument> {
   data: ToField<Vector<T0>>;
 }
 
-export type CursorReified<T0 extends TypeArgument> = Reified<
-  Cursor<T0>,
-  CursorFields<T0>
->;
+export type CursorReified<T0 extends TypeArgument> = Reified<Cursor<T0>, CursorFields<T0>>;
 
 /**
  * Move struct: `Cursor`
@@ -73,9 +70,7 @@ export class Cursor<T0 extends TypeArgument> implements StructClass {
     this.data = fields.data;
   }
 
-  static reified<T0 extends Reified<TypeArgument, any>>(
-    T0: T0,
-  ): CursorReified<ToTypeArgument<T0>> {
+  static reified<T0 extends Reified<TypeArgument, any>>(T0: T0): CursorReified<ToTypeArgument<T0>> {
     return {
       typeName: Cursor.$typeName,
       fullTypeName: composeSuiType(
@@ -85,20 +80,15 @@ export class Cursor<T0 extends TypeArgument> implements StructClass {
       typeArgs: [extractType(T0)] as [ToTypeStr<ToTypeArgument<T0>>],
       isPhantom: Cursor.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        Cursor.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Cursor.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => Cursor.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Cursor.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Cursor.fromBcs(T0, data),
       bcs: Cursor.bcs(toBcs(T0)),
       fromJSONField: (field: any) => Cursor.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Cursor.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Cursor.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Cursor.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Cursor.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Cursor.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Cursor.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Cursor.fetch(client, T0, id),
       new: (fields: CursorFields<ToTypeArgument<T0>>) => {
         return new Cursor([extractType(T0)], fields);
       },
@@ -145,10 +135,7 @@ export class Cursor<T0 extends TypeArgument> implements StructClass {
     assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
     return Cursor.reified(typeArg).new({
-      data: decodeFromFieldsWithTypes(
-        reified.vector(typeArg),
-        item.fields.data,
-      ),
+      data: decodeFromFieldsWithTypes(reified.vector(typeArg), item.fields.data),
     });
   }
 
@@ -161,19 +148,12 @@ export class Cursor<T0 extends TypeArgument> implements StructClass {
 
   toJSONField() {
     return {
-      data: fieldToJSON<Vector<T0>>(
-        `vector<${this.$typeArgs?.[0]}>`,
-        this.data,
-      ),
+      data: fieldToJSON<Vector<T0>>(`vector<${this.$typeArgs?.[0]}>`, this.data),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
@@ -209,9 +189,7 @@ export class Cursor<T0 extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isCursor(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Cursor object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Cursor object`);
     }
     return Cursor.fromFieldsWithTypes(typeArg, content);
   }
@@ -222,7 +200,7 @@ export class Cursor<T0 extends TypeArgument> implements StructClass {
   ): Cursor<ToTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isCursor(data.bcs.type)) {
-        throw new Error(`object at is not a Cursor object`);
+        throw new Error(`object at ${data.objectId} is not a Cursor object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -257,14 +235,9 @@ export class Cursor<T0 extends TypeArgument> implements StructClass {
   ): Promise<Cursor<ToTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Cursor object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Cursor object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isCursor(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isCursor(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Cursor object`);
     }
 

@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -61,24 +57,18 @@ export class G1 implements StructClass {
   static reified(): G1Reified {
     return {
       typeName: G1.$typeName,
-      fullTypeName: composeSuiType(
-        G1.$typeName,
-        ...[],
-      ) as `${typeof PKG_V31}::bls12381::G1`,
+      fullTypeName: composeSuiType(G1.$typeName, ...[]) as `${typeof PKG_V31}::bls12381::G1`,
       typeArgs: [] as [],
       isPhantom: G1.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => G1.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        G1.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => G1.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => G1.fromBcs(data),
       bcs: G1.bcs,
       fromJSONField: (field: any) => G1.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => G1.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        G1.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        G1.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => G1.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => G1.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => G1.fetch(client, id),
       new: (fields: G1Fields) => {
         return new G1([], fields);
@@ -105,9 +95,7 @@ export class G1 implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): G1 {
-    return G1.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return G1.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): G1 {
@@ -131,17 +119,11 @@ export class G1 implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): G1 {
-    return G1.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return G1.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): G1 {
@@ -157,9 +139,7 @@ export class G1 implements StructClass {
       throw new Error("not an object");
     }
     if (!isG1(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a G1 object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a G1 object`);
     }
     return G1.fromFieldsWithTypes(content);
   }
@@ -167,7 +147,7 @@ export class G1 implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): G1 {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isG1(data.bcs.type)) {
-        throw new Error(`object at is not a G1 object`);
+        throw new Error(`object at ${data.objectId} is not a G1 object`);
       }
 
       return G1.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,9 +163,7 @@ export class G1 implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<G1> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching G1 object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching G1 object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isG1(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a G1 object`);

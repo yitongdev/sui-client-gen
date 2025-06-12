@@ -22,11 +22,7 @@ export interface BorrowArgs {
  * @param i - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function borrow(
-  tx: Transaction,
-  typeArg: string,
-  args: BorrowArgs,
-): TransactionResult {
+export function borrow(tx: Transaction, typeArg: string, args: BorrowArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::table_vec::borrow`,
     typeArguments: [typeArg],

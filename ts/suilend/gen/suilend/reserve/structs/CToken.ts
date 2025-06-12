@@ -31,17 +31,14 @@ export function isCToken(type: string): boolean {
   return type.startsWith(`${PKG_V1}::reserve::CToken` + "<");
 }
 
-export interface CTokenFields<
-  T0 extends PhantomTypeArgument,
-  T1 extends PhantomTypeArgument,
-> {
+export interface CTokenFields<T0 extends PhantomTypeArgument, T1 extends PhantomTypeArgument> {
   dummyField: ToField<"bool">;
 }
 
-export type CTokenReified<
-  T0 extends PhantomTypeArgument,
-  T1 extends PhantomTypeArgument,
-> = Reified<CToken<T0, T1>, CTokenFields<T0, T1>>;
+export type CTokenReified<T0 extends PhantomTypeArgument, T1 extends PhantomTypeArgument> = Reified<
+  CToken<T0, T1>,
+  CTokenFields<T0, T1>
+>;
 
 /**
  * Move struct: `CToken`
@@ -50,10 +47,8 @@ export type CTokenReified<
  * @typeParam T0 - Type parameter 0 (phantom)
  * @typeParam T1 - Type parameter 1 (phantom)
  */
-export class CToken<
-  T0 extends PhantomTypeArgument,
-  T1 extends PhantomTypeArgument,
-> implements StructClass
+export class CToken<T0 extends PhantomTypeArgument, T1 extends PhantomTypeArgument>
+  implements StructClass
 {
   __StructClass = true as const;
 
@@ -84,10 +79,7 @@ export class CToken<
   static reified<
     T0 extends PhantomReified<PhantomTypeArgument>,
     T1 extends PhantomReified<PhantomTypeArgument>,
-  >(
-    T0: T0,
-    T1: T1,
-  ): CTokenReified<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
+  >(T0: T0, T1: T1): CTokenReified<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     return {
       typeName: CToken.$typeName,
       fullTypeName: composeSuiType(
@@ -100,26 +92,16 @@ export class CToken<
       ],
       isPhantom: CToken.$isPhantom,
       reifiedTypeArgs: [T0, T1],
-      fromFields: (fields: Record<string, any>) =>
-        CToken.fromFields([T0, T1], fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        CToken.fromFieldsWithTypes([T0, T1], item),
+      fromFields: (fields: Record<string, any>) => CToken.fromFields([T0, T1], fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => CToken.fromFieldsWithTypes([T0, T1], item),
       fromBcs: (data: Uint8Array) => CToken.fromBcs([T0, T1], data),
       bcs: CToken.bcs,
       fromJSONField: (field: any) => CToken.fromJSONField([T0, T1], field),
       fromJSON: (json: Record<string, any>) => CToken.fromJSON([T0, T1], json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        CToken.fromSuiParsedData([T0, T1], content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        CToken.fromSuiObjectData([T0, T1], content),
-      fetch: async (client: SuiClient, id: string) =>
-        CToken.fetch(client, [T0, T1], id),
-      new: (
-        fields: CTokenFields<
-          ToPhantomTypeArgument<T0>,
-          ToPhantomTypeArgument<T1>
-        >,
-      ) => {
+      fromSuiParsedData: (content: SuiParsedData) => CToken.fromSuiParsedData([T0, T1], content),
+      fromSuiObjectData: (content: SuiObjectData) => CToken.fromSuiObjectData([T0, T1], content),
+      fetch: async (client: SuiClient, id: string) => CToken.fetch(client, [T0, T1], id),
+      new: (fields: CTokenFields<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>) => {
         return new CToken([extractType(T0), extractType(T1)], fields);
       },
       kind: "StructClassReified",
@@ -136,9 +118,7 @@ export class CToken<
   >(
     T0: T0,
     T1: T1,
-  ): PhantomReified<
-    ToTypeStr<CToken<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>>
-  > {
+  ): PhantomReified<ToTypeStr<CToken<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>>> {
     return phantom(CToken.reified(T0, T1));
   }
   static get p() {
@@ -201,20 +181,13 @@ export class CToken<
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
     T0 extends PhantomReified<PhantomTypeArgument>,
     T1 extends PhantomReified<PhantomTypeArgument>,
-  >(
-    typeArgs: [T0, T1],
-    field: any,
-  ): CToken<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
+  >(typeArgs: [T0, T1], field: any): CToken<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     const [typeArg0, typeArg1] = typeArgs;
     return CToken.reified(typeArg0, typeArg1).new({
       dummyField: decodeFromJSONField("bool", field.dummyField),
@@ -233,10 +206,7 @@ export class CToken<
     }
     const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(
-        CToken.$typeName,
-        ...[typeArg0, typeArg1].map(extractType),
-      ),
+      composeSuiType(CToken.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
       [typeArg0, typeArg1],
     );
@@ -255,9 +225,7 @@ export class CToken<
       throw new Error("not an object");
     }
     if (!isCToken(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a CToken object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a CToken object`);
     }
     return CToken.fromFieldsWithTypes(typeArgs, content);
   }
@@ -271,7 +239,7 @@ export class CToken<
   ): CToken<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isCToken(data.bcs.type)) {
-        throw new Error(`object at is not a CToken object`);
+        throw new Error(`object at ${data.objectId} is not a CToken object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -314,14 +282,9 @@ export class CToken<
   ): Promise<CToken<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching CToken object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching CToken object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isCToken(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isCToken(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a CToken object`);
     }
 

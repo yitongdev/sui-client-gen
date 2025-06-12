@@ -83,18 +83,14 @@ export class StakedSui implements StructClass {
       isPhantom: StakedSui.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => StakedSui.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        StakedSui.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => StakedSui.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => StakedSui.fromBcs(data),
       bcs: StakedSui.bcs,
       fromJSONField: (field: any) => StakedSui.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => StakedSui.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        StakedSui.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        StakedSui.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        StakedSui.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => StakedSui.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => StakedSui.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => StakedSui.fetch(client, id),
       new: (fields: StakedSuiFields) => {
         return new StakedSui([], fields);
       },
@@ -126,10 +122,7 @@ export class StakedSui implements StructClass {
     return StakedSui.reified().new({
       id: decodeFromFields(UID.reified(), fields.id),
       poolId: decodeFromFields(ID.reified(), fields.pool_id),
-      stakeActivationEpoch: decodeFromFields(
-        "u64",
-        fields.stake_activation_epoch,
-      ),
+      stakeActivationEpoch: decodeFromFields("u64", fields.stake_activation_epoch),
       principal: decodeFromFields(
         Balance.reified(reified.phantom(SUI.reified())),
         fields.principal,
@@ -145,10 +138,7 @@ export class StakedSui implements StructClass {
     return StakedSui.reified().new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
       poolId: decodeFromFieldsWithTypes(ID.reified(), item.fields.pool_id),
-      stakeActivationEpoch: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.stake_activation_epoch,
-      ),
+      stakeActivationEpoch: decodeFromFieldsWithTypes("u64", item.fields.stake_activation_epoch),
       principal: decodeFromFieldsWithTypes(
         Balance.reified(reified.phantom(SUI.reified())),
         item.fields.principal,
@@ -170,21 +160,14 @@ export class StakedSui implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): StakedSui {
     return StakedSui.reified().new({
       id: decodeFromJSONField(UID.reified(), field.id),
       poolId: decodeFromJSONField(ID.reified(), field.poolId),
-      stakeActivationEpoch: decodeFromJSONField(
-        "u64",
-        field.stakeActivationEpoch,
-      ),
+      stakeActivationEpoch: decodeFromJSONField("u64", field.stakeActivationEpoch),
       principal: decodeFromJSONField(
         Balance.reified(reified.phantom(SUI.reified())),
         field.principal,
@@ -205,9 +188,7 @@ export class StakedSui implements StructClass {
       throw new Error("not an object");
     }
     if (!isStakedSui(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a StakedSui object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a StakedSui object`);
     }
     return StakedSui.fromFieldsWithTypes(content);
   }
@@ -215,7 +196,7 @@ export class StakedSui implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): StakedSui {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isStakedSui(data.bcs.type)) {
-        throw new Error(`object at is not a StakedSui object`);
+        throw new Error(`object at ${data.objectId} is not a StakedSui object`);
       }
 
       return StakedSui.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -231,14 +212,9 @@ export class StakedSui implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<StakedSui> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching StakedSui object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching StakedSui object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isStakedSui(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isStakedSui(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a StakedSui object`);
     }
 

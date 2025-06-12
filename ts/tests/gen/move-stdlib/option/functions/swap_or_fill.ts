@@ -1,10 +1,6 @@
 import { GenericArg, generic, option } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface SwapOrFillArgs {
   t: GenericArg | TransactionArgument | null;
@@ -29,9 +25,6 @@ export function swapOrFill(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::option::swap_or_fill`,
     typeArguments: [typeArg],
-    arguments: [
-      option(tx, `${typeArg}`, args.t),
-      generic(tx, `${typeArg}`, args.e),
-    ],
+    arguments: [option(tx, `${typeArg}`, args.t), generic(tx, `${typeArg}`, args.e)],
   });
 }

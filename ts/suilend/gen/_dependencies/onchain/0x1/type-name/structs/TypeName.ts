@@ -70,18 +70,14 @@ export class TypeName implements StructClass {
       isPhantom: TypeName.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => TypeName.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        TypeName.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => TypeName.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => TypeName.fromBcs(data),
       bcs: TypeName.bcs,
       fromJSONField: (field: any) => TypeName.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => TypeName.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        TypeName.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        TypeName.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        TypeName.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => TypeName.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => TypeName.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => TypeName.fetch(client, id),
       new: (fields: TypeNameFields) => {
         return new TypeName([], fields);
       },
@@ -107,9 +103,7 @@ export class TypeName implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): TypeName {
-    return TypeName.reified().new({
-      name: decodeFromFields(String.reified(), fields.name),
-    });
+    return TypeName.reified().new({ name: decodeFromFields(String.reified(), fields.name) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): TypeName {
@@ -133,17 +127,11 @@ export class TypeName implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): TypeName {
-    return TypeName.reified().new({
-      name: decodeFromJSONField(String.reified(), field.name),
-    });
+    return TypeName.reified().new({ name: decodeFromJSONField(String.reified(), field.name) });
   }
 
   static fromJSON(json: Record<string, any>): TypeName {
@@ -159,9 +147,7 @@ export class TypeName implements StructClass {
       throw new Error("not an object");
     }
     if (!isTypeName(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a TypeName object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a TypeName object`);
     }
     return TypeName.fromFieldsWithTypes(content);
   }
@@ -169,7 +155,7 @@ export class TypeName implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): TypeName {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isTypeName(data.bcs.type)) {
-        throw new Error(`object at is not a TypeName object`);
+        throw new Error(`object at ${data.objectId} is not a TypeName object`);
       }
 
       return TypeName.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -185,14 +171,9 @@ export class TypeName implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<TypeName> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TypeName object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TypeName object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTypeName(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTypeName(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a TypeName object`);
     }
 

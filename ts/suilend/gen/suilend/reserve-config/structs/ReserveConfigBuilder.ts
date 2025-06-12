@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -29,10 +25,7 @@ export interface ReserveConfigBuilderFields {
   fields: ToField<Bag>;
 }
 
-export type ReserveConfigBuilderReified = Reified<
-  ReserveConfigBuilder,
-  ReserveConfigBuilderFields
->;
+export type ReserveConfigBuilderReified = Reified<ReserveConfigBuilder, ReserveConfigBuilderFields>;
 
 /**
  * Move struct: `ReserveConfigBuilder`
@@ -72,21 +65,18 @@ export class ReserveConfigBuilder implements StructClass {
       typeArgs: [] as [],
       isPhantom: ReserveConfigBuilder.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ReserveConfigBuilder.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => ReserveConfigBuilder.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         ReserveConfigBuilder.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ReserveConfigBuilder.fromBcs(data),
       bcs: ReserveConfigBuilder.bcs,
       fromJSONField: (field: any) => ReserveConfigBuilder.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        ReserveConfigBuilder.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => ReserveConfigBuilder.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         ReserveConfigBuilder.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         ReserveConfigBuilder.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ReserveConfigBuilder.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => ReserveConfigBuilder.fetch(client, id),
       new: (fields: ReserveConfigBuilderFields) => {
         return new ReserveConfigBuilder([], fields);
       },
@@ -128,9 +118,7 @@ export class ReserveConfigBuilder implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): ReserveConfigBuilder {
-    return ReserveConfigBuilder.fromFields(
-      ReserveConfigBuilder.bcs.parse(data),
-    );
+    return ReserveConfigBuilder.fromFields(ReserveConfigBuilder.bcs.parse(data));
   }
 
   toJSONField() {
@@ -140,11 +128,7 @@ export class ReserveConfigBuilder implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ReserveConfigBuilder {
@@ -175,11 +159,8 @@ export class ReserveConfigBuilder implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): ReserveConfigBuilder {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isReserveConfigBuilder(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ReserveConfigBuilder object`);
+      if (data.bcs.dataType !== "moveObject" || !isReserveConfigBuilder(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ReserveConfigBuilder object`);
       }
 
       return ReserveConfigBuilder.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -192,23 +173,13 @@ export class ReserveConfigBuilder implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<ReserveConfigBuilder> {
+  static async fetch(client: SuiClient, id: string): Promise<ReserveConfigBuilder> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ReserveConfigBuilder object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ReserveConfigBuilder object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isReserveConfigBuilder(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a ReserveConfigBuilder object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isReserveConfigBuilder(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a ReserveConfigBuilder object`);
     }
 
     return ReserveConfigBuilder.fromSuiObjectData(res.data);

@@ -31,10 +31,7 @@ export interface PriceIdentifierFields {
   bytes: ToField<Vector<"u8">>;
 }
 
-export type PriceIdentifierReified = Reified<
-  PriceIdentifier,
-  PriceIdentifierFields
->;
+export type PriceIdentifierReified = Reified<PriceIdentifier, PriceIdentifierFields>;
 
 /**
  * Move struct: `PriceIdentifier`
@@ -74,20 +71,15 @@ export class PriceIdentifier implements StructClass {
       typeArgs: [] as [],
       isPhantom: PriceIdentifier.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PriceIdentifier.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PriceIdentifier.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => PriceIdentifier.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PriceIdentifier.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PriceIdentifier.fromBcs(data),
       bcs: PriceIdentifier.bcs,
       fromJSONField: (field: any) => PriceIdentifier.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PriceIdentifier.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PriceIdentifier.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PriceIdentifier.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PriceIdentifier.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PriceIdentifier.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PriceIdentifier.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PriceIdentifier.fetch(client, id),
       new: (fields: PriceIdentifierFields) => {
         return new PriceIdentifier([], fields);
       },
@@ -139,11 +131,7 @@ export class PriceIdentifier implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PriceIdentifier {
@@ -165,20 +153,15 @@ export class PriceIdentifier implements StructClass {
       throw new Error("not an object");
     }
     if (!isPriceIdentifier(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PriceIdentifier object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PriceIdentifier object`);
     }
     return PriceIdentifier.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): PriceIdentifier {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPriceIdentifier(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PriceIdentifier object`);
+      if (data.bcs.dataType !== "moveObject" || !isPriceIdentifier(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PriceIdentifier object`);
       }
 
       return PriceIdentifier.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -194,14 +177,9 @@ export class PriceIdentifier implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<PriceIdentifier> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PriceIdentifier object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PriceIdentifier object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPriceIdentifier(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPriceIdentifier(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PriceIdentifier object`);
     }
 

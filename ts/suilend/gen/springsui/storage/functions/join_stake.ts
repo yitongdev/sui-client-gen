@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface JoinStakeArgs {
   storage: TransactionObjectInput;
@@ -22,16 +18,9 @@ export interface JoinStakeArgs {
  * @param stakedSui - Function parameter
  * @param txContext - Function parameter
  */
-export function joinStake(
-  tx: Transaction,
-  args: JoinStakeArgs,
-): TransactionResult {
+export function joinStake(tx: Transaction, args: JoinStakeArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::storage::join_stake`,
-    arguments: [
-      obj(tx, args.storage),
-      obj(tx, args.suiSystemState),
-      obj(tx, args.stakedSui),
-    ],
+    arguments: [obj(tx, args.storage), obj(tx, args.suiSystemState), obj(tx, args.stakedSui)],
   });
 }

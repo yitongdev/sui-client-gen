@@ -61,10 +61,7 @@ export class DenyCap<T0 extends PhantomTypeArgument> implements StructClass {
 
   readonly id: ToField<UID>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: DenyCapFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: DenyCapFields<T0>) {
     this.$fullTypeName = composeSuiType(
       DenyCap.$typeName,
       ...typeArgs,
@@ -83,25 +80,18 @@ export class DenyCap<T0 extends PhantomTypeArgument> implements StructClass {
         DenyCap.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V35}::coin::DenyCap<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: DenyCap.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        DenyCap.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        DenyCap.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => DenyCap.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => DenyCap.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => DenyCap.fromBcs(T0, data),
       bcs: DenyCap.bcs,
       fromJSONField: (field: any) => DenyCap.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => DenyCap.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        DenyCap.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        DenyCap.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        DenyCap.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => DenyCap.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => DenyCap.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => DenyCap.fetch(client, T0, id),
       new: (fields: DenyCapFields<ToPhantomTypeArgument<T0>>) => {
         return new DenyCap([extractType(T0)], fields);
       },
@@ -132,9 +122,7 @@ export class DenyCap<T0 extends PhantomTypeArgument> implements StructClass {
     typeArg: T0,
     fields: Record<string, any>,
   ): DenyCap<ToPhantomTypeArgument<T0>> {
-    return DenyCap.reified(typeArg).new({
-      id: decodeFromFields(UID.reified(), fields.id),
-    });
+    return DenyCap.reified(typeArg).new({ id: decodeFromFields(UID.reified(), fields.id) });
   }
 
   static fromFieldsWithTypes<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -165,20 +153,14 @@ export class DenyCap<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
     typeArg: T0,
     field: any,
   ): DenyCap<ToPhantomTypeArgument<T0>> {
-    return DenyCap.reified(typeArg).new({
-      id: decodeFromJSONField(UID.reified(), field.id),
-    });
+    return DenyCap.reified(typeArg).new({ id: decodeFromJSONField(UID.reified(), field.id) });
   }
 
   static fromJSON<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -205,9 +187,7 @@ export class DenyCap<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isDenyCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a DenyCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a DenyCap object`);
     }
     return DenyCap.fromFieldsWithTypes(typeArg, content);
   }
@@ -218,7 +198,7 @@ export class DenyCap<T0 extends PhantomTypeArgument> implements StructClass {
   ): DenyCap<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isDenyCap(data.bcs.type)) {
-        throw new Error(`object at is not a DenyCap object`);
+        throw new Error(`object at ${data.objectId} is not a DenyCap object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -253,14 +233,9 @@ export class DenyCap<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<DenyCap<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching DenyCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching DenyCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDenyCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDenyCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a DenyCap object`);
     }
 

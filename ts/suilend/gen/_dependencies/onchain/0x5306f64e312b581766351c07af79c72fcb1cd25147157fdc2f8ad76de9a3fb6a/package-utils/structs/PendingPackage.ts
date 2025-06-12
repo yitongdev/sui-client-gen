@@ -28,10 +28,7 @@ export interface PendingPackageFields {
   dummyField: ToField<"bool">;
 }
 
-export type PendingPackageReified = Reified<
-  PendingPackage,
-  PendingPackageFields
->;
+export type PendingPackageReified = Reified<PendingPackage, PendingPackageFields>;
 
 /**
  * Move struct: `PendingPackage`
@@ -71,20 +68,15 @@ export class PendingPackage implements StructClass {
       typeArgs: [] as [],
       isPhantom: PendingPackage.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PendingPackage.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PendingPackage.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => PendingPackage.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PendingPackage.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PendingPackage.fromBcs(data),
       bcs: PendingPackage.bcs,
       fromJSONField: (field: any) => PendingPackage.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PendingPackage.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PendingPackage.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PendingPackage.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PendingPackage.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PendingPackage.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PendingPackage.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PendingPackage.fetch(client, id),
       new: (fields: PendingPackageFields) => {
         return new PendingPackage([], fields);
       },
@@ -136,11 +128,7 @@ export class PendingPackage implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PendingPackage {
@@ -162,20 +150,15 @@ export class PendingPackage implements StructClass {
       throw new Error("not an object");
     }
     if (!isPendingPackage(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PendingPackage object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PendingPackage object`);
     }
     return PendingPackage.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): PendingPackage {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPendingPackage(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PendingPackage object`);
+      if (data.bcs.dataType !== "moveObject" || !isPendingPackage(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PendingPackage object`);
       }
 
       return PendingPackage.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,14 +174,9 @@ export class PendingPackage implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<PendingPackage> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PendingPackage object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PendingPackage object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPendingPackage(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPendingPackage(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PendingPackage object`);
     }
 

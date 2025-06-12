@@ -36,10 +36,7 @@ export interface ConfigFields<T0 extends PhantomTypeArgument> {
   id: ToField<UID>;
 }
 
-export type ConfigReified<T0 extends PhantomTypeArgument> = Reified<
-  Config<T0>,
-  ConfigFields<T0>
->;
+export type ConfigReified<T0 extends PhantomTypeArgument> = Reified<Config<T0>, ConfigFields<T0>>;
 
 /**
  * Move struct: `Config`
@@ -61,10 +58,7 @@ export class Config<T0 extends PhantomTypeArgument> implements StructClass {
 
   readonly id: ToField<UID>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: ConfigFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: ConfigFields<T0>) {
     this.$fullTypeName = composeSuiType(
       Config.$typeName,
       ...typeArgs,
@@ -83,25 +77,18 @@ export class Config<T0 extends PhantomTypeArgument> implements StructClass {
         Config.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V31}::config::Config<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: Config.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        Config.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Config.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => Config.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Config.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Config.fromBcs(T0, data),
       bcs: Config.bcs,
       fromJSONField: (field: any) => Config.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Config.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Config.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Config.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Config.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Config.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Config.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Config.fetch(client, T0, id),
       new: (fields: ConfigFields<ToPhantomTypeArgument<T0>>) => {
         return new Config([extractType(T0)], fields);
       },
@@ -132,9 +119,7 @@ export class Config<T0 extends PhantomTypeArgument> implements StructClass {
     typeArg: T0,
     fields: Record<string, any>,
   ): Config<ToPhantomTypeArgument<T0>> {
-    return Config.reified(typeArg).new({
-      id: decodeFromFields(UID.reified(), fields.id),
-    });
+    return Config.reified(typeArg).new({ id: decodeFromFields(UID.reified(), fields.id) });
   }
 
   static fromFieldsWithTypes<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -165,20 +150,14 @@ export class Config<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
     typeArg: T0,
     field: any,
   ): Config<ToPhantomTypeArgument<T0>> {
-    return Config.reified(typeArg).new({
-      id: decodeFromJSONField(UID.reified(), field.id),
-    });
+    return Config.reified(typeArg).new({ id: decodeFromJSONField(UID.reified(), field.id) });
   }
 
   static fromJSON<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -205,9 +184,7 @@ export class Config<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isConfig(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Config object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Config object`);
     }
     return Config.fromFieldsWithTypes(typeArg, content);
   }
@@ -218,7 +195,7 @@ export class Config<T0 extends PhantomTypeArgument> implements StructClass {
   ): Config<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isConfig(data.bcs.type)) {
-        throw new Error(`object at is not a Config object`);
+        throw new Error(`object at ${data.objectId} is not a Config object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -253,14 +230,9 @@ export class Config<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<Config<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Config object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Config object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isConfig(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isConfig(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Config object`);
     }
 

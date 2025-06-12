@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface ValueIdArgs {
   bag: TransactionObjectInput;
@@ -21,11 +17,7 @@ export interface ValueIdArgs {
  * @param k - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function valueId(
-  tx: Transaction,
-  typeArg: string,
-  args: ValueIdArgs,
-): TransactionResult {
+export function valueId(tx: Transaction, typeArg: string, args: ValueIdArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::object_bag::value_id`,
     typeArguments: [typeArg],

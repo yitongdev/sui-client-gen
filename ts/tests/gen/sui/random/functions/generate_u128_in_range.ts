@@ -29,10 +29,6 @@ export function generateU128InRange(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::random::generate_u128_in_range`,
-    arguments: [
-      obj(tx, args.g),
-      pure(tx, args.min, `u128`),
-      pure(tx, args.max, `u128`),
-    ],
+    arguments: [obj(tx, args.g), pure(tx, args.min, `u128`), pure(tx, args.max, `u128`)],
   });
 }

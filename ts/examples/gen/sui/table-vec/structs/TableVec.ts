@@ -48,9 +48,7 @@ export type TableVecReified<Element extends PhantomTypeArgument> = Reified<
  *
  * @typeParam Element - Type parameter 0 (phantom)
  */
-export class TableVec<Element extends PhantomTypeArgument>
-  implements StructClass
-{
+export class TableVec<Element extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::table_vec::TableVec`;
@@ -64,10 +62,7 @@ export class TableVec<Element extends PhantomTypeArgument>
 
   readonly contents: ToField<Table<"u64", Element>>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<Element>],
-    fields: TableVecFields<Element>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<Element>], fields: TableVecFields<Element>) {
     this.$fullTypeName = composeSuiType(
       TableVec.$typeName,
       ...typeArgs,
@@ -86,25 +81,18 @@ export class TableVec<Element extends PhantomTypeArgument>
         TableVec.$typeName,
         ...[extractType(Element)],
       ) as `${typeof PKG_V31}::table_vec::TableVec<${PhantomToTypeStr<ToPhantomTypeArgument<Element>>}>`,
-      typeArgs: [extractType(Element)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<Element>>,
-      ],
+      typeArgs: [extractType(Element)] as [PhantomToTypeStr<ToPhantomTypeArgument<Element>>],
       isPhantom: TableVec.$isPhantom,
       reifiedTypeArgs: [Element],
-      fromFields: (fields: Record<string, any>) =>
-        TableVec.fromFields(Element, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        TableVec.fromFieldsWithTypes(Element, item),
+      fromFields: (fields: Record<string, any>) => TableVec.fromFields(Element, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => TableVec.fromFieldsWithTypes(Element, item),
       fromBcs: (data: Uint8Array) => TableVec.fromBcs(Element, data),
       bcs: TableVec.bcs,
       fromJSONField: (field: any) => TableVec.fromJSONField(Element, field),
       fromJSON: (json: Record<string, any>) => TableVec.fromJSON(Element, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        TableVec.fromSuiParsedData(Element, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        TableVec.fromSuiObjectData(Element, content),
-      fetch: async (client: SuiClient, id: string) =>
-        TableVec.fetch(client, Element, id),
+      fromSuiParsedData: (content: SuiParsedData) => TableVec.fromSuiParsedData(Element, content),
+      fromSuiObjectData: (content: SuiObjectData) => TableVec.fromSuiObjectData(Element, content),
+      fetch: async (client: SuiClient, id: string) => TableVec.fetch(client, Element, id),
       new: (fields: TableVecFields<ToPhantomTypeArgument<Element>>) => {
         return new TableVec([extractType(Element)], fields);
       },
@@ -136,16 +124,11 @@ export class TableVec<Element extends PhantomTypeArgument>
     fields: Record<string, any>,
   ): TableVec<ToPhantomTypeArgument<Element>> {
     return TableVec.reified(typeArg).new({
-      contents: decodeFromFields(
-        Table.reified(reified.phantom("u64"), typeArg),
-        fields.contents,
-      ),
+      contents: decodeFromFields(Table.reified(reified.phantom("u64"), typeArg), fields.contents),
     });
   }
 
-  static fromFieldsWithTypes<
-    Element extends PhantomReified<PhantomTypeArgument>,
-  >(
+  static fromFieldsWithTypes<Element extends PhantomReified<PhantomTypeArgument>>(
     typeArg: Element,
     item: FieldsWithTypes,
   ): TableVec<ToPhantomTypeArgument<Element>> {
@@ -176,11 +159,7 @@ export class TableVec<Element extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<Element extends PhantomReified<PhantomTypeArgument>>(
@@ -188,10 +167,7 @@ export class TableVec<Element extends PhantomTypeArgument>
     field: any,
   ): TableVec<ToPhantomTypeArgument<Element>> {
     return TableVec.reified(typeArg).new({
-      contents: decodeFromJSONField(
-        Table.reified(reified.phantom("u64"), typeArg),
-        field.contents,
-      ),
+      contents: decodeFromJSONField(Table.reified(reified.phantom("u64"), typeArg), field.contents),
     });
   }
 
@@ -219,9 +195,7 @@ export class TableVec<Element extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isTableVec(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a TableVec object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a TableVec object`);
     }
     return TableVec.fromFieldsWithTypes(typeArg, content);
   }
@@ -232,7 +206,7 @@ export class TableVec<Element extends PhantomTypeArgument>
   ): TableVec<ToPhantomTypeArgument<Element>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isTableVec(data.bcs.type)) {
-        throw new Error(`object at is not a TableVec object`);
+        throw new Error(`object at ${data.objectId} is not a TableVec object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -267,14 +241,9 @@ export class TableVec<Element extends PhantomTypeArgument>
   ): Promise<TableVec<ToPhantomTypeArgument<Element>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TableVec object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TableVec object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTableVec(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTableVec(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a TableVec object`);
     }
 

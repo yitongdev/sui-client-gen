@@ -11,11 +11,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param otw - Function parameter
  * @param ctx - Function parameter
  */
-export function claimAndKeep(
-  tx: Transaction,
-  typeArg: string,
-  otw: GenericArg,
-): TransactionResult {
+export function claimAndKeep(tx: Transaction, typeArg: string, otw: GenericArg): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::package::claim_and_keep`,
     typeArguments: [typeArg],

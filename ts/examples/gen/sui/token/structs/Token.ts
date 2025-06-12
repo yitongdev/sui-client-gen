@@ -38,10 +38,7 @@ export interface TokenFields<T extends PhantomTypeArgument> {
   balance: ToField<Balance<T>>;
 }
 
-export type TokenReified<T extends PhantomTypeArgument> = Reified<
-  Token<T>,
-  TokenFields<T>
->;
+export type TokenReified<T extends PhantomTypeArgument> = Reified<Token<T>, TokenFields<T>>;
 
 /**
  * Move struct: `Token`
@@ -84,24 +81,18 @@ export class Token<T extends PhantomTypeArgument> implements StructClass {
         Token.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::token::Token<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: Token.$isPhantom,
       reifiedTypeArgs: [T],
       fromFields: (fields: Record<string, any>) => Token.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Token.fromFieldsWithTypes(T, item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Token.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => Token.fromBcs(T, data),
       bcs: Token.bcs,
       fromJSONField: (field: any) => Token.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => Token.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Token.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Token.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Token.fetch(client, T, id),
+      fromSuiParsedData: (content: SuiParsedData) => Token.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => Token.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => Token.fetch(client, T, id),
       new: (fields: TokenFields<ToPhantomTypeArgument<T>>) => {
         return new Token([extractType(T)], fields);
       },
@@ -150,10 +141,7 @@ export class Token<T extends PhantomTypeArgument> implements StructClass {
 
     return Token.reified(typeArg).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      balance: decodeFromFieldsWithTypes(
-        Balance.reified(typeArg),
-        item.fields.balance,
-      ),
+      balance: decodeFromFieldsWithTypes(Balance.reified(typeArg), item.fields.balance),
     });
   }
 
@@ -172,11 +160,7 @@ export class Token<T extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -213,9 +197,7 @@ export class Token<T extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isToken(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Token object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Token object`);
     }
     return Token.fromFieldsWithTypes(typeArg, content);
   }
@@ -226,7 +208,7 @@ export class Token<T extends PhantomTypeArgument> implements StructClass {
   ): Token<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isToken(data.bcs.type)) {
-        throw new Error(`object at is not a Token object`);
+        throw new Error(`object at ${data.objectId} is not a Token object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -261,14 +243,9 @@ export class Token<T extends PhantomTypeArgument> implements StructClass {
   ): Promise<Token<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Token object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Token object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isToken(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isToken(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Token object`);
     }
 

@@ -25,18 +25,10 @@ export interface MulArgs {
  * @param element2 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function mul(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: MulArgs,
-): TransactionResult {
+export function mul(tx: Transaction, typeArgs: [string, string], args: MulArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::group_ops::mul`,
     typeArguments: typeArgs,
-    arguments: [
-      pure(tx, args.u8, `u8`),
-      obj(tx, args.element1),
-      obj(tx, args.element2),
-    ],
+    arguments: [pure(tx, args.u8, `u8`), obj(tx, args.element1), obj(tx, args.element2)],
   });
 }

@@ -9,8 +9,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param ctx - Function parameter
  */
 export function create(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::deny_list::create`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::deny_list::create`, arguments: [] });
 }

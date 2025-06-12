@@ -33,10 +33,6 @@ export function swapAAndTransferToSender(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::swap_a_and_transfer_to_sender`,
     typeArguments: typeArgs,
-    arguments: [
-      obj(tx, args.pool),
-      obj(tx, args.input),
-      pure(tx, args.minOut, `u64`),
-    ],
+    arguments: [obj(tx, args.pool), obj(tx, args.input), pure(tx, args.minOut, `u64`)],
   });
 }

@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { Decimal } from "../../decimal/structs/index.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -76,20 +72,15 @@ export class UserReward implements StructClass {
       typeArgs: [] as [],
       isPhantom: UserReward.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        UserReward.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        UserReward.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => UserReward.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => UserReward.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => UserReward.fromBcs(data),
       bcs: UserReward.bcs,
       fromJSONField: (field: any) => UserReward.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => UserReward.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        UserReward.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        UserReward.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        UserReward.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => UserReward.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => UserReward.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => UserReward.fetch(client, id),
       new: (fields: UserRewardFields) => {
         return new UserReward([], fields);
       },
@@ -133,14 +124,8 @@ export class UserReward implements StructClass {
     }
 
     return UserReward.reified().new({
-      poolRewardId: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.pool_reward_id,
-      ),
-      earnedRewards: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.earned_rewards,
-      ),
+      poolRewardId: decodeFromFieldsWithTypes(ID.reified(), item.fields.pool_reward_id),
+      earnedRewards: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.earned_rewards),
       cumulativeRewardsPerShare: decodeFromFieldsWithTypes(
         Decimal.reified(),
         item.fields.cumulative_rewards_per_share,
@@ -161,20 +146,13 @@ export class UserReward implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UserReward {
     return UserReward.reified().new({
       poolRewardId: decodeFromJSONField(ID.reified(), field.poolRewardId),
-      earnedRewards: decodeFromJSONField(
-        Decimal.reified(),
-        field.earnedRewards,
-      ),
+      earnedRewards: decodeFromJSONField(Decimal.reified(), field.earnedRewards),
       cumulativeRewardsPerShare: decodeFromJSONField(
         Decimal.reified(),
         field.cumulativeRewardsPerShare,
@@ -195,9 +173,7 @@ export class UserReward implements StructClass {
       throw new Error("not an object");
     }
     if (!isUserReward(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a UserReward object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a UserReward object`);
     }
     return UserReward.fromFieldsWithTypes(content);
   }
@@ -205,7 +181,7 @@ export class UserReward implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): UserReward {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isUserReward(data.bcs.type)) {
-        throw new Error(`object at is not a UserReward object`);
+        throw new Error(`object at ${data.objectId} is not a UserReward object`);
       }
 
       return UserReward.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -221,14 +197,9 @@ export class UserReward implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<UserReward> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching UserReward object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching UserReward object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isUserReward(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isUserReward(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a UserReward object`);
     }
 

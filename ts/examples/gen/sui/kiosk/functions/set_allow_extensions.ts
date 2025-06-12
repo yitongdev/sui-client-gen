@@ -28,10 +28,6 @@ export function setAllowExtensions(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::set_allow_extensions`,
-    arguments: [
-      obj(tx, args.self),
-      obj(tx, args.cap),
-      pure(tx, args.allowExtensions, `bool`),
-    ],
+    arguments: [obj(tx, args.self), obj(tx, args.cap), pure(tx, args.allowExtensions, `bool`)],
   });
 }

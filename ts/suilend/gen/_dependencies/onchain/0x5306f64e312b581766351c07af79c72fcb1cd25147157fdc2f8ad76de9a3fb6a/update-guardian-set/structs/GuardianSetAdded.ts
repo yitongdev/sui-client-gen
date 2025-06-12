@@ -28,10 +28,7 @@ export interface GuardianSetAddedFields {
   newIndex: ToField<"u32">;
 }
 
-export type GuardianSetAddedReified = Reified<
-  GuardianSetAdded,
-  GuardianSetAddedFields
->;
+export type GuardianSetAddedReified = Reified<GuardianSetAdded, GuardianSetAddedFields>;
 
 /**
  * Move struct: `GuardianSetAdded`
@@ -71,20 +68,15 @@ export class GuardianSetAdded implements StructClass {
       typeArgs: [] as [],
       isPhantom: GuardianSetAdded.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        GuardianSetAdded.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        GuardianSetAdded.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => GuardianSetAdded.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => GuardianSetAdded.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => GuardianSetAdded.fromBcs(data),
       bcs: GuardianSetAdded.bcs,
       fromJSONField: (field: any) => GuardianSetAdded.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => GuardianSetAdded.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        GuardianSetAdded.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        GuardianSetAdded.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        GuardianSetAdded.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => GuardianSetAdded.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => GuardianSetAdded.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => GuardianSetAdded.fetch(client, id),
       new: (fields: GuardianSetAddedFields) => {
         return new GuardianSetAdded([], fields);
       },
@@ -110,9 +102,7 @@ export class GuardianSetAdded implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): GuardianSetAdded {
-    return GuardianSetAdded.reified().new({
-      newIndex: decodeFromFields("u32", fields.new_index),
-    });
+    return GuardianSetAdded.reified().new({ newIndex: decodeFromFields("u32", fields.new_index) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): GuardianSetAdded {
@@ -136,17 +126,11 @@ export class GuardianSetAdded implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): GuardianSetAdded {
-    return GuardianSetAdded.reified().new({
-      newIndex: decodeFromJSONField("u32", field.newIndex),
-    });
+    return GuardianSetAdded.reified().new({ newIndex: decodeFromJSONField("u32", field.newIndex) });
   }
 
   static fromJSON(json: Record<string, any>): GuardianSetAdded {
@@ -162,20 +146,15 @@ export class GuardianSetAdded implements StructClass {
       throw new Error("not an object");
     }
     if (!isGuardianSetAdded(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a GuardianSetAdded object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a GuardianSetAdded object`);
     }
     return GuardianSetAdded.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): GuardianSetAdded {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isGuardianSetAdded(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a GuardianSetAdded object`);
+      if (data.bcs.dataType !== "moveObject" || !isGuardianSetAdded(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a GuardianSetAdded object`);
       }
 
       return GuardianSetAdded.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,14 +170,9 @@ export class GuardianSetAdded implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<GuardianSetAdded> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching GuardianSetAdded object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching GuardianSetAdded object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isGuardianSetAdded(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isGuardianSetAdded(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a GuardianSetAdded object`);
     }
 

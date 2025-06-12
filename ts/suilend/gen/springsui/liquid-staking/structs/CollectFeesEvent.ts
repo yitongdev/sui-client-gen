@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -30,10 +26,7 @@ export interface CollectFeesEventFields {
   amount: ToField<"u64">;
 }
 
-export type CollectFeesEventReified = Reified<
-  CollectFeesEvent,
-  CollectFeesEventFields
->;
+export type CollectFeesEventReified = Reified<CollectFeesEvent, CollectFeesEventFields>;
 
 /**
  * Move struct: `CollectFeesEvent`
@@ -75,20 +68,15 @@ export class CollectFeesEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: CollectFeesEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        CollectFeesEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        CollectFeesEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => CollectFeesEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => CollectFeesEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => CollectFeesEvent.fromBcs(data),
       bcs: CollectFeesEvent.bcs,
       fromJSONField: (field: any) => CollectFeesEvent.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => CollectFeesEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        CollectFeesEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        CollectFeesEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        CollectFeesEvent.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => CollectFeesEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => CollectFeesEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => CollectFeesEvent.fetch(client, id),
       new: (fields: CollectFeesEventFields) => {
         return new CollectFeesEvent([], fields);
       },
@@ -127,10 +115,7 @@ export class CollectFeesEvent implements StructClass {
     }
 
     return CollectFeesEvent.reified().new({
-      typename: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.typename,
-      ),
+      typename: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.typename),
       amount: decodeFromFieldsWithTypes("u64", item.fields.amount),
     });
   }
@@ -147,11 +132,7 @@ export class CollectFeesEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): CollectFeesEvent {
@@ -174,20 +155,15 @@ export class CollectFeesEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isCollectFeesEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a CollectFeesEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a CollectFeesEvent object`);
     }
     return CollectFeesEvent.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): CollectFeesEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isCollectFeesEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a CollectFeesEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isCollectFeesEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a CollectFeesEvent object`);
       }
 
       return CollectFeesEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -203,14 +179,9 @@ export class CollectFeesEvent implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<CollectFeesEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching CollectFeesEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching CollectFeesEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isCollectFeesEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isCollectFeesEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a CollectFeesEvent object`);
     }
 

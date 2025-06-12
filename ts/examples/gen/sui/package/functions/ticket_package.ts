@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `ticket_package`
@@ -14,10 +10,7 @@ import {
  * @param ticket - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function ticketPackage(
-  tx: Transaction,
-  ticket: TransactionObjectInput,
-): TransactionResult {
+export function ticketPackage(tx: Transaction, ticket: TransactionObjectInput): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::package::ticket_package`,
     arguments: [obj(tx, ticket)],

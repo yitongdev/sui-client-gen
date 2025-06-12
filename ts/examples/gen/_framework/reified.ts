@@ -30,15 +30,7 @@ export interface VectorClass {
   __VectorClass: true;
 }
 
-export type Primitive =
-  | "bool"
-  | "u8"
-  | "u16"
-  | "u32"
-  | "u64"
-  | "u128"
-  | "u256"
-  | "address";
+export type Primitive = "bool" | "u8" | "u16" | "u32" | "u64" | "u128" | "u256" | "address";
 export type TypeArgument = StructClass | Primitive | VectorClass;
 
 export interface StructClassReified<T extends StructClass, Fields> {
@@ -46,9 +38,7 @@ export interface StructClassReified<T extends StructClass, Fields> {
   fullTypeName: ToTypeStr<T>; // e.g., '0x2::balance::Balance<0x2::sui:SUI>'
   typeArgs: T["$typeArgs"]; // e.g., ['0x2::sui:SUI']
   isPhantom: T["$isPhantom"]; // e.g., [true, false]
-  reifiedTypeArgs: Array<
-    Reified<TypeArgument, any> | PhantomReified<PhantomTypeArgument>
-  >;
+  reifiedTypeArgs: Array<Reified<TypeArgument, any> | PhantomReified<PhantomTypeArgument>>;
   bcs: BcsType<any>;
   fromFields(fields: Record<string, any>): T;
   fromFieldsWithTypes(item: FieldsWithTypes): T;
@@ -87,10 +77,7 @@ export type Reified<T extends TypeArgument, Fields> = T extends Primitive
       : never;
 
 export type ToTypeArgument<
-  T extends
-    | Primitive
-    | StructClassReified<StructClass, any>
-    | VectorClassReified<VectorClass, any>,
+  T extends Primitive | StructClassReified<StructClass, any> | VectorClassReified<VectorClass, any>,
 > = T extends Primitive
   ? T
   : T extends StructClassReified<infer U, any>
@@ -99,9 +86,8 @@ export type ToTypeArgument<
       ? U
       : never;
 
-export type ToPhantomTypeArgument<
-  T extends PhantomReified<PhantomTypeArgument>,
-> = T extends PhantomReified<infer U> ? U : never;
+export type ToPhantomTypeArgument<T extends PhantomReified<PhantomTypeArgument>> =
+  T extends PhantomReified<infer U> ? U : never;
 
 export type PhantomTypeArgument = string;
 
@@ -113,14 +99,9 @@ export interface PhantomReified<P> {
 export function phantom<T extends Reified<TypeArgument, any>>(
   reified: T,
 ): PhantomReified<ToTypeStr<ToTypeArgument<T>>>;
-export function phantom<P extends PhantomTypeArgument>(
-  phantomType: P,
-): PhantomReified<P>;
+export function phantom<P extends PhantomTypeArgument>(phantomType: P): PhantomReified<P>;
 export function phantom(
-  type:
-    | StructClassReified<StructClass, any>
-    | VectorClassReified<VectorClass, any>
-    | string,
+  type: StructClassReified<StructClass, any> | VectorClassReified<VectorClass, any> | string,
 ): PhantomReified<string> {
   if (typeof type === "string") {
     return {
@@ -143,8 +124,9 @@ export type ToTypeStr<T extends TypeArgument> = T extends Primitive
       ? T["$fullTypeName"]
       : never;
 
-export type PhantomToTypeStr<T extends PhantomTypeArgument> =
-  T extends PhantomTypeArgument ? T : never;
+export type PhantomToTypeStr<T extends PhantomTypeArgument> = T extends PhantomTypeArgument
+  ? T
+  : never;
 
 export type ToJSON<T extends TypeArgument> = T extends "bool"
   ? boolean
@@ -225,9 +207,7 @@ const Address = bcs.bytes(32).transform({
   output: (val) => toHex(val),
 });
 
-export function toBcs<T extends Reified<TypeArgument, any>>(
-  arg: T,
-): BcsType<any> {
+export function toBcs<T extends Reified<TypeArgument, any>>(arg: T): BcsType<any> {
   switch (arg) {
     case "bool":
       return bcs.bool();
@@ -259,9 +239,7 @@ export function extractType<T extends PhantomReified<PhantomTypeArgument>>(
 export function extractType<
   T extends Reified<TypeArgument, any> | PhantomReified<PhantomTypeArgument>,
 >(reified: T): string;
-export function extractType(
-  reified: Reified<TypeArgument, any> | PhantomReified<string>,
-): string {
+export function extractType(reified: Reified<TypeArgument, any> | PhantomReified<string>): string {
   switch (reified) {
     case "u8":
     case "u16":
@@ -285,10 +263,7 @@ export function extractType(
   throw new Error("unreachable");
 }
 
-export function decodeFromFields(
-  reified: Reified<TypeArgument, any>,
-  field: any,
-) {
+export function decodeFromFields(reified: Reified<TypeArgument, any>, field: any) {
   switch (reified) {
     case "bool":
     case "u8":
@@ -310,9 +285,7 @@ export function decodeFromFields(
     case "0x1::ascii::String":
       return new TextDecoder().decode(Uint8Array.from(field.bytes)).toString();
     case "0x2::url::Url":
-      return new TextDecoder()
-        .decode(Uint8Array.from(field.url.bytes))
-        .toString();
+      return new TextDecoder().decode(Uint8Array.from(field.url.bytes)).toString();
     case "0x2::object::ID":
       return `0x${field.bytes}`;
     case "0x2::object::UID":
@@ -329,10 +302,7 @@ export function decodeFromFields(
   }
 }
 
-export function decodeFromFieldsWithTypes(
-  reified: Reified<TypeArgument, any>,
-  item: any,
-) {
+export function decodeFromFieldsWithTypes(reified: Reified<TypeArgument, any>, item: any) {
   switch (reified) {
     case "bool":
     case "u8":
@@ -363,10 +333,7 @@ export function decodeFromFieldsWithTypes(
       if (item === null) {
         return null;
       }
-      const innerType = (reified as any).reifiedTypeArgs[0] as Reified<
-        TypeArgument,
-        any
-      >;
+      const innerType = (reified as any).reifiedTypeArgs[0] as Reified<TypeArgument, any>;
       return decodeFromFieldsWithTypes(innerType, item);
     }
     default:
@@ -389,9 +356,7 @@ export function assertReifiedTypeArgsMatch(
     const reifiedTypeArg = reifiedTypeArgs[i] as
       | Reified<TypeArgument, any>
       | PhantomReified<string>;
-    if (
-      compressSuiType(typeArg) !== compressSuiType(extractType(reifiedTypeArg))
-    ) {
+    if (compressSuiType(typeArg) !== compressSuiType(extractType(reifiedTypeArg))) {
       throw new Error(
         `provided item has mismatching type argments ${fullType} (expected ${extractType(
           reifiedTypeArg,
@@ -409,10 +374,7 @@ export function assertFieldsWithTypesArgsMatch(
   assertReifiedTypeArgsMatch(item.type, itemTypeArgs, reifiedTypeArgs);
 }
 
-export function fieldToJSON<T extends TypeArgument>(
-  type: string,
-  field: ToField<T>,
-): ToJSON<T> {
+export function fieldToJSON<T extends TypeArgument>(type: string, field: ToField<T>): ToJSON<T> {
   const { typeName, typeArgs } = parseTypeName(type);
   switch (typeName) {
     case "bool":
@@ -429,9 +391,7 @@ export function fieldToJSON<T extends TypeArgument>(
     case "signer":
       return field as any;
     case "vector":
-      return (field as any[]).map((item: any) =>
-        fieldToJSON(typeArgs[0] as string, item),
-      ) as any;
+      return (field as any[]).map((item: any) => fieldToJSON(typeArgs[0] as string, item)) as any;
     // handle special types
     case "0x1::string::String":
     case "0x1::ascii::String":
@@ -450,10 +410,7 @@ export function fieldToJSON<T extends TypeArgument>(
   }
 }
 
-export function decodeFromJSONField(
-  typeArg: Reified<TypeArgument, any>,
-  field: any,
-) {
+export function decodeFromJSONField(typeArg: Reified<TypeArgument, any>, field: any) {
   switch (typeArg) {
     case "bool":
     case "u8":

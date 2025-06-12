@@ -24,11 +24,7 @@ export interface DelistArgs {
  * @param kioskOwnerCap - Function parameter
  * @param id - Function parameter
  */
-export function delist(
-  tx: Transaction,
-  typeArg: string,
-  args: DelistArgs,
-): TransactionResult {
+export function delist(tx: Transaction, typeArg: string, args: DelistArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::delist`,
     typeArguments: [typeArg],

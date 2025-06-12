@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -71,21 +67,18 @@ export class StructFromOtherModule implements StructClass {
       typeArgs: [] as [],
       isPhantom: StructFromOtherModule.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        StructFromOtherModule.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => StructFromOtherModule.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         StructFromOtherModule.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => StructFromOtherModule.fromBcs(data),
       bcs: StructFromOtherModule.bcs,
       fromJSONField: (field: any) => StructFromOtherModule.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        StructFromOtherModule.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => StructFromOtherModule.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         StructFromOtherModule.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         StructFromOtherModule.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        StructFromOtherModule.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => StructFromOtherModule.fetch(client, id),
       new: (fields: StructFromOtherModuleFields) => {
         return new StructFromOtherModule([], fields);
       },
@@ -127,9 +120,7 @@ export class StructFromOtherModule implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): StructFromOtherModule {
-    return StructFromOtherModule.fromFields(
-      StructFromOtherModule.bcs.parse(data),
-    );
+    return StructFromOtherModule.fromFields(StructFromOtherModule.bcs.parse(data));
   }
 
   toJSONField() {
@@ -139,11 +130,7 @@ export class StructFromOtherModule implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): StructFromOtherModule {
@@ -174,11 +161,8 @@ export class StructFromOtherModule implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): StructFromOtherModule {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isStructFromOtherModule(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a StructFromOtherModule object`);
+      if (data.bcs.dataType !== "moveObject" || !isStructFromOtherModule(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a StructFromOtherModule object`);
       }
 
       return StructFromOtherModule.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,23 +175,13 @@ export class StructFromOtherModule implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<StructFromOtherModule> {
+  static async fetch(client: SuiClient, id: string): Promise<StructFromOtherModule> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching StructFromOtherModule object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching StructFromOtherModule object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isStructFromOtherModule(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a StructFromOtherModule object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isStructFromOtherModule(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a StructFromOtherModule object`);
     }
 
     return StructFromOtherModule.fromSuiObjectData(res.data);

@@ -1,7 +1,4 @@
-import {
-  ID,
-  UID,
-} from "../../../_dependencies/onchain/0x2/object/structs/index.js";
+import { ID, UID } from "../../../_dependencies/onchain/0x2/object/structs/index.js";
 import {
   PhantomReified,
   PhantomToTypeStr,
@@ -32,9 +29,7 @@ import { fromBase64 } from "@mysten/sui/utils";
 
 export function isLendingMarketOwnerCap(type: string): boolean {
   type = compressSuiType(type);
-  return type.startsWith(
-    `${PKG_V1}::lending_market::LendingMarketOwnerCap` + "<",
-  );
+  return type.startsWith(`${PKG_V1}::lending_market::LendingMarketOwnerCap` + "<");
 }
 
 export interface LendingMarketOwnerCapFields<T0 extends PhantomTypeArgument> {
@@ -42,8 +37,10 @@ export interface LendingMarketOwnerCapFields<T0 extends PhantomTypeArgument> {
   lendingMarketId: ToField<ID>;
 }
 
-export type LendingMarketOwnerCapReified<T0 extends PhantomTypeArgument> =
-  Reified<LendingMarketOwnerCap<T0>, LendingMarketOwnerCapFields<T0>>;
+export type LendingMarketOwnerCapReified<T0 extends PhantomTypeArgument> = Reified<
+  LendingMarketOwnerCap<T0>,
+  LendingMarketOwnerCapFields<T0>
+>;
 
 /**
  * Move struct: `LendingMarketOwnerCap`
@@ -51,9 +48,7 @@ export type LendingMarketOwnerCapReified<T0 extends PhantomTypeArgument> =
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class LendingMarketOwnerCap<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class LendingMarketOwnerCap<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V1}::lending_market::LendingMarketOwnerCap`;
@@ -68,10 +63,7 @@ export class LendingMarketOwnerCap<T0 extends PhantomTypeArgument>
   readonly id: ToField<UID>;
   readonly lendingMarketId: ToField<ID>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: LendingMarketOwnerCapFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: LendingMarketOwnerCapFields<T0>) {
     this.$fullTypeName = composeSuiType(
       LendingMarketOwnerCap.$typeName,
       ...typeArgs,
@@ -91,27 +83,21 @@ export class LendingMarketOwnerCap<T0 extends PhantomTypeArgument>
         LendingMarketOwnerCap.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V1}::lending_market::LendingMarketOwnerCap<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: LendingMarketOwnerCap.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        LendingMarketOwnerCap.fromFields(T0, fields),
+      fromFields: (fields: Record<string, any>) => LendingMarketOwnerCap.fromFields(T0, fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         LendingMarketOwnerCap.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => LendingMarketOwnerCap.fromBcs(T0, data),
       bcs: LendingMarketOwnerCap.bcs,
-      fromJSONField: (field: any) =>
-        LendingMarketOwnerCap.fromJSONField(T0, field),
-      fromJSON: (json: Record<string, any>) =>
-        LendingMarketOwnerCap.fromJSON(T0, json),
+      fromJSONField: (field: any) => LendingMarketOwnerCap.fromJSONField(T0, field),
+      fromJSON: (json: Record<string, any>) => LendingMarketOwnerCap.fromJSON(T0, json),
       fromSuiParsedData: (content: SuiParsedData) =>
         LendingMarketOwnerCap.fromSuiParsedData(T0, content),
       fromSuiObjectData: (content: SuiObjectData) =>
         LendingMarketOwnerCap.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        LendingMarketOwnerCap.fetch(client, T0, id),
+      fetch: async (client: SuiClient, id: string) => LendingMarketOwnerCap.fetch(client, T0, id),
       new: (fields: LendingMarketOwnerCapFields<ToPhantomTypeArgument<T0>>) => {
         return new LendingMarketOwnerCap([extractType(T0)], fields);
       },
@@ -125,9 +111,7 @@ export class LendingMarketOwnerCap<T0 extends PhantomTypeArgument>
 
   static phantom<T0 extends PhantomReified<PhantomTypeArgument>>(
     T0: T0,
-  ): PhantomReified<
-    ToTypeStr<LendingMarketOwnerCap<ToPhantomTypeArgument<T0>>>
-  > {
+  ): PhantomReified<ToTypeStr<LendingMarketOwnerCap<ToPhantomTypeArgument<T0>>>> {
     return phantom(LendingMarketOwnerCap.reified(T0));
   }
   static get p() {
@@ -162,10 +146,7 @@ export class LendingMarketOwnerCap<T0 extends PhantomTypeArgument>
 
     return LendingMarketOwnerCap.reified(typeArg).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      lendingMarketId: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.lending_market_id,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes(ID.reified(), item.fields.lending_market_id),
     });
   }
 
@@ -173,10 +154,7 @@ export class LendingMarketOwnerCap<T0 extends PhantomTypeArgument>
     typeArg: T0,
     data: Uint8Array,
   ): LendingMarketOwnerCap<ToPhantomTypeArgument<T0>> {
-    return LendingMarketOwnerCap.fromFields(
-      typeArg,
-      LendingMarketOwnerCap.bcs.parse(data),
-    );
+    return LendingMarketOwnerCap.fromFields(typeArg, LendingMarketOwnerCap.bcs.parse(data));
   }
 
   toJSONField() {
@@ -187,11 +165,7 @@ export class LendingMarketOwnerCap<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -240,11 +214,8 @@ export class LendingMarketOwnerCap<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): LendingMarketOwnerCap<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isLendingMarketOwnerCap(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a LendingMarketOwnerCap object`);
+      if (data.bcs.dataType !== "moveObject" || !isLendingMarketOwnerCap(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a LendingMarketOwnerCap object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -262,10 +233,7 @@ export class LendingMarketOwnerCap<T0 extends PhantomTypeArgument>
         );
       }
 
-      return LendingMarketOwnerCap.fromBcs(
-        typeArg,
-        fromBase64(data.bcs.bcsBytes),
-      );
+      return LendingMarketOwnerCap.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return LendingMarketOwnerCap.fromSuiParsedData(typeArg, data.content);
@@ -282,17 +250,10 @@ export class LendingMarketOwnerCap<T0 extends PhantomTypeArgument>
   ): Promise<LendingMarketOwnerCap<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching LendingMarketOwnerCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching LendingMarketOwnerCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isLendingMarketOwnerCap(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a LendingMarketOwnerCap object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isLendingMarketOwnerCap(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a LendingMarketOwnerCap object`);
     }
 
     return LendingMarketOwnerCap.fromSuiObjectData(typeArg, res.data);

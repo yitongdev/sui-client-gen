@@ -25,10 +25,7 @@ export interface WithdrawArgs {
  * @param ctx - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function withdraw(
-  tx: Transaction,
-  args: WithdrawArgs,
-): TransactionResult {
+export function withdraw(tx: Transaction, args: WithdrawArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::withdraw`,
     arguments: [

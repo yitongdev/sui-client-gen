@@ -46,9 +46,7 @@ export type CurrencyCreatedReified<T extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T - Type parameter 0 (phantom)
  */
-export class CurrencyCreated<T extends PhantomTypeArgument>
-  implements StructClass
-{
+export class CurrencyCreated<T extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::coin::CurrencyCreated`;
@@ -62,10 +60,7 @@ export class CurrencyCreated<T extends PhantomTypeArgument>
 
   readonly decimals: ToField<"u8">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: CurrencyCreatedFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: CurrencyCreatedFields<T>) {
     this.$fullTypeName = composeSuiType(
       CurrencyCreated.$typeName,
       ...typeArgs,
@@ -84,26 +79,18 @@ export class CurrencyCreated<T extends PhantomTypeArgument>
         CurrencyCreated.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::coin::CurrencyCreated<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: CurrencyCreated.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        CurrencyCreated.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        CurrencyCreated.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => CurrencyCreated.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => CurrencyCreated.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => CurrencyCreated.fromBcs(T, data),
       bcs: CurrencyCreated.bcs,
       fromJSONField: (field: any) => CurrencyCreated.fromJSONField(T, field),
-      fromJSON: (json: Record<string, any>) =>
-        CurrencyCreated.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        CurrencyCreated.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        CurrencyCreated.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        CurrencyCreated.fetch(client, T, id),
+      fromJSON: (json: Record<string, any>) => CurrencyCreated.fromJSON(T, json),
+      fromSuiParsedData: (content: SuiParsedData) => CurrencyCreated.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => CurrencyCreated.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => CurrencyCreated.fetch(client, T, id),
       new: (fields: CurrencyCreatedFields<ToPhantomTypeArgument<T>>) => {
         return new CurrencyCreated([extractType(T)], fields);
       },
@@ -167,11 +154,7 @@ export class CurrencyCreated<T extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -207,9 +190,7 @@ export class CurrencyCreated<T extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isCurrencyCreated(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a CurrencyCreated object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a CurrencyCreated object`);
     }
     return CurrencyCreated.fromFieldsWithTypes(typeArg, content);
   }
@@ -219,11 +200,8 @@ export class CurrencyCreated<T extends PhantomTypeArgument>
     data: SuiObjectData,
   ): CurrencyCreated<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isCurrencyCreated(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a CurrencyCreated object`);
+      if (data.bcs.dataType !== "moveObject" || !isCurrencyCreated(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a CurrencyCreated object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -258,14 +236,9 @@ export class CurrencyCreated<T extends PhantomTypeArgument>
   ): Promise<CurrencyCreated<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching CurrencyCreated object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching CurrencyCreated object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isCurrencyCreated(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isCurrencyCreated(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a CurrencyCreated object`);
     }
 

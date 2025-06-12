@@ -60,10 +60,7 @@ export class Balance<T0 extends PhantomTypeArgument> implements StructClass {
 
   readonly value: ToField<"u64">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: BalanceFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: BalanceFields<T0>) {
     this.$fullTypeName = composeSuiType(
       Balance.$typeName,
       ...typeArgs,
@@ -82,25 +79,18 @@ export class Balance<T0 extends PhantomTypeArgument> implements StructClass {
         Balance.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V35}::balance::Balance<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: Balance.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        Balance.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Balance.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => Balance.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Balance.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Balance.fromBcs(T0, data),
       bcs: Balance.bcs,
       fromJSONField: (field: any) => Balance.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Balance.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Balance.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Balance.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Balance.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Balance.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Balance.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Balance.fetch(client, T0, id),
       new: (fields: BalanceFields<ToPhantomTypeArgument<T0>>) => {
         return new Balance([extractType(T0)], fields);
       },
@@ -131,9 +121,7 @@ export class Balance<T0 extends PhantomTypeArgument> implements StructClass {
     typeArg: T0,
     fields: Record<string, any>,
   ): Balance<ToPhantomTypeArgument<T0>> {
-    return Balance.reified(typeArg).new({
-      value: decodeFromFields("u64", fields.value),
-    });
+    return Balance.reified(typeArg).new({ value: decodeFromFields("u64", fields.value) });
   }
 
   static fromFieldsWithTypes<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -164,20 +152,14 @@ export class Balance<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
     typeArg: T0,
     field: any,
   ): Balance<ToPhantomTypeArgument<T0>> {
-    return Balance.reified(typeArg).new({
-      value: decodeFromJSONField("u64", field.value),
-    });
+    return Balance.reified(typeArg).new({ value: decodeFromJSONField("u64", field.value) });
   }
 
   static fromJSON<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -204,9 +186,7 @@ export class Balance<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isBalance(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Balance object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Balance object`);
     }
     return Balance.fromFieldsWithTypes(typeArg, content);
   }
@@ -217,7 +197,7 @@ export class Balance<T0 extends PhantomTypeArgument> implements StructClass {
   ): Balance<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isBalance(data.bcs.type)) {
-        throw new Error(`object at is not a Balance object`);
+        throw new Error(`object at ${data.objectId} is not a Balance object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -252,14 +232,9 @@ export class Balance<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<Balance<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Balance object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Balance object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isBalance(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isBalance(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Balance object`);
     }
 

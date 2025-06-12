@@ -25,18 +25,10 @@ export interface TakeArgs {
  * @param id - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function take(
-  tx: Transaction,
-  typeArg: string,
-  args: TakeArgs,
-): TransactionResult {
+export function take(tx: Transaction, typeArg: string, args: TakeArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::take`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.self),
-      obj(tx, args.cap),
-      pure(tx, args.id, `${ID.$typeName}`),
-    ],
+    arguments: [obj(tx, args.self), obj(tx, args.cap), pure(tx, args.id, `${ID.$typeName}`)],
   });
 }

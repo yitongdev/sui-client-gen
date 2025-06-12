@@ -20,10 +20,7 @@ export interface Migrate_Args {
  * @param version - Function parameter
  * @param u16 - Function parameter
  */
-export function migrate_(
-  tx: Transaction,
-  args: Migrate_Args,
-): TransactionResult {
+export function migrate_(tx: Transaction, args: Migrate_Args): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::version::migrate_`,
     arguments: [obj(tx, args.version), pure(tx, args.u16, `u16`)],

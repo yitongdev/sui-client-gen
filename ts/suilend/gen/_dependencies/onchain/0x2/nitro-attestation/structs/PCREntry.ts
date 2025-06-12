@@ -75,18 +75,14 @@ export class PCREntry implements StructClass {
       isPhantom: PCREntry.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => PCREntry.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PCREntry.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PCREntry.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PCREntry.fromBcs(data),
       bcs: PCREntry.bcs,
       fromJSONField: (field: any) => PCREntry.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PCREntry.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PCREntry.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PCREntry.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PCREntry.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PCREntry.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PCREntry.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PCREntry.fetch(client, id),
       new: (fields: PCREntryFields) => {
         return new PCREntry([], fields);
       },
@@ -142,11 +138,7 @@ export class PCREntry implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PCREntry {
@@ -169,9 +161,7 @@ export class PCREntry implements StructClass {
       throw new Error("not an object");
     }
     if (!isPCREntry(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PCREntry object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PCREntry object`);
     }
     return PCREntry.fromFieldsWithTypes(content);
   }
@@ -179,7 +169,7 @@ export class PCREntry implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): PCREntry {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isPCREntry(data.bcs.type)) {
-        throw new Error(`object at is not a PCREntry object`);
+        throw new Error(`object at ${data.objectId} is not a PCREntry object`);
       }
 
       return PCREntry.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -195,14 +185,9 @@ export class PCREntry implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<PCREntry> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PCREntry object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PCREntry object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPCREntry(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPCREntry(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PCREntry object`);
     }
 

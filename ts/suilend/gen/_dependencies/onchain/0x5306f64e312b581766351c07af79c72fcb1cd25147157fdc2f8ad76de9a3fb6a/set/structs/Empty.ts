@@ -61,24 +61,18 @@ export class Empty implements StructClass {
   static reified(): EmptyReified {
     return {
       typeName: Empty.$typeName,
-      fullTypeName: composeSuiType(
-        Empty.$typeName,
-        ...[],
-      ) as `${typeof PKG_V1}::set::Empty`,
+      fullTypeName: composeSuiType(Empty.$typeName, ...[]) as `${typeof PKG_V1}::set::Empty`,
       typeArgs: [] as [],
       isPhantom: Empty.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Empty.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Empty.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Empty.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Empty.fromBcs(data),
       bcs: Empty.bcs,
       fromJSONField: (field: any) => Empty.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Empty.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Empty.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Empty.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Empty.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Empty.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Empty.fetch(client, id),
       new: (fields: EmptyFields) => {
         return new Empty([], fields);
@@ -105,9 +99,7 @@ export class Empty implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): Empty {
-    return Empty.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return Empty.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): Empty {
@@ -131,17 +123,11 @@ export class Empty implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Empty {
-    return Empty.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return Empty.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): Empty {
@@ -157,9 +143,7 @@ export class Empty implements StructClass {
       throw new Error("not an object");
     }
     if (!isEmpty(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Empty object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Empty object`);
     }
     return Empty.fromFieldsWithTypes(content);
   }
@@ -167,7 +151,7 @@ export class Empty implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Empty {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isEmpty(data.bcs.type)) {
-        throw new Error(`object at is not a Empty object`);
+        throw new Error(`object at ${data.objectId} is not a Empty object`);
       }
 
       return Empty.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,14 +167,9 @@ export class Empty implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Empty> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Empty object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Empty object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isEmpty(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isEmpty(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Empty object`);
     }
 

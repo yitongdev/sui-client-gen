@@ -86,24 +86,18 @@ export class State implements StructClass {
   static reified(): StateReified {
     return {
       typeName: State.$typeName,
-      fullTypeName: composeSuiType(
-        State.$typeName,
-        ...[],
-      ) as `${typeof PKG_V1}::state::State`,
+      fullTypeName: composeSuiType(State.$typeName, ...[]) as `${typeof PKG_V1}::state::State`,
       typeArgs: [] as [],
       isPhantom: State.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => State.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        State.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => State.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => State.fromBcs(data),
       bcs: State.bcs,
       fromJSONField: (field: any) => State.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => State.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        State.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        State.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => State.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => State.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => State.fetch(client, id),
       new: (fields: StateFields) => {
         return new State([], fields);
@@ -142,27 +136,15 @@ export class State implements StructClass {
   static fromFields(fields: Record<string, any>): State {
     return State.reified().new({
       id: decodeFromFields(UID.reified(), fields.id),
-      governanceDataSource: decodeFromFields(
-        DataSource.reified(),
-        fields.governance_data_source,
-      ),
-      stalePriceThreshold: decodeFromFields(
-        "u64",
-        fields.stale_price_threshold,
-      ),
+      governanceDataSource: decodeFromFields(DataSource.reified(), fields.governance_data_source),
+      stalePriceThreshold: decodeFromFields("u64", fields.stale_price_threshold),
       baseUpdateFee: decodeFromFields("u64", fields.base_update_fee),
-      feeRecipientAddress: decodeFromFields(
-        "address",
-        fields.fee_recipient_address,
-      ),
+      feeRecipientAddress: decodeFromFields("address", fields.fee_recipient_address),
       lastExecutedGovernanceSequence: decodeFromFields(
         "u64",
         fields.last_executed_governance_sequence,
       ),
-      consumedVaas: decodeFromFields(
-        ConsumedVAAs.reified(),
-        fields.consumed_vaas,
-      ),
+      consumedVaas: decodeFromFields(ConsumedVAAs.reified(), fields.consumed_vaas),
       upgradeCap: decodeFromFields(UpgradeCap.reified(), fields.upgrade_cap),
     });
   }
@@ -178,30 +160,15 @@ export class State implements StructClass {
         DataSource.reified(),
         item.fields.governance_data_source,
       ),
-      stalePriceThreshold: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.stale_price_threshold,
-      ),
-      baseUpdateFee: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.base_update_fee,
-      ),
-      feeRecipientAddress: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.fee_recipient_address,
-      ),
+      stalePriceThreshold: decodeFromFieldsWithTypes("u64", item.fields.stale_price_threshold),
+      baseUpdateFee: decodeFromFieldsWithTypes("u64", item.fields.base_update_fee),
+      feeRecipientAddress: decodeFromFieldsWithTypes("address", item.fields.fee_recipient_address),
       lastExecutedGovernanceSequence: decodeFromFieldsWithTypes(
         "u64",
         item.fields.last_executed_governance_sequence,
       ),
-      consumedVaas: decodeFromFieldsWithTypes(
-        ConsumedVAAs.reified(),
-        item.fields.consumed_vaas,
-      ),
-      upgradeCap: decodeFromFieldsWithTypes(
-        UpgradeCap.reified(),
-        item.fields.upgrade_cap,
-      ),
+      consumedVaas: decodeFromFieldsWithTypes(ConsumedVAAs.reified(), item.fields.consumed_vaas),
+      upgradeCap: decodeFromFieldsWithTypes(UpgradeCap.reified(), item.fields.upgrade_cap),
     });
   }
 
@@ -216,45 +183,28 @@ export class State implements StructClass {
       stalePriceThreshold: this.stalePriceThreshold.toString(),
       baseUpdateFee: this.baseUpdateFee.toString(),
       feeRecipientAddress: this.feeRecipientAddress,
-      lastExecutedGovernanceSequence:
-        this.lastExecutedGovernanceSequence.toString(),
+      lastExecutedGovernanceSequence: this.lastExecutedGovernanceSequence.toString(),
       consumedVaas: this.consumedVaas.toJSONField(),
       upgradeCap: this.upgradeCap.toJSONField(),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): State {
     return State.reified().new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      governanceDataSource: decodeFromJSONField(
-        DataSource.reified(),
-        field.governanceDataSource,
-      ),
-      stalePriceThreshold: decodeFromJSONField(
-        "u64",
-        field.stalePriceThreshold,
-      ),
+      governanceDataSource: decodeFromJSONField(DataSource.reified(), field.governanceDataSource),
+      stalePriceThreshold: decodeFromJSONField("u64", field.stalePriceThreshold),
       baseUpdateFee: decodeFromJSONField("u64", field.baseUpdateFee),
-      feeRecipientAddress: decodeFromJSONField(
-        "address",
-        field.feeRecipientAddress,
-      ),
+      feeRecipientAddress: decodeFromJSONField("address", field.feeRecipientAddress),
       lastExecutedGovernanceSequence: decodeFromJSONField(
         "u64",
         field.lastExecutedGovernanceSequence,
       ),
-      consumedVaas: decodeFromJSONField(
-        ConsumedVAAs.reified(),
-        field.consumedVaas,
-      ),
+      consumedVaas: decodeFromJSONField(ConsumedVAAs.reified(), field.consumedVaas),
       upgradeCap: decodeFromJSONField(UpgradeCap.reified(), field.upgradeCap),
     });
   }
@@ -272,9 +222,7 @@ export class State implements StructClass {
       throw new Error("not an object");
     }
     if (!isState(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a State object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a State object`);
     }
     return State.fromFieldsWithTypes(content);
   }
@@ -282,7 +230,7 @@ export class State implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): State {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isState(data.bcs.type)) {
-        throw new Error(`object at is not a State object`);
+        throw new Error(`object at ${data.objectId} is not a State object`);
       }
 
       return State.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -298,14 +246,9 @@ export class State implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<State> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching State object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching State object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isState(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isState(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a State object`);
     }
 

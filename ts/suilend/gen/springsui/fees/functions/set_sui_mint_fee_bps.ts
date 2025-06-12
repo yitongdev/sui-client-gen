@@ -21,10 +21,7 @@ export interface SetSuiMintFeeBpsArgs {
  * @param u64 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function setSuiMintFeeBps(
-  tx: Transaction,
-  args: SetSuiMintFeeBpsArgs,
-): TransactionResult {
+export function setSuiMintFeeBps(tx: Transaction, args: SetSuiMintFeeBpsArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::fees::set_sui_mint_fee_bps`,
     arguments: [obj(tx, args.feeConfigBuilder), pure(tx, args.u64, `u64`)],

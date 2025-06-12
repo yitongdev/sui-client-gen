@@ -16,25 +16,18 @@ import { createWithGenericField } from "./gen/examples/fixture/functions/index.j
 import { WithGenericField } from "./gen/examples/fixture/structs/index.js";
 import { Field } from "./gen/sui/dynamic-field/structs/index.js";
 import { EXAMPLE_COIN } from "./gen/examples/example-coin/structs/index.js";
-import {
-  createExampleStruct,
-  specialTypes,
-} from "./gen/examples/examples/functions/index.js";
+import { createExampleStruct, specialTypes } from "./gen/examples/examples/functions/index.js";
 import { bcs } from "@mysten/sui/bcs";
 import { ExampleStruct } from "./gen/examples/examples/structs/index.js";
 import { SUI } from "./gen/sui/sui/structs/index.js";
 import { vector } from "./gen/_framework/reified.js";
 
-const EXAMPLE_COIN_FAUCET_ID =
-  "0x23a00d64a785280a794d0bdd2f641dfabf117c78e07cb682550ed3c2b41dd760";
-const AMM_POOL_REGISTRY_ID =
-  "0xe3e05313eff4f6f44206982e42fa1219c972113f3a651abe168123abc0202411";
+const EXAMPLE_COIN_FAUCET_ID = "0x23a00d64a785280a794d0bdd2f641dfabf117c78e07cb682550ed3c2b41dd760";
+const AMM_POOL_REGISTRY_ID = "0xe3e05313eff4f6f44206982e42fa1219c972113f3a651abe168123abc0202411";
 
-const AMM_POOL_ID =
-  "0x799331284a2f75ed54b1a2bf212a26e3f465cbc7b974dbfa956f093de9ad8059";
+const AMM_POOL_ID = "0x799331284a2f75ed54b1a2bf212a26e3f465cbc7b974dbfa956f093de9ad8059";
 
-const WITH_GENERIC_FIELD_ID =
-  "0xf170bc37f72659e942b376cef95b3194f8ffbecc0a82e601d682ae6e2693cd35";
+const WITH_GENERIC_FIELD_ID = "0xf170bc37f72659e942b376cef95b3194f8ffbecc0a82e601d682ae6e2693cd35";
 
 const keypair = Ed25519Keypair.fromSecretKey(
   fromB64("AMVT58FaLF2tJtg/g8X2z1/vG0FvNn0jvRu9X2Wl8F+u").slice(1),
@@ -55,17 +48,13 @@ async function createPool() {
 
   const [suiCoin] = tx.splitCoins(tx.gas, [tx.pure.u64(1_000_000)]);
   const exampleCoin = faucetMint(tx, EXAMPLE_COIN_FAUCET_ID);
-  const lp = createPoolWithCoins(
-    tx,
-    ["0x2::sui::SUI", EXAMPLE_COIN.$typeName],
-    {
-      registry: AMM_POOL_REGISTRY_ID,
-      initA: suiCoin,
-      initB: exampleCoin,
-      lpFeeBps: 30n,
-      adminFeePct: 10n,
-    },
-  );
+  const lp = createPoolWithCoins(tx, ["0x2::sui::SUI", EXAMPLE_COIN.$typeName], {
+    registry: AMM_POOL_REGISTRY_ID,
+    initA: suiCoin,
+    initB: exampleCoin,
+    lpFeeBps: 30n,
+    adminFeePct: 10n,
+  });
   tx.transferObjects([lp], tx.pure.address(address));
 
   const res = await client.signAndExecuteTransaction({
@@ -108,11 +97,7 @@ async function fetchPoolRegistryItems() {
     throw new Error("No dynamic fields found");
   }
 
-  const item = await Field.fetch(
-    client,
-    [PoolRegistryItem.reified(), "bool"],
-    firstField.objectId,
-  );
+  const item = await Field.fetch(client, [PoolRegistryItem.reified(), "bool"], firstField.objectId);
   console.log(item);
 }
 
@@ -200,9 +185,7 @@ async function main() {
   program
     .command("fetch-pool")
     .action(fetchPool)
-    .summary(
-      `An example for object fetching. Fetch and print the AMM pool at ${AMM_POOL_ID}.`,
-    );
+    .summary(`An example for object fetching. Fetch and print the AMM pool at ${AMM_POOL_ID}.`);
   program
     .command("fetch-pool-registry-items")
     .action(fetchPoolRegistryItems)
@@ -212,9 +195,7 @@ async function main() {
   program
     .command("fetch-pool-creation-events")
     .action(fetchPoolCreationEvents)
-    .summary(
-      "An example for event fetching. Fetch and print the pool creation events.",
-    );
+    .summary("An example for event fetching. Fetch and print the pool creation events.");
   program
     .command("create-struct-with-vector")
     .action(createStructWithVector)

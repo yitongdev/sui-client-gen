@@ -71,22 +71,18 @@ export class FungibleStakedSuiDataKey implements StructClass {
       typeArgs: [] as [],
       isPhantom: FungibleStakedSuiDataKey.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        FungibleStakedSuiDataKey.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => FungibleStakedSuiDataKey.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         FungibleStakedSuiDataKey.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => FungibleStakedSuiDataKey.fromBcs(data),
       bcs: FungibleStakedSuiDataKey.bcs,
-      fromJSONField: (field: any) =>
-        FungibleStakedSuiDataKey.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        FungibleStakedSuiDataKey.fromJSON(json),
+      fromJSONField: (field: any) => FungibleStakedSuiDataKey.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => FungibleStakedSuiDataKey.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         FungibleStakedSuiDataKey.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         FungibleStakedSuiDataKey.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        FungibleStakedSuiDataKey.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => FungibleStakedSuiDataKey.fetch(client, id),
       new: (fields: FungibleStakedSuiDataKeyFields) => {
         return new FungibleStakedSuiDataKey([], fields);
       },
@@ -128,9 +124,7 @@ export class FungibleStakedSuiDataKey implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): FungibleStakedSuiDataKey {
-    return FungibleStakedSuiDataKey.fromFields(
-      FungibleStakedSuiDataKey.bcs.parse(data),
-    );
+    return FungibleStakedSuiDataKey.fromFields(FungibleStakedSuiDataKey.bcs.parse(data));
   }
 
   toJSONField() {
@@ -140,11 +134,7 @@ export class FungibleStakedSuiDataKey implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): FungibleStakedSuiDataKey {
@@ -175,11 +165,8 @@ export class FungibleStakedSuiDataKey implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): FungibleStakedSuiDataKey {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isFungibleStakedSuiDataKey(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a FungibleStakedSuiDataKey object`);
+      if (data.bcs.dataType !== "moveObject" || !isFungibleStakedSuiDataKey(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a FungibleStakedSuiDataKey object`);
       }
 
       return FungibleStakedSuiDataKey.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -192,10 +179,7 @@ export class FungibleStakedSuiDataKey implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<FungibleStakedSuiDataKey> {
+  static async fetch(client: SuiClient, id: string): Promise<FungibleStakedSuiDataKey> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
@@ -206,9 +190,7 @@ export class FungibleStakedSuiDataKey implements StructClass {
       res.data?.bcs?.dataType !== "moveObject" ||
       !isFungibleStakedSuiDataKey(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a FungibleStakedSuiDataKey object`,
-      );
+      throw new Error(`object at id ${id} is not a FungibleStakedSuiDataKey object`);
     }
 
     return FungibleStakedSuiDataKey.fromSuiObjectData(res.data);

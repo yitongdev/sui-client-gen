@@ -27,10 +27,7 @@ import { string } from "./gen/move-stdlib/ascii/functions/index.js";
 import { utf8 } from "./gen/move-stdlib/string/functions/index.js";
 import { none, some } from "./gen/move-stdlib/option/functions/index.js";
 import { newUnsafeFromBytes } from "./gen/sui/url/functions/index.js";
-import {
-  new_ as newUid,
-  idFromAddress,
-} from "./gen/sui/object/functions/index.js";
+import { new_ as newUid, idFromAddress } from "./gen/sui/object/functions/index.js";
 import { zero } from "./gen/sui/balance/functions/index.js";
 import { Balance } from "./gen/sui/balance/structs/index.js";
 import { extractType, phantom, vector } from "./gen/_framework/reified.js";
@@ -64,17 +61,13 @@ test("creates and decodes an object with object as type param", async () => {
     }),
   ];
 
-  const twoGenericsNested = createWithTwoGenerics(
-    tx,
-    [T, `${WithTwoGenerics.$typeName}<u8, u8>`],
-    {
-      genericField1: createBar(tx, 100n),
-      genericField2: createWithTwoGenerics(tx, ["u8", "u8"], {
-        genericField1: 1,
-        genericField2: 2,
-      }),
-    },
-  );
+  const twoGenericsNested = createWithTwoGenerics(tx, [T, `${WithTwoGenerics.$typeName}<u8, u8>`], {
+    genericField1: createBar(tx, 100n),
+    genericField2: createWithTwoGenerics(tx, ["u8", "u8"], {
+      genericField1: 1,
+      genericField2: 2,
+    }),
+  });
 
   const twoGenericsReifiedNested = createWithTwoGenerics(
     tx,
@@ -89,19 +82,15 @@ test("creates and decodes an object with object as type param", async () => {
   );
 
   const twoGenericsNestedVec = [
-    createWithTwoGenerics(
-      tx,
-      [Bar.$typeName, `vector<${WithTwoGenerics.$typeName}<${T}, u8>>`],
-      {
-        genericField1: createBar(tx, 100n),
-        genericField2: [
-          createWithTwoGenerics(tx, [Bar.$typeName, "u8"], {
-            genericField1: createBar(tx, 100n),
-            genericField2: 1,
-          }),
-        ],
-      },
-    ),
+    createWithTwoGenerics(tx, [Bar.$typeName, `vector<${WithTwoGenerics.$typeName}<${T}, u8>>`], {
+      genericField1: createBar(tx, 100n),
+      genericField2: [
+        createWithTwoGenerics(tx, [Bar.$typeName, "u8"], {
+          genericField1: createBar(tx, 100n),
+          genericField2: 1,
+        }),
+      ],
+    }),
   ];
 
   createFoo(tx, [T, Bar.$typeName], {
@@ -118,14 +107,10 @@ test("creates and decodes an object with object as type param", async () => {
       genericField1: 1,
       genericField2: 2n,
     }),
-    twoGenericsReifiedObject: createWithTwoGenerics(
-      tx,
-      [Bar.$typeName, Bar.$typeName],
-      {
-        genericField1: createBar(tx, 100n),
-        genericField2: createBar(tx, 100n),
-      },
-    ),
+    twoGenericsReifiedObject: createWithTwoGenerics(tx, [Bar.$typeName, Bar.$typeName], {
+      genericField1: createBar(tx, 100n),
+      genericField2: createBar(tx, 100n),
+    }),
     twoGenericsNested,
     twoGenericsReifiedNested,
     twoGenericsNestedVec,
@@ -157,10 +142,7 @@ test("creates and decodes an object with object as type param", async () => {
     },
   });
 
-  if (
-    foo.data?.bcs?.dataType !== "moveObject" ||
-    foo.data?.content?.dataType !== "moveObject"
-  ) {
+  if (foo.data?.bcs?.dataType !== "moveObject" || foo.data?.content?.dataType !== "moveObject") {
     throw new Error(`not a moveObject`);
   }
 
@@ -184,17 +166,11 @@ test("creates and decodes an object with object as type param", async () => {
       genericField1: 1,
       genericField2: 2n,
     }),
-    twoGenericsReifiedObject: WithTwoGenerics.r(
-      Bar.reified(),
-      Bar.reified(),
-    ).new({
+    twoGenericsReifiedObject: WithTwoGenerics.r(Bar.reified(), Bar.reified()).new({
       genericField1: Bar.r.new({ value: 100n }),
       genericField2: Bar.r.new({ value: 100n }),
     }),
-    twoGenericsNested: WithTwoGenerics.r(
-      Bar.reified(),
-      WithTwoGenerics.reified("u8", "u8"),
-    ).new({
+    twoGenericsNested: WithTwoGenerics.r(Bar.reified(), WithTwoGenerics.reified("u8", "u8")).new({
       genericField1: Bar.r.new({ value: 100n }),
       genericField2: WithTwoGenerics.r("u8", "u8").new({
         genericField1: 1,
@@ -212,10 +188,7 @@ test("creates and decodes an object with object as type param", async () => {
       }),
     }),
     twoGenericsNestedVec: [
-      WithTwoGenerics.r(
-        Bar.reified(),
-        vector(WithTwoGenerics.reified(Bar.reified(), "u8")),
-      ).new({
+      WithTwoGenerics.r(Bar.reified(), vector(WithTwoGenerics.reified(Bar.reified(), "u8"))).new({
         genericField1: Bar.r.new({ value: 100n }),
         genericField2: [
           WithTwoGenerics.r(Bar.reified(), "u8").new({
@@ -258,17 +231,13 @@ test("creates and decodes Foo with vector of objects as type param", async () =>
     }),
   ];
 
-  const twoGenericsNested = createWithTwoGenerics(
-    tx,
-    [T, `${WithTwoGenerics.$typeName}<u8, u8>`],
-    {
-      genericField1: [createBar(tx, 100n)],
-      genericField2: createWithTwoGenerics(tx, ["u8", "u8"], {
-        genericField1: 1,
-        genericField2: 2,
-      }),
-    },
-  );
+  const twoGenericsNested = createWithTwoGenerics(tx, [T, `${WithTwoGenerics.$typeName}<u8, u8>`], {
+    genericField1: [createBar(tx, 100n)],
+    genericField2: createWithTwoGenerics(tx, ["u8", "u8"], {
+      genericField1: 1,
+      genericField2: 2,
+    }),
+  });
 
   const twoGenericsReifiedNested = createWithTwoGenerics(
     tx,
@@ -283,19 +252,15 @@ test("creates and decodes Foo with vector of objects as type param", async () =>
   );
 
   const twoGenericsNestedVec = [
-    createWithTwoGenerics(
-      tx,
-      [Bar.$typeName, `vector<${WithTwoGenerics.$typeName}<${T}, u8>>`],
-      {
-        genericField1: createBar(tx, 100n),
-        genericField2: [
-          createWithTwoGenerics(tx, [T, "u8"], {
-            genericField1: createT(tx, 100n), // or [createBar(tx, 100n)],
-            genericField2: 1,
-          }),
-        ],
-      },
-    ),
+    createWithTwoGenerics(tx, [Bar.$typeName, `vector<${WithTwoGenerics.$typeName}<${T}, u8>>`], {
+      genericField1: createBar(tx, 100n),
+      genericField2: [
+        createWithTwoGenerics(tx, [T, "u8"], {
+          genericField1: createT(tx, 100n), // or [createBar(tx, 100n)],
+          genericField2: 1,
+        }),
+      ],
+    }),
   ];
 
   createFoo(tx, [T, Bar.$typeName], {
@@ -312,14 +277,10 @@ test("creates and decodes Foo with vector of objects as type param", async () =>
       genericField1: 1,
       genericField2: 2n,
     }),
-    twoGenericsReifiedObject: createWithTwoGenerics(
-      tx,
-      [Bar.$typeName, Bar.$typeName],
-      {
-        genericField1: createBar(tx, 100n),
-        genericField2: createBar(tx, 100n),
-      },
-    ),
+    twoGenericsReifiedObject: createWithTwoGenerics(tx, [Bar.$typeName, Bar.$typeName], {
+      genericField1: createBar(tx, 100n),
+      genericField2: createBar(tx, 100n),
+    }),
     twoGenericsNested,
     twoGenericsReifiedNested,
     twoGenericsNestedVec,
@@ -351,10 +312,7 @@ test("creates and decodes Foo with vector of objects as type param", async () =>
     },
   });
 
-  if (
-    foo.data?.bcs?.dataType !== "moveObject" ||
-    foo.data?.content?.dataType !== "moveObject"
-  ) {
+  if (foo.data?.bcs?.dataType !== "moveObject" || foo.data?.content?.dataType !== "moveObject") {
     throw new Error(`not a moveObject`);
   }
 
@@ -378,17 +336,11 @@ test("creates and decodes Foo with vector of objects as type param", async () =>
       genericField1: 1,
       genericField2: 2n,
     }),
-    twoGenericsReifiedObject: WithTwoGenerics.r(
-      Bar.reified(),
-      Bar.reified(),
-    ).new({
+    twoGenericsReifiedObject: WithTwoGenerics.r(Bar.reified(), Bar.reified()).new({
       genericField1: Bar.r.new({ value: 100n }),
       genericField2: Bar.r.new({ value: 100n }),
     }),
-    twoGenericsNested: WithTwoGenerics.r(
-      reifiedT,
-      WithTwoGenerics.reified("u8", "u8"),
-    ).new({
+    twoGenericsNested: WithTwoGenerics.r(reifiedT, WithTwoGenerics.reified("u8", "u8")).new({
       genericField1: [Bar.r.new({ value: 100n })],
       genericField2: WithTwoGenerics.r("u8", "u8").new({
         genericField1: 1,
@@ -406,10 +358,7 @@ test("creates and decodes Foo with vector of objects as type param", async () =>
       }),
     }),
     twoGenericsNestedVec: [
-      WithTwoGenerics.r(
-        Bar.reified(),
-        vector(WithTwoGenerics.reified(reifiedT, "u8")),
-      ).new({
+      WithTwoGenerics.r(Bar.reified(), vector(WithTwoGenerics.reified(reifiedT, "u8"))).new({
         genericField1: Bar.r.new({ value: 100n }),
         genericField2: [
           WithTwoGenerics.r(reifiedT, "u8").new({
@@ -442,14 +391,8 @@ test("decodes special-cased types correctly", async () => {
   createSpecial(tx, typeArgs, {
     string: utf8(tx, Array.from(encoder.encode("string"))),
     asciiString: string(tx, Array.from(encoder.encode("ascii"))),
-    url: newUnsafeFromBytes(
-      tx,
-      Array.from(encoder.encode("https://example.com")),
-    ),
-    idField: idFromAddress(
-      tx,
-      "faf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
-    ),
+    url: newUnsafeFromBytes(tx, Array.from(encoder.encode("https://example.com"))),
+    idField: idFromAddress(tx, "faf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5"),
     uid: newUid(tx),
     balance: zero(tx, "0x2::sui::SUI"),
     option: some(tx, "u64", 100n),
@@ -485,19 +428,14 @@ test("decodes special-cased types correctly", async () => {
     },
   });
 
-  if (
-    obj.data?.bcs?.dataType !== "moveObject" ||
-    obj.data?.content?.dataType !== "moveObject"
-  ) {
+  if (obj.data?.bcs?.dataType !== "moveObject" || obj.data?.content?.dataType !== "moveObject") {
     throw new Error(`not a moveObject`);
   }
 
-  const fromBcs = WithSpecialTypes.r(...reifiedArgs).fromBcs(
-    fromB64(obj.data.bcs.bcsBytes),
+  const fromBcs = WithSpecialTypes.r(...reifiedArgs).fromBcs(fromB64(obj.data.bcs.bcsBytes));
+  const fromFieldsWithTypes = WithSpecialTypes.r(...reifiedArgs).fromFieldsWithTypes(
+    obj.data.content,
   );
-  const fromFieldsWithTypes = WithSpecialTypes.r(
-    ...reifiedArgs,
-  ).fromFieldsWithTypes(obj.data.content);
 
   const uid = (obj.data.content.fields as { uid: { id: string } }).uid.id;
 
@@ -506,8 +444,7 @@ test("decodes special-cased types correctly", async () => {
     string: "string",
     asciiString: "ascii",
     url: "https://example.com",
-    idField:
-      "0xfaf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
+    idField: "0xfaf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
     uid,
     balance: Balance.r(SUI.p).new({ value: 0n }),
     option: 100n,
@@ -520,9 +457,7 @@ test("decodes special-cased types correctly", async () => {
 
   expect(fromFieldsWithTypes).toEqual(exp);
   expect(fromBcs).toEqual(exp);
-  expect(WithSpecialTypes.r(...reifiedArgs).fromJSON(exp.toJSON())).toEqual(
-    exp,
-  );
+  expect(WithSpecialTypes.r(...reifiedArgs).fromJSON(exp.toJSON())).toEqual(exp);
 });
 
 test("decodes special-cased types as generics correctly", async () => {
@@ -554,14 +489,8 @@ test("decodes special-cased types as generics correctly", async () => {
   createSpecialAsGenerics(tx, typeArgs, {
     string: utf8(tx, Array.from(encoder.encode("string"))),
     asciiString: string(tx, Array.from(encoder.encode("ascii"))),
-    url: newUnsafeFromBytes(
-      tx,
-      Array.from(encoder.encode("https://example.com")),
-    ),
-    idField: idFromAddress(
-      tx,
-      "faf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
-    ),
+    url: newUnsafeFromBytes(tx, Array.from(encoder.encode("https://example.com"))),
+    idField: idFromAddress(tx, "faf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5"),
     uid: newUid(tx),
     balance: zero(tx, "0x2::sui::SUI"),
     option: some(tx, "u64", 100n),
@@ -593,10 +522,7 @@ test("decodes special-cased types as generics correctly", async () => {
     },
   });
 
-  if (
-    obj.data?.bcs?.dataType !== "moveObject" ||
-    obj.data?.content?.dataType !== "moveObject"
-  ) {
+  if (obj.data?.bcs?.dataType !== "moveObject" || obj.data?.content?.dataType !== "moveObject") {
     throw new Error(`not a moveObject`);
   }
 
@@ -605,17 +531,16 @@ test("decodes special-cased types as generics correctly", async () => {
   const fromBcs = WithSpecialTypesAsGenerics.r(...reifiedArgs).fromBcs(
     fromB64(obj.data.bcs.bcsBytes),
   );
-  const fromFieldsWithTypes = WithSpecialTypesAsGenerics.r(
-    ...reifiedArgs,
-  ).fromFieldsWithTypes(obj.data.content);
+  const fromFieldsWithTypes = WithSpecialTypesAsGenerics.r(...reifiedArgs).fromFieldsWithTypes(
+    obj.data.content,
+  );
 
   const exp = WithSpecialTypesAsGenerics.r(...reifiedArgs).new({
     id,
     string: "string",
     asciiString: "ascii",
     url: "https://example.com",
-    idField:
-      "0xfaf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
+    idField: "0xfaf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
     uid,
     balance: Balance.r(SUI.p).new({ value: 0n }),
     option: 100n,
@@ -624,9 +549,7 @@ test("decodes special-cased types as generics correctly", async () => {
 
   expect(fromBcs).toEqual(exp);
   expect(fromFieldsWithTypes).toEqual(exp);
-  expect(
-    WithSpecialTypesAsGenerics.r(...reifiedArgs).fromJSON(exp.toJSON()),
-  ).toEqual(exp);
+  expect(WithSpecialTypesAsGenerics.r(...reifiedArgs).fromJSON(exp.toJSON())).toEqual(exp);
 });
 
 test("calls function correctly when special types are used", async () => {
@@ -641,17 +564,11 @@ test("calls function correctly when special types are used", async () => {
 
   createSpecial(
     tx,
-    [
-      "0x2::sui::SUI",
-      "vector<0x1::option::Option<0x1::option::Option<vector<vector<u64>>>>>",
-    ],
+    ["0x2::sui::SUI", "vector<0x1::option::Option<0x1::option::Option<vector<vector<u64>>>>>"],
     {
       string: "string",
       asciiString: "ascii",
-      url: newUnsafeFromBytes(
-        tx,
-        Array.from(encoder.encode("https://example.com")),
-      ),
+      url: newUnsafeFromBytes(tx, Array.from(encoder.encode("https://example.com"))),
       idField: idFromAddress(
         tx,
         "0xfaf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
@@ -692,24 +609,18 @@ test("calls function correctly when special types are used", async () => {
     },
   });
 
-  if (
-    obj.data?.bcs?.dataType !== "moveObject" ||
-    obj.data?.content?.dataType !== "moveObject"
-  ) {
+  if (obj.data?.bcs?.dataType !== "moveObject" || obj.data?.content?.dataType !== "moveObject") {
     throw new Error(`not a moveObject`);
   }
 
   const [, secondArg] = reifiedArgs;
-  expect(
-    WithSpecialTypes.fromFieldsWithTypes([SUI.p, secondArg], obj.data.content),
-  ).toEqual(
+  expect(WithSpecialTypes.fromFieldsWithTypes([SUI.p, secondArg], obj.data.content)).toEqual(
     WithSpecialTypes.r(SUI.p, secondArg).new({
       id,
       string: "string",
       asciiString: "ascii",
       url: "https://example.com",
-      idField:
-        "0xfaf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
+      idField: "0xfaf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
       uid: (obj.data.content.fields as { uid: { id: string } }).uid.id,
       balance: Balance.r(SUI.p).new({ value: 0n }),
       option: 100n,
@@ -753,10 +664,7 @@ test("calls function correctly when special types are used as generics", async (
     {
       string: "string",
       asciiString: "ascii",
-      url: newUnsafeFromBytes(
-        tx,
-        Array.from(encoder.encode("https://example.com")),
-      ),
+      url: newUnsafeFromBytes(tx, Array.from(encoder.encode("https://example.com"))),
       idField: idFromAddress(
         tx,
         "0xfaf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
@@ -793,25 +701,19 @@ test("calls function correctly when special types are used as generics", async (
     },
   });
 
-  if (
-    obj.data?.bcs?.dataType !== "moveObject" ||
-    obj.data?.content?.dataType !== "moveObject"
-  ) {
+  if (obj.data?.bcs?.dataType !== "moveObject" || obj.data?.content?.dataType !== "moveObject") {
     throw new Error(`not a moveObject`);
   }
 
   expect(
-    WithSpecialTypesAsGenerics.r(...reifiedArgs).fromFieldsWithTypes(
-      obj.data.content,
-    ),
+    WithSpecialTypesAsGenerics.r(...reifiedArgs).fromFieldsWithTypes(obj.data.content),
   ).toEqual(
     WithSpecialTypesAsGenerics.r(...reifiedArgs).new({
       id,
       string: "string",
       asciiString: "ascii",
       url: "https://example.com",
-      idField:
-        "0xfaf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
+      idField: "0xfaf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
       uid: (obj.data.content.fields as { uid: { id: string } }).uid.id,
       balance: Balance.r(SUI.p).new({ value: 0n }),
       option: [5n, null, 3n],
@@ -857,19 +759,11 @@ test("calls function correctly when special types are used as as vectors", async
     },
   });
 
-  if (
-    obj.data?.bcs?.dataType !== "moveObject" ||
-    obj.data?.content?.dataType !== "moveObject"
-  ) {
+  if (obj.data?.bcs?.dataType !== "moveObject" || obj.data?.content?.dataType !== "moveObject") {
     throw new Error(`not a moveObject`);
   }
 
-  expect(
-    WithSpecialTypesInVectors.fromFieldsWithTypes(
-      vector("u64"),
-      obj.data.content,
-    ),
-  ).toEqual(
+  expect(WithSpecialTypesInVectors.fromFieldsWithTypes(vector("u64"), obj.data.content)).toEqual(
     WithSpecialTypesInVectors.r(vector("u64")).new({
       id,
       string: ["string"],
@@ -896,10 +790,7 @@ test("loads with loader correctly", async () => {
 
   const withTwoGenerics = createWithTwoGenerics(
     tx,
-    [
-      Bar.$typeName,
-      `vector<${WithTwoGenerics.$typeName}<${Bar.$typeName}, u8>>`,
-    ],
+    [Bar.$typeName, `vector<${WithTwoGenerics.$typeName}<${Bar.$typeName}, u8>>`],
     {
       genericField1: createBar(tx, 100n),
       genericField2: [
@@ -936,20 +827,13 @@ test("loads with loader correctly", async () => {
       showContent: true,
     },
   });
-  if (
-    obj.data?.bcs?.dataType !== "moveObject" ||
-    obj.data?.content?.dataType !== "moveObject"
-  ) {
+  if (obj.data?.bcs?.dataType !== "moveObject" || obj.data?.content?.dataType !== "moveObject") {
     throw new Error(`not a moveObject`);
   }
 
-  const withGenericFieldReified = loader.reified(
-    `${WithGenericField.$typeName}<${T}>`,
-  );
+  const withGenericFieldReified = loader.reified(`${WithGenericField.$typeName}<${T}>`);
 
-  expect(extractType(withGenericFieldReified)).toEqual(
-    `${WithGenericField.$typeName}<${T}>`,
-  );
+  expect(extractType(withGenericFieldReified)).toEqual(`${WithGenericField.$typeName}<${T}>`);
 
   const fromBcs = withGenericFieldReified.fromFieldsWithTypes(obj.data.content);
   expect(fromBcs).toEqual(
@@ -1055,17 +939,13 @@ test("decodes address field correctly", async () => {
     }),
   ];
 
-  const twoGenericsNested = createWithTwoGenerics(
-    tx,
-    [T, `${WithTwoGenerics.$typeName}<u8, u8>`],
-    {
-      genericField1: "0x111",
-      genericField2: createWithTwoGenerics(tx, ["u8", "u8"], {
-        genericField1: 1,
-        genericField2: 2,
-      }),
-    },
-  );
+  const twoGenericsNested = createWithTwoGenerics(tx, [T, `${WithTwoGenerics.$typeName}<u8, u8>`], {
+    genericField1: "0x111",
+    genericField2: createWithTwoGenerics(tx, ["u8", "u8"], {
+      genericField1: 1,
+      genericField2: 2,
+    }),
+  });
 
   const twoGenericsReifiedNested = createWithTwoGenerics(
     tx,
@@ -1080,19 +960,15 @@ test("decodes address field correctly", async () => {
   );
 
   const twoGenericsNestedVec = [
-    createWithTwoGenerics(
-      tx,
-      [Bar.$typeName, `vector<${WithTwoGenerics.$typeName}<${T}, u8>>`],
-      {
-        genericField1: createBar(tx, 100n),
-        genericField2: [
-          createWithTwoGenerics(tx, ["address", "u8"], {
-            genericField1: "0x111",
-            genericField2: 1,
-          }),
-        ],
-      },
-    ),
+    createWithTwoGenerics(tx, [Bar.$typeName, `vector<${WithTwoGenerics.$typeName}<${T}, u8>>`], {
+      genericField1: createBar(tx, 100n),
+      genericField2: [
+        createWithTwoGenerics(tx, ["address", "u8"], {
+          genericField1: "0x111",
+          genericField2: 1,
+        }),
+      ],
+    }),
   ];
 
   createFoo(tx, [T, Bar.$typeName], {
@@ -1109,14 +985,10 @@ test("decodes address field correctly", async () => {
       genericField1: 1,
       genericField2: 2n,
     }),
-    twoGenericsReifiedObject: createWithTwoGenerics(
-      tx,
-      [Bar.$typeName, Bar.$typeName],
-      {
-        genericField1: createBar(tx, 100n),
-        genericField2: createBar(tx, 100n),
-      },
-    ),
+    twoGenericsReifiedObject: createWithTwoGenerics(tx, [Bar.$typeName, Bar.$typeName], {
+      genericField1: createBar(tx, 100n),
+      genericField2: createBar(tx, 100n),
+    }),
     twoGenericsNested,
     twoGenericsReifiedNested,
     twoGenericsNestedVec,
@@ -1148,51 +1020,36 @@ test("decodes address field correctly", async () => {
     },
   });
 
-  if (
-    foo.data?.bcs?.dataType !== "moveObject" ||
-    foo.data?.content?.dataType !== "moveObject"
-  ) {
+  if (foo.data?.bcs?.dataType !== "moveObject" || foo.data?.content?.dataType !== "moveObject") {
     throw new Error(`not a moveObject`);
   }
 
   const exp = Foo.r("address").new({
     id,
-    generic:
-      "0x0000000000000000000000000000000000000000000000000000000000000123",
+    generic: "0x0000000000000000000000000000000000000000000000000000000000000123",
     reifiedPrimitiveVec: [1n, 2n, 3n],
     reifiedObjectVec: [Bar.r.new({ value: 100n })],
-    genericVec: [
-      "0x0000000000000000000000000000000000000000000000000000000000000555",
-    ],
+    genericVec: ["0x0000000000000000000000000000000000000000000000000000000000000555"],
     genericVecNested: [
       WithTwoGenerics.r("address", "u8").new({
-        genericField1:
-          "0x0000000000000000000000000000000000000000000000000000000000000999",
+        genericField1: "0x0000000000000000000000000000000000000000000000000000000000000999",
         genericField2: 1,
       }),
     ],
     twoGenerics: WithTwoGenerics.r("address", Bar.reified()).new({
-      genericField1:
-        "0x0000000000000000000000000000000000000000000000000000000000000111",
+      genericField1: "0x0000000000000000000000000000000000000000000000000000000000000111",
       genericField2: Bar.r.new({ value: 100n }),
     }),
     twoGenericsReifiedPrimitive: WithTwoGenerics.r("u16", "u64").new({
       genericField1: 1,
       genericField2: 2n,
     }),
-    twoGenericsReifiedObject: WithTwoGenerics.r(
-      Bar.reified(),
-      Bar.reified(),
-    ).new({
+    twoGenericsReifiedObject: WithTwoGenerics.r(Bar.reified(), Bar.reified()).new({
       genericField1: Bar.r.new({ value: 100n }),
       genericField2: Bar.r.new({ value: 100n }),
     }),
-    twoGenericsNested: WithTwoGenerics.r(
-      "address",
-      WithTwoGenerics.reified("u8", "u8"),
-    ).new({
-      genericField1:
-        "0x0000000000000000000000000000000000000000000000000000000000000111",
+    twoGenericsNested: WithTwoGenerics.r("address", WithTwoGenerics.reified("u8", "u8")).new({
+      genericField1: "0x0000000000000000000000000000000000000000000000000000000000000111",
       genericField2: WithTwoGenerics.r("u8", "u8").new({
         genericField1: 1,
         genericField2: 2,
@@ -1209,15 +1066,11 @@ test("decodes address field correctly", async () => {
       }),
     }),
     twoGenericsNestedVec: [
-      WithTwoGenerics.r(
-        Bar.reified(),
-        vector(WithTwoGenerics.reified("address", "u8")),
-      ).new({
+      WithTwoGenerics.r(Bar.reified(), vector(WithTwoGenerics.reified("address", "u8"))).new({
         genericField1: Bar.r.new({ value: 100n }),
         genericField2: [
           WithTwoGenerics.r("address", "u8").new({
-            genericField1:
-              "0x0000000000000000000000000000000000000000000000000000000000000111",
+            genericField1: "0x0000000000000000000000000000000000000000000000000000000000000111",
             genericField2: 1,
           }),
         ],
@@ -1245,14 +1098,8 @@ test("fails when fetching mismatch reified type", async () => {
   createSpecial(tx, typeArgs, {
     string: utf8(tx, Array.from(encoder.encode("string"))),
     asciiString: string(tx, Array.from(encoder.encode("ascii"))),
-    url: newUnsafeFromBytes(
-      tx,
-      Array.from(encoder.encode("https://example.com")),
-    ),
-    idField: idFromAddress(
-      tx,
-      "faf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5",
-    ),
+    url: newUnsafeFromBytes(tx, Array.from(encoder.encode("https://example.com"))),
+    idField: idFromAddress(tx, "faf60f9f9d1f6c490dce8673c1371b9df456e0c183f38524e5f78d959ea559a5"),
     uid: newUid(tx),
     balance: zero(tx, "0x2::sui::SUI"),
     option: some(tx, "u64", 100n),
@@ -1279,9 +1126,7 @@ test("fails when fetching mismatch reified type", async () => {
   }
   const id = created.reference.objectId;
 
-  expect(
-    WithSpecialTypes.r(phantom("u8"), "u8").fetch(client, id),
-  ).rejects.toThrow(
+  expect(WithSpecialTypes.r(phantom("u8"), "u8").fetch(client, id)).rejects.toThrow(
     `type argument mismatch at position 0: expected 'u8' but got '0x2::sui::SUI'`,
   );
   expect(WithSpecialTypes.r(SUI.p, "u8").fetch(client, id)).rejects.toThrow(
@@ -1341,9 +1186,7 @@ describe("handles function calls with vector arguments correctly", () => {
 
     expect(() => {
       createWithGenericField(tx, "vector<u8>", [3, tx.pure.u8(4)]);
-    }).toThrow(
-      "mixing primitive and TransactionArgument values is not supported",
-    );
+    }).toThrow("mixing primitive and TransactionArgument values is not supported");
   });
 
   test("can pass in mixed tx.pure and command result values", async () => {
@@ -1376,9 +1219,7 @@ describe("handles function calls with vector arguments correctly", () => {
     const val = sqrt(tx, 36n);
     expect(() => {
       createWithGenericField(tx, "vector<u64>", [3, val]);
-    }).toThrow(
-      "mixing primitive and TransactionArgument values is not supported",
-    );
+    }).toThrow("mixing primitive and TransactionArgument values is not supported");
   });
 
   test("can use intents as values and can mix with tx.pure", async () => {
@@ -1387,11 +1228,7 @@ describe("handles function calls with vector arguments correctly", () => {
     const intent1 = (tx: Transaction) => tx.pure.u8(3);
     const intent2 = (tx: Transaction) => tx.pure.u8(4);
 
-    createWithGenericField(tx, "vector<u8>", [
-      intent1(tx),
-      intent2(tx),
-      tx.pure.u8(7),
-    ]);
+    createWithGenericField(tx, "vector<u8>", [intent1(tx), intent2(tx), tx.pure.u8(7)]);
 
     const txRes = await client.signAndExecuteTransaction({
       signer: keypair,
@@ -1418,9 +1255,7 @@ describe("handles function calls with vector arguments correctly", () => {
     const intent = (tx: Transaction) => tx.pure.u8(3);
     expect(() => {
       createWithGenericField(tx, "vector<u8>", [3, intent(tx)]);
-    }).toThrow(
-      "mixing primitive and TransactionArgument values is not supported",
-    );
+    }).toThrow("mixing primitive and TransactionArgument values is not supported");
   });
 });
 
@@ -1451,10 +1286,7 @@ describe("handles function calls with option arguments correctly", () => {
   test("can pass in tx.pure values", async () => {
     const tx = new Transaction();
 
-    createWithGenericField(tx, `${Option.$typeName}<vector<u8>>`, [
-      tx.pure.u8(3),
-      tx.pure.u8(4),
-    ]);
+    createWithGenericField(tx, `${Option.$typeName}<vector<u8>>`, [tx.pure.u8(3), tx.pure.u8(4)]);
     const txRes = await client.signAndExecuteTransaction({
       signer: keypair,
       transaction: tx,
@@ -1470,10 +1302,7 @@ describe("handles function calls with option arguments correctly", () => {
       throw new Error("No objects were created");
     }
     const id = created.reference.objectId;
-    const obj = await WithGenericField.r(Option.r(vector("u8"))).fetch(
-      client,
-      id,
-    );
+    const obj = await WithGenericField.r(Option.r(vector("u8"))).fetch(client, id);
     expect(obj.genericField).toEqual([3, 4]);
   });
 
@@ -1481,13 +1310,8 @@ describe("handles function calls with option arguments correctly", () => {
     const tx = new Transaction();
 
     expect(() => {
-      createWithGenericField(tx, `${Option.$typeName}<vector<u8>>`, [
-        3,
-        tx.pure.u8(4),
-      ]);
-    }).toThrow(
-      "mixing primitive and TransactionArgument values is not supported",
-    );
+      createWithGenericField(tx, `${Option.$typeName}<vector<u8>>`, [3, tx.pure.u8(4)]);
+    }).toThrow("mixing primitive and TransactionArgument values is not supported");
   });
 
   test("can use none function call result as a value", async () => {
@@ -1539,11 +1363,11 @@ describe("handles function calls with option arguments correctly", () => {
   test("handles nested vector of options as inner type correctly", async () => {
     const tx = new Transaction();
 
-    createWithGenericField(
-      tx,
-      `${Option.$typeName}<vector<${Option.$typeName}<u8>>>`,
-      [3, null, 4],
-    );
+    createWithGenericField(tx, `${Option.$typeName}<vector<${Option.$typeName}<u8>>>`, [
+      3,
+      null,
+      4,
+    ]);
     const txRes = await client.signAndExecuteTransaction({
       signer: keypair,
       transaction: tx,
@@ -1559,9 +1383,7 @@ describe("handles function calls with option arguments correctly", () => {
       throw new Error("No objects were created");
     }
     const id = created.reference.objectId;
-    const obj = await WithGenericField.r(
-      Option.r(vector(Option.r("u8"))),
-    ).fetch(client, id);
+    const obj = await WithGenericField.r(Option.r(vector(Option.r("u8")))).fetch(client, id);
     expect(obj.genericField).toEqual([3, null, 4]);
   });
 });

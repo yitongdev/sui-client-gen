@@ -23,10 +23,7 @@ export interface MigrateV1ToV2Args {
  * @param vecU8 - Function parameter
  * @param txContext - Function parameter
  */
-export function migrateV1ToV2(
-  tx: Transaction,
-  args: MigrateV1ToV2Args,
-): TransactionResult {
+export function migrateV1ToV2(tx: Transaction, args: MigrateV1ToV2Args): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::migrate_v1_to_v2`,
     arguments: [

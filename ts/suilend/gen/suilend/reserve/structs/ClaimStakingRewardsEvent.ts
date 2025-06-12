@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V8 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -81,22 +77,18 @@ export class ClaimStakingRewardsEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: ClaimStakingRewardsEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ClaimStakingRewardsEvent.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => ClaimStakingRewardsEvent.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         ClaimStakingRewardsEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ClaimStakingRewardsEvent.fromBcs(data),
       bcs: ClaimStakingRewardsEvent.bcs,
-      fromJSONField: (field: any) =>
-        ClaimStakingRewardsEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        ClaimStakingRewardsEvent.fromJSON(json),
+      fromJSONField: (field: any) => ClaimStakingRewardsEvent.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => ClaimStakingRewardsEvent.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         ClaimStakingRewardsEvent.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         ClaimStakingRewardsEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ClaimStakingRewardsEvent.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => ClaimStakingRewardsEvent.fetch(client, id),
       new: (fields: ClaimStakingRewardsEventFields) => {
         return new ClaimStakingRewardsEvent([], fields);
       },
@@ -145,23 +137,15 @@ export class ClaimStakingRewardsEvent implements StructClass {
     }
 
     return ClaimStakingRewardsEvent.reified().new({
-      lendingMarketId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.lending_market_id,
-      ),
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes("address", item.fields.lending_market_id),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
       reserveId: decodeFromFieldsWithTypes("address", item.fields.reserve_id),
       amount: decodeFromFieldsWithTypes("u64", item.fields.amount),
     });
   }
 
   static fromBcs(data: Uint8Array): ClaimStakingRewardsEvent {
-    return ClaimStakingRewardsEvent.fromFields(
-      ClaimStakingRewardsEvent.bcs.parse(data),
-    );
+    return ClaimStakingRewardsEvent.fromFields(ClaimStakingRewardsEvent.bcs.parse(data));
   }
 
   toJSONField() {
@@ -174,11 +158,7 @@ export class ClaimStakingRewardsEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ClaimStakingRewardsEvent {
@@ -212,11 +192,8 @@ export class ClaimStakingRewardsEvent implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): ClaimStakingRewardsEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isClaimStakingRewardsEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ClaimStakingRewardsEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isClaimStakingRewardsEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ClaimStakingRewardsEvent object`);
       }
 
       return ClaimStakingRewardsEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -229,10 +206,7 @@ export class ClaimStakingRewardsEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<ClaimStakingRewardsEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<ClaimStakingRewardsEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
@@ -243,9 +217,7 @@ export class ClaimStakingRewardsEvent implements StructClass {
       res.data?.bcs?.dataType !== "moveObject" ||
       !isClaimStakingRewardsEvent(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a ClaimStakingRewardsEvent object`,
-      );
+      throw new Error(`object at id ${id} is not a ClaimStakingRewardsEvent object`);
     }
 
     return ClaimStakingRewardsEvent.fromSuiObjectData(res.data);

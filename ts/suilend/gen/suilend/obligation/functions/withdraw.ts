@@ -28,11 +28,7 @@ export interface WithdrawArgs {
  * @param u64 - Function parameter
  * @param option - Function parameter
  */
-export function withdraw(
-  tx: Transaction,
-  typeArg: string,
-  args: WithdrawArgs,
-): TransactionResult {
+export function withdraw(tx: Transaction, typeArg: string, args: WithdrawArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::obligation::withdraw`,
     typeArguments: [typeArg],

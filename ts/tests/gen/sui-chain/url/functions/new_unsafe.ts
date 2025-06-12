@@ -1,11 +1,7 @@
 import { pure } from "../../../_framework/util.js";
 import { String } from "../../../move-stdlib-chain/ascii/structs/index.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `new_unsafe`

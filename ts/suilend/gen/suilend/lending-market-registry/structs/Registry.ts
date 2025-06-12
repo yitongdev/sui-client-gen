@@ -1,9 +1,6 @@
 import * as reified from "../../../_framework/reified.js";
 import { TypeName } from "../../../_dependencies/onchain/0x1/type-name/structs/index.js";
-import {
-  ID,
-  UID,
-} from "../../../_dependencies/onchain/0x2/object/structs/index.js";
+import { ID, UID } from "../../../_dependencies/onchain/0x2/object/structs/index.js";
 import { Table } from "../../../_dependencies/onchain/0x2/table/structs/index.js";
 import {
   PhantomReified,
@@ -17,11 +14,7 @@ import {
   phantom,
   ToTypeStr as ToPhantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -83,18 +76,14 @@ export class Registry implements StructClass {
       isPhantom: Registry.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Registry.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Registry.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Registry.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Registry.fromBcs(data),
       bcs: Registry.bcs,
       fromJSONField: (field: any) => Registry.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Registry.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Registry.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Registry.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        Registry.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => Registry.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Registry.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => Registry.fetch(client, id),
       new: (fields: RegistryFields) => {
         return new Registry([], fields);
       },
@@ -126,10 +115,7 @@ export class Registry implements StructClass {
       id: decodeFromFields(UID.reified(), fields.id),
       version: decodeFromFields("u64", fields.version),
       lendingMarkets: decodeFromFields(
-        Table.reified(
-          reified.phantom(TypeName.reified()),
-          reified.phantom(ID.reified()),
-        ),
+        Table.reified(reified.phantom(TypeName.reified()), reified.phantom(ID.reified())),
         fields.lending_markets,
       ),
     });
@@ -144,10 +130,7 @@ export class Registry implements StructClass {
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
       version: decodeFromFieldsWithTypes("u64", item.fields.version),
       lendingMarkets: decodeFromFieldsWithTypes(
-        Table.reified(
-          reified.phantom(TypeName.reified()),
-          reified.phantom(ID.reified()),
-        ),
+        Table.reified(reified.phantom(TypeName.reified()), reified.phantom(ID.reified())),
         item.fields.lending_markets,
       ),
     });
@@ -166,11 +149,7 @@ export class Registry implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Registry {
@@ -178,10 +157,7 @@ export class Registry implements StructClass {
       id: decodeFromJSONField(UID.reified(), field.id),
       version: decodeFromJSONField("u64", field.version),
       lendingMarkets: decodeFromJSONField(
-        Table.reified(
-          reified.phantom(TypeName.reified()),
-          reified.phantom(ID.reified()),
-        ),
+        Table.reified(reified.phantom(TypeName.reified()), reified.phantom(ID.reified())),
         field.lendingMarkets,
       ),
     });
@@ -200,9 +176,7 @@ export class Registry implements StructClass {
       throw new Error("not an object");
     }
     if (!isRegistry(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Registry object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Registry object`);
     }
     return Registry.fromFieldsWithTypes(content);
   }
@@ -210,7 +184,7 @@ export class Registry implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Registry {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isRegistry(data.bcs.type)) {
-        throw new Error(`object at is not a Registry object`);
+        throw new Error(`object at ${data.objectId} is not a Registry object`);
       }
 
       return Registry.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -226,14 +200,9 @@ export class Registry implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Registry> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Registry object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Registry object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isRegistry(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isRegistry(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Registry object`);
     }
 

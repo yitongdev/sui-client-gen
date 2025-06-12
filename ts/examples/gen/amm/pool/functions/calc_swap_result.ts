@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface CalcSwapResultArgs {
   iValue: bigint | TransactionArgument;
@@ -28,10 +24,7 @@ export interface CalcSwapResultArgs {
  * @param adminFeePct - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function calcSwapResult(
-  tx: Transaction,
-  args: CalcSwapResultArgs,
-): TransactionResult {
+export function calcSwapResult(tx: Transaction, args: CalcSwapResultArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pool::calc_swap_result`,
     arguments: [

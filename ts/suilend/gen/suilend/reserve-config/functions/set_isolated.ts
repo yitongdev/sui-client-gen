@@ -20,15 +20,9 @@ export interface SetIsolatedArgs {
  * @param reserveConfigBuilder - Function parameter
  * @param bool - Function parameter
  */
-export function setIsolated(
-  tx: Transaction,
-  args: SetIsolatedArgs,
-): TransactionResult {
+export function setIsolated(tx: Transaction, args: SetIsolatedArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve_config::set_isolated`,
-    arguments: [
-      obj(tx, args.reserveConfigBuilder),
-      pure(tx, args.bool, `bool`),
-    ],
+    arguments: [obj(tx, args.reserveConfigBuilder), pure(tx, args.bool, `bool`)],
   });
 }

@@ -36,10 +36,7 @@ export function isPool(type: string): boolean {
   return type.startsWith(`${PKG_V1}::pool::Pool` + "<");
 }
 
-export interface PoolFields<
-  A extends PhantomTypeArgument,
-  B extends PhantomTypeArgument,
-> {
+export interface PoolFields<A extends PhantomTypeArgument, B extends PhantomTypeArgument> {
   id: ToField<UID>;
   balanceA: ToField<Balance<A>>;
   balanceB: ToField<Balance<B>>;
@@ -49,10 +46,10 @@ export interface PoolFields<
   adminFeeBalance: ToField<Balance<ToPhantom<LP1<A, B>>>>;
 }
 
-export type PoolReified<
-  A extends PhantomTypeArgument,
-  B extends PhantomTypeArgument,
-> = Reified<Pool<A, B>, PoolFields<A, B>>;
+export type PoolReified<A extends PhantomTypeArgument, B extends PhantomTypeArgument> = Reified<
+  Pool<A, B>,
+  PoolFields<A, B>
+>;
 
 /**
  * Move struct: `Pool`
@@ -105,10 +102,7 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
   static reified<
     A extends PhantomReified<PhantomTypeArgument>,
     B extends PhantomReified<PhantomTypeArgument>,
-  >(
-    A: A,
-    B: B,
-  ): PoolReified<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
+  >(A: A, B: B): PoolReified<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
     return {
       typeName: Pool.$typeName,
       fullTypeName: composeSuiType(
@@ -121,23 +115,16 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
       ],
       isPhantom: Pool.$isPhantom,
       reifiedTypeArgs: [A, B],
-      fromFields: (fields: Record<string, any>) =>
-        Pool.fromFields([A, B], fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Pool.fromFieldsWithTypes([A, B], item),
+      fromFields: (fields: Record<string, any>) => Pool.fromFields([A, B], fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Pool.fromFieldsWithTypes([A, B], item),
       fromBcs: (data: Uint8Array) => Pool.fromBcs([A, B], data),
       bcs: Pool.bcs,
       fromJSONField: (field: any) => Pool.fromJSONField([A, B], field),
       fromJSON: (json: Record<string, any>) => Pool.fromJSON([A, B], json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Pool.fromSuiParsedData([A, B], content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Pool.fromSuiObjectData([A, B], content),
-      fetch: async (client: SuiClient, id: string) =>
-        Pool.fetch(client, [A, B], id),
-      new: (
-        fields: PoolFields<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>>,
-      ) => {
+      fromSuiParsedData: (content: SuiParsedData) => Pool.fromSuiParsedData([A, B], content),
+      fromSuiObjectData: (content: SuiObjectData) => Pool.fromSuiObjectData([A, B], content),
+      fetch: async (client: SuiClient, id: string) => Pool.fetch(client, [A, B], id),
+      new: (fields: PoolFields<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>>) => {
         return new Pool([extractType(A), extractType(B)], fields);
       },
       kind: "StructClassReified",
@@ -154,9 +141,7 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
   >(
     A: A,
     B: B,
-  ): PhantomReified<
-    ToTypeStr<Pool<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>>>
-  > {
+  ): PhantomReified<ToTypeStr<Pool<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>>>> {
     return phantom(Pool.reified(A, B));
   }
   static get p() {
@@ -215,14 +200,8 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
 
     return Pool.reified(typeArg0, typeArg1).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      balanceA: decodeFromFieldsWithTypes(
-        Balance.reified(typeArg0),
-        item.fields.balance_a,
-      ),
-      balanceB: decodeFromFieldsWithTypes(
-        Balance.reified(typeArg1),
-        item.fields.balance_b,
-      ),
+      balanceA: decodeFromFieldsWithTypes(Balance.reified(typeArg0), item.fields.balance_a),
+      balanceB: decodeFromFieldsWithTypes(Balance.reified(typeArg1), item.fields.balance_b),
       lpSupply: decodeFromFieldsWithTypes(
         Supply.reified(reified.phantom(LP1.reified(typeArg0, typeArg1))),
         item.fields.lp_supply,
@@ -239,10 +218,7 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
   static fromBcs<
     A extends PhantomReified<PhantomTypeArgument>,
     B extends PhantomReified<PhantomTypeArgument>,
-  >(
-    typeArgs: [A, B],
-    data: Uint8Array,
-  ): Pool<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
+  >(typeArgs: [A, B], data: Uint8Array): Pool<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
     const [typeArg0, typeArg1] = typeArgs;
     return Pool.fromFields([typeArg0, typeArg1], Pool.bcs.parse(data));
   }
@@ -261,20 +237,13 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
     A extends PhantomReified<PhantomTypeArgument>,
     B extends PhantomReified<PhantomTypeArgument>,
-  >(
-    typeArgs: [A, B],
-    field: any,
-  ): Pool<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
+  >(typeArgs: [A, B], field: any): Pool<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
     const [typeArg0, typeArg1] = typeArgs;
     return Pool.reified(typeArg0, typeArg1).new({
       id: decodeFromJSONField(UID.reified(), field.id),
@@ -324,9 +293,7 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isPool(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Pool object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Pool object`);
     }
     return Pool.fromFieldsWithTypes(typeArgs, content);
   }
@@ -340,7 +307,7 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
   ): Pool<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isPool(data.bcs.type)) {
-        throw new Error(`object at is not a Pool object`);
+        throw new Error(`object at ${data.objectId} is not a Pool object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -383,14 +350,9 @@ export class Pool<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
   ): Promise<Pool<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Pool object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Pool object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPool(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPool(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Pool object`);
     }
 

@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface RemoveArgs {
   self: TransactionObjectInput;
@@ -20,11 +16,7 @@ export interface RemoveArgs {
  * @param self - Function parameter
  * @param key - Function parameter
  */
-export function remove(
-  tx: Transaction,
-  typeArg: string,
-  args: RemoveArgs,
-): TransactionResult {
+export function remove(tx: Transaction, typeArg: string, args: RemoveArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::vec_set::remove`,
     typeArguments: [typeArg],

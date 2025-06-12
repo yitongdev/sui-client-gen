@@ -11,10 +11,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param ctx - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function new_(
-  tx: Transaction,
-  typeArgs: [string, string],
-): TransactionResult {
+export function new_(tx: Transaction, typeArgs: [string, string]): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::linked_table::new`,
     typeArguments: typeArgs,

@@ -28,10 +28,7 @@ export interface GovernanceActionFields {
   value: ToField<"u8">;
 }
 
-export type GovernanceActionReified = Reified<
-  GovernanceAction,
-  GovernanceActionFields
->;
+export type GovernanceActionReified = Reified<GovernanceAction, GovernanceActionFields>;
 
 /**
  * Move struct: `GovernanceAction`
@@ -71,20 +68,15 @@ export class GovernanceAction implements StructClass {
       typeArgs: [] as [],
       isPhantom: GovernanceAction.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        GovernanceAction.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        GovernanceAction.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => GovernanceAction.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => GovernanceAction.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => GovernanceAction.fromBcs(data),
       bcs: GovernanceAction.bcs,
       fromJSONField: (field: any) => GovernanceAction.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => GovernanceAction.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        GovernanceAction.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        GovernanceAction.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        GovernanceAction.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => GovernanceAction.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => GovernanceAction.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => GovernanceAction.fetch(client, id),
       new: (fields: GovernanceActionFields) => {
         return new GovernanceAction([], fields);
       },
@@ -110,9 +102,7 @@ export class GovernanceAction implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): GovernanceAction {
-    return GovernanceAction.reified().new({
-      value: decodeFromFields("u8", fields.value),
-    });
+    return GovernanceAction.reified().new({ value: decodeFromFields("u8", fields.value) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): GovernanceAction {
@@ -136,17 +126,11 @@ export class GovernanceAction implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): GovernanceAction {
-    return GovernanceAction.reified().new({
-      value: decodeFromJSONField("u8", field.value),
-    });
+    return GovernanceAction.reified().new({ value: decodeFromJSONField("u8", field.value) });
   }
 
   static fromJSON(json: Record<string, any>): GovernanceAction {
@@ -162,20 +146,15 @@ export class GovernanceAction implements StructClass {
       throw new Error("not an object");
     }
     if (!isGovernanceAction(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a GovernanceAction object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a GovernanceAction object`);
     }
     return GovernanceAction.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): GovernanceAction {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isGovernanceAction(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a GovernanceAction object`);
+      if (data.bcs.dataType !== "moveObject" || !isGovernanceAction(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a GovernanceAction object`);
       }
 
       return GovernanceAction.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,14 +170,9 @@ export class GovernanceAction implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<GovernanceAction> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching GovernanceAction object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching GovernanceAction object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isGovernanceAction(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isGovernanceAction(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a GovernanceAction object`);
     }
 

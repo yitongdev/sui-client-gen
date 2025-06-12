@@ -36,10 +36,7 @@ export interface WrapperFields<Name extends TypeArgument> {
   name: ToField<Name>;
 }
 
-export type WrapperReified<Name extends TypeArgument> = Reified<
-  Wrapper<Name>,
-  WrapperFields<Name>
->;
+export type WrapperReified<Name extends TypeArgument> = Reified<Wrapper<Name>, WrapperFields<Name>>;
 
 /**
  * Move struct: `Wrapper`
@@ -61,10 +58,7 @@ export class Wrapper<Name extends TypeArgument> implements StructClass {
 
   readonly name: ToField<Name>;
 
-  private constructor(
-    typeArgs: [ToTypeStr<Name>],
-    fields: WrapperFields<Name>,
-  ) {
+  private constructor(typeArgs: [ToTypeStr<Name>], fields: WrapperFields<Name>) {
     this.$fullTypeName = composeSuiType(
       Wrapper.$typeName,
       ...typeArgs,
@@ -86,20 +80,15 @@ export class Wrapper<Name extends TypeArgument> implements StructClass {
       typeArgs: [extractType(Name)] as [ToTypeStr<ToTypeArgument<Name>>],
       isPhantom: Wrapper.$isPhantom,
       reifiedTypeArgs: [Name],
-      fromFields: (fields: Record<string, any>) =>
-        Wrapper.fromFields(Name, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Wrapper.fromFieldsWithTypes(Name, item),
+      fromFields: (fields: Record<string, any>) => Wrapper.fromFields(Name, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Wrapper.fromFieldsWithTypes(Name, item),
       fromBcs: (data: Uint8Array) => Wrapper.fromBcs(Name, data),
       bcs: Wrapper.bcs(toBcs(Name)),
       fromJSONField: (field: any) => Wrapper.fromJSONField(Name, field),
       fromJSON: (json: Record<string, any>) => Wrapper.fromJSON(Name, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Wrapper.fromSuiParsedData(Name, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Wrapper.fromSuiObjectData(Name, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Wrapper.fetch(client, Name, id),
+      fromSuiParsedData: (content: SuiParsedData) => Wrapper.fromSuiParsedData(Name, content),
+      fromSuiObjectData: (content: SuiObjectData) => Wrapper.fromSuiObjectData(Name, content),
+      fetch: async (client: SuiClient, id: string) => Wrapper.fetch(client, Name, id),
       new: (fields: WrapperFields<ToTypeArgument<Name>>) => {
         return new Wrapper([extractType(Name)], fields);
       },
@@ -131,9 +120,7 @@ export class Wrapper<Name extends TypeArgument> implements StructClass {
     typeArg: Name,
     fields: Record<string, any>,
   ): Wrapper<ToTypeArgument<Name>> {
-    return Wrapper.reified(typeArg).new({
-      name: decodeFromFields(typeArg, fields.name),
-    });
+    return Wrapper.reified(typeArg).new({ name: decodeFromFields(typeArg, fields.name) });
   }
 
   static fromFieldsWithTypes<Name extends Reified<TypeArgument, any>>(
@@ -164,20 +151,14 @@ export class Wrapper<Name extends TypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<Name extends Reified<TypeArgument, any>>(
     typeArg: Name,
     field: any,
   ): Wrapper<ToTypeArgument<Name>> {
-    return Wrapper.reified(typeArg).new({
-      name: decodeFromJSONField(typeArg, field.name),
-    });
+    return Wrapper.reified(typeArg).new({ name: decodeFromJSONField(typeArg, field.name) });
   }
 
   static fromJSON<Name extends Reified<TypeArgument, any>>(
@@ -204,9 +185,7 @@ export class Wrapper<Name extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isWrapper(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Wrapper object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Wrapper object`);
     }
     return Wrapper.fromFieldsWithTypes(typeArg, content);
   }
@@ -217,7 +196,7 @@ export class Wrapper<Name extends TypeArgument> implements StructClass {
   ): Wrapper<ToTypeArgument<Name>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isWrapper(data.bcs.type)) {
-        throw new Error(`object at is not a Wrapper object`);
+        throw new Error(`object at ${data.objectId} is not a Wrapper object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -252,14 +231,9 @@ export class Wrapper<Name extends TypeArgument> implements StructClass {
   ): Promise<Wrapper<ToTypeArgument<Name>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Wrapper object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Wrapper object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isWrapper(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isWrapper(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Wrapper object`);
     }
 

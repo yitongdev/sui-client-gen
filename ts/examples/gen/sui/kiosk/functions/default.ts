@@ -9,8 +9,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param ctx - Function parameter
  */
 export function default_(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::kiosk::default`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::kiosk::default`, arguments: [] });
 }

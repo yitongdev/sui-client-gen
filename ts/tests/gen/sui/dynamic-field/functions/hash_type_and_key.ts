@@ -1,10 +1,6 @@
 import { GenericArg, generic, pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface HashTypeAndKeyArgs {
   parent: string | TransactionArgument;
@@ -29,9 +25,6 @@ export function hashTypeAndKey(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::dynamic_field::hash_type_and_key`,
     typeArguments: [typeArg],
-    arguments: [
-      pure(tx, args.parent, `address`),
-      generic(tx, `${typeArg}`, args.k),
-    ],
+    arguments: [pure(tx, args.parent, `address`), generic(tx, `${typeArg}`, args.k)],
   });
 }

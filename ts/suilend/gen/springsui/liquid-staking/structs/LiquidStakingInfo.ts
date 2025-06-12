@@ -64,9 +64,7 @@ export type LiquidStakingInfoReified<T0 extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class LiquidStakingInfo<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class LiquidStakingInfo<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V1}::liquid_staking::LiquidStakingInfo`;
@@ -87,10 +85,7 @@ export class LiquidStakingInfo<T0 extends PhantomTypeArgument>
   readonly version: ToField<Version>;
   readonly extraFields: ToField<Bag>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: LiquidStakingInfoFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: LiquidStakingInfoFields<T0>) {
     this.$fullTypeName = composeSuiType(
       LiquidStakingInfo.$typeName,
       ...typeArgs,
@@ -116,26 +111,21 @@ export class LiquidStakingInfo<T0 extends PhantomTypeArgument>
         LiquidStakingInfo.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V1}::liquid_staking::LiquidStakingInfo<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: LiquidStakingInfo.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        LiquidStakingInfo.fromFields(T0, fields),
+      fromFields: (fields: Record<string, any>) => LiquidStakingInfo.fromFields(T0, fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         LiquidStakingInfo.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => LiquidStakingInfo.fromBcs(T0, data),
       bcs: LiquidStakingInfo.bcs,
       fromJSONField: (field: any) => LiquidStakingInfo.fromJSONField(T0, field),
-      fromJSON: (json: Record<string, any>) =>
-        LiquidStakingInfo.fromJSON(T0, json),
+      fromJSON: (json: Record<string, any>) => LiquidStakingInfo.fromJSON(T0, json),
       fromSuiParsedData: (content: SuiParsedData) =>
         LiquidStakingInfo.fromSuiParsedData(T0, content),
       fromSuiObjectData: (content: SuiObjectData) =>
         LiquidStakingInfo.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        LiquidStakingInfo.fetch(client, T0, id),
+      fetch: async (client: SuiClient, id: string) => LiquidStakingInfo.fetch(client, T0, id),
       new: (fields: LiquidStakingInfoFields<ToPhantomTypeArgument<T0>>) => {
         return new LiquidStakingInfo([extractType(T0)], fields);
       },
@@ -175,18 +165,9 @@ export class LiquidStakingInfo<T0 extends PhantomTypeArgument>
   ): LiquidStakingInfo<ToPhantomTypeArgument<T0>> {
     return LiquidStakingInfo.reified(typeArg).new({
       id: decodeFromFields(UID.reified(), fields.id),
-      lstTreasuryCap: decodeFromFields(
-        TreasuryCap.reified(typeArg),
-        fields.lst_treasury_cap,
-      ),
-      feeConfig: decodeFromFields(
-        Cell.reified(FeeConfig.reified()),
-        fields.fee_config,
-      ),
-      fees: decodeFromFields(
-        Balance.reified(reified.phantom(SUI.reified())),
-        fields.fees,
-      ),
+      lstTreasuryCap: decodeFromFields(TreasuryCap.reified(typeArg), fields.lst_treasury_cap),
+      feeConfig: decodeFromFields(Cell.reified(FeeConfig.reified()), fields.fee_config),
+      fees: decodeFromFields(Balance.reified(reified.phantom(SUI.reified())), fields.fees),
       accruedSpreadFees: decodeFromFields("u64", fields.accrued_spread_fees),
       storage: decodeFromFields(Storage.reified(), fields.storage),
       version: decodeFromFields(Version.reified(), fields.version),
@@ -217,22 +198,10 @@ export class LiquidStakingInfo<T0 extends PhantomTypeArgument>
         Balance.reified(reified.phantom(SUI.reified())),
         item.fields.fees,
       ),
-      accruedSpreadFees: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.accrued_spread_fees,
-      ),
-      storage: decodeFromFieldsWithTypes(
-        Storage.reified(),
-        item.fields.storage,
-      ),
-      version: decodeFromFieldsWithTypes(
-        Version.reified(),
-        item.fields.version,
-      ),
-      extraFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.extra_fields,
-      ),
+      accruedSpreadFees: decodeFromFieldsWithTypes("u64", item.fields.accrued_spread_fees),
+      storage: decodeFromFieldsWithTypes(Storage.reified(), item.fields.storage),
+      version: decodeFromFieldsWithTypes(Version.reified(), item.fields.version),
+      extraFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.extra_fields),
     });
   }
 
@@ -240,10 +209,7 @@ export class LiquidStakingInfo<T0 extends PhantomTypeArgument>
     typeArg: T0,
     data: Uint8Array,
   ): LiquidStakingInfo<ToPhantomTypeArgument<T0>> {
-    return LiquidStakingInfo.fromFields(
-      typeArg,
-      LiquidStakingInfo.bcs.parse(data),
-    );
+    return LiquidStakingInfo.fromFields(typeArg, LiquidStakingInfo.bcs.parse(data));
   }
 
   toJSONField() {
@@ -260,11 +226,7 @@ export class LiquidStakingInfo<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -273,18 +235,9 @@ export class LiquidStakingInfo<T0 extends PhantomTypeArgument>
   ): LiquidStakingInfo<ToPhantomTypeArgument<T0>> {
     return LiquidStakingInfo.reified(typeArg).new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      lstTreasuryCap: decodeFromJSONField(
-        TreasuryCap.reified(typeArg),
-        field.lstTreasuryCap,
-      ),
-      feeConfig: decodeFromJSONField(
-        Cell.reified(FeeConfig.reified()),
-        field.feeConfig,
-      ),
-      fees: decodeFromJSONField(
-        Balance.reified(reified.phantom(SUI.reified())),
-        field.fees,
-      ),
+      lstTreasuryCap: decodeFromJSONField(TreasuryCap.reified(typeArg), field.lstTreasuryCap),
+      feeConfig: decodeFromJSONField(Cell.reified(FeeConfig.reified()), field.feeConfig),
+      fees: decodeFromJSONField(Balance.reified(reified.phantom(SUI.reified())), field.fees),
       accruedSpreadFees: decodeFromJSONField("u64", field.accruedSpreadFees),
       storage: decodeFromJSONField(Storage.reified(), field.storage),
       version: decodeFromJSONField(Version.reified(), field.version),
@@ -316,9 +269,7 @@ export class LiquidStakingInfo<T0 extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isLiquidStakingInfo(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a LiquidStakingInfo object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a LiquidStakingInfo object`);
     }
     return LiquidStakingInfo.fromFieldsWithTypes(typeArg, content);
   }
@@ -328,11 +279,8 @@ export class LiquidStakingInfo<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): LiquidStakingInfo<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isLiquidStakingInfo(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a LiquidStakingInfo object`);
+      if (data.bcs.dataType !== "moveObject" || !isLiquidStakingInfo(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a LiquidStakingInfo object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -367,14 +315,9 @@ export class LiquidStakingInfo<T0 extends PhantomTypeArgument>
   ): Promise<LiquidStakingInfo<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching LiquidStakingInfo object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching LiquidStakingInfo object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isLiquidStakingInfo(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isLiquidStakingInfo(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a LiquidStakingInfo object`);
     }
 

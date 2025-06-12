@@ -61,10 +61,7 @@ export class AdminCap<T0 extends PhantomTypeArgument> implements StructClass {
 
   readonly id: ToField<UID>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: AdminCapFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: AdminCapFields<T0>) {
     this.$fullTypeName = composeSuiType(
       AdminCap.$typeName,
       ...typeArgs,
@@ -83,25 +80,18 @@ export class AdminCap<T0 extends PhantomTypeArgument> implements StructClass {
         AdminCap.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V1}::liquid_staking::AdminCap<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: AdminCap.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        AdminCap.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        AdminCap.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => AdminCap.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => AdminCap.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => AdminCap.fromBcs(T0, data),
       bcs: AdminCap.bcs,
       fromJSONField: (field: any) => AdminCap.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => AdminCap.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        AdminCap.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        AdminCap.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        AdminCap.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => AdminCap.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => AdminCap.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => AdminCap.fetch(client, T0, id),
       new: (fields: AdminCapFields<ToPhantomTypeArgument<T0>>) => {
         return new AdminCap([extractType(T0)], fields);
       },
@@ -132,9 +122,7 @@ export class AdminCap<T0 extends PhantomTypeArgument> implements StructClass {
     typeArg: T0,
     fields: Record<string, any>,
   ): AdminCap<ToPhantomTypeArgument<T0>> {
-    return AdminCap.reified(typeArg).new({
-      id: decodeFromFields(UID.reified(), fields.id),
-    });
+    return AdminCap.reified(typeArg).new({ id: decodeFromFields(UID.reified(), fields.id) });
   }
 
   static fromFieldsWithTypes<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -165,20 +153,14 @@ export class AdminCap<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
     typeArg: T0,
     field: any,
   ): AdminCap<ToPhantomTypeArgument<T0>> {
-    return AdminCap.reified(typeArg).new({
-      id: decodeFromJSONField(UID.reified(), field.id),
-    });
+    return AdminCap.reified(typeArg).new({ id: decodeFromJSONField(UID.reified(), field.id) });
   }
 
   static fromJSON<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -205,9 +187,7 @@ export class AdminCap<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isAdminCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a AdminCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a AdminCap object`);
     }
     return AdminCap.fromFieldsWithTypes(typeArg, content);
   }
@@ -218,7 +198,7 @@ export class AdminCap<T0 extends PhantomTypeArgument> implements StructClass {
   ): AdminCap<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isAdminCap(data.bcs.type)) {
-        throw new Error(`object at is not a AdminCap object`);
+        throw new Error(`object at ${data.objectId} is not a AdminCap object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -253,14 +233,9 @@ export class AdminCap<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<AdminCap<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching AdminCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching AdminCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isAdminCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isAdminCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a AdminCap object`);
     }
 

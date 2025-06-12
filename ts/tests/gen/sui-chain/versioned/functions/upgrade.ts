@@ -25,11 +25,7 @@ export interface UpgradeArgs {
  * @param t0 - Function parameter
  * @param versionChangeCap - Function parameter
  */
-export function upgrade(
-  tx: Transaction,
-  typeArg: string,
-  args: UpgradeArgs,
-): TransactionResult {
+export function upgrade(tx: Transaction, typeArg: string, args: UpgradeArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::versioned::upgrade`,
     typeArguments: [typeArg],

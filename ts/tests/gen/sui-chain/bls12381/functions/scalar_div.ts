@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface ScalarDivArgs {
   element1: TransactionObjectInput;
@@ -20,10 +16,7 @@ export interface ScalarDivArgs {
  * @param element2 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function scalarDiv(
-  tx: Transaction,
-  args: ScalarDivArgs,
-): TransactionResult {
+export function scalarDiv(tx: Transaction, args: ScalarDivArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::bls12381::scalar_div`,
     arguments: [obj(tx, args.element1), obj(tx, args.element2)],

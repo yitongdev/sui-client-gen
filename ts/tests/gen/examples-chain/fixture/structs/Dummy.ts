@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -61,24 +57,18 @@ export class Dummy implements StructClass {
   static reified(): DummyReified {
     return {
       typeName: Dummy.$typeName,
-      fullTypeName: composeSuiType(
-        Dummy.$typeName,
-        ...[],
-      ) as `${typeof PKG_V1}::fixture::Dummy`,
+      fullTypeName: composeSuiType(Dummy.$typeName, ...[]) as `${typeof PKG_V1}::fixture::Dummy`,
       typeArgs: [] as [],
       isPhantom: Dummy.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Dummy.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Dummy.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Dummy.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Dummy.fromBcs(data),
       bcs: Dummy.bcs,
       fromJSONField: (field: any) => Dummy.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Dummy.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Dummy.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Dummy.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Dummy.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Dummy.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Dummy.fetch(client, id),
       new: (fields: DummyFields) => {
         return new Dummy([], fields);
@@ -105,9 +95,7 @@ export class Dummy implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): Dummy {
-    return Dummy.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return Dummy.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): Dummy {
@@ -131,17 +119,11 @@ export class Dummy implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Dummy {
-    return Dummy.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return Dummy.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): Dummy {
@@ -157,9 +139,7 @@ export class Dummy implements StructClass {
       throw new Error("not an object");
     }
     if (!isDummy(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Dummy object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Dummy object`);
     }
     return Dummy.fromFieldsWithTypes(content);
   }
@@ -167,7 +147,7 @@ export class Dummy implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Dummy {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isDummy(data.bcs.type)) {
-        throw new Error(`object at is not a Dummy object`);
+        throw new Error(`object at ${data.objectId} is not a Dummy object`);
       }
 
       return Dummy.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,14 +163,9 @@ export class Dummy implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Dummy> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Dummy object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Dummy object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDummy(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDummy(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Dummy object`);
     }
 

@@ -64,10 +64,7 @@ export class TreasuryCap<T extends PhantomTypeArgument> implements StructClass {
   readonly id: ToField<UID>;
   readonly totalSupply: ToField<Supply<T>>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: TreasuryCapFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: TreasuryCapFields<T>) {
     this.$fullTypeName = composeSuiType(
       TreasuryCap.$typeName,
       ...typeArgs,
@@ -87,25 +84,18 @@ export class TreasuryCap<T extends PhantomTypeArgument> implements StructClass {
         TreasuryCap.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::coin::TreasuryCap<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: TreasuryCap.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        TreasuryCap.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        TreasuryCap.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => TreasuryCap.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => TreasuryCap.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => TreasuryCap.fromBcs(T, data),
       bcs: TreasuryCap.bcs,
       fromJSONField: (field: any) => TreasuryCap.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => TreasuryCap.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        TreasuryCap.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        TreasuryCap.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        TreasuryCap.fetch(client, T, id),
+      fromSuiParsedData: (content: SuiParsedData) => TreasuryCap.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => TreasuryCap.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => TreasuryCap.fetch(client, T, id),
       new: (fields: TreasuryCapFields<ToPhantomTypeArgument<T>>) => {
         return new TreasuryCap([extractType(T)], fields);
       },
@@ -139,10 +129,7 @@ export class TreasuryCap<T extends PhantomTypeArgument> implements StructClass {
   ): TreasuryCap<ToPhantomTypeArgument<T>> {
     return TreasuryCap.reified(typeArg).new({
       id: decodeFromFields(UID.reified(), fields.id),
-      totalSupply: decodeFromFields(
-        Supply.reified(typeArg),
-        fields.total_supply,
-      ),
+      totalSupply: decodeFromFields(Supply.reified(typeArg), fields.total_supply),
     });
   }
 
@@ -157,10 +144,7 @@ export class TreasuryCap<T extends PhantomTypeArgument> implements StructClass {
 
     return TreasuryCap.reified(typeArg).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      totalSupply: decodeFromFieldsWithTypes(
-        Supply.reified(typeArg),
-        item.fields.total_supply,
-      ),
+      totalSupply: decodeFromFieldsWithTypes(Supply.reified(typeArg), item.fields.total_supply),
     });
   }
 
@@ -179,11 +163,7 @@ export class TreasuryCap<T extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -192,10 +172,7 @@ export class TreasuryCap<T extends PhantomTypeArgument> implements StructClass {
   ): TreasuryCap<ToPhantomTypeArgument<T>> {
     return TreasuryCap.reified(typeArg).new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      totalSupply: decodeFromJSONField(
-        Supply.reified(typeArg),
-        field.totalSupply,
-      ),
+      totalSupply: decodeFromJSONField(Supply.reified(typeArg), field.totalSupply),
     });
   }
 
@@ -223,9 +200,7 @@ export class TreasuryCap<T extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isTreasuryCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a TreasuryCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a TreasuryCap object`);
     }
     return TreasuryCap.fromFieldsWithTypes(typeArg, content);
   }
@@ -236,7 +211,7 @@ export class TreasuryCap<T extends PhantomTypeArgument> implements StructClass {
   ): TreasuryCap<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isTreasuryCap(data.bcs.type)) {
-        throw new Error(`object at is not a TreasuryCap object`);
+        throw new Error(`object at ${data.objectId} is not a TreasuryCap object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -271,14 +246,9 @@ export class TreasuryCap<T extends PhantomTypeArgument> implements StructClass {
   ): Promise<TreasuryCap<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TreasuryCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TreasuryCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTreasuryCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTreasuryCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a TreasuryCap object`);
     }
 

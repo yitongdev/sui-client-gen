@@ -1,11 +1,7 @@
 import { pure } from "../../../_framework/util.js";
 import { String } from "../../../move-stdlib-chain/string/structs/index.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface StringBytesLtArgs {
   string1: string | TransactionArgument;
@@ -21,10 +17,7 @@ export interface StringBytesLtArgs {
  * @param string2 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function stringBytesLt(
-  tx: Transaction,
-  args: StringBytesLtArgs,
-): TransactionResult {
+export function stringBytesLt(tx: Transaction, args: StringBytesLtArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::authenticator_state::string_bytes_lt`,
     arguments: [

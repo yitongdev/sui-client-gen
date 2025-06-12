@@ -24,11 +24,7 @@ export interface EditArgs {
  * @param name - Function parameter
  * @param value - Function parameter
  */
-export function edit(
-  tx: Transaction,
-  typeArg: string,
-  args: EditArgs,
-): TransactionResult {
+export function edit(tx: Transaction, typeArg: string, args: EditArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::display::edit`,
     typeArguments: [typeArg],

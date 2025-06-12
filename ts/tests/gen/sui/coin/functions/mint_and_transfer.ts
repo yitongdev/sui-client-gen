@@ -32,10 +32,6 @@ export function mintAndTransfer(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::coin::mint_and_transfer`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.c),
-      pure(tx, args.amount, `u64`),
-      pure(tx, args.recipient, `address`),
-    ],
+    arguments: [obj(tx, args.c), pure(tx, args.amount, `u64`), pure(tx, args.recipient, `address`)],
   });
 }

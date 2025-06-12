@@ -68,20 +68,15 @@ export class FixedPoint32 implements StructClass {
       typeArgs: [] as [],
       isPhantom: FixedPoint32.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        FixedPoint32.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        FixedPoint32.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => FixedPoint32.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => FixedPoint32.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => FixedPoint32.fromBcs(data),
       bcs: FixedPoint32.bcs,
       fromJSONField: (field: any) => FixedPoint32.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => FixedPoint32.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        FixedPoint32.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        FixedPoint32.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        FixedPoint32.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => FixedPoint32.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => FixedPoint32.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => FixedPoint32.fetch(client, id),
       new: (fields: FixedPoint32Fields) => {
         return new FixedPoint32([], fields);
       },
@@ -107,9 +102,7 @@ export class FixedPoint32 implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): FixedPoint32 {
-    return FixedPoint32.reified().new({
-      value: decodeFromFields("u64", fields.value),
-    });
+    return FixedPoint32.reified().new({ value: decodeFromFields("u64", fields.value) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): FixedPoint32 {
@@ -133,17 +126,11 @@ export class FixedPoint32 implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): FixedPoint32 {
-    return FixedPoint32.reified().new({
-      value: decodeFromJSONField("u64", field.value),
-    });
+    return FixedPoint32.reified().new({ value: decodeFromJSONField("u64", field.value) });
   }
 
   static fromJSON(json: Record<string, any>): FixedPoint32 {
@@ -159,20 +146,15 @@ export class FixedPoint32 implements StructClass {
       throw new Error("not an object");
     }
     if (!isFixedPoint32(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a FixedPoint32 object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a FixedPoint32 object`);
     }
     return FixedPoint32.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): FixedPoint32 {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isFixedPoint32(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a FixedPoint32 object`);
+      if (data.bcs.dataType !== "moveObject" || !isFixedPoint32(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a FixedPoint32 object`);
       }
 
       return FixedPoint32.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -188,14 +170,9 @@ export class FixedPoint32 implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<FixedPoint32> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching FixedPoint32 object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching FixedPoint32 object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isFixedPoint32(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isFixedPoint32(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a FixedPoint32 object`);
     }
 

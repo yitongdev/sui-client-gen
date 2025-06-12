@@ -2343,7 +2343,7 @@ impl<'a, 'model, const HAS_SOURCE: SourceKind> StructsGen<'a, 'model, HAS_SOURCE
                     if (data.bcs) {
                         if (data.bcs.dataType !== "moveObject" || !is$(&struct_name)(data.bcs.type)) {
                             throw new Error($(self.interpolate(
-                                format!("object at is not a {} object", &struct_name))
+                                format!("object at ${{data.objectId}} is not a {} object", &struct_name))
                             ));
                         }$['\n']
                         $(match type_params.len() {

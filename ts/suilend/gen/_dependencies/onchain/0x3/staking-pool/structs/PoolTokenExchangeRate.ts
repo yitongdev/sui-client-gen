@@ -74,21 +74,18 @@ export class PoolTokenExchangeRate implements StructClass {
       typeArgs: [] as [],
       isPhantom: PoolTokenExchangeRate.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PoolTokenExchangeRate.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => PoolTokenExchangeRate.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         PoolTokenExchangeRate.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PoolTokenExchangeRate.fromBcs(data),
       bcs: PoolTokenExchangeRate.bcs,
       fromJSONField: (field: any) => PoolTokenExchangeRate.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        PoolTokenExchangeRate.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => PoolTokenExchangeRate.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         PoolTokenExchangeRate.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         PoolTokenExchangeRate.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PoolTokenExchangeRate.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => PoolTokenExchangeRate.fetch(client, id),
       new: (fields: PoolTokenExchangeRateFields) => {
         return new PoolTokenExchangeRate([], fields);
       },
@@ -128,17 +125,12 @@ export class PoolTokenExchangeRate implements StructClass {
 
     return PoolTokenExchangeRate.reified().new({
       suiAmount: decodeFromFieldsWithTypes("u64", item.fields.sui_amount),
-      poolTokenAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.pool_token_amount,
-      ),
+      poolTokenAmount: decodeFromFieldsWithTypes("u64", item.fields.pool_token_amount),
     });
   }
 
   static fromBcs(data: Uint8Array): PoolTokenExchangeRate {
-    return PoolTokenExchangeRate.fromFields(
-      PoolTokenExchangeRate.bcs.parse(data),
-    );
+    return PoolTokenExchangeRate.fromFields(PoolTokenExchangeRate.bcs.parse(data));
   }
 
   toJSONField() {
@@ -149,11 +141,7 @@ export class PoolTokenExchangeRate implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PoolTokenExchangeRate {
@@ -185,11 +173,8 @@ export class PoolTokenExchangeRate implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): PoolTokenExchangeRate {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPoolTokenExchangeRate(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PoolTokenExchangeRate object`);
+      if (data.bcs.dataType !== "moveObject" || !isPoolTokenExchangeRate(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PoolTokenExchangeRate object`);
       }
 
       return PoolTokenExchangeRate.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -202,23 +187,13 @@ export class PoolTokenExchangeRate implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<PoolTokenExchangeRate> {
+  static async fetch(client: SuiClient, id: string): Promise<PoolTokenExchangeRate> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PoolTokenExchangeRate object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PoolTokenExchangeRate object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPoolTokenExchangeRate(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a PoolTokenExchangeRate object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPoolTokenExchangeRate(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a PoolTokenExchangeRate object`);
     }
 
     return PoolTokenExchangeRate.fromSuiObjectData(res.data);

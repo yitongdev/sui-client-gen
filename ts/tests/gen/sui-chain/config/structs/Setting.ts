@@ -38,10 +38,7 @@ export interface SettingFields<T0 extends TypeArgument> {
   data: ToField<Option<SettingData1<T0>>>;
 }
 
-export type SettingReified<T0 extends TypeArgument> = Reified<
-  Setting<T0>,
-  SettingFields<T0>
->;
+export type SettingReified<T0 extends TypeArgument> = Reified<Setting<T0>, SettingFields<T0>>;
 
 /**
  * Move struct: `Setting`
@@ -85,20 +82,15 @@ export class Setting<T0 extends TypeArgument> implements StructClass {
       typeArgs: [extractType(T0)] as [ToTypeStr<ToTypeArgument<T0>>],
       isPhantom: Setting.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        Setting.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Setting.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => Setting.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Setting.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Setting.fromBcs(T0, data),
       bcs: Setting.bcs(toBcs(T0)),
       fromJSONField: (field: any) => Setting.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Setting.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Setting.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Setting.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Setting.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Setting.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Setting.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Setting.fetch(client, T0, id),
       new: (fields: SettingFields<ToTypeArgument<T0>>) => {
         return new Setting([extractType(T0)], fields);
       },
@@ -131,10 +123,7 @@ export class Setting<T0 extends TypeArgument> implements StructClass {
     fields: Record<string, any>,
   ): Setting<ToTypeArgument<T0>> {
     return Setting.reified(typeArg).new({
-      data: decodeFromFields(
-        Option.reified(SettingData1.reified(typeArg)),
-        fields.data,
-      ),
+      data: decodeFromFields(Option.reified(SettingData1.reified(typeArg)), fields.data),
     });
   }
 
@@ -172,11 +161,7 @@ export class Setting<T0 extends TypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
@@ -184,10 +169,7 @@ export class Setting<T0 extends TypeArgument> implements StructClass {
     field: any,
   ): Setting<ToTypeArgument<T0>> {
     return Setting.reified(typeArg).new({
-      data: decodeFromJSONField(
-        Option.reified(SettingData1.reified(typeArg)),
-        field.data,
-      ),
+      data: decodeFromJSONField(Option.reified(SettingData1.reified(typeArg)), field.data),
     });
   }
 
@@ -215,9 +197,7 @@ export class Setting<T0 extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isSetting(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Setting object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Setting object`);
     }
     return Setting.fromFieldsWithTypes(typeArg, content);
   }
@@ -228,7 +208,7 @@ export class Setting<T0 extends TypeArgument> implements StructClass {
   ): Setting<ToTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isSetting(data.bcs.type)) {
-        throw new Error(`object at is not a Setting object`);
+        throw new Error(`object at ${data.objectId} is not a Setting object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -263,14 +243,9 @@ export class Setting<T0 extends TypeArgument> implements StructClass {
   ): Promise<Setting<ToTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Setting object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Setting object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isSetting(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isSetting(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Setting object`);
     }
 

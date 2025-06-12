@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `is_empty`
@@ -14,10 +10,7 @@ import {
  * @param validatorInfo - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function isEmpty(
-  tx: Transaction,
-  validatorInfo: TransactionObjectInput,
-): TransactionResult {
+export function isEmpty(tx: Transaction, validatorInfo: TransactionObjectInput): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::storage::is_empty`,
     arguments: [obj(tx, validatorInfo)],

@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `create_bar`
@@ -14,10 +10,7 @@ import {
  * @param value - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function createBar(
-  tx: Transaction,
-  value: bigint | TransactionArgument,
-): TransactionResult {
+export function createBar(tx: Transaction, value: bigint | TransactionArgument): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::fixture::create_bar`,
     arguments: [pure(tx, value, `u64`)],

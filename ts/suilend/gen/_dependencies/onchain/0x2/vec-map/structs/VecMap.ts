@@ -35,17 +35,14 @@ export function isVecMap(type: string): boolean {
   return type.startsWith(`${PKG_V35}::vec_map::VecMap` + "<");
 }
 
-export interface VecMapFields<
-  T0 extends TypeArgument,
-  T1 extends TypeArgument,
-> {
+export interface VecMapFields<T0 extends TypeArgument, T1 extends TypeArgument> {
   contents: ToField<Vector<Entry1<T0, T1>>>;
 }
 
-export type VecMapReified<
-  T0 extends TypeArgument,
-  T1 extends TypeArgument,
-> = Reified<VecMap<T0, T1>, VecMapFields<T0, T1>>;
+export type VecMapReified<T0 extends TypeArgument, T1 extends TypeArgument> = Reified<
+  VecMap<T0, T1>,
+  VecMapFields<T0, T1>
+>;
 
 /**
  * Move struct: `VecMap`
@@ -54,9 +51,7 @@ export type VecMapReified<
  * @typeParam T0 - Type parameter 0
  * @typeParam T1 - Type parameter 1
  */
-export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
-  implements StructClass
-{
+export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V35}::vec_map::VecMap`;
@@ -70,10 +65,7 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
 
   readonly contents: ToField<Vector<Entry1<T0, T1>>>;
 
-  private constructor(
-    typeArgs: [ToTypeStr<T0>, ToTypeStr<T1>],
-    fields: VecMapFields<T0, T1>,
-  ) {
+  private constructor(typeArgs: [ToTypeStr<T0>, ToTypeStr<T1>], fields: VecMapFields<T0, T1>) {
     this.$fullTypeName = composeSuiType(
       VecMap.$typeName,
       ...typeArgs,
@@ -83,10 +75,10 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
     this.contents = fields.contents;
   }
 
-  static reified<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(T0: T0, T1: T1): VecMapReified<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+  static reified<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
+    T0: T0,
+    T1: T1,
+  ): VecMapReified<ToTypeArgument<T0>, ToTypeArgument<T1>> {
     return {
       typeName: VecMap.$typeName,
       fullTypeName: composeSuiType(
@@ -99,20 +91,15 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
       ],
       isPhantom: VecMap.$isPhantom,
       reifiedTypeArgs: [T0, T1],
-      fromFields: (fields: Record<string, any>) =>
-        VecMap.fromFields([T0, T1], fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        VecMap.fromFieldsWithTypes([T0, T1], item),
+      fromFields: (fields: Record<string, any>) => VecMap.fromFields([T0, T1], fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => VecMap.fromFieldsWithTypes([T0, T1], item),
       fromBcs: (data: Uint8Array) => VecMap.fromBcs([T0, T1], data),
       bcs: VecMap.bcs(toBcs(T0), toBcs(T1)),
       fromJSONField: (field: any) => VecMap.fromJSONField([T0, T1], field),
       fromJSON: (json: Record<string, any>) => VecMap.fromJSON([T0, T1], json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        VecMap.fromSuiParsedData([T0, T1], content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        VecMap.fromSuiObjectData([T0, T1], content),
-      fetch: async (client: SuiClient, id: string) =>
-        VecMap.fetch(client, [T0, T1], id),
+      fromSuiParsedData: (content: SuiParsedData) => VecMap.fromSuiParsedData([T0, T1], content),
+      fromSuiObjectData: (content: SuiObjectData) => VecMap.fromSuiObjectData([T0, T1], content),
+      fetch: async (client: SuiClient, id: string) => VecMap.fetch(client, [T0, T1], id),
       new: (fields: VecMapFields<ToTypeArgument<T0>, ToTypeArgument<T1>>) => {
         return new VecMap([extractType(T0), extractType(T1)], fields);
       },
@@ -124,10 +111,7 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
     return VecMap.reified;
   }
 
-  static phantom<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static phantom<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     T0: T0,
     T1: T1,
   ): PhantomReified<ToTypeStr<VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>>>> {
@@ -144,10 +128,7 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
       });
   }
 
-  static fromFields<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static fromFields<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     typeArgs: [T0, T1],
     fields: Record<string, any>,
   ): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
@@ -163,10 +144,7 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
   static fromFieldsWithTypes<
     T0 extends Reified<TypeArgument, any>,
     T1 extends Reified<TypeArgument, any>,
-  >(
-    typeArgs: [T0, T1],
-    item: FieldsWithTypes,
-  ): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+  >(typeArgs: [T0, T1], item: FieldsWithTypes): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
     if (!isVecMap(item.type)) {
       throw new Error("not a VecMap type");
     }
@@ -181,10 +159,7 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
     });
   }
 
-  static fromBcs<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static fromBcs<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     typeArgs: [T0, T1],
     data: Uint8Array,
   ): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
@@ -206,20 +181,13 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
     T0 extends Reified<TypeArgument, any>,
     T1 extends Reified<TypeArgument, any>,
-  >(
-    typeArgs: [T0, T1],
-    field: any,
-  ): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+  >(typeArgs: [T0, T1], field: any): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
     const [typeArg0, typeArg1] = typeArgs;
     return VecMap.reified(typeArg0, typeArg1).new({
       contents: decodeFromJSONField(
@@ -229,10 +197,7 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
     });
   }
 
-  static fromJSON<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static fromJSON<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     typeArgs: [T0, T1],
     json: Record<string, any>,
   ): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
@@ -241,10 +206,7 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
     }
     const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(
-        VecMap.$typeName,
-        ...[typeArg0, typeArg1].map(extractType),
-      ),
+      composeSuiType(VecMap.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
       [typeArg0, typeArg1],
     );
@@ -255,17 +217,12 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
   static fromSuiParsedData<
     T0 extends Reified<TypeArgument, any>,
     T1 extends Reified<TypeArgument, any>,
-  >(
-    typeArgs: [T0, T1],
-    content: SuiParsedData,
-  ): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+  >(typeArgs: [T0, T1], content: SuiParsedData): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
     if (content.dataType !== "moveObject") {
       throw new Error("not an object");
     }
     if (!isVecMap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a VecMap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a VecMap object`);
     }
     return VecMap.fromFieldsWithTypes(typeArgs, content);
   }
@@ -273,13 +230,10 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
   static fromSuiObjectData<
     T0 extends Reified<TypeArgument, any>,
     T1 extends Reified<TypeArgument, any>,
-  >(
-    typeArgs: [T0, T1],
-    data: SuiObjectData,
-  ): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+  >(typeArgs: [T0, T1], data: SuiObjectData): VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isVecMap(data.bcs.type)) {
-        throw new Error(`object at is not a VecMap object`);
+        throw new Error(`object at ${data.objectId} is not a VecMap object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -312,24 +266,16 @@ export class VecMap<T0 extends TypeArgument, T1 extends TypeArgument>
     );
   }
 
-  static async fetch<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static async fetch<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     client: SuiClient,
     typeArgs: [T0, T1],
     id: string,
   ): Promise<VecMap<ToTypeArgument<T0>, ToTypeArgument<T1>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching VecMap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching VecMap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isVecMap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isVecMap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a VecMap object`);
     }
 

@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V5 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -69,20 +65,15 @@ export class RegistryInfo implements StructClass {
       typeArgs: [] as [],
       isPhantom: RegistryInfo.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        RegistryInfo.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        RegistryInfo.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => RegistryInfo.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => RegistryInfo.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => RegistryInfo.fromBcs(data),
       bcs: RegistryInfo.bcs,
       fromJSONField: (field: any) => RegistryInfo.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => RegistryInfo.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        RegistryInfo.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        RegistryInfo.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        RegistryInfo.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => RegistryInfo.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => RegistryInfo.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => RegistryInfo.fetch(client, id),
       new: (fields: RegistryInfoFields) => {
         return new RegistryInfo([], fields);
       },
@@ -119,10 +110,7 @@ export class RegistryInfo implements StructClass {
     }
 
     return RegistryInfo.reified().new({
-      weightHookId: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.weight_hook_id,
-      ),
+      weightHookId: decodeFromFieldsWithTypes(ID.reified(), item.fields.weight_hook_id),
     });
   }
 
@@ -137,11 +125,7 @@ export class RegistryInfo implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): RegistryInfo {
@@ -163,20 +147,15 @@ export class RegistryInfo implements StructClass {
       throw new Error("not an object");
     }
     if (!isRegistryInfo(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a RegistryInfo object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a RegistryInfo object`);
     }
     return RegistryInfo.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): RegistryInfo {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isRegistryInfo(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a RegistryInfo object`);
+      if (data.bcs.dataType !== "moveObject" || !isRegistryInfo(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a RegistryInfo object`);
       }
 
       return RegistryInfo.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -192,14 +171,9 @@ export class RegistryInfo implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<RegistryInfo> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching RegistryInfo object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching RegistryInfo object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isRegistryInfo(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isRegistryInfo(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a RegistryInfo object`);
     }
 

@@ -72,20 +72,15 @@ export class ConsumedVAAs implements StructClass {
       typeArgs: [] as [],
       isPhantom: ConsumedVAAs.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ConsumedVAAs.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ConsumedVAAs.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ConsumedVAAs.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ConsumedVAAs.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ConsumedVAAs.fromBcs(data),
       bcs: ConsumedVAAs.bcs,
       fromJSONField: (field: any) => ConsumedVAAs.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ConsumedVAAs.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ConsumedVAAs.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ConsumedVAAs.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ConsumedVAAs.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ConsumedVAAs.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ConsumedVAAs.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ConsumedVAAs.fetch(client, id),
       new: (fields: ConsumedVAAsFields) => {
         return new ConsumedVAAs([], fields);
       },
@@ -112,10 +107,7 @@ export class ConsumedVAAs implements StructClass {
 
   static fromFields(fields: Record<string, any>): ConsumedVAAs {
     return ConsumedVAAs.reified().new({
-      hashes: decodeFromFields(
-        Set.reified(reified.phantom(Bytes32.reified())),
-        fields.hashes,
-      ),
+      hashes: decodeFromFields(Set.reified(reified.phantom(Bytes32.reified())), fields.hashes),
     });
   }
 
@@ -143,19 +135,12 @@ export class ConsumedVAAs implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ConsumedVAAs {
     return ConsumedVAAs.reified().new({
-      hashes: decodeFromJSONField(
-        Set.reified(reified.phantom(Bytes32.reified())),
-        field.hashes,
-      ),
+      hashes: decodeFromJSONField(Set.reified(reified.phantom(Bytes32.reified())), field.hashes),
     });
   }
 
@@ -172,20 +157,15 @@ export class ConsumedVAAs implements StructClass {
       throw new Error("not an object");
     }
     if (!isConsumedVAAs(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ConsumedVAAs object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ConsumedVAAs object`);
     }
     return ConsumedVAAs.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ConsumedVAAs {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isConsumedVAAs(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ConsumedVAAs object`);
+      if (data.bcs.dataType !== "moveObject" || !isConsumedVAAs(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ConsumedVAAs object`);
       }
 
       return ConsumedVAAs.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -201,14 +181,9 @@ export class ConsumedVAAs implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ConsumedVAAs> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ConsumedVAAs object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ConsumedVAAs object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isConsumedVAAs(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isConsumedVAAs(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ConsumedVAAs object`);
     }
 

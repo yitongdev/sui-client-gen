@@ -51,10 +51,8 @@ export type LiquidityRequestReified<
  * @typeParam T0 - Type parameter 0 (phantom)
  * @typeParam T1 - Type parameter 1 (phantom)
  */
-export class LiquidityRequest<
-  T0 extends PhantomTypeArgument,
-  T1 extends PhantomTypeArgument,
-> implements StructClass
+export class LiquidityRequest<T0 extends PhantomTypeArgument, T1 extends PhantomTypeArgument>
+  implements StructClass
 {
   __StructClass = true as const;
 
@@ -87,13 +85,7 @@ export class LiquidityRequest<
   static reified<
     T0 extends PhantomReified<PhantomTypeArgument>,
     T1 extends PhantomReified<PhantomTypeArgument>,
-  >(
-    T0: T0,
-    T1: T1,
-  ): LiquidityRequestReified<
-    ToPhantomTypeArgument<T0>,
-    ToPhantomTypeArgument<T1>
-  > {
+  >(T0: T0, T1: T1): LiquidityRequestReified<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     return {
       typeName: LiquidityRequest.$typeName,
       fullTypeName: composeSuiType(
@@ -106,27 +98,20 @@ export class LiquidityRequest<
       ],
       isPhantom: LiquidityRequest.$isPhantom,
       reifiedTypeArgs: [T0, T1],
-      fromFields: (fields: Record<string, any>) =>
-        LiquidityRequest.fromFields([T0, T1], fields),
+      fromFields: (fields: Record<string, any>) => LiquidityRequest.fromFields([T0, T1], fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         LiquidityRequest.fromFieldsWithTypes([T0, T1], item),
       fromBcs: (data: Uint8Array) => LiquidityRequest.fromBcs([T0, T1], data),
       bcs: LiquidityRequest.bcs,
-      fromJSONField: (field: any) =>
-        LiquidityRequest.fromJSONField([T0, T1], field),
-      fromJSON: (json: Record<string, any>) =>
-        LiquidityRequest.fromJSON([T0, T1], json),
+      fromJSONField: (field: any) => LiquidityRequest.fromJSONField([T0, T1], field),
+      fromJSON: (json: Record<string, any>) => LiquidityRequest.fromJSON([T0, T1], json),
       fromSuiParsedData: (content: SuiParsedData) =>
         LiquidityRequest.fromSuiParsedData([T0, T1], content),
       fromSuiObjectData: (content: SuiObjectData) =>
         LiquidityRequest.fromSuiObjectData([T0, T1], content),
-      fetch: async (client: SuiClient, id: string) =>
-        LiquidityRequest.fetch(client, [T0, T1], id),
+      fetch: async (client: SuiClient, id: string) => LiquidityRequest.fetch(client, [T0, T1], id),
       new: (
-        fields: LiquidityRequestFields<
-          ToPhantomTypeArgument<T0>,
-          ToPhantomTypeArgument<T1>
-        >,
+        fields: LiquidityRequestFields<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>,
       ) => {
         return new LiquidityRequest([extractType(T0), extractType(T1)], fields);
       },
@@ -145,9 +130,7 @@ export class LiquidityRequest<
     T0: T0,
     T1: T1,
   ): PhantomReified<
-    ToTypeStr<
-      LiquidityRequest<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>
-    >
+    ToTypeStr<LiquidityRequest<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>>
   > {
     return phantom(LiquidityRequest.reified(T0, T1));
   }
@@ -203,10 +186,7 @@ export class LiquidityRequest<
     data: Uint8Array,
   ): LiquidityRequest<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     const [typeArg0, typeArg1] = typeArgs;
-    return LiquidityRequest.fromFields(
-      [typeArg0, typeArg1],
-      LiquidityRequest.bcs.parse(data),
-    );
+    return LiquidityRequest.fromFields([typeArg0, typeArg1], LiquidityRequest.bcs.parse(data));
   }
 
   toJSONField() {
@@ -218,11 +198,7 @@ export class LiquidityRequest<
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
@@ -251,10 +227,7 @@ export class LiquidityRequest<
     }
     const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(
-        LiquidityRequest.$typeName,
-        ...[typeArg0, typeArg1].map(extractType),
-      ),
+      composeSuiType(LiquidityRequest.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
       [typeArg0, typeArg1],
     );
@@ -273,9 +246,7 @@ export class LiquidityRequest<
       throw new Error("not an object");
     }
     if (!isLiquidityRequest(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a LiquidityRequest object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a LiquidityRequest object`);
     }
     return LiquidityRequest.fromFieldsWithTypes(typeArgs, content);
   }
@@ -288,11 +259,8 @@ export class LiquidityRequest<
     data: SuiObjectData,
   ): LiquidityRequest<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isLiquidityRequest(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a LiquidityRequest object`);
+      if (data.bcs.dataType !== "moveObject" || !isLiquidityRequest(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a LiquidityRequest object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -332,19 +300,12 @@ export class LiquidityRequest<
     client: SuiClient,
     typeArgs: [T0, T1],
     id: string,
-  ): Promise<
-    LiquidityRequest<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>
-  > {
+  ): Promise<LiquidityRequest<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching LiquidityRequest object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching LiquidityRequest object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isLiquidityRequest(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isLiquidityRequest(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a LiquidityRequest object`);
     }
 

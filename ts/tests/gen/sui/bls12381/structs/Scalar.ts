@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -69,16 +65,13 @@ export class Scalar implements StructClass {
       isPhantom: Scalar.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Scalar.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Scalar.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Scalar.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Scalar.fromBcs(data),
       bcs: Scalar.bcs,
       fromJSONField: (field: any) => Scalar.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Scalar.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Scalar.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Scalar.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Scalar.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Scalar.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Scalar.fetch(client, id),
       new: (fields: ScalarFields) => {
         return new Scalar([], fields);
@@ -105,9 +98,7 @@ export class Scalar implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): Scalar {
-    return Scalar.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return Scalar.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): Scalar {
@@ -131,17 +122,11 @@ export class Scalar implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Scalar {
-    return Scalar.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return Scalar.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): Scalar {
@@ -157,9 +142,7 @@ export class Scalar implements StructClass {
       throw new Error("not an object");
     }
     if (!isScalar(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Scalar object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Scalar object`);
     }
     return Scalar.fromFieldsWithTypes(content);
   }
@@ -167,7 +150,7 @@ export class Scalar implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Scalar {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isScalar(data.bcs.type)) {
-        throw new Error(`object at is not a Scalar object`);
+        throw new Error(`object at ${data.objectId} is not a Scalar object`);
       }
 
       return Scalar.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,14 +166,9 @@ export class Scalar implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Scalar> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Scalar object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Scalar object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isScalar(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isScalar(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Scalar object`);
     }
 

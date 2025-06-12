@@ -61,24 +61,18 @@ export class ID implements StructClass {
   static reified(): IDReified {
     return {
       typeName: ID.$typeName,
-      fullTypeName: composeSuiType(
-        ID.$typeName,
-        ...[],
-      ) as `${typeof PKG_V35}::object::ID`,
+      fullTypeName: composeSuiType(ID.$typeName, ...[]) as `${typeof PKG_V35}::object::ID`,
       typeArgs: [] as [],
       isPhantom: ID.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => ID.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ID.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ID.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ID.fromBcs(data),
       bcs: ID.bcs,
       fromJSONField: (field: any) => ID.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ID.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ID.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ID.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => ID.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ID.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => ID.fetch(client, id),
       new: (fields: IDFields) => {
         return new ID([], fields);
@@ -108,9 +102,7 @@ export class ID implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): ID {
-    return ID.reified().new({
-      bytes: decodeFromFields("address", fields.bytes),
-    });
+    return ID.reified().new({ bytes: decodeFromFields("address", fields.bytes) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): ID {
@@ -118,9 +110,7 @@ export class ID implements StructClass {
       throw new Error("not a ID type");
     }
 
-    return ID.reified().new({
-      bytes: decodeFromFieldsWithTypes("address", item.fields.bytes),
-    });
+    return ID.reified().new({ bytes: decodeFromFieldsWithTypes("address", item.fields.bytes) });
   }
 
   static fromBcs(data: Uint8Array): ID {
@@ -134,17 +124,11 @@ export class ID implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ID {
-    return ID.reified().new({
-      bytes: decodeFromJSONField("address", field.bytes),
-    });
+    return ID.reified().new({ bytes: decodeFromJSONField("address", field.bytes) });
   }
 
   static fromJSON(json: Record<string, any>): ID {
@@ -160,9 +144,7 @@ export class ID implements StructClass {
       throw new Error("not an object");
     }
     if (!isID(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ID object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ID object`);
     }
     return ID.fromFieldsWithTypes(content);
   }
@@ -170,7 +152,7 @@ export class ID implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): ID {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isID(data.bcs.type)) {
-        throw new Error(`object at is not a ID object`);
+        throw new Error(`object at ${data.objectId} is not a ID object`);
       }
 
       return ID.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -186,9 +168,7 @@ export class ID implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ID> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ID object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ID object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isID(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ID object`);

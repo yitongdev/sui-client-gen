@@ -62,24 +62,18 @@ export class UID implements StructClass {
   static reified(): UIDReified {
     return {
       typeName: UID.$typeName,
-      fullTypeName: composeSuiType(
-        UID.$typeName,
-        ...[],
-      ) as `${typeof PKG_V35}::object::UID`,
+      fullTypeName: composeSuiType(UID.$typeName, ...[]) as `${typeof PKG_V35}::object::UID`,
       typeArgs: [] as [],
       isPhantom: UID.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => UID.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        UID.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => UID.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => UID.fromBcs(data),
       bcs: UID.bcs,
       fromJSONField: (field: any) => UID.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => UID.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        UID.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        UID.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => UID.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => UID.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => UID.fetch(client, id),
       new: (fields: UIDFields) => {
         return new UID([], fields);
@@ -106,9 +100,7 @@ export class UID implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): UID {
-    return UID.reified().new({
-      id: decodeFromFields(ID1.reified(), fields.id),
-    });
+    return UID.reified().new({ id: decodeFromFields(ID1.reified(), fields.id) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): UID {
@@ -116,9 +108,7 @@ export class UID implements StructClass {
       throw new Error("not a UID type");
     }
 
-    return UID.reified().new({
-      id: decodeFromFieldsWithTypes(ID1.reified(), item.fields.id),
-    });
+    return UID.reified().new({ id: decodeFromFieldsWithTypes(ID1.reified(), item.fields.id) });
   }
 
   static fromBcs(data: Uint8Array): UID {
@@ -132,17 +122,11 @@ export class UID implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UID {
-    return UID.reified().new({
-      id: decodeFromJSONField(ID1.reified(), field.id),
-    });
+    return UID.reified().new({ id: decodeFromJSONField(ID1.reified(), field.id) });
   }
 
   static fromJSON(json: Record<string, any>): UID {
@@ -158,9 +142,7 @@ export class UID implements StructClass {
       throw new Error("not an object");
     }
     if (!isUID(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a UID object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a UID object`);
     }
     return UID.fromFieldsWithTypes(content);
   }
@@ -168,7 +150,7 @@ export class UID implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): UID {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isUID(data.bcs.type)) {
-        throw new Error(`object at is not a UID object`);
+        throw new Error(`object at ${data.objectId} is not a UID object`);
       }
 
       return UID.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -184,9 +166,7 @@ export class UID implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<UID> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching UID object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching UID object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isUID(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a UID object`);

@@ -39,10 +39,7 @@ export interface SystemEpochInfoEventFields {
   leftoverStorageFundInflow: ToField<"u64">;
 }
 
-export type SystemEpochInfoEventReified = Reified<
-  SystemEpochInfoEvent,
-  SystemEpochInfoEventFields
->;
+export type SystemEpochInfoEventReified = Reified<SystemEpochInfoEvent, SystemEpochInfoEventFields>;
 
 /**
  * Move struct: `SystemEpochInfoEvent`
@@ -104,21 +101,18 @@ export class SystemEpochInfoEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: SystemEpochInfoEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        SystemEpochInfoEvent.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => SystemEpochInfoEvent.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         SystemEpochInfoEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => SystemEpochInfoEvent.fromBcs(data),
       bcs: SystemEpochInfoEvent.bcs,
       fromJSONField: (field: any) => SystemEpochInfoEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        SystemEpochInfoEvent.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => SystemEpochInfoEvent.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         SystemEpochInfoEvent.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         SystemEpochInfoEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        SystemEpochInfoEvent.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => SystemEpochInfoEvent.fetch(client, id),
       new: (fields: SystemEpochInfoEventFields) => {
         return new SystemEpochInfoEvent([], fields);
       },
@@ -160,23 +154,14 @@ export class SystemEpochInfoEvent implements StructClass {
       protocolVersion: decodeFromFields("u64", fields.protocol_version),
       referenceGasPrice: decodeFromFields("u64", fields.reference_gas_price),
       totalStake: decodeFromFields("u64", fields.total_stake),
-      storageFundReinvestment: decodeFromFields(
-        "u64",
-        fields.storage_fund_reinvestment,
-      ),
+      storageFundReinvestment: decodeFromFields("u64", fields.storage_fund_reinvestment),
       storageCharge: decodeFromFields("u64", fields.storage_charge),
       storageRebate: decodeFromFields("u64", fields.storage_rebate),
       storageFundBalance: decodeFromFields("u64", fields.storage_fund_balance),
       stakeSubsidyAmount: decodeFromFields("u64", fields.stake_subsidy_amount),
       totalGasFees: decodeFromFields("u64", fields.total_gas_fees),
-      totalStakeRewardsDistributed: decodeFromFields(
-        "u64",
-        fields.total_stake_rewards_distributed,
-      ),
-      leftoverStorageFundInflow: decodeFromFields(
-        "u64",
-        fields.leftover_storage_fund_inflow,
-      ),
+      totalStakeRewardsDistributed: decodeFromFields("u64", fields.total_stake_rewards_distributed),
+      leftoverStorageFundInflow: decodeFromFields("u64", fields.leftover_storage_fund_inflow),
     });
   }
 
@@ -187,39 +172,18 @@ export class SystemEpochInfoEvent implements StructClass {
 
     return SystemEpochInfoEvent.reified().new({
       epoch: decodeFromFieldsWithTypes("u64", item.fields.epoch),
-      protocolVersion: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.protocol_version,
-      ),
-      referenceGasPrice: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.reference_gas_price,
-      ),
+      protocolVersion: decodeFromFieldsWithTypes("u64", item.fields.protocol_version),
+      referenceGasPrice: decodeFromFieldsWithTypes("u64", item.fields.reference_gas_price),
       totalStake: decodeFromFieldsWithTypes("u64", item.fields.total_stake),
       storageFundReinvestment: decodeFromFieldsWithTypes(
         "u64",
         item.fields.storage_fund_reinvestment,
       ),
-      storageCharge: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.storage_charge,
-      ),
-      storageRebate: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.storage_rebate,
-      ),
-      storageFundBalance: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.storage_fund_balance,
-      ),
-      stakeSubsidyAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.stake_subsidy_amount,
-      ),
-      totalGasFees: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.total_gas_fees,
-      ),
+      storageCharge: decodeFromFieldsWithTypes("u64", item.fields.storage_charge),
+      storageRebate: decodeFromFieldsWithTypes("u64", item.fields.storage_rebate),
+      storageFundBalance: decodeFromFieldsWithTypes("u64", item.fields.storage_fund_balance),
+      stakeSubsidyAmount: decodeFromFieldsWithTypes("u64", item.fields.stake_subsidy_amount),
+      totalGasFees: decodeFromFieldsWithTypes("u64", item.fields.total_gas_fees),
       totalStakeRewardsDistributed: decodeFromFieldsWithTypes(
         "u64",
         item.fields.total_stake_rewards_distributed,
@@ -232,9 +196,7 @@ export class SystemEpochInfoEvent implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): SystemEpochInfoEvent {
-    return SystemEpochInfoEvent.fromFields(
-      SystemEpochInfoEvent.bcs.parse(data),
-    );
+    return SystemEpochInfoEvent.fromFields(SystemEpochInfoEvent.bcs.parse(data));
   }
 
   toJSONField() {
@@ -249,18 +211,13 @@ export class SystemEpochInfoEvent implements StructClass {
       storageFundBalance: this.storageFundBalance.toString(),
       stakeSubsidyAmount: this.stakeSubsidyAmount.toString(),
       totalGasFees: this.totalGasFees.toString(),
-      totalStakeRewardsDistributed:
-        this.totalStakeRewardsDistributed.toString(),
+      totalStakeRewardsDistributed: this.totalStakeRewardsDistributed.toString(),
       leftoverStorageFundInflow: this.leftoverStorageFundInflow.toString(),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): SystemEpochInfoEvent {
@@ -269,23 +226,14 @@ export class SystemEpochInfoEvent implements StructClass {
       protocolVersion: decodeFromJSONField("u64", field.protocolVersion),
       referenceGasPrice: decodeFromJSONField("u64", field.referenceGasPrice),
       totalStake: decodeFromJSONField("u64", field.totalStake),
-      storageFundReinvestment: decodeFromJSONField(
-        "u64",
-        field.storageFundReinvestment,
-      ),
+      storageFundReinvestment: decodeFromJSONField("u64", field.storageFundReinvestment),
       storageCharge: decodeFromJSONField("u64", field.storageCharge),
       storageRebate: decodeFromJSONField("u64", field.storageRebate),
       storageFundBalance: decodeFromJSONField("u64", field.storageFundBalance),
       stakeSubsidyAmount: decodeFromJSONField("u64", field.stakeSubsidyAmount),
       totalGasFees: decodeFromJSONField("u64", field.totalGasFees),
-      totalStakeRewardsDistributed: decodeFromJSONField(
-        "u64",
-        field.totalStakeRewardsDistributed,
-      ),
-      leftoverStorageFundInflow: decodeFromJSONField(
-        "u64",
-        field.leftoverStorageFundInflow,
-      ),
+      totalStakeRewardsDistributed: decodeFromJSONField("u64", field.totalStakeRewardsDistributed),
+      leftoverStorageFundInflow: decodeFromJSONField("u64", field.leftoverStorageFundInflow),
     });
   }
 
@@ -311,11 +259,8 @@ export class SystemEpochInfoEvent implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): SystemEpochInfoEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isSystemEpochInfoEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a SystemEpochInfoEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isSystemEpochInfoEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a SystemEpochInfoEvent object`);
       }
 
       return SystemEpochInfoEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -328,23 +273,13 @@ export class SystemEpochInfoEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<SystemEpochInfoEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<SystemEpochInfoEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching SystemEpochInfoEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching SystemEpochInfoEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isSystemEpochInfoEvent(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a SystemEpochInfoEvent object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isSystemEpochInfoEvent(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a SystemEpochInfoEvent object`);
     }
 
     return SystemEpochInfoEvent.fromSuiObjectData(res.data);

@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `kiosk_owner_cap_for`
@@ -14,10 +10,7 @@ import {
  * @param cap - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function kioskOwnerCapFor(
-  tx: Transaction,
-  cap: TransactionObjectInput,
-): TransactionResult {
+export function kioskOwnerCapFor(tx: Transaction, cap: TransactionObjectInput): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::kiosk_owner_cap_for`,
     arguments: [obj(tx, cap)],

@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface JwkIdEqualArgs {
   jwkId1: TransactionObjectInput;
@@ -20,10 +16,7 @@ export interface JwkIdEqualArgs {
  * @param jwkId2 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function jwkIdEqual(
-  tx: Transaction,
-  args: JwkIdEqualArgs,
-): TransactionResult {
+export function jwkIdEqual(tx: Transaction, args: JwkIdEqualArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::authenticator_state::jwk_id_equal`,
     arguments: [obj(tx, args.jwkId1), obj(tx, args.jwkId2)],

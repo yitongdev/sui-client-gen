@@ -46,9 +46,7 @@ export type ExtensionKeyReified<Ext extends PhantomTypeArgument> = Reified<
  *
  * @typeParam Ext - Type parameter 0 (phantom)
  */
-export class ExtensionKey<Ext extends PhantomTypeArgument>
-  implements StructClass
-{
+export class ExtensionKey<Ext extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::kiosk_extension::ExtensionKey`;
@@ -62,10 +60,7 @@ export class ExtensionKey<Ext extends PhantomTypeArgument>
 
   readonly dummyField: ToField<"bool">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<Ext>],
-    fields: ExtensionKeyFields<Ext>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<Ext>], fields: ExtensionKeyFields<Ext>) {
     this.$fullTypeName = composeSuiType(
       ExtensionKey.$typeName,
       ...typeArgs,
@@ -84,25 +79,18 @@ export class ExtensionKey<Ext extends PhantomTypeArgument>
         ExtensionKey.$typeName,
         ...[extractType(Ext)],
       ) as `${typeof PKG_V31}::kiosk_extension::ExtensionKey<${PhantomToTypeStr<ToPhantomTypeArgument<Ext>>}>`,
-      typeArgs: [extractType(Ext)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<Ext>>,
-      ],
+      typeArgs: [extractType(Ext)] as [PhantomToTypeStr<ToPhantomTypeArgument<Ext>>],
       isPhantom: ExtensionKey.$isPhantom,
       reifiedTypeArgs: [Ext],
-      fromFields: (fields: Record<string, any>) =>
-        ExtensionKey.fromFields(Ext, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ExtensionKey.fromFieldsWithTypes(Ext, item),
+      fromFields: (fields: Record<string, any>) => ExtensionKey.fromFields(Ext, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ExtensionKey.fromFieldsWithTypes(Ext, item),
       fromBcs: (data: Uint8Array) => ExtensionKey.fromBcs(Ext, data),
       bcs: ExtensionKey.bcs,
       fromJSONField: (field: any) => ExtensionKey.fromJSONField(Ext, field),
       fromJSON: (json: Record<string, any>) => ExtensionKey.fromJSON(Ext, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ExtensionKey.fromSuiParsedData(Ext, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ExtensionKey.fromSuiObjectData(Ext, content),
-      fetch: async (client: SuiClient, id: string) =>
-        ExtensionKey.fetch(client, Ext, id),
+      fromSuiParsedData: (content: SuiParsedData) => ExtensionKey.fromSuiParsedData(Ext, content),
+      fromSuiObjectData: (content: SuiObjectData) => ExtensionKey.fromSuiObjectData(Ext, content),
+      fetch: async (client: SuiClient, id: string) => ExtensionKey.fetch(client, Ext, id),
       new: (fields: ExtensionKeyFields<ToPhantomTypeArgument<Ext>>) => {
         return new ExtensionKey([extractType(Ext)], fields);
       },
@@ -166,11 +154,7 @@ export class ExtensionKey<Ext extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<Ext extends PhantomReified<PhantomTypeArgument>>(
@@ -206,9 +190,7 @@ export class ExtensionKey<Ext extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isExtensionKey(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ExtensionKey object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ExtensionKey object`);
     }
     return ExtensionKey.fromFieldsWithTypes(typeArg, content);
   }
@@ -218,11 +200,8 @@ export class ExtensionKey<Ext extends PhantomTypeArgument>
     data: SuiObjectData,
   ): ExtensionKey<ToPhantomTypeArgument<Ext>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isExtensionKey(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ExtensionKey object`);
+      if (data.bcs.dataType !== "moveObject" || !isExtensionKey(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ExtensionKey object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -257,14 +236,9 @@ export class ExtensionKey<Ext extends PhantomTypeArgument>
   ): Promise<ExtensionKey<ToPhantomTypeArgument<Ext>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ExtensionKey object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ExtensionKey object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isExtensionKey(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isExtensionKey(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ExtensionKey object`);
     }
 

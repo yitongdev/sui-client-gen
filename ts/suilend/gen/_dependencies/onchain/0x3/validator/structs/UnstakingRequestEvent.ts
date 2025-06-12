@@ -90,21 +90,18 @@ export class UnstakingRequestEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: UnstakingRequestEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        UnstakingRequestEvent.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => UnstakingRequestEvent.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         UnstakingRequestEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => UnstakingRequestEvent.fromBcs(data),
       bcs: UnstakingRequestEvent.bcs,
       fromJSONField: (field: any) => UnstakingRequestEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        UnstakingRequestEvent.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => UnstakingRequestEvent.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         UnstakingRequestEvent.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         UnstakingRequestEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        UnstakingRequestEvent.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => UnstakingRequestEvent.fetch(client, id),
       new: (fields: UnstakingRequestEventFields) => {
         return new UnstakingRequestEvent([], fields);
       },
@@ -146,10 +143,7 @@ export class UnstakingRequestEvent implements StructClass {
       poolId: decodeFromFields(ID.reified(), fields.pool_id),
       validatorAddress: decodeFromFields("address", fields.validator_address),
       stakerAddress: decodeFromFields("address", fields.staker_address),
-      stakeActivationEpoch: decodeFromFields(
-        "u64",
-        fields.stake_activation_epoch,
-      ),
+      stakeActivationEpoch: decodeFromFields("u64", fields.stake_activation_epoch),
       unstakingEpoch: decodeFromFields("u64", fields.unstaking_epoch),
       principalAmount: decodeFromFields("u64", fields.principal_amount),
       rewardAmount: decodeFromFields("u64", fields.reward_amount),
@@ -163,34 +157,17 @@ export class UnstakingRequestEvent implements StructClass {
 
     return UnstakingRequestEvent.reified().new({
       poolId: decodeFromFieldsWithTypes(ID.reified(), item.fields.pool_id),
-      validatorAddress: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.validator_address,
-      ),
-      stakerAddress: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.staker_address,
-      ),
-      stakeActivationEpoch: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.stake_activation_epoch,
-      ),
-      unstakingEpoch: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.unstaking_epoch,
-      ),
-      principalAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.principal_amount,
-      ),
+      validatorAddress: decodeFromFieldsWithTypes("address", item.fields.validator_address),
+      stakerAddress: decodeFromFieldsWithTypes("address", item.fields.staker_address),
+      stakeActivationEpoch: decodeFromFieldsWithTypes("u64", item.fields.stake_activation_epoch),
+      unstakingEpoch: decodeFromFieldsWithTypes("u64", item.fields.unstaking_epoch),
+      principalAmount: decodeFromFieldsWithTypes("u64", item.fields.principal_amount),
       rewardAmount: decodeFromFieldsWithTypes("u64", item.fields.reward_amount),
     });
   }
 
   static fromBcs(data: Uint8Array): UnstakingRequestEvent {
-    return UnstakingRequestEvent.fromFields(
-      UnstakingRequestEvent.bcs.parse(data),
-    );
+    return UnstakingRequestEvent.fromFields(UnstakingRequestEvent.bcs.parse(data));
   }
 
   toJSONField() {
@@ -206,11 +183,7 @@ export class UnstakingRequestEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UnstakingRequestEvent {
@@ -218,10 +191,7 @@ export class UnstakingRequestEvent implements StructClass {
       poolId: decodeFromJSONField(ID.reified(), field.poolId),
       validatorAddress: decodeFromJSONField("address", field.validatorAddress),
       stakerAddress: decodeFromJSONField("address", field.stakerAddress),
-      stakeActivationEpoch: decodeFromJSONField(
-        "u64",
-        field.stakeActivationEpoch,
-      ),
+      stakeActivationEpoch: decodeFromJSONField("u64", field.stakeActivationEpoch),
       unstakingEpoch: decodeFromJSONField("u64", field.unstakingEpoch),
       principalAmount: decodeFromJSONField("u64", field.principalAmount),
       rewardAmount: decodeFromJSONField("u64", field.rewardAmount),
@@ -250,11 +220,8 @@ export class UnstakingRequestEvent implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): UnstakingRequestEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isUnstakingRequestEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a UnstakingRequestEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isUnstakingRequestEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a UnstakingRequestEvent object`);
       }
 
       return UnstakingRequestEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -267,23 +234,13 @@ export class UnstakingRequestEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<UnstakingRequestEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<UnstakingRequestEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching UnstakingRequestEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching UnstakingRequestEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isUnstakingRequestEvent(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a UnstakingRequestEvent object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isUnstakingRequestEvent(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a UnstakingRequestEvent object`);
     }
 
     return UnstakingRequestEvent.fromSuiObjectData(res.data);

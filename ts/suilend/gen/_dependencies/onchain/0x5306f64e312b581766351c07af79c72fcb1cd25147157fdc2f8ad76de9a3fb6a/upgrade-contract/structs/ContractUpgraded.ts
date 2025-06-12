@@ -30,10 +30,7 @@ export interface ContractUpgradedFields {
   newContract: ToField<ID>;
 }
 
-export type ContractUpgradedReified = Reified<
-  ContractUpgraded,
-  ContractUpgradedFields
->;
+export type ContractUpgradedReified = Reified<ContractUpgraded, ContractUpgradedFields>;
 
 /**
  * Move struct: `ContractUpgraded`
@@ -75,20 +72,15 @@ export class ContractUpgraded implements StructClass {
       typeArgs: [] as [],
       isPhantom: ContractUpgraded.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ContractUpgraded.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ContractUpgraded.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ContractUpgraded.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ContractUpgraded.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ContractUpgraded.fromBcs(data),
       bcs: ContractUpgraded.bcs,
       fromJSONField: (field: any) => ContractUpgraded.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ContractUpgraded.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ContractUpgraded.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ContractUpgraded.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ContractUpgraded.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ContractUpgraded.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ContractUpgraded.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ContractUpgraded.fetch(client, id),
       new: (fields: ContractUpgradedFields) => {
         return new ContractUpgraded([], fields);
       },
@@ -127,14 +119,8 @@ export class ContractUpgraded implements StructClass {
     }
 
     return ContractUpgraded.reified().new({
-      oldContract: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.old_contract,
-      ),
-      newContract: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.new_contract,
-      ),
+      oldContract: decodeFromFieldsWithTypes(ID.reified(), item.fields.old_contract),
+      newContract: decodeFromFieldsWithTypes(ID.reified(), item.fields.new_contract),
     });
   }
 
@@ -150,11 +136,7 @@ export class ContractUpgraded implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ContractUpgraded {
@@ -177,20 +159,15 @@ export class ContractUpgraded implements StructClass {
       throw new Error("not an object");
     }
     if (!isContractUpgraded(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ContractUpgraded object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ContractUpgraded object`);
     }
     return ContractUpgraded.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ContractUpgraded {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isContractUpgraded(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ContractUpgraded object`);
+      if (data.bcs.dataType !== "moveObject" || !isContractUpgraded(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ContractUpgraded object`);
       }
 
       return ContractUpgraded.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -206,14 +183,9 @@ export class ContractUpgraded implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ContractUpgraded> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ContractUpgraded object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ContractUpgraded object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isContractUpgraded(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isContractUpgraded(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ContractUpgraded object`);
     }
 

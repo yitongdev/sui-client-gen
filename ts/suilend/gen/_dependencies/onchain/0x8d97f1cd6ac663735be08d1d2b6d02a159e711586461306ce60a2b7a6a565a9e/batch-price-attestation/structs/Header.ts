@@ -81,16 +81,13 @@ export class Header implements StructClass {
       isPhantom: Header.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Header.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Header.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Header.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Header.fromBcs(data),
       bcs: Header.bcs,
       fromJSONField: (field: any) => Header.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Header.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Header.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Header.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Header.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Header.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Header.fetch(client, id),
       new: (fields: HeaderFields) => {
         return new Header([], fields);
@@ -159,11 +156,7 @@ export class Header implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Header {
@@ -189,9 +182,7 @@ export class Header implements StructClass {
       throw new Error("not an object");
     }
     if (!isHeader(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Header object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Header object`);
     }
     return Header.fromFieldsWithTypes(content);
   }
@@ -199,7 +190,7 @@ export class Header implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Header {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isHeader(data.bcs.type)) {
-        throw new Error(`object at is not a Header object`);
+        throw new Error(`object at ${data.objectId} is not a Header object`);
       }
 
       return Header.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -215,14 +206,9 @@ export class Header implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Header> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Header object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Header object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isHeader(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isHeader(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Header object`);
     }
 

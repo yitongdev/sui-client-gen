@@ -66,24 +66,18 @@ export class Party implements StructClass {
   static reified(): PartyReified {
     return {
       typeName: Party.$typeName,
-      fullTypeName: composeSuiType(
-        Party.$typeName,
-        ...[],
-      ) as `${typeof PKG_V35}::party::Party`,
+      fullTypeName: composeSuiType(Party.$typeName, ...[]) as `${typeof PKG_V35}::party::Party`,
       typeArgs: [] as [],
       isPhantom: Party.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Party.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Party.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Party.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Party.fromBcs(data),
       bcs: Party.bcs,
       fromJSONField: (field: any) => Party.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Party.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Party.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Party.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Party.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Party.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Party.fetch(client, id),
       new: (fields: PartyFields) => {
         return new Party([], fields);
@@ -119,10 +113,7 @@ export class Party implements StructClass {
   static fromFields(fields: Record<string, any>): Party {
     return Party.reified().new({
       default: decodeFromFields(Permissions1.reified(), fields.default),
-      members: decodeFromFields(
-        VecMap.reified("address", Permissions1.reified()),
-        fields.members,
-      ),
+      members: decodeFromFields(VecMap.reified("address", Permissions1.reified()), fields.members),
     });
   }
 
@@ -132,10 +123,7 @@ export class Party implements StructClass {
     }
 
     return Party.reified().new({
-      default: decodeFromFieldsWithTypes(
-        Permissions1.reified(),
-        item.fields.default,
-      ),
+      default: decodeFromFieldsWithTypes(Permissions1.reified(), item.fields.default),
       members: decodeFromFieldsWithTypes(
         VecMap.reified("address", Permissions1.reified()),
         item.fields.members,
@@ -155,11 +143,7 @@ export class Party implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Party {
@@ -185,9 +169,7 @@ export class Party implements StructClass {
       throw new Error("not an object");
     }
     if (!isParty(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Party object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Party object`);
     }
     return Party.fromFieldsWithTypes(content);
   }
@@ -195,7 +177,7 @@ export class Party implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Party {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isParty(data.bcs.type)) {
-        throw new Error(`object at is not a Party object`);
+        throw new Error(`object at ${data.objectId} is not a Party object`);
       }
 
       return Party.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -211,14 +193,9 @@ export class Party implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Party> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Party object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Party object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isParty(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isParty(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Party object`);
     }
 

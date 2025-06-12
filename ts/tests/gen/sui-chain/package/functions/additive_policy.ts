@@ -9,8 +9,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @returns TransactionResult - The transaction result
  */
 export function additivePolicy(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::package::additive_policy`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::package::additive_policy`, arguments: [] });
 }

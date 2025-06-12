@@ -33,9 +33,7 @@ export function isPerTypeList(type: string): boolean {
 export interface PerTypeListFields {
   id: ToField<UID>;
   deniedCount: ToField<Table<"address", "u64">>;
-  deniedAddresses: ToField<
-    Table<ToPhantom<Vector<"u8">>, ToPhantom<VecSet<"address">>>
-  >;
+  deniedAddresses: ToField<Table<ToPhantom<Vector<"u8">>, ToPhantom<VecSet<"address">>>>;
 }
 
 export type PerTypeListReified = Reified<PerTypeList, PerTypeListFields>;
@@ -58,9 +56,7 @@ export class PerTypeList implements StructClass {
 
   readonly id: ToField<UID>;
   readonly deniedCount: ToField<Table<"address", "u64">>;
-  readonly deniedAddresses: ToField<
-    Table<ToPhantom<Vector<"u8">>, ToPhantom<VecSet<"address">>>
-  >;
+  readonly deniedAddresses: ToField<Table<ToPhantom<Vector<"u8">>, ToPhantom<VecSet<"address">>>>;
 
   private constructor(typeArgs: [], fields: PerTypeListFields) {
     this.$fullTypeName = composeSuiType(
@@ -84,20 +80,15 @@ export class PerTypeList implements StructClass {
       typeArgs: [] as [],
       isPhantom: PerTypeList.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PerTypeList.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PerTypeList.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => PerTypeList.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PerTypeList.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PerTypeList.fromBcs(data),
       bcs: PerTypeList.bcs,
       fromJSONField: (field: any) => PerTypeList.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PerTypeList.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PerTypeList.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PerTypeList.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PerTypeList.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PerTypeList.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PerTypeList.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PerTypeList.fetch(client, id),
       new: (fields: PerTypeListFields) => {
         return new PerTypeList([], fields);
       },
@@ -175,11 +166,7 @@ export class PerTypeList implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PerTypeList {
@@ -212,9 +199,7 @@ export class PerTypeList implements StructClass {
       throw new Error("not an object");
     }
     if (!isPerTypeList(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PerTypeList object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PerTypeList object`);
     }
     return PerTypeList.fromFieldsWithTypes(content);
   }
@@ -222,7 +207,7 @@ export class PerTypeList implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): PerTypeList {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isPerTypeList(data.bcs.type)) {
-        throw new Error(`object at is not a PerTypeList object`);
+        throw new Error(`object at ${data.objectId} is not a PerTypeList object`);
       }
 
       return PerTypeList.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -238,14 +223,9 @@ export class PerTypeList implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<PerTypeList> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PerTypeList object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PerTypeList object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPerTypeList(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPerTypeList(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PerTypeList object`);
     }
 

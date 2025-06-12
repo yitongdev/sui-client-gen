@@ -1,10 +1,6 @@
 import { GenericArg, vector } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface AppendArgs {
   vecT01: Array<GenericArg> | TransactionArgument;
@@ -20,17 +16,10 @@ export interface AppendArgs {
  * @param vecT01 - Function parameter
  * @param vecT02 - Function parameter
  */
-export function append(
-  tx: Transaction,
-  typeArg: string,
-  args: AppendArgs,
-): TransactionResult {
+export function append(tx: Transaction, typeArg: string, args: AppendArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::vector::append`,
     typeArguments: [typeArg],
-    arguments: [
-      vector(tx, `${typeArg}`, args.vecT01),
-      vector(tx, `${typeArg}`, args.vecT02),
-    ],
+    arguments: [vector(tx, `${typeArg}`, args.vecT01), vector(tx, `${typeArg}`, args.vecT02)],
   });
 }

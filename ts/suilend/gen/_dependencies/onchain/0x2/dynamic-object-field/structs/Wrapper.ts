@@ -36,10 +36,7 @@ export interface WrapperFields<T0 extends TypeArgument> {
   name: ToField<T0>;
 }
 
-export type WrapperReified<T0 extends TypeArgument> = Reified<
-  Wrapper<T0>,
-  WrapperFields<T0>
->;
+export type WrapperReified<T0 extends TypeArgument> = Reified<Wrapper<T0>, WrapperFields<T0>>;
 
 /**
  * Move struct: `Wrapper`
@@ -83,20 +80,15 @@ export class Wrapper<T0 extends TypeArgument> implements StructClass {
       typeArgs: [extractType(T0)] as [ToTypeStr<ToTypeArgument<T0>>],
       isPhantom: Wrapper.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        Wrapper.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Wrapper.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => Wrapper.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Wrapper.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Wrapper.fromBcs(T0, data),
       bcs: Wrapper.bcs(toBcs(T0)),
       fromJSONField: (field: any) => Wrapper.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Wrapper.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Wrapper.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Wrapper.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Wrapper.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Wrapper.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Wrapper.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Wrapper.fetch(client, T0, id),
       new: (fields: WrapperFields<ToTypeArgument<T0>>) => {
         return new Wrapper([extractType(T0)], fields);
       },
@@ -128,9 +120,7 @@ export class Wrapper<T0 extends TypeArgument> implements StructClass {
     typeArg: T0,
     fields: Record<string, any>,
   ): Wrapper<ToTypeArgument<T0>> {
-    return Wrapper.reified(typeArg).new({
-      name: decodeFromFields(typeArg, fields.name),
-    });
+    return Wrapper.reified(typeArg).new({ name: decodeFromFields(typeArg, fields.name) });
   }
 
   static fromFieldsWithTypes<T0 extends Reified<TypeArgument, any>>(
@@ -161,20 +151,14 @@ export class Wrapper<T0 extends TypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
     field: any,
   ): Wrapper<ToTypeArgument<T0>> {
-    return Wrapper.reified(typeArg).new({
-      name: decodeFromJSONField(typeArg, field.name),
-    });
+    return Wrapper.reified(typeArg).new({ name: decodeFromJSONField(typeArg, field.name) });
   }
 
   static fromJSON<T0 extends Reified<TypeArgument, any>>(
@@ -201,9 +185,7 @@ export class Wrapper<T0 extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isWrapper(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Wrapper object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Wrapper object`);
     }
     return Wrapper.fromFieldsWithTypes(typeArg, content);
   }
@@ -214,7 +196,7 @@ export class Wrapper<T0 extends TypeArgument> implements StructClass {
   ): Wrapper<ToTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isWrapper(data.bcs.type)) {
-        throw new Error(`object at is not a Wrapper object`);
+        throw new Error(`object at ${data.objectId} is not a Wrapper object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -249,14 +231,9 @@ export class Wrapper<T0 extends TypeArgument> implements StructClass {
   ): Promise<Wrapper<ToTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Wrapper object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Wrapper object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isWrapper(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isWrapper(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Wrapper object`);
     }
 

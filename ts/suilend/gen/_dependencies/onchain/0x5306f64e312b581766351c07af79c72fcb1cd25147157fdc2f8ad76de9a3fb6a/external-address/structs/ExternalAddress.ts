@@ -29,10 +29,7 @@ export interface ExternalAddressFields {
   value: ToField<Bytes32>;
 }
 
-export type ExternalAddressReified = Reified<
-  ExternalAddress,
-  ExternalAddressFields
->;
+export type ExternalAddressReified = Reified<ExternalAddress, ExternalAddressFields>;
 
 /**
  * Move struct: `ExternalAddress`
@@ -72,20 +69,15 @@ export class ExternalAddress implements StructClass {
       typeArgs: [] as [],
       isPhantom: ExternalAddress.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ExternalAddress.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ExternalAddress.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ExternalAddress.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ExternalAddress.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ExternalAddress.fromBcs(data),
       bcs: ExternalAddress.bcs,
       fromJSONField: (field: any) => ExternalAddress.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ExternalAddress.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ExternalAddress.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ExternalAddress.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ExternalAddress.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ExternalAddress.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ExternalAddress.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ExternalAddress.fetch(client, id),
       new: (fields: ExternalAddressFields) => {
         return new ExternalAddress([], fields);
       },
@@ -137,11 +129,7 @@ export class ExternalAddress implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ExternalAddress {
@@ -163,20 +151,15 @@ export class ExternalAddress implements StructClass {
       throw new Error("not an object");
     }
     if (!isExternalAddress(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ExternalAddress object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ExternalAddress object`);
     }
     return ExternalAddress.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ExternalAddress {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isExternalAddress(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ExternalAddress object`);
+      if (data.bcs.dataType !== "moveObject" || !isExternalAddress(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ExternalAddress object`);
       }
 
       return ExternalAddress.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -192,14 +175,9 @@ export class ExternalAddress implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ExternalAddress> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ExternalAddress object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ExternalAddress object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isExternalAddress(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isExternalAddress(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ExternalAddress object`);
     }
 

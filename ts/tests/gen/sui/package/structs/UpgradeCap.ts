@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { ID, UID } from "../../object/structs/index.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -78,20 +74,15 @@ export class UpgradeCap implements StructClass {
       typeArgs: [] as [],
       isPhantom: UpgradeCap.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        UpgradeCap.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        UpgradeCap.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => UpgradeCap.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => UpgradeCap.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => UpgradeCap.fromBcs(data),
       bcs: UpgradeCap.bcs,
       fromJSONField: (field: any) => UpgradeCap.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => UpgradeCap.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        UpgradeCap.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        UpgradeCap.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        UpgradeCap.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => UpgradeCap.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => UpgradeCap.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => UpgradeCap.fetch(client, id),
       new: (fields: UpgradeCapFields) => {
         return new UpgradeCap([], fields);
       },
@@ -155,11 +146,7 @@ export class UpgradeCap implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UpgradeCap {
@@ -184,9 +171,7 @@ export class UpgradeCap implements StructClass {
       throw new Error("not an object");
     }
     if (!isUpgradeCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a UpgradeCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a UpgradeCap object`);
     }
     return UpgradeCap.fromFieldsWithTypes(content);
   }
@@ -194,7 +179,7 @@ export class UpgradeCap implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): UpgradeCap {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isUpgradeCap(data.bcs.type)) {
-        throw new Error(`object at is not a UpgradeCap object`);
+        throw new Error(`object at ${data.objectId} is not a UpgradeCap object`);
       }
 
       return UpgradeCap.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -210,14 +195,9 @@ export class UpgradeCap implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<UpgradeCap> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching UpgradeCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching UpgradeCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isUpgradeCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isUpgradeCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a UpgradeCap object`);
     }
 

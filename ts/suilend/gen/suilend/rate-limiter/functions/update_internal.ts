@@ -20,10 +20,7 @@ export interface UpdateInternalArgs {
  * @param rateLimiter - Function parameter
  * @param u64 - Function parameter
  */
-export function updateInternal(
-  tx: Transaction,
-  args: UpdateInternalArgs,
-): TransactionResult {
+export function updateInternal(tx: Transaction, args: UpdateInternalArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::rate_limiter::update_internal`,
     arguments: [obj(tx, args.rateLimiter), pure(tx, args.u64, `u64`)],

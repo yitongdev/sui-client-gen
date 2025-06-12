@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface ForgiveArgs {
   obligation: TransactionObjectInput;
@@ -25,11 +21,7 @@ export interface ForgiveArgs {
  * @param decimal - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function forgive(
-  tx: Transaction,
-  typeArg: string,
-  args: ForgiveArgs,
-): TransactionResult {
+export function forgive(tx: Transaction, typeArg: string, args: ForgiveArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::obligation::forgive`,
     typeArguments: [typeArg],

@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface PvkFromBytesArgs {
   vecU81: Array<number | TransactionArgument> | TransactionArgument;
@@ -24,10 +20,7 @@ export interface PvkFromBytesArgs {
  * @param vecU84 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function pvkFromBytes(
-  tx: Transaction,
-  args: PvkFromBytesArgs,
-): TransactionResult {
+export function pvkFromBytes(tx: Transaction, args: PvkFromBytesArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::groth16::pvk_from_bytes`,
     arguments: [

@@ -10,11 +10,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param tx - The transaction object
  * @param obj - Function parameter
  */
-export function shareObject(
-  tx: Transaction,
-  typeArg: string,
-  obj: GenericArg,
-): TransactionResult {
+export function shareObject(tx: Transaction, typeArg: string, obj: GenericArg): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::transfer::share_object`,
     typeArguments: [typeArg],

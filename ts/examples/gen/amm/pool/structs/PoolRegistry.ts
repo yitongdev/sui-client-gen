@@ -11,11 +11,7 @@ import {
   phantom,
   ToTypeStr as ToPhantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { UID } from "../../../sui/object/structs/index.js";
 import { Table } from "../../../sui/table/structs/index.js";
 import { PKG_V1 } from "../../constants.js";
@@ -76,20 +72,15 @@ export class PoolRegistry implements StructClass {
       typeArgs: [] as [],
       isPhantom: PoolRegistry.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PoolRegistry.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PoolRegistry.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => PoolRegistry.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PoolRegistry.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PoolRegistry.fromBcs(data),
       bcs: PoolRegistry.bcs,
       fromJSONField: (field: any) => PoolRegistry.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PoolRegistry.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PoolRegistry.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PoolRegistry.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PoolRegistry.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PoolRegistry.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PoolRegistry.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PoolRegistry.fetch(client, id),
       new: (fields: PoolRegistryFields) => {
         return new PoolRegistry([], fields);
       },
@@ -119,10 +110,7 @@ export class PoolRegistry implements StructClass {
     return PoolRegistry.reified().new({
       id: decodeFromFields(UID.reified(), fields.id),
       table: decodeFromFields(
-        Table.reified(
-          reified.phantom(PoolRegistryItem1.reified()),
-          reified.phantom("bool"),
-        ),
+        Table.reified(reified.phantom(PoolRegistryItem1.reified()), reified.phantom("bool")),
         fields.table,
       ),
     });
@@ -136,10 +124,7 @@ export class PoolRegistry implements StructClass {
     return PoolRegistry.reified().new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
       table: decodeFromFieldsWithTypes(
-        Table.reified(
-          reified.phantom(PoolRegistryItem1.reified()),
-          reified.phantom("bool"),
-        ),
+        Table.reified(reified.phantom(PoolRegistryItem1.reified()), reified.phantom("bool")),
         item.fields.table,
       ),
     });
@@ -157,21 +142,14 @@ export class PoolRegistry implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PoolRegistry {
     return PoolRegistry.reified().new({
       id: decodeFromJSONField(UID.reified(), field.id),
       table: decodeFromJSONField(
-        Table.reified(
-          reified.phantom(PoolRegistryItem1.reified()),
-          reified.phantom("bool"),
-        ),
+        Table.reified(reified.phantom(PoolRegistryItem1.reified()), reified.phantom("bool")),
         field.table,
       ),
     });
@@ -190,20 +168,15 @@ export class PoolRegistry implements StructClass {
       throw new Error("not an object");
     }
     if (!isPoolRegistry(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PoolRegistry object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PoolRegistry object`);
     }
     return PoolRegistry.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): PoolRegistry {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPoolRegistry(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PoolRegistry object`);
+      if (data.bcs.dataType !== "moveObject" || !isPoolRegistry(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PoolRegistry object`);
       }
 
       return PoolRegistry.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -219,14 +192,9 @@ export class PoolRegistry implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<PoolRegistry> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PoolRegistry object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PoolRegistry object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPoolRegistry(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPoolRegistry(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PoolRegistry object`);
     }
 

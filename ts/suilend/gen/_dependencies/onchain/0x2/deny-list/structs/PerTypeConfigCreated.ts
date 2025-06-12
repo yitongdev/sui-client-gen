@@ -31,10 +31,7 @@ export interface PerTypeConfigCreatedFields {
   configId: ToField<ID>;
 }
 
-export type PerTypeConfigCreatedReified = Reified<
-  PerTypeConfigCreated,
-  PerTypeConfigCreatedFields
->;
+export type PerTypeConfigCreatedReified = Reified<PerTypeConfigCreated, PerTypeConfigCreatedFields>;
 
 /**
  * Move struct: `PerTypeConfigCreated`
@@ -76,21 +73,18 @@ export class PerTypeConfigCreated implements StructClass {
       typeArgs: [] as [],
       isPhantom: PerTypeConfigCreated.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PerTypeConfigCreated.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => PerTypeConfigCreated.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         PerTypeConfigCreated.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PerTypeConfigCreated.fromBcs(data),
       bcs: PerTypeConfigCreated.bcs,
       fromJSONField: (field: any) => PerTypeConfigCreated.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        PerTypeConfigCreated.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => PerTypeConfigCreated.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         PerTypeConfigCreated.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         PerTypeConfigCreated.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PerTypeConfigCreated.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => PerTypeConfigCreated.fetch(client, id),
       new: (fields: PerTypeConfigCreatedFields) => {
         return new PerTypeConfigCreated([], fields);
       },
@@ -135,9 +129,7 @@ export class PerTypeConfigCreated implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): PerTypeConfigCreated {
-    return PerTypeConfigCreated.fromFields(
-      PerTypeConfigCreated.bcs.parse(data),
-    );
+    return PerTypeConfigCreated.fromFields(PerTypeConfigCreated.bcs.parse(data));
   }
 
   toJSONField() {
@@ -148,11 +140,7 @@ export class PerTypeConfigCreated implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PerTypeConfigCreated {
@@ -184,11 +172,8 @@ export class PerTypeConfigCreated implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): PerTypeConfigCreated {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPerTypeConfigCreated(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PerTypeConfigCreated object`);
+      if (data.bcs.dataType !== "moveObject" || !isPerTypeConfigCreated(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PerTypeConfigCreated object`);
       }
 
       return PerTypeConfigCreated.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -201,23 +186,13 @@ export class PerTypeConfigCreated implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<PerTypeConfigCreated> {
+  static async fetch(client: SuiClient, id: string): Promise<PerTypeConfigCreated> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PerTypeConfigCreated object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PerTypeConfigCreated object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPerTypeConfigCreated(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a PerTypeConfigCreated object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPerTypeConfigCreated(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a PerTypeConfigCreated object`);
     }
 
     return PerTypeConfigCreated.fromSuiObjectData(res.data);

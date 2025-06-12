@@ -100,18 +100,14 @@ export class Validator implements StructClass {
       isPhantom: Validator.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Validator.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Validator.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Validator.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Validator.fromBcs(data),
       bcs: Validator.bcs,
       fromJSONField: (field: any) => Validator.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Validator.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Validator.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Validator.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        Validator.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => Validator.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Validator.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => Validator.fetch(client, id),
       new: (fields: ValidatorFields) => {
         return new Validator([], fields);
       },
@@ -155,10 +151,7 @@ export class Validator implements StructClass {
       commissionRate: decodeFromFields("u64", fields.commission_rate),
       nextEpochStake: decodeFromFields("u64", fields.next_epoch_stake),
       nextEpochGasPrice: decodeFromFields("u64", fields.next_epoch_gas_price),
-      nextEpochCommissionRate: decodeFromFields(
-        "u64",
-        fields.next_epoch_commission_rate,
-      ),
+      nextEpochCommissionRate: decodeFromFields("u64", fields.next_epoch_commission_rate),
       extraFields: decodeFromFields(Bag.reified(), fields.extra_fields),
     });
   }
@@ -169,40 +162,19 @@ export class Validator implements StructClass {
     }
 
     return Validator.reified().new({
-      metadata: decodeFromFieldsWithTypes(
-        ValidatorMetadata1.reified(),
-        item.fields.metadata,
-      ),
+      metadata: decodeFromFieldsWithTypes(ValidatorMetadata1.reified(), item.fields.metadata),
       votingPower: decodeFromFieldsWithTypes("u64", item.fields.voting_power),
-      operationCapId: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.operation_cap_id,
-      ),
+      operationCapId: decodeFromFieldsWithTypes(ID.reified(), item.fields.operation_cap_id),
       gasPrice: decodeFromFieldsWithTypes("u64", item.fields.gas_price),
-      stakingPool: decodeFromFieldsWithTypes(
-        StakingPool.reified(),
-        item.fields.staking_pool,
-      ),
-      commissionRate: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.commission_rate,
-      ),
-      nextEpochStake: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.next_epoch_stake,
-      ),
-      nextEpochGasPrice: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.next_epoch_gas_price,
-      ),
+      stakingPool: decodeFromFieldsWithTypes(StakingPool.reified(), item.fields.staking_pool),
+      commissionRate: decodeFromFieldsWithTypes("u64", item.fields.commission_rate),
+      nextEpochStake: decodeFromFieldsWithTypes("u64", item.fields.next_epoch_stake),
+      nextEpochGasPrice: decodeFromFieldsWithTypes("u64", item.fields.next_epoch_gas_price),
       nextEpochCommissionRate: decodeFromFieldsWithTypes(
         "u64",
         item.fields.next_epoch_commission_rate,
       ),
-      extraFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.extra_fields,
-      ),
+      extraFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.extra_fields),
     });
   }
 
@@ -226,33 +198,20 @@ export class Validator implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Validator {
     return Validator.reified().new({
-      metadata: decodeFromJSONField(
-        ValidatorMetadata1.reified(),
-        field.metadata,
-      ),
+      metadata: decodeFromJSONField(ValidatorMetadata1.reified(), field.metadata),
       votingPower: decodeFromJSONField("u64", field.votingPower),
       operationCapId: decodeFromJSONField(ID.reified(), field.operationCapId),
       gasPrice: decodeFromJSONField("u64", field.gasPrice),
-      stakingPool: decodeFromJSONField(
-        StakingPool.reified(),
-        field.stakingPool,
-      ),
+      stakingPool: decodeFromJSONField(StakingPool.reified(), field.stakingPool),
       commissionRate: decodeFromJSONField("u64", field.commissionRate),
       nextEpochStake: decodeFromJSONField("u64", field.nextEpochStake),
       nextEpochGasPrice: decodeFromJSONField("u64", field.nextEpochGasPrice),
-      nextEpochCommissionRate: decodeFromJSONField(
-        "u64",
-        field.nextEpochCommissionRate,
-      ),
+      nextEpochCommissionRate: decodeFromJSONField("u64", field.nextEpochCommissionRate),
       extraFields: decodeFromJSONField(Bag.reified(), field.extraFields),
     });
   }
@@ -270,9 +229,7 @@ export class Validator implements StructClass {
       throw new Error("not an object");
     }
     if (!isValidator(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Validator object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Validator object`);
     }
     return Validator.fromFieldsWithTypes(content);
   }
@@ -280,7 +237,7 @@ export class Validator implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Validator {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isValidator(data.bcs.type)) {
-        throw new Error(`object at is not a Validator object`);
+        throw new Error(`object at ${data.objectId} is not a Validator object`);
       }
 
       return Validator.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -296,14 +253,9 @@ export class Validator implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Validator> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Validator object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Validator object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isValidator(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isValidator(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Validator object`);
     }
 

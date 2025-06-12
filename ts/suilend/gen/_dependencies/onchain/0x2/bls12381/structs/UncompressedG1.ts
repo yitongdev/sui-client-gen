@@ -28,10 +28,7 @@ export interface UncompressedG1Fields {
   dummyField: ToField<"bool">;
 }
 
-export type UncompressedG1Reified = Reified<
-  UncompressedG1,
-  UncompressedG1Fields
->;
+export type UncompressedG1Reified = Reified<UncompressedG1, UncompressedG1Fields>;
 
 /**
  * Move struct: `UncompressedG1`
@@ -71,20 +68,15 @@ export class UncompressedG1 implements StructClass {
       typeArgs: [] as [],
       isPhantom: UncompressedG1.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        UncompressedG1.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        UncompressedG1.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => UncompressedG1.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => UncompressedG1.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => UncompressedG1.fromBcs(data),
       bcs: UncompressedG1.bcs,
       fromJSONField: (field: any) => UncompressedG1.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => UncompressedG1.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        UncompressedG1.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        UncompressedG1.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        UncompressedG1.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => UncompressedG1.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => UncompressedG1.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => UncompressedG1.fetch(client, id),
       new: (fields: UncompressedG1Fields) => {
         return new UncompressedG1([], fields);
       },
@@ -136,11 +128,7 @@ export class UncompressedG1 implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UncompressedG1 {
@@ -162,20 +150,15 @@ export class UncompressedG1 implements StructClass {
       throw new Error("not an object");
     }
     if (!isUncompressedG1(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a UncompressedG1 object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a UncompressedG1 object`);
     }
     return UncompressedG1.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): UncompressedG1 {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isUncompressedG1(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a UncompressedG1 object`);
+      if (data.bcs.dataType !== "moveObject" || !isUncompressedG1(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a UncompressedG1 object`);
       }
 
       return UncompressedG1.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,14 +174,9 @@ export class UncompressedG1 implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<UncompressedG1> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching UncompressedG1 object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching UncompressedG1 object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isUncompressedG1(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isUncompressedG1(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a UncompressedG1 object`);
     }
 

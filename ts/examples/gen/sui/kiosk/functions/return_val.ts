@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface ReturnValArgs {
   self: TransactionObjectInput;
@@ -30,10 +26,6 @@ export function returnVal(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::return_val`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.self),
-      generic(tx, `${typeArg}`, args.item),
-      obj(tx, args.borrow),
-    ],
+    arguments: [obj(tx, args.self), generic(tx, `${typeArg}`, args.item), obj(tx, args.borrow)],
   });
 }

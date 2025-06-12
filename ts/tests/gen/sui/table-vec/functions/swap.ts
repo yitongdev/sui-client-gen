@@ -23,18 +23,10 @@ export interface SwapArgs {
  * @param i - Function parameter
  * @param j - Function parameter
  */
-export function swap(
-  tx: Transaction,
-  typeArg: string,
-  args: SwapArgs,
-): TransactionResult {
+export function swap(tx: Transaction, typeArg: string, args: SwapArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::table_vec::swap`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.t),
-      pure(tx, args.i, `u64`),
-      pure(tx, args.j, `u64`),
-    ],
+    arguments: [obj(tx, args.t), pure(tx, args.i, `u64`), pure(tx, args.j, `u64`)],
   });
 }

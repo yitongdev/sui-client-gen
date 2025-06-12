@@ -33,10 +33,7 @@ export interface UpdateGuardianSetFields {
   guardians: ToField<Vector<Guardian>>;
 }
 
-export type UpdateGuardianSetReified = Reified<
-  UpdateGuardianSet,
-  UpdateGuardianSetFields
->;
+export type UpdateGuardianSetReified = Reified<UpdateGuardianSet, UpdateGuardianSetFields>;
 
 /**
  * Move struct: `UpdateGuardianSet`
@@ -78,20 +75,15 @@ export class UpdateGuardianSet implements StructClass {
       typeArgs: [] as [],
       isPhantom: UpdateGuardianSet.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        UpdateGuardianSet.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        UpdateGuardianSet.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => UpdateGuardianSet.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => UpdateGuardianSet.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => UpdateGuardianSet.fromBcs(data),
       bcs: UpdateGuardianSet.bcs,
       fromJSONField: (field: any) => UpdateGuardianSet.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => UpdateGuardianSet.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        UpdateGuardianSet.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        UpdateGuardianSet.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        UpdateGuardianSet.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => UpdateGuardianSet.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => UpdateGuardianSet.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => UpdateGuardianSet.fetch(client, id),
       new: (fields: UpdateGuardianSetFields) => {
         return new UpdateGuardianSet([], fields);
       },
@@ -120,10 +112,7 @@ export class UpdateGuardianSet implements StructClass {
   static fromFields(fields: Record<string, any>): UpdateGuardianSet {
     return UpdateGuardianSet.reified().new({
       newIndex: decodeFromFields("u32", fields.new_index),
-      guardians: decodeFromFields(
-        reified.vector(Guardian.reified()),
-        fields.guardians,
-      ),
+      guardians: decodeFromFields(reified.vector(Guardian.reified()), fields.guardians),
     });
   }
 
@@ -148,28 +137,18 @@ export class UpdateGuardianSet implements StructClass {
   toJSONField() {
     return {
       newIndex: this.newIndex,
-      guardians: fieldToJSON<Vector<Guardian>>(
-        `vector<${Guardian.$typeName}>`,
-        this.guardians,
-      ),
+      guardians: fieldToJSON<Vector<Guardian>>(`vector<${Guardian.$typeName}>`, this.guardians),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UpdateGuardianSet {
     return UpdateGuardianSet.reified().new({
       newIndex: decodeFromJSONField("u32", field.newIndex),
-      guardians: decodeFromJSONField(
-        reified.vector(Guardian.reified()),
-        field.guardians,
-      ),
+      guardians: decodeFromJSONField(reified.vector(Guardian.reified()), field.guardians),
     });
   }
 
@@ -186,20 +165,15 @@ export class UpdateGuardianSet implements StructClass {
       throw new Error("not an object");
     }
     if (!isUpdateGuardianSet(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a UpdateGuardianSet object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a UpdateGuardianSet object`);
     }
     return UpdateGuardianSet.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): UpdateGuardianSet {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isUpdateGuardianSet(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a UpdateGuardianSet object`);
+      if (data.bcs.dataType !== "moveObject" || !isUpdateGuardianSet(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a UpdateGuardianSet object`);
       }
 
       return UpdateGuardianSet.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -212,20 +186,12 @@ export class UpdateGuardianSet implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<UpdateGuardianSet> {
+  static async fetch(client: SuiClient, id: string): Promise<UpdateGuardianSet> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching UpdateGuardianSet object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching UpdateGuardianSet object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isUpdateGuardianSet(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isUpdateGuardianSet(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a UpdateGuardianSet object`);
     }
 

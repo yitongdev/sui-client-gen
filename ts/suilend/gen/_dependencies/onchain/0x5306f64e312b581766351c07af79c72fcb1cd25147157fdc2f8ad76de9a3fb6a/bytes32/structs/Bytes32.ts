@@ -72,16 +72,13 @@ export class Bytes32 implements StructClass {
       isPhantom: Bytes32.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Bytes32.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Bytes32.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Bytes32.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Bytes32.fromBcs(data),
       bcs: Bytes32.bcs,
       fromJSONField: (field: any) => Bytes32.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Bytes32.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Bytes32.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Bytes32.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Bytes32.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Bytes32.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Bytes32.fetch(client, id),
       new: (fields: Bytes32Fields) => {
         return new Bytes32([], fields);
@@ -108,9 +105,7 @@ export class Bytes32 implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): Bytes32 {
-    return Bytes32.reified().new({
-      data: decodeFromFields(reified.vector("u8"), fields.data),
-    });
+    return Bytes32.reified().new({ data: decodeFromFields(reified.vector("u8"), fields.data) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): Bytes32 {
@@ -134,17 +129,11 @@ export class Bytes32 implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Bytes32 {
-    return Bytes32.reified().new({
-      data: decodeFromJSONField(reified.vector("u8"), field.data),
-    });
+    return Bytes32.reified().new({ data: decodeFromJSONField(reified.vector("u8"), field.data) });
   }
 
   static fromJSON(json: Record<string, any>): Bytes32 {
@@ -160,9 +149,7 @@ export class Bytes32 implements StructClass {
       throw new Error("not an object");
     }
     if (!isBytes32(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Bytes32 object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Bytes32 object`);
     }
     return Bytes32.fromFieldsWithTypes(content);
   }
@@ -170,7 +157,7 @@ export class Bytes32 implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Bytes32 {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isBytes32(data.bcs.type)) {
-        throw new Error(`object at is not a Bytes32 object`);
+        throw new Error(`object at ${data.objectId} is not a Bytes32 object`);
       }
 
       return Bytes32.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -186,14 +173,9 @@ export class Bytes32 implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Bytes32> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Bytes32 object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Bytes32 object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isBytes32(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isBytes32(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Bytes32 object`);
     }
 

@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -81,20 +77,15 @@ export class RepayEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: RepayEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        RepayEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        RepayEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => RepayEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => RepayEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => RepayEvent.fromBcs(data),
       bcs: RepayEvent.bcs,
       fromJSONField: (field: any) => RepayEvent.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => RepayEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        RepayEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        RepayEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        RepayEvent.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => RepayEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => RepayEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => RepayEvent.fetch(client, id),
       new: (fields: RepayEventFields) => {
         return new RepayEvent([], fields);
       },
@@ -148,23 +139,11 @@ export class RepayEvent implements StructClass {
     }
 
     return RepayEvent.reified().new({
-      lendingMarketId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.lending_market_id,
-      ),
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes("address", item.fields.lending_market_id),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
       reserveId: decodeFromFieldsWithTypes("address", item.fields.reserve_id),
-      obligationId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.obligation_id,
-      ),
-      liquidityAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.liquidity_amount,
-      ),
+      obligationId: decodeFromFieldsWithTypes("address", item.fields.obligation_id),
+      liquidityAmount: decodeFromFieldsWithTypes("u64", item.fields.liquidity_amount),
     });
   }
 
@@ -183,11 +162,7 @@ export class RepayEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): RepayEvent {
@@ -213,9 +188,7 @@ export class RepayEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isRepayEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a RepayEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a RepayEvent object`);
     }
     return RepayEvent.fromFieldsWithTypes(content);
   }
@@ -223,7 +196,7 @@ export class RepayEvent implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): RepayEvent {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isRepayEvent(data.bcs.type)) {
-        throw new Error(`object at is not a RepayEvent object`);
+        throw new Error(`object at ${data.objectId} is not a RepayEvent object`);
       }
 
       return RepayEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -239,14 +212,9 @@ export class RepayEvent implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<RepayEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching RepayEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching RepayEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isRepayEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isRepayEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a RepayEvent object`);
     }
 

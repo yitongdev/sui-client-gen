@@ -20,10 +20,7 @@ export interface TransferArgs {
  * @param c - Function parameter
  * @param recipient - Function parameter
  */
-export function transfer(
-  tx: Transaction,
-  args: TransferArgs,
-): TransactionResult {
+export function transfer(tx: Transaction, args: TransferArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::sui::transfer`,
     arguments: [obj(tx, args.c), pure(tx, args.recipient, `address`)],

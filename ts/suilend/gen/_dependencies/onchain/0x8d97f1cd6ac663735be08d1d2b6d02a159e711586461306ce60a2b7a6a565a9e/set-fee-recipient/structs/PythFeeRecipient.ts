@@ -28,10 +28,7 @@ export interface PythFeeRecipientFields {
   recipient: ToField<"address">;
 }
 
-export type PythFeeRecipientReified = Reified<
-  PythFeeRecipient,
-  PythFeeRecipientFields
->;
+export type PythFeeRecipientReified = Reified<PythFeeRecipient, PythFeeRecipientFields>;
 
 /**
  * Move struct: `PythFeeRecipient`
@@ -71,20 +68,15 @@ export class PythFeeRecipient implements StructClass {
       typeArgs: [] as [],
       isPhantom: PythFeeRecipient.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PythFeeRecipient.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PythFeeRecipient.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => PythFeeRecipient.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PythFeeRecipient.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PythFeeRecipient.fromBcs(data),
       bcs: PythFeeRecipient.bcs,
       fromJSONField: (field: any) => PythFeeRecipient.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PythFeeRecipient.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PythFeeRecipient.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PythFeeRecipient.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PythFeeRecipient.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PythFeeRecipient.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PythFeeRecipient.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PythFeeRecipient.fetch(client, id),
       new: (fields: PythFeeRecipientFields) => {
         return new PythFeeRecipient([], fields);
       },
@@ -139,11 +131,7 @@ export class PythFeeRecipient implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PythFeeRecipient {
@@ -165,20 +153,15 @@ export class PythFeeRecipient implements StructClass {
       throw new Error("not an object");
     }
     if (!isPythFeeRecipient(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PythFeeRecipient object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PythFeeRecipient object`);
     }
     return PythFeeRecipient.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): PythFeeRecipient {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPythFeeRecipient(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PythFeeRecipient object`);
+      if (data.bcs.dataType !== "moveObject" || !isPythFeeRecipient(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PythFeeRecipient object`);
       }
 
       return PythFeeRecipient.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -194,14 +177,9 @@ export class PythFeeRecipient implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<PythFeeRecipient> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PythFeeRecipient object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PythFeeRecipient object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPythFeeRecipient(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPythFeeRecipient(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PythFeeRecipient object`);
     }
 

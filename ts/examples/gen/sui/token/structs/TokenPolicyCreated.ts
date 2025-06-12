@@ -48,9 +48,7 @@ export type TokenPolicyCreatedReified<T extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T - Type parameter 0 (phantom)
  */
-export class TokenPolicyCreated<T extends PhantomTypeArgument>
-  implements StructClass
-{
+export class TokenPolicyCreated<T extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::token::TokenPolicyCreated`;
@@ -65,10 +63,7 @@ export class TokenPolicyCreated<T extends PhantomTypeArgument>
   readonly id: ToField<ID>;
   readonly isMutable: ToField<"bool">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: TokenPolicyCreatedFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: TokenPolicyCreatedFields<T>) {
     this.$fullTypeName = composeSuiType(
       TokenPolicyCreated.$typeName,
       ...typeArgs,
@@ -88,26 +83,21 @@ export class TokenPolicyCreated<T extends PhantomTypeArgument>
         TokenPolicyCreated.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::token::TokenPolicyCreated<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: TokenPolicyCreated.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        TokenPolicyCreated.fromFields(T, fields),
+      fromFields: (fields: Record<string, any>) => TokenPolicyCreated.fromFields(T, fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         TokenPolicyCreated.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => TokenPolicyCreated.fromBcs(T, data),
       bcs: TokenPolicyCreated.bcs,
       fromJSONField: (field: any) => TokenPolicyCreated.fromJSONField(T, field),
-      fromJSON: (json: Record<string, any>) =>
-        TokenPolicyCreated.fromJSON(T, json),
+      fromJSON: (json: Record<string, any>) => TokenPolicyCreated.fromJSON(T, json),
       fromSuiParsedData: (content: SuiParsedData) =>
         TokenPolicyCreated.fromSuiParsedData(T, content),
       fromSuiObjectData: (content: SuiObjectData) =>
         TokenPolicyCreated.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        TokenPolicyCreated.fetch(client, T, id),
+      fetch: async (client: SuiClient, id: string) => TokenPolicyCreated.fetch(client, T, id),
       new: (fields: TokenPolicyCreatedFields<ToPhantomTypeArgument<T>>) => {
         return new TokenPolicyCreated([extractType(T)], fields);
       },
@@ -164,10 +154,7 @@ export class TokenPolicyCreated<T extends PhantomTypeArgument>
     typeArg: T,
     data: Uint8Array,
   ): TokenPolicyCreated<ToPhantomTypeArgument<T>> {
-    return TokenPolicyCreated.fromFields(
-      typeArg,
-      TokenPolicyCreated.bcs.parse(data),
-    );
+    return TokenPolicyCreated.fromFields(typeArg, TokenPolicyCreated.bcs.parse(data));
   }
 
   toJSONField() {
@@ -178,11 +165,7 @@ export class TokenPolicyCreated<T extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -219,9 +202,7 @@ export class TokenPolicyCreated<T extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isTokenPolicyCreated(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a TokenPolicyCreated object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a TokenPolicyCreated object`);
     }
     return TokenPolicyCreated.fromFieldsWithTypes(typeArg, content);
   }
@@ -231,11 +212,8 @@ export class TokenPolicyCreated<T extends PhantomTypeArgument>
     data: SuiObjectData,
   ): TokenPolicyCreated<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isTokenPolicyCreated(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a TokenPolicyCreated object`);
+      if (data.bcs.dataType !== "moveObject" || !isTokenPolicyCreated(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a TokenPolicyCreated object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -270,14 +248,9 @@ export class TokenPolicyCreated<T extends PhantomTypeArgument>
   ): Promise<TokenPolicyCreated<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TokenPolicyCreated object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TokenPolicyCreated object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTokenPolicyCreated(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTokenPolicyCreated(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a TokenPolicyCreated object`);
     }
 

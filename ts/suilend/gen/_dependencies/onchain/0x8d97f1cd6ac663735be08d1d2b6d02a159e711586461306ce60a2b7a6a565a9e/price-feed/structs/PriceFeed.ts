@@ -77,18 +77,14 @@ export class PriceFeed implements StructClass {
       isPhantom: PriceFeed.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => PriceFeed.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PriceFeed.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PriceFeed.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PriceFeed.fromBcs(data),
       bcs: PriceFeed.bcs,
       fromJSONField: (field: any) => PriceFeed.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PriceFeed.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PriceFeed.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PriceFeed.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PriceFeed.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PriceFeed.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PriceFeed.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PriceFeed.fetch(client, id),
       new: (fields: PriceFeedFields) => {
         return new PriceFeed([], fields);
       },
@@ -117,10 +113,7 @@ export class PriceFeed implements StructClass {
 
   static fromFields(fields: Record<string, any>): PriceFeed {
     return PriceFeed.reified().new({
-      priceIdentifier: decodeFromFields(
-        PriceIdentifier.reified(),
-        fields.price_identifier,
-      ),
+      priceIdentifier: decodeFromFields(PriceIdentifier.reified(), fields.price_identifier),
       price: decodeFromFields(Price.reified(), fields.price),
       emaPrice: decodeFromFields(Price.reified(), fields.ema_price),
     });
@@ -137,10 +130,7 @@ export class PriceFeed implements StructClass {
         item.fields.price_identifier,
       ),
       price: decodeFromFieldsWithTypes(Price.reified(), item.fields.price),
-      emaPrice: decodeFromFieldsWithTypes(
-        Price.reified(),
-        item.fields.ema_price,
-      ),
+      emaPrice: decodeFromFieldsWithTypes(Price.reified(), item.fields.ema_price),
     });
   }
 
@@ -157,19 +147,12 @@ export class PriceFeed implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PriceFeed {
     return PriceFeed.reified().new({
-      priceIdentifier: decodeFromJSONField(
-        PriceIdentifier.reified(),
-        field.priceIdentifier,
-      ),
+      priceIdentifier: decodeFromJSONField(PriceIdentifier.reified(), field.priceIdentifier),
       price: decodeFromJSONField(Price.reified(), field.price),
       emaPrice: decodeFromJSONField(Price.reified(), field.emaPrice),
     });
@@ -188,9 +171,7 @@ export class PriceFeed implements StructClass {
       throw new Error("not an object");
     }
     if (!isPriceFeed(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PriceFeed object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PriceFeed object`);
     }
     return PriceFeed.fromFieldsWithTypes(content);
   }
@@ -198,7 +179,7 @@ export class PriceFeed implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): PriceFeed {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isPriceFeed(data.bcs.type)) {
-        throw new Error(`object at is not a PriceFeed object`);
+        throw new Error(`object at ${data.objectId} is not a PriceFeed object`);
       }
 
       return PriceFeed.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -214,14 +195,9 @@ export class PriceFeed implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<PriceFeed> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PriceFeed object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PriceFeed object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPriceFeed(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPriceFeed(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PriceFeed object`);
     }
 

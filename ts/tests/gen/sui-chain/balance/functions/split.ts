@@ -22,11 +22,7 @@ export interface SplitArgs {
  * @param u64 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function split(
-  tx: Transaction,
-  typeArg: string,
-  args: SplitArgs,
-): TransactionResult {
+export function split(tx: Transaction, typeArg: string, args: SplitArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::balance::split`,
     typeArguments: [typeArg],

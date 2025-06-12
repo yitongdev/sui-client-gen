@@ -94,22 +94,18 @@ export class NitroAttestationDocument implements StructClass {
       typeArgs: [] as [],
       isPhantom: NitroAttestationDocument.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        NitroAttestationDocument.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => NitroAttestationDocument.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         NitroAttestationDocument.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => NitroAttestationDocument.fromBcs(data),
       bcs: NitroAttestationDocument.bcs,
-      fromJSONField: (field: any) =>
-        NitroAttestationDocument.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        NitroAttestationDocument.fromJSON(json),
+      fromJSONField: (field: any) => NitroAttestationDocument.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => NitroAttestationDocument.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         NitroAttestationDocument.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         NitroAttestationDocument.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        NitroAttestationDocument.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => NitroAttestationDocument.fetch(client, id),
       new: (fields: NitroAttestationDocumentFields) => {
         return new NitroAttestationDocument([], fields);
       },
@@ -146,18 +142,9 @@ export class NitroAttestationDocument implements StructClass {
       timestamp: decodeFromFields("u64", fields.timestamp),
       digest: decodeFromFields(reified.vector("u8"), fields.digest),
       pcrs: decodeFromFields(reified.vector(PCREntry1.reified()), fields.pcrs),
-      publicKey: decodeFromFields(
-        Option.reified(reified.vector("u8")),
-        fields.public_key,
-      ),
-      userData: decodeFromFields(
-        Option.reified(reified.vector("u8")),
-        fields.user_data,
-      ),
-      nonce: decodeFromFields(
-        Option.reified(reified.vector("u8")),
-        fields.nonce,
-      ),
+      publicKey: decodeFromFields(Option.reified(reified.vector("u8")), fields.public_key),
+      userData: decodeFromFields(Option.reified(reified.vector("u8")), fields.user_data),
+      nonce: decodeFromFields(Option.reified(reified.vector("u8")), fields.nonce),
     });
   }
 
@@ -167,19 +154,10 @@ export class NitroAttestationDocument implements StructClass {
     }
 
     return NitroAttestationDocument.reified().new({
-      moduleId: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.module_id,
-      ),
+      moduleId: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.module_id),
       timestamp: decodeFromFieldsWithTypes("u64", item.fields.timestamp),
-      digest: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.digest,
-      ),
-      pcrs: decodeFromFieldsWithTypes(
-        reified.vector(PCREntry1.reified()),
-        item.fields.pcrs,
-      ),
+      digest: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.digest),
+      pcrs: decodeFromFieldsWithTypes(reified.vector(PCREntry1.reified()), item.fields.pcrs),
       publicKey: decodeFromFieldsWithTypes(
         Option.reified(reified.vector("u8")),
         item.fields.public_key,
@@ -188,17 +166,12 @@ export class NitroAttestationDocument implements StructClass {
         Option.reified(reified.vector("u8")),
         item.fields.user_data,
       ),
-      nonce: decodeFromFieldsWithTypes(
-        Option.reified(reified.vector("u8")),
-        item.fields.nonce,
-      ),
+      nonce: decodeFromFieldsWithTypes(Option.reified(reified.vector("u8")), item.fields.nonce),
     });
   }
 
   static fromBcs(data: Uint8Array): NitroAttestationDocument {
-    return NitroAttestationDocument.fromFields(
-      NitroAttestationDocument.bcs.parse(data),
-    );
+    return NitroAttestationDocument.fromFields(NitroAttestationDocument.bcs.parse(data));
   }
 
   toJSONField() {
@@ -206,31 +179,18 @@ export class NitroAttestationDocument implements StructClass {
       moduleId: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.moduleId),
       timestamp: this.timestamp.toString(),
       digest: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.digest),
-      pcrs: fieldToJSON<Vector<PCREntry1>>(
-        `vector<${PCREntry1.$typeName}>`,
-        this.pcrs,
-      ),
+      pcrs: fieldToJSON<Vector<PCREntry1>>(`vector<${PCREntry1.$typeName}>`, this.pcrs),
       publicKey: fieldToJSON<Option<Vector<"u8">>>(
         `${Option.$typeName}<vector<u8>>`,
         this.publicKey,
       ),
-      userData: fieldToJSON<Option<Vector<"u8">>>(
-        `${Option.$typeName}<vector<u8>>`,
-        this.userData,
-      ),
-      nonce: fieldToJSON<Option<Vector<"u8">>>(
-        `${Option.$typeName}<vector<u8>>`,
-        this.nonce,
-      ),
+      userData: fieldToJSON<Option<Vector<"u8">>>(`${Option.$typeName}<vector<u8>>`, this.userData),
+      nonce: fieldToJSON<Option<Vector<"u8">>>(`${Option.$typeName}<vector<u8>>`, this.nonce),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): NitroAttestationDocument {
@@ -238,22 +198,10 @@ export class NitroAttestationDocument implements StructClass {
       moduleId: decodeFromJSONField(reified.vector("u8"), field.moduleId),
       timestamp: decodeFromJSONField("u64", field.timestamp),
       digest: decodeFromJSONField(reified.vector("u8"), field.digest),
-      pcrs: decodeFromJSONField(
-        reified.vector(PCREntry1.reified()),
-        field.pcrs,
-      ),
-      publicKey: decodeFromJSONField(
-        Option.reified(reified.vector("u8")),
-        field.publicKey,
-      ),
-      userData: decodeFromJSONField(
-        Option.reified(reified.vector("u8")),
-        field.userData,
-      ),
-      nonce: decodeFromJSONField(
-        Option.reified(reified.vector("u8")),
-        field.nonce,
-      ),
+      pcrs: decodeFromJSONField(reified.vector(PCREntry1.reified()), field.pcrs),
+      publicKey: decodeFromJSONField(Option.reified(reified.vector("u8")), field.publicKey),
+      userData: decodeFromJSONField(Option.reified(reified.vector("u8")), field.userData),
+      nonce: decodeFromJSONField(Option.reified(reified.vector("u8")), field.nonce),
     });
   }
 
@@ -279,11 +227,8 @@ export class NitroAttestationDocument implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): NitroAttestationDocument {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isNitroAttestationDocument(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a NitroAttestationDocument object`);
+      if (data.bcs.dataType !== "moveObject" || !isNitroAttestationDocument(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a NitroAttestationDocument object`);
       }
 
       return NitroAttestationDocument.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -296,10 +241,7 @@ export class NitroAttestationDocument implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<NitroAttestationDocument> {
+  static async fetch(client: SuiClient, id: string): Promise<NitroAttestationDocument> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
@@ -310,9 +252,7 @@ export class NitroAttestationDocument implements StructClass {
       res.data?.bcs?.dataType !== "moveObject" ||
       !isNitroAttestationDocument(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a NitroAttestationDocument object`,
-      );
+      throw new Error(`object at id ${id} is not a NitroAttestationDocument object`);
     }
 
     return NitroAttestationDocument.fromSuiObjectData(res.data);

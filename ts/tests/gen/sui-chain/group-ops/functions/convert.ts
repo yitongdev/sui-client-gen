@@ -33,10 +33,6 @@ export function convert(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::group_ops::convert`,
     typeArguments: typeArgs,
-    arguments: [
-      pure(tx, args.u81, `u8`),
-      pure(tx, args.u82, `u8`),
-      obj(tx, args.element),
-    ],
+    arguments: [pure(tx, args.u81, `u8`), pure(tx, args.u82, `u8`), obj(tx, args.element)],
   });
 }

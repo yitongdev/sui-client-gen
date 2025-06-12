@@ -10,11 +10,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param tx - The transaction object
  * @param event - Function parameter
  */
-export function emit(
-  tx: Transaction,
-  typeArg: string,
-  event: GenericArg,
-): TransactionResult {
+export function emit(tx: Transaction, typeArg: string, event: GenericArg): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::event::emit`,
     typeArguments: [typeArg],

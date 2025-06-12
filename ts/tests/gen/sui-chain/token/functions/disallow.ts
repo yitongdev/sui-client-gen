@@ -25,11 +25,7 @@ export interface DisallowArgs {
  * @param string - Function parameter
  * @param txContext - Function parameter
  */
-export function disallow(
-  tx: Transaction,
-  typeArg: string,
-  args: DisallowArgs,
-): TransactionResult {
+export function disallow(tx: Transaction, typeArg: string, args: DisallowArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::token::disallow`,
     typeArguments: [typeArg],

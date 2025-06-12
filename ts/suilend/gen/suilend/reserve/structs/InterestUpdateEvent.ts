@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { Decimal } from "../../decimal/structs/index.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -43,10 +39,7 @@ export interface InterestUpdateEventFields {
   supplyInterestEarnedUsdEstimate: ToField<Decimal>;
 }
 
-export type InterestUpdateEventReified = Reified<
-  InterestUpdateEvent,
-  InterestUpdateEventFields
->;
+export type InterestUpdateEventReified = Reified<InterestUpdateEvent, InterestUpdateEventFields>;
 
 /**
  * Move struct: `InterestUpdateEvent`
@@ -99,8 +92,7 @@ export class InterestUpdateEvent implements StructClass {
     this.supplyInterestEarned = fields.supplyInterestEarned;
     this.borrowInterestPaidUsdEstimate = fields.borrowInterestPaidUsdEstimate;
     this.protocolFeeUsdEstimate = fields.protocolFeeUsdEstimate;
-    this.supplyInterestEarnedUsdEstimate =
-      fields.supplyInterestEarnedUsdEstimate;
+    this.supplyInterestEarnedUsdEstimate = fields.supplyInterestEarnedUsdEstimate;
   }
 
   static reified(): InterestUpdateEventReified {
@@ -113,21 +105,15 @@ export class InterestUpdateEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: InterestUpdateEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        InterestUpdateEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        InterestUpdateEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => InterestUpdateEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => InterestUpdateEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => InterestUpdateEvent.fromBcs(data),
       bcs: InterestUpdateEvent.bcs,
       fromJSONField: (field: any) => InterestUpdateEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        InterestUpdateEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        InterestUpdateEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        InterestUpdateEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        InterestUpdateEvent.fetch(client, id),
+      fromJSON: (json: Record<string, any>) => InterestUpdateEvent.fromJSON(json),
+      fromSuiParsedData: (content: SuiParsedData) => InterestUpdateEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => InterestUpdateEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => InterestUpdateEvent.fetch(client, id),
       new: (fields: InterestUpdateEventFields) => {
         return new InterestUpdateEvent([], fields);
       },
@@ -176,37 +162,19 @@ export class InterestUpdateEvent implements StructClass {
       lendingMarketId: decodeFromFields("address", fields.lending_market_id),
       coinType: decodeFromFields(TypeName.reified(), fields.coin_type),
       reserveId: decodeFromFields("address", fields.reserve_id),
-      cumulativeBorrowRate: decodeFromFields(
-        Decimal.reified(),
-        fields.cumulative_borrow_rate,
-      ),
+      cumulativeBorrowRate: decodeFromFields(Decimal.reified(), fields.cumulative_borrow_rate),
       availableAmount: decodeFromFields("u64", fields.available_amount),
-      borrowedAmount: decodeFromFields(
-        Decimal.reified(),
-        fields.borrowed_amount,
-      ),
-      unclaimedSpreadFees: decodeFromFields(
-        Decimal.reified(),
-        fields.unclaimed_spread_fees,
-      ),
+      borrowedAmount: decodeFromFields(Decimal.reified(), fields.borrowed_amount),
+      unclaimedSpreadFees: decodeFromFields(Decimal.reified(), fields.unclaimed_spread_fees),
       ctokenSupply: decodeFromFields("u64", fields.ctoken_supply),
-      borrowInterestPaid: decodeFromFields(
-        Decimal.reified(),
-        fields.borrow_interest_paid,
-      ),
+      borrowInterestPaid: decodeFromFields(Decimal.reified(), fields.borrow_interest_paid),
       spreadFee: decodeFromFields(Decimal.reified(), fields.spread_fee),
-      supplyInterestEarned: decodeFromFields(
-        Decimal.reified(),
-        fields.supply_interest_earned,
-      ),
+      supplyInterestEarned: decodeFromFields(Decimal.reified(), fields.supply_interest_earned),
       borrowInterestPaidUsdEstimate: decodeFromFields(
         Decimal.reified(),
         fields.borrow_interest_paid_usd_estimate,
       ),
-      protocolFeeUsdEstimate: decodeFromFields(
-        Decimal.reified(),
-        fields.protocol_fee_usd_estimate,
-      ),
+      protocolFeeUsdEstimate: decodeFromFields(Decimal.reified(), fields.protocol_fee_usd_estimate),
       supplyInterestEarnedUsdEstimate: decodeFromFields(
         Decimal.reified(),
         fields.supply_interest_earned_usd_estimate,
@@ -220,27 +188,15 @@ export class InterestUpdateEvent implements StructClass {
     }
 
     return InterestUpdateEvent.reified().new({
-      lendingMarketId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.lending_market_id,
-      ),
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes("address", item.fields.lending_market_id),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
       reserveId: decodeFromFieldsWithTypes("address", item.fields.reserve_id),
       cumulativeBorrowRate: decodeFromFieldsWithTypes(
         Decimal.reified(),
         item.fields.cumulative_borrow_rate,
       ),
-      availableAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.available_amount,
-      ),
-      borrowedAmount: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.borrowed_amount,
-      ),
+      availableAmount: decodeFromFieldsWithTypes("u64", item.fields.available_amount),
+      borrowedAmount: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.borrowed_amount),
       unclaimedSpreadFees: decodeFromFieldsWithTypes(
         Decimal.reified(),
         item.fields.unclaimed_spread_fees,
@@ -250,10 +206,7 @@ export class InterestUpdateEvent implements StructClass {
         Decimal.reified(),
         item.fields.borrow_interest_paid,
       ),
-      spreadFee: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.spread_fee,
-      ),
+      spreadFee: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.spread_fee),
       supplyInterestEarned: decodeFromFieldsWithTypes(
         Decimal.reified(),
         item.fields.supply_interest_earned,
@@ -290,20 +243,14 @@ export class InterestUpdateEvent implements StructClass {
       borrowInterestPaid: this.borrowInterestPaid.toJSONField(),
       spreadFee: this.spreadFee.toJSONField(),
       supplyInterestEarned: this.supplyInterestEarned.toJSONField(),
-      borrowInterestPaidUsdEstimate:
-        this.borrowInterestPaidUsdEstimate.toJSONField(),
+      borrowInterestPaidUsdEstimate: this.borrowInterestPaidUsdEstimate.toJSONField(),
       protocolFeeUsdEstimate: this.protocolFeeUsdEstimate.toJSONField(),
-      supplyInterestEarnedUsdEstimate:
-        this.supplyInterestEarnedUsdEstimate.toJSONField(),
+      supplyInterestEarnedUsdEstimate: this.supplyInterestEarnedUsdEstimate.toJSONField(),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): InterestUpdateEvent {
@@ -311,37 +258,19 @@ export class InterestUpdateEvent implements StructClass {
       lendingMarketId: decodeFromJSONField("address", field.lendingMarketId),
       coinType: decodeFromJSONField(TypeName.reified(), field.coinType),
       reserveId: decodeFromJSONField("address", field.reserveId),
-      cumulativeBorrowRate: decodeFromJSONField(
-        Decimal.reified(),
-        field.cumulativeBorrowRate,
-      ),
+      cumulativeBorrowRate: decodeFromJSONField(Decimal.reified(), field.cumulativeBorrowRate),
       availableAmount: decodeFromJSONField("u64", field.availableAmount),
-      borrowedAmount: decodeFromJSONField(
-        Decimal.reified(),
-        field.borrowedAmount,
-      ),
-      unclaimedSpreadFees: decodeFromJSONField(
-        Decimal.reified(),
-        field.unclaimedSpreadFees,
-      ),
+      borrowedAmount: decodeFromJSONField(Decimal.reified(), field.borrowedAmount),
+      unclaimedSpreadFees: decodeFromJSONField(Decimal.reified(), field.unclaimedSpreadFees),
       ctokenSupply: decodeFromJSONField("u64", field.ctokenSupply),
-      borrowInterestPaid: decodeFromJSONField(
-        Decimal.reified(),
-        field.borrowInterestPaid,
-      ),
+      borrowInterestPaid: decodeFromJSONField(Decimal.reified(), field.borrowInterestPaid),
       spreadFee: decodeFromJSONField(Decimal.reified(), field.spreadFee),
-      supplyInterestEarned: decodeFromJSONField(
-        Decimal.reified(),
-        field.supplyInterestEarned,
-      ),
+      supplyInterestEarned: decodeFromJSONField(Decimal.reified(), field.supplyInterestEarned),
       borrowInterestPaidUsdEstimate: decodeFromJSONField(
         Decimal.reified(),
         field.borrowInterestPaidUsdEstimate,
       ),
-      protocolFeeUsdEstimate: decodeFromJSONField(
-        Decimal.reified(),
-        field.protocolFeeUsdEstimate,
-      ),
+      protocolFeeUsdEstimate: decodeFromJSONField(Decimal.reified(), field.protocolFeeUsdEstimate),
       supplyInterestEarnedUsdEstimate: decodeFromJSONField(
         Decimal.reified(),
         field.supplyInterestEarnedUsdEstimate,
@@ -371,11 +300,8 @@ export class InterestUpdateEvent implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): InterestUpdateEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isInterestUpdateEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a InterestUpdateEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isInterestUpdateEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a InterestUpdateEvent object`);
       }
 
       return InterestUpdateEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -388,20 +314,12 @@ export class InterestUpdateEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<InterestUpdateEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<InterestUpdateEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching InterestUpdateEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching InterestUpdateEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isInterestUpdateEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isInterestUpdateEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a InterestUpdateEvent object`);
     }
 

@@ -25,10 +25,7 @@ export interface ContainsArgs {
  * @param addr - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function contains(
-  tx: Transaction,
-  args: ContainsArgs,
-): TransactionResult {
+export function contains(tx: Transaction, args: ContainsArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::contains`,
     arguments: [

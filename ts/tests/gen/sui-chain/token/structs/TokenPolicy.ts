@@ -54,9 +54,7 @@ export type TokenPolicyReified<T0 extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class TokenPolicy<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class TokenPolicy<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::token::TokenPolicy`;
@@ -72,10 +70,7 @@ export class TokenPolicy<T0 extends PhantomTypeArgument>
   readonly spentBalance: ToField<Balance<T0>>;
   readonly rules: ToField<VecMap<String, VecSet<TypeName>>>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: TokenPolicyFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: TokenPolicyFields<T0>) {
     this.$fullTypeName = composeSuiType(
       TokenPolicy.$typeName,
       ...typeArgs,
@@ -96,25 +91,18 @@ export class TokenPolicy<T0 extends PhantomTypeArgument>
         TokenPolicy.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V31}::token::TokenPolicy<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: TokenPolicy.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        TokenPolicy.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        TokenPolicy.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => TokenPolicy.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => TokenPolicy.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => TokenPolicy.fromBcs(T0, data),
       bcs: TokenPolicy.bcs,
       fromJSONField: (field: any) => TokenPolicy.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => TokenPolicy.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        TokenPolicy.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        TokenPolicy.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        TokenPolicy.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => TokenPolicy.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => TokenPolicy.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => TokenPolicy.fetch(client, T0, id),
       new: (fields: TokenPolicyFields<ToPhantomTypeArgument<T0>>) => {
         return new TokenPolicy([extractType(T0)], fields);
       },
@@ -149,10 +137,7 @@ export class TokenPolicy<T0 extends PhantomTypeArgument>
   ): TokenPolicy<ToPhantomTypeArgument<T0>> {
     return TokenPolicy.reified(typeArg).new({
       id: decodeFromFields(UID.reified(), fields.id),
-      spentBalance: decodeFromFields(
-        Balance.reified(typeArg),
-        fields.spent_balance,
-      ),
+      spentBalance: decodeFromFields(Balance.reified(typeArg), fields.spent_balance),
       rules: decodeFromFields(
         VecMap.reified(String.reified(), VecSet.reified(TypeName.reified())),
         fields.rules,
@@ -171,10 +156,7 @@ export class TokenPolicy<T0 extends PhantomTypeArgument>
 
     return TokenPolicy.reified(typeArg).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      spentBalance: decodeFromFieldsWithTypes(
-        Balance.reified(typeArg),
-        item.fields.spent_balance,
-      ),
+      spentBalance: decodeFromFieldsWithTypes(Balance.reified(typeArg), item.fields.spent_balance),
       rules: decodeFromFieldsWithTypes(
         VecMap.reified(String.reified(), VecSet.reified(TypeName.reified())),
         item.fields.rules,
@@ -198,11 +180,7 @@ export class TokenPolicy<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -211,10 +189,7 @@ export class TokenPolicy<T0 extends PhantomTypeArgument>
   ): TokenPolicy<ToPhantomTypeArgument<T0>> {
     return TokenPolicy.reified(typeArg).new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      spentBalance: decodeFromJSONField(
-        Balance.reified(typeArg),
-        field.spentBalance,
-      ),
+      spentBalance: decodeFromJSONField(Balance.reified(typeArg), field.spentBalance),
       rules: decodeFromJSONField(
         VecMap.reified(String.reified(), VecSet.reified(TypeName.reified())),
         field.rules,
@@ -246,9 +221,7 @@ export class TokenPolicy<T0 extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isTokenPolicy(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a TokenPolicy object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a TokenPolicy object`);
     }
     return TokenPolicy.fromFieldsWithTypes(typeArg, content);
   }
@@ -259,7 +232,7 @@ export class TokenPolicy<T0 extends PhantomTypeArgument>
   ): TokenPolicy<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isTokenPolicy(data.bcs.type)) {
-        throw new Error(`object at is not a TokenPolicy object`);
+        throw new Error(`object at ${data.objectId} is not a TokenPolicy object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -294,14 +267,9 @@ export class TokenPolicy<T0 extends PhantomTypeArgument>
   ): Promise<TokenPolicy<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TokenPolicy object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TokenPolicy object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTokenPolicy(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTokenPolicy(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a TokenPolicy object`);
     }
 

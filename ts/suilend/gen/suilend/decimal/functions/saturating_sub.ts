@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface SaturatingSubArgs {
   decimal1: TransactionObjectInput;
@@ -20,10 +16,7 @@ export interface SaturatingSubArgs {
  * @param decimal2 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function saturatingSub(
-  tx: Transaction,
-  args: SaturatingSubArgs,
-): TransactionResult {
+export function saturatingSub(tx: Transaction, args: SaturatingSubArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::decimal::saturating_sub`,
     arguments: [obj(tx, args.decimal1), obj(tx, args.decimal2)],

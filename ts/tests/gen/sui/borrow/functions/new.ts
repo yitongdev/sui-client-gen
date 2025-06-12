@@ -12,11 +12,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param ctx - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function new_(
-  tx: Transaction,
-  typeArg: string,
-  value: GenericArg,
-): TransactionResult {
+export function new_(tx: Transaction, typeArg: string, value: GenericArg): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::borrow::new`,
     typeArguments: [typeArg],

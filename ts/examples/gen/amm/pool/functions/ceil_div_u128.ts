@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface CeilDivU128Args {
   a: bigint | TransactionArgument;
@@ -20,10 +16,7 @@ export interface CeilDivU128Args {
  * @param b - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function ceilDivU128(
-  tx: Transaction,
-  args: CeilDivU128Args,
-): TransactionResult {
+export function ceilDivU128(tx: Transaction, args: CeilDivU128Args): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pool::ceil_div_u128`,
     arguments: [pure(tx, args.a, `u128`), pure(tx, args.b, `u128`)],

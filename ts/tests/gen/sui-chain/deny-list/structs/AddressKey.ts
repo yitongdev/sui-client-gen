@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -68,20 +64,15 @@ export class AddressKey implements StructClass {
       typeArgs: [] as [],
       isPhantom: AddressKey.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        AddressKey.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        AddressKey.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => AddressKey.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => AddressKey.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => AddressKey.fromBcs(data),
       bcs: AddressKey.bcs,
       fromJSONField: (field: any) => AddressKey.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => AddressKey.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        AddressKey.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        AddressKey.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        AddressKey.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => AddressKey.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => AddressKey.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => AddressKey.fetch(client, id),
       new: (fields: AddressKeyFields) => {
         return new AddressKey([], fields);
       },
@@ -110,9 +101,7 @@ export class AddressKey implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): AddressKey {
-    return AddressKey.reified().new({
-      pos0: decodeFromFields("address", fields.pos0),
-    });
+    return AddressKey.reified().new({ pos0: decodeFromFields("address", fields.pos0) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): AddressKey {
@@ -136,17 +125,11 @@ export class AddressKey implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): AddressKey {
-    return AddressKey.reified().new({
-      pos0: decodeFromJSONField("address", field.pos0),
-    });
+    return AddressKey.reified().new({ pos0: decodeFromJSONField("address", field.pos0) });
   }
 
   static fromJSON(json: Record<string, any>): AddressKey {
@@ -162,9 +145,7 @@ export class AddressKey implements StructClass {
       throw new Error("not an object");
     }
     if (!isAddressKey(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a AddressKey object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a AddressKey object`);
     }
     return AddressKey.fromFieldsWithTypes(content);
   }
@@ -172,7 +153,7 @@ export class AddressKey implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): AddressKey {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isAddressKey(data.bcs.type)) {
-        throw new Error(`object at is not a AddressKey object`);
+        throw new Error(`object at ${data.objectId} is not a AddressKey object`);
       }
 
       return AddressKey.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -188,14 +169,9 @@ export class AddressKey implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<AddressKey> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching AddressKey object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching AddressKey object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isAddressKey(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isAddressKey(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a AddressKey object`);
     }
 

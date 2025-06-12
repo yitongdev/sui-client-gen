@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `sui_pool`
@@ -14,10 +10,7 @@ import {
  * @param storage - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function suiPool(
-  tx: Transaction,
-  storage: TransactionObjectInput,
-): TransactionResult {
+export function suiPool(tx: Transaction, storage: TransactionObjectInput): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::storage::sui_pool`,
     arguments: [obj(tx, storage)],

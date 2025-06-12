@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -28,10 +24,7 @@ export interface LIQUID_STAKINGFields {
   dummyField: ToField<"bool">;
 }
 
-export type LIQUID_STAKINGReified = Reified<
-  LIQUID_STAKING,
-  LIQUID_STAKINGFields
->;
+export type LIQUID_STAKINGReified = Reified<LIQUID_STAKING, LIQUID_STAKINGFields>;
 
 /**
  * Move struct: `LIQUID_STAKING`
@@ -71,20 +64,15 @@ export class LIQUID_STAKING implements StructClass {
       typeArgs: [] as [],
       isPhantom: LIQUID_STAKING.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        LIQUID_STAKING.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        LIQUID_STAKING.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => LIQUID_STAKING.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => LIQUID_STAKING.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => LIQUID_STAKING.fromBcs(data),
       bcs: LIQUID_STAKING.bcs,
       fromJSONField: (field: any) => LIQUID_STAKING.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => LIQUID_STAKING.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        LIQUID_STAKING.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        LIQUID_STAKING.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        LIQUID_STAKING.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => LIQUID_STAKING.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => LIQUID_STAKING.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => LIQUID_STAKING.fetch(client, id),
       new: (fields: LIQUID_STAKINGFields) => {
         return new LIQUID_STAKING([], fields);
       },
@@ -136,11 +124,7 @@ export class LIQUID_STAKING implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): LIQUID_STAKING {
@@ -162,20 +146,15 @@ export class LIQUID_STAKING implements StructClass {
       throw new Error("not an object");
     }
     if (!isLIQUID_STAKING(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a LIQUID_STAKING object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a LIQUID_STAKING object`);
     }
     return LIQUID_STAKING.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): LIQUID_STAKING {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isLIQUID_STAKING(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a LIQUID_STAKING object`);
+      if (data.bcs.dataType !== "moveObject" || !isLIQUID_STAKING(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a LIQUID_STAKING object`);
       }
 
       return LIQUID_STAKING.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,14 +170,9 @@ export class LIQUID_STAKING implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<LIQUID_STAKING> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching LIQUID_STAKING object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching LIQUID_STAKING object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isLIQUID_STAKING(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isLIQUID_STAKING(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a LIQUID_STAKING object`);
     }
 

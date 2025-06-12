@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { UID } from "../../object/structs/index.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -30,10 +26,7 @@ export interface AuthenticatorStateFields {
   version: ToField<"u64">;
 }
 
-export type AuthenticatorStateReified = Reified<
-  AuthenticatorState,
-  AuthenticatorStateFields
->;
+export type AuthenticatorStateReified = Reified<AuthenticatorState, AuthenticatorStateFields>;
 
 /**
  * Move struct: `AuthenticatorState`
@@ -75,21 +68,15 @@ export class AuthenticatorState implements StructClass {
       typeArgs: [] as [],
       isPhantom: AuthenticatorState.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        AuthenticatorState.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        AuthenticatorState.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => AuthenticatorState.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => AuthenticatorState.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => AuthenticatorState.fromBcs(data),
       bcs: AuthenticatorState.bcs,
       fromJSONField: (field: any) => AuthenticatorState.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        AuthenticatorState.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        AuthenticatorState.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        AuthenticatorState.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        AuthenticatorState.fetch(client, id),
+      fromJSON: (json: Record<string, any>) => AuthenticatorState.fromJSON(json),
+      fromSuiParsedData: (content: SuiParsedData) => AuthenticatorState.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => AuthenticatorState.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => AuthenticatorState.fetch(client, id),
       new: (fields: AuthenticatorStateFields) => {
         return new AuthenticatorState([], fields);
       },
@@ -145,11 +132,7 @@ export class AuthenticatorState implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): AuthenticatorState {
@@ -172,20 +155,15 @@ export class AuthenticatorState implements StructClass {
       throw new Error("not an object");
     }
     if (!isAuthenticatorState(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a AuthenticatorState object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a AuthenticatorState object`);
     }
     return AuthenticatorState.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): AuthenticatorState {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isAuthenticatorState(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a AuthenticatorState object`);
+      if (data.bcs.dataType !== "moveObject" || !isAuthenticatorState(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a AuthenticatorState object`);
       }
 
       return AuthenticatorState.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -198,20 +176,12 @@ export class AuthenticatorState implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<AuthenticatorState> {
+  static async fetch(client: SuiClient, id: string): Promise<AuthenticatorState> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching AuthenticatorState object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching AuthenticatorState object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isAuthenticatorState(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isAuthenticatorState(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a AuthenticatorState object`);
     }
 

@@ -38,10 +38,7 @@ export interface VecSetFields<T0 extends TypeArgument> {
   contents: ToField<Vector<T0>>;
 }
 
-export type VecSetReified<T0 extends TypeArgument> = Reified<
-  VecSet<T0>,
-  VecSetFields<T0>
->;
+export type VecSetReified<T0 extends TypeArgument> = Reified<VecSet<T0>, VecSetFields<T0>>;
 
 /**
  * Move struct: `VecSet`
@@ -73,9 +70,7 @@ export class VecSet<T0 extends TypeArgument> implements StructClass {
     this.contents = fields.contents;
   }
 
-  static reified<T0 extends Reified<TypeArgument, any>>(
-    T0: T0,
-  ): VecSetReified<ToTypeArgument<T0>> {
+  static reified<T0 extends Reified<TypeArgument, any>>(T0: T0): VecSetReified<ToTypeArgument<T0>> {
     return {
       typeName: VecSet.$typeName,
       fullTypeName: composeSuiType(
@@ -85,20 +80,15 @@ export class VecSet<T0 extends TypeArgument> implements StructClass {
       typeArgs: [extractType(T0)] as [ToTypeStr<ToTypeArgument<T0>>],
       isPhantom: VecSet.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        VecSet.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        VecSet.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => VecSet.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => VecSet.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => VecSet.fromBcs(T0, data),
       bcs: VecSet.bcs(toBcs(T0)),
       fromJSONField: (field: any) => VecSet.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => VecSet.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        VecSet.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        VecSet.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        VecSet.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => VecSet.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => VecSet.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => VecSet.fetch(client, T0, id),
       new: (fields: VecSetFields<ToTypeArgument<T0>>) => {
         return new VecSet([extractType(T0)], fields);
       },
@@ -145,10 +135,7 @@ export class VecSet<T0 extends TypeArgument> implements StructClass {
     assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
     return VecSet.reified(typeArg).new({
-      contents: decodeFromFieldsWithTypes(
-        reified.vector(typeArg),
-        item.fields.contents,
-      ),
+      contents: decodeFromFieldsWithTypes(reified.vector(typeArg), item.fields.contents),
     });
   }
 
@@ -161,19 +148,12 @@ export class VecSet<T0 extends TypeArgument> implements StructClass {
 
   toJSONField() {
     return {
-      contents: fieldToJSON<Vector<T0>>(
-        `vector<${this.$typeArgs?.[0]}>`,
-        this.contents,
-      ),
+      contents: fieldToJSON<Vector<T0>>(`vector<${this.$typeArgs?.[0]}>`, this.contents),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
@@ -209,9 +189,7 @@ export class VecSet<T0 extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isVecSet(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a VecSet object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a VecSet object`);
     }
     return VecSet.fromFieldsWithTypes(typeArg, content);
   }
@@ -222,7 +200,7 @@ export class VecSet<T0 extends TypeArgument> implements StructClass {
   ): VecSet<ToTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isVecSet(data.bcs.type)) {
-        throw new Error(`object at is not a VecSet object`);
+        throw new Error(`object at ${data.objectId} is not a VecSet object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -257,14 +235,9 @@ export class VecSet<T0 extends TypeArgument> implements StructClass {
   ): Promise<VecSet<ToTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching VecSet object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching VecSet object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isVecSet(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isVecSet(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a VecSet object`);
     }
 

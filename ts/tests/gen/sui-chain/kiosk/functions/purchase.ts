@@ -25,18 +25,10 @@ export interface PurchaseArgs {
  * @param coin - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function purchase(
-  tx: Transaction,
-  typeArg: string,
-  args: PurchaseArgs,
-): TransactionResult {
+export function purchase(tx: Transaction, typeArg: string, args: PurchaseArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::purchase`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.kiosk),
-      pure(tx, args.id, `${ID.$typeName}`),
-      obj(tx, args.coin),
-    ],
+    arguments: [obj(tx, args.kiosk), pure(tx, args.id, `${ID.$typeName}`), obj(tx, args.coin)],
   });
 }

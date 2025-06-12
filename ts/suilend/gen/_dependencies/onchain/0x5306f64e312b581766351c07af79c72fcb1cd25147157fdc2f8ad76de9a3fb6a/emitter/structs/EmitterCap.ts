@@ -72,20 +72,15 @@ export class EmitterCap implements StructClass {
       typeArgs: [] as [],
       isPhantom: EmitterCap.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        EmitterCap.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        EmitterCap.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => EmitterCap.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => EmitterCap.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => EmitterCap.fromBcs(data),
       bcs: EmitterCap.bcs,
       fromJSONField: (field: any) => EmitterCap.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => EmitterCap.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        EmitterCap.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        EmitterCap.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        EmitterCap.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => EmitterCap.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => EmitterCap.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => EmitterCap.fetch(client, id),
       new: (fields: EmitterCapFields) => {
         return new EmitterCap([], fields);
       },
@@ -141,11 +136,7 @@ export class EmitterCap implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): EmitterCap {
@@ -168,9 +159,7 @@ export class EmitterCap implements StructClass {
       throw new Error("not an object");
     }
     if (!isEmitterCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a EmitterCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a EmitterCap object`);
     }
     return EmitterCap.fromFieldsWithTypes(content);
   }
@@ -178,7 +167,7 @@ export class EmitterCap implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): EmitterCap {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isEmitterCap(data.bcs.type)) {
-        throw new Error(`object at is not a EmitterCap object`);
+        throw new Error(`object at ${data.objectId} is not a EmitterCap object`);
       }
 
       return EmitterCap.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -194,14 +183,9 @@ export class EmitterCap implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<EmitterCap> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching EmitterCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching EmitterCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isEmitterCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isEmitterCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a EmitterCap object`);
     }
 

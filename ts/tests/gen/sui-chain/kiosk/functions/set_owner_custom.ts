@@ -22,10 +22,7 @@ export interface SetOwnerCustomArgs {
  * @param kioskOwnerCap - Function parameter
  * @param address - Function parameter
  */
-export function setOwnerCustom(
-  tx: Transaction,
-  args: SetOwnerCustomArgs,
-): TransactionResult {
+export function setOwnerCustom(tx: Transaction, args: SetOwnerCustomArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::set_owner_custom`,
     arguments: [

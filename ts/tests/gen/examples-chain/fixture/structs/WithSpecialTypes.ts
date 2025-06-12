@@ -45,10 +45,7 @@ export function isWithSpecialTypes(type: string): boolean {
   return type.startsWith(`${PKG_V1}::fixture::WithSpecialTypes` + "<");
 }
 
-export interface WithSpecialTypesFields<
-  T0 extends PhantomTypeArgument,
-  T1 extends TypeArgument,
-> {
+export interface WithSpecialTypesFields<T0 extends PhantomTypeArgument, T1 extends TypeArgument> {
   id: ToField<UID>;
   string: ToField<String>;
   asciiString: ToField<String1>;
@@ -76,10 +73,8 @@ export type WithSpecialTypesReified<
  * @typeParam T0 - Type parameter 0 (phantom)
  * @typeParam T1 - Type parameter 1
  */
-export class WithSpecialTypes<
-  T0 extends PhantomTypeArgument,
-  T1 extends TypeArgument,
-> implements StructClass
+export class WithSpecialTypes<T0 extends PhantomTypeArgument, T1 extends TypeArgument>
+  implements StructClass
 {
   __StructClass = true as const;
 
@@ -134,10 +129,7 @@ export class WithSpecialTypes<
   static reified<
     T0 extends PhantomReified<PhantomTypeArgument>,
     T1 extends Reified<TypeArgument, any>,
-  >(
-    T0: T0,
-    T1: T1,
-  ): WithSpecialTypesReified<ToPhantomTypeArgument<T0>, ToTypeArgument<T1>> {
+  >(T0: T0, T1: T1): WithSpecialTypesReified<ToPhantomTypeArgument<T0>, ToTypeArgument<T1>> {
     return {
       typeName: WithSpecialTypes.$typeName,
       fullTypeName: composeSuiType(
@@ -150,28 +142,19 @@ export class WithSpecialTypes<
       ],
       isPhantom: WithSpecialTypes.$isPhantom,
       reifiedTypeArgs: [T0, T1],
-      fromFields: (fields: Record<string, any>) =>
-        WithSpecialTypes.fromFields([T0, T1], fields),
+      fromFields: (fields: Record<string, any>) => WithSpecialTypes.fromFields([T0, T1], fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         WithSpecialTypes.fromFieldsWithTypes([T0, T1], item),
       fromBcs: (data: Uint8Array) => WithSpecialTypes.fromBcs([T0, T1], data),
       bcs: WithSpecialTypes.bcs(toBcs(T1)),
-      fromJSONField: (field: any) =>
-        WithSpecialTypes.fromJSONField([T0, T1], field),
-      fromJSON: (json: Record<string, any>) =>
-        WithSpecialTypes.fromJSON([T0, T1], json),
+      fromJSONField: (field: any) => WithSpecialTypes.fromJSONField([T0, T1], field),
+      fromJSON: (json: Record<string, any>) => WithSpecialTypes.fromJSON([T0, T1], json),
       fromSuiParsedData: (content: SuiParsedData) =>
         WithSpecialTypes.fromSuiParsedData([T0, T1], content),
       fromSuiObjectData: (content: SuiObjectData) =>
         WithSpecialTypes.fromSuiObjectData([T0, T1], content),
-      fetch: async (client: SuiClient, id: string) =>
-        WithSpecialTypes.fetch(client, [T0, T1], id),
-      new: (
-        fields: WithSpecialTypesFields<
-          ToPhantomTypeArgument<T0>,
-          ToTypeArgument<T1>
-        >,
-      ) => {
+      fetch: async (client: SuiClient, id: string) => WithSpecialTypes.fetch(client, [T0, T1], id),
+      new: (fields: WithSpecialTypesFields<ToPhantomTypeArgument<T0>, ToTypeArgument<T1>>) => {
         return new WithSpecialTypes([extractType(T0), extractType(T1)], fields);
       },
       kind: "StructClassReified",
@@ -188,9 +171,7 @@ export class WithSpecialTypes<
   >(
     T0: T0,
     T1: T1,
-  ): PhantomReified<
-    ToTypeStr<WithSpecialTypes<ToPhantomTypeArgument<T0>, ToTypeArgument<T1>>>
-  > {
+  ): PhantomReified<ToTypeStr<WithSpecialTypes<ToPhantomTypeArgument<T0>, ToTypeArgument<T1>>>> {
     return phantom(WithSpecialTypes.reified(T0, T1));
   }
   static get p() {
@@ -231,28 +212,13 @@ export class WithSpecialTypes<
       url: decodeFromFields(Url.reified(), fields.url),
       idField: decodeFromFields(ID.reified(), fields.id_field),
       uid: decodeFromFields(UID.reified(), fields.uid),
-      balance: decodeFromFields(
-        Balance.reified(reified.phantom(SUI.reified())),
-        fields.balance,
-      ),
+      balance: decodeFromFields(Balance.reified(reified.phantom(SUI.reified())), fields.balance),
       option: decodeFromFields(Option.reified("u64"), fields.option),
-      optionObj: decodeFromFields(
-        Option.reified(Bar1.reified()),
-        fields.option_obj,
-      ),
+      optionObj: decodeFromFields(Option.reified(Bar1.reified()), fields.option_obj),
       optionNone: decodeFromFields(Option.reified("u64"), fields.option_none),
-      balanceGeneric: decodeFromFields(
-        Balance.reified(typeArg0),
-        fields.balance_generic,
-      ),
-      optionGeneric: decodeFromFields(
-        Option.reified(typeArg1),
-        fields.option_generic,
-      ),
-      optionGenericNone: decodeFromFields(
-        Option.reified(typeArg1),
-        fields.option_generic_none,
-      ),
+      balanceGeneric: decodeFromFields(Balance.reified(typeArg0), fields.balance_generic),
+      optionGeneric: decodeFromFields(Option.reified(typeArg1), fields.option_generic),
+      optionGenericNone: decodeFromFields(Option.reified(typeArg1), fields.option_generic_none),
     });
   }
 
@@ -272,10 +238,7 @@ export class WithSpecialTypes<
     return WithSpecialTypes.reified(typeArg0, typeArg1).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
       string: decodeFromFieldsWithTypes(String.reified(), item.fields.string),
-      asciiString: decodeFromFieldsWithTypes(
-        String1.reified(),
-        item.fields.ascii_string,
-      ),
+      asciiString: decodeFromFieldsWithTypes(String1.reified(), item.fields.ascii_string),
       url: decodeFromFieldsWithTypes(Url.reified(), item.fields.url),
       idField: decodeFromFieldsWithTypes(ID.reified(), item.fields.id_field),
       uid: decodeFromFieldsWithTypes(UID.reified(), item.fields.uid),
@@ -283,18 +246,9 @@ export class WithSpecialTypes<
         Balance.reified(reified.phantom(SUI.reified())),
         item.fields.balance,
       ),
-      option: decodeFromFieldsWithTypes(
-        Option.reified("u64"),
-        item.fields.option,
-      ),
-      optionObj: decodeFromFieldsWithTypes(
-        Option.reified(Bar1.reified()),
-        item.fields.option_obj,
-      ),
-      optionNone: decodeFromFieldsWithTypes(
-        Option.reified("u64"),
-        item.fields.option_none,
-      ),
+      option: decodeFromFieldsWithTypes(Option.reified("u64"), item.fields.option),
+      optionObj: decodeFromFieldsWithTypes(Option.reified(Bar1.reified()), item.fields.option_obj),
+      optionNone: decodeFromFieldsWithTypes(Option.reified("u64"), item.fields.option_none),
       balanceGeneric: decodeFromFieldsWithTypes(
         Balance.reified(typeArg0),
         item.fields.balance_generic,
@@ -334,18 +288,12 @@ export class WithSpecialTypes<
       idField: this.idField,
       uid: this.uid,
       balance: this.balance.toJSONField(),
-      option: fieldToJSON<Option<"u64">>(
-        `${Option.$typeName}<u64>`,
-        this.option,
-      ),
+      option: fieldToJSON<Option<"u64">>(`${Option.$typeName}<u64>`, this.option),
       optionObj: fieldToJSON<Option<Bar1>>(
         `${Option.$typeName}<${Bar1.$typeName}>`,
         this.optionObj,
       ),
-      optionNone: fieldToJSON<Option<"u64">>(
-        `${Option.$typeName}<u64>`,
-        this.optionNone,
-      ),
+      optionNone: fieldToJSON<Option<"u64">>(`${Option.$typeName}<u64>`, this.optionNone),
       balanceGeneric: this.balanceGeneric.toJSONField(),
       optionGeneric: fieldToJSON<Option<T1>>(
         `${Option.$typeName}<${typeArg1}>`,
@@ -359,11 +307,7 @@ export class WithSpecialTypes<
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
@@ -381,28 +325,13 @@ export class WithSpecialTypes<
       url: decodeFromJSONField(Url.reified(), field.url),
       idField: decodeFromJSONField(ID.reified(), field.idField),
       uid: decodeFromJSONField(UID.reified(), field.uid),
-      balance: decodeFromJSONField(
-        Balance.reified(reified.phantom(SUI.reified())),
-        field.balance,
-      ),
+      balance: decodeFromJSONField(Balance.reified(reified.phantom(SUI.reified())), field.balance),
       option: decodeFromJSONField(Option.reified("u64"), field.option),
-      optionObj: decodeFromJSONField(
-        Option.reified(Bar1.reified()),
-        field.optionObj,
-      ),
+      optionObj: decodeFromJSONField(Option.reified(Bar1.reified()), field.optionObj),
       optionNone: decodeFromJSONField(Option.reified("u64"), field.optionNone),
-      balanceGeneric: decodeFromJSONField(
-        Balance.reified(typeArg0),
-        field.balanceGeneric,
-      ),
-      optionGeneric: decodeFromJSONField(
-        Option.reified(typeArg1),
-        field.optionGeneric,
-      ),
-      optionGenericNone: decodeFromJSONField(
-        Option.reified(typeArg1),
-        field.optionGenericNone,
-      ),
+      balanceGeneric: decodeFromJSONField(Balance.reified(typeArg0), field.balanceGeneric),
+      optionGeneric: decodeFromJSONField(Option.reified(typeArg1), field.optionGeneric),
+      optionGenericNone: decodeFromJSONField(Option.reified(typeArg1), field.optionGenericNone),
     });
   }
 
@@ -418,10 +347,7 @@ export class WithSpecialTypes<
     }
     const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(
-        WithSpecialTypes.$typeName,
-        ...[typeArg0, typeArg1].map(extractType),
-      ),
+      composeSuiType(WithSpecialTypes.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
       [typeArg0, typeArg1],
     );
@@ -440,9 +366,7 @@ export class WithSpecialTypes<
       throw new Error("not an object");
     }
     if (!isWithSpecialTypes(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a WithSpecialTypes object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a WithSpecialTypes object`);
     }
     return WithSpecialTypes.fromFieldsWithTypes(typeArgs, content);
   }
@@ -455,11 +379,8 @@ export class WithSpecialTypes<
     data: SuiObjectData,
   ): WithSpecialTypes<ToPhantomTypeArgument<T0>, ToTypeArgument<T1>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isWithSpecialTypes(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a WithSpecialTypes object`);
+      if (data.bcs.dataType !== "moveObject" || !isWithSpecialTypes(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a WithSpecialTypes object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -502,14 +423,9 @@ export class WithSpecialTypes<
   ): Promise<WithSpecialTypes<ToPhantomTypeArgument<T0>, ToTypeArgument<T1>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching WithSpecialTypes object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching WithSpecialTypes object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isWithSpecialTypes(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isWithSpecialTypes(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a WithSpecialTypes object`);
     }
 

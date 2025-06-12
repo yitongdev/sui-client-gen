@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface JoinToSuiPoolArgs {
   storage: TransactionObjectInput;
@@ -19,10 +15,7 @@ export interface JoinToSuiPoolArgs {
  * @param storage - Function parameter
  * @param balance - Function parameter
  */
-export function joinToSuiPool(
-  tx: Transaction,
-  args: JoinToSuiPoolArgs,
-): TransactionResult {
+export function joinToSuiPool(tx: Transaction, args: JoinToSuiPoolArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::storage::join_to_sui_pool`,
     arguments: [obj(tx, args.storage), obj(tx, args.balance)],

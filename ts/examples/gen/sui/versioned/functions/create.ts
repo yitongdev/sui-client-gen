@@ -1,10 +1,6 @@
 import { GenericArg, generic, pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface CreateArgs {
   initVersion: bigint | TransactionArgument;
@@ -22,17 +18,10 @@ export interface CreateArgs {
  * @param ctx - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function create(
-  tx: Transaction,
-  typeArg: string,
-  args: CreateArgs,
-): TransactionResult {
+export function create(tx: Transaction, typeArg: string, args: CreateArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::versioned::create`,
     typeArguments: [typeArg],
-    arguments: [
-      pure(tx, args.initVersion, `u64`),
-      generic(tx, `${typeArg}`, args.initValue),
-    ],
+    arguments: [pure(tx, args.initVersion, `u64`), generic(tx, `${typeArg}`, args.initValue)],
   });
 }

@@ -105,22 +105,18 @@ export class ValidatorEpochInfoEventV2 implements StructClass {
       typeArgs: [] as [],
       isPhantom: ValidatorEpochInfoEventV2.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ValidatorEpochInfoEventV2.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => ValidatorEpochInfoEventV2.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         ValidatorEpochInfoEventV2.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ValidatorEpochInfoEventV2.fromBcs(data),
       bcs: ValidatorEpochInfoEventV2.bcs,
-      fromJSONField: (field: any) =>
-        ValidatorEpochInfoEventV2.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        ValidatorEpochInfoEventV2.fromJSON(json),
+      fromJSONField: (field: any) => ValidatorEpochInfoEventV2.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => ValidatorEpochInfoEventV2.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         ValidatorEpochInfoEventV2.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         ValidatorEpochInfoEventV2.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ValidatorEpochInfoEventV2.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => ValidatorEpochInfoEventV2.fetch(client, id),
       new: (fields: ValidatorEpochInfoEventV2Fields) => {
         return new ValidatorEpochInfoEventV2([], fields);
       },
@@ -167,18 +163,12 @@ export class ValidatorEpochInfoEventV2 implements StructClass {
     return ValidatorEpochInfoEventV2.reified().new({
       epoch: decodeFromFields("u64", fields.epoch),
       validatorAddress: decodeFromFields("address", fields.validator_address),
-      referenceGasSurveyQuote: decodeFromFields(
-        "u64",
-        fields.reference_gas_survey_quote,
-      ),
+      referenceGasSurveyQuote: decodeFromFields("u64", fields.reference_gas_survey_quote),
       stake: decodeFromFields("u64", fields.stake),
       votingPower: decodeFromFields("u64", fields.voting_power),
       commissionRate: decodeFromFields("u64", fields.commission_rate),
       poolStakingReward: decodeFromFields("u64", fields.pool_staking_reward),
-      storageFundStakingReward: decodeFromFields(
-        "u64",
-        fields.storage_fund_staking_reward,
-      ),
+      storageFundStakingReward: decodeFromFields("u64", fields.storage_fund_staking_reward),
       poolTokenExchangeRate: decodeFromFields(
         PoolTokenExchangeRate.reified(),
         fields.pool_token_exchange_rate,
@@ -187,10 +177,7 @@ export class ValidatorEpochInfoEventV2 implements StructClass {
         reified.vector("address"),
         fields.tallying_rule_reporters,
       ),
-      tallyingRuleGlobalScore: decodeFromFields(
-        "u64",
-        fields.tallying_rule_global_score,
-      ),
+      tallyingRuleGlobalScore: decodeFromFields("u64", fields.tallying_rule_global_score),
     });
   }
 
@@ -201,24 +188,15 @@ export class ValidatorEpochInfoEventV2 implements StructClass {
 
     return ValidatorEpochInfoEventV2.reified().new({
       epoch: decodeFromFieldsWithTypes("u64", item.fields.epoch),
-      validatorAddress: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.validator_address,
-      ),
+      validatorAddress: decodeFromFieldsWithTypes("address", item.fields.validator_address),
       referenceGasSurveyQuote: decodeFromFieldsWithTypes(
         "u64",
         item.fields.reference_gas_survey_quote,
       ),
       stake: decodeFromFieldsWithTypes("u64", item.fields.stake),
       votingPower: decodeFromFieldsWithTypes("u64", item.fields.voting_power),
-      commissionRate: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.commission_rate,
-      ),
-      poolStakingReward: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.pool_staking_reward,
-      ),
+      commissionRate: decodeFromFieldsWithTypes("u64", item.fields.commission_rate),
+      poolStakingReward: decodeFromFieldsWithTypes("u64", item.fields.pool_staking_reward),
       storageFundStakingReward: decodeFromFieldsWithTypes(
         "u64",
         item.fields.storage_fund_staking_reward,
@@ -239,9 +217,7 @@ export class ValidatorEpochInfoEventV2 implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): ValidatorEpochInfoEventV2 {
-    return ValidatorEpochInfoEventV2.fromFields(
-      ValidatorEpochInfoEventV2.bcs.parse(data),
-    );
+    return ValidatorEpochInfoEventV2.fromFields(ValidatorEpochInfoEventV2.bcs.parse(data));
   }
 
   toJSONField() {
@@ -264,29 +240,19 @@ export class ValidatorEpochInfoEventV2 implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ValidatorEpochInfoEventV2 {
     return ValidatorEpochInfoEventV2.reified().new({
       epoch: decodeFromJSONField("u64", field.epoch),
       validatorAddress: decodeFromJSONField("address", field.validatorAddress),
-      referenceGasSurveyQuote: decodeFromJSONField(
-        "u64",
-        field.referenceGasSurveyQuote,
-      ),
+      referenceGasSurveyQuote: decodeFromJSONField("u64", field.referenceGasSurveyQuote),
       stake: decodeFromJSONField("u64", field.stake),
       votingPower: decodeFromJSONField("u64", field.votingPower),
       commissionRate: decodeFromJSONField("u64", field.commissionRate),
       poolStakingReward: decodeFromJSONField("u64", field.poolStakingReward),
-      storageFundStakingReward: decodeFromJSONField(
-        "u64",
-        field.storageFundStakingReward,
-      ),
+      storageFundStakingReward: decodeFromJSONField("u64", field.storageFundStakingReward),
       poolTokenExchangeRate: decodeFromJSONField(
         PoolTokenExchangeRate.reified(),
         field.poolTokenExchangeRate,
@@ -295,10 +261,7 @@ export class ValidatorEpochInfoEventV2 implements StructClass {
         reified.vector("address"),
         field.tallyingRuleReporters,
       ),
-      tallyingRuleGlobalScore: decodeFromJSONField(
-        "u64",
-        field.tallyingRuleGlobalScore,
-      ),
+      tallyingRuleGlobalScore: decodeFromJSONField("u64", field.tallyingRuleGlobalScore),
     });
   }
 
@@ -324,11 +287,8 @@ export class ValidatorEpochInfoEventV2 implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): ValidatorEpochInfoEventV2 {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isValidatorEpochInfoEventV2(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ValidatorEpochInfoEventV2 object`);
+      if (data.bcs.dataType !== "moveObject" || !isValidatorEpochInfoEventV2(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ValidatorEpochInfoEventV2 object`);
       }
 
       return ValidatorEpochInfoEventV2.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -341,10 +301,7 @@ export class ValidatorEpochInfoEventV2 implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<ValidatorEpochInfoEventV2> {
+  static async fetch(client: SuiClient, id: string): Promise<ValidatorEpochInfoEventV2> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
@@ -355,9 +312,7 @@ export class ValidatorEpochInfoEventV2 implements StructClass {
       res.data?.bcs?.dataType !== "moveObject" ||
       !isValidatorEpochInfoEventV2(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a ValidatorEpochInfoEventV2 object`,
-      );
+      throw new Error(`object at id ${id} is not a ValidatorEpochInfoEventV2 object`);
     }
 
     return ValidatorEpochInfoEventV2.fromSuiObjectData(res.data);

@@ -69,18 +69,14 @@ export class V__0_2_0 implements StructClass {
       isPhantom: V__0_2_0.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => V__0_2_0.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        V__0_2_0.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => V__0_2_0.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => V__0_2_0.fromBcs(data),
       bcs: V__0_2_0.bcs,
       fromJSONField: (field: any) => V__0_2_0.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => V__0_2_0.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        V__0_2_0.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        V__0_2_0.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        V__0_2_0.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => V__0_2_0.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => V__0_2_0.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => V__0_2_0.fetch(client, id),
       new: (fields: V__0_2_0Fields) => {
         return new V__0_2_0([], fields);
       },
@@ -106,9 +102,7 @@ export class V__0_2_0 implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): V__0_2_0 {
-    return V__0_2_0.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return V__0_2_0.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): V__0_2_0 {
@@ -132,17 +126,11 @@ export class V__0_2_0 implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): V__0_2_0 {
-    return V__0_2_0.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return V__0_2_0.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): V__0_2_0 {
@@ -158,9 +146,7 @@ export class V__0_2_0 implements StructClass {
       throw new Error("not an object");
     }
     if (!isV__0_2_0(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a V__0_2_0 object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a V__0_2_0 object`);
     }
     return V__0_2_0.fromFieldsWithTypes(content);
   }
@@ -168,7 +154,7 @@ export class V__0_2_0 implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): V__0_2_0 {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isV__0_2_0(data.bcs.type)) {
-        throw new Error(`object at is not a V__0_2_0 object`);
+        throw new Error(`object at ${data.objectId} is not a V__0_2_0 object`);
       }
 
       return V__0_2_0.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -184,14 +170,9 @@ export class V__0_2_0 implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<V__0_2_0> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching V__0_2_0 object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching V__0_2_0 object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isV__0_2_0(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isV__0_2_0(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a V__0_2_0 object`);
     }
 

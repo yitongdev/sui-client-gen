@@ -31,10 +31,7 @@ export interface GovernanceDataSourceFields {
   initialSequence: ToField<"u64">;
 }
 
-export type GovernanceDataSourceReified = Reified<
-  GovernanceDataSource,
-  GovernanceDataSourceFields
->;
+export type GovernanceDataSourceReified = Reified<GovernanceDataSource, GovernanceDataSourceFields>;
 
 /**
  * Move struct: `GovernanceDataSource`
@@ -78,21 +75,18 @@ export class GovernanceDataSource implements StructClass {
       typeArgs: [] as [],
       isPhantom: GovernanceDataSource.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        GovernanceDataSource.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => GovernanceDataSource.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         GovernanceDataSource.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => GovernanceDataSource.fromBcs(data),
       bcs: GovernanceDataSource.bcs,
       fromJSONField: (field: any) => GovernanceDataSource.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        GovernanceDataSource.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => GovernanceDataSource.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         GovernanceDataSource.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         GovernanceDataSource.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        GovernanceDataSource.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => GovernanceDataSource.fetch(client, id),
       new: (fields: GovernanceDataSourceFields) => {
         return new GovernanceDataSource([], fields);
       },
@@ -122,10 +116,7 @@ export class GovernanceDataSource implements StructClass {
   static fromFields(fields: Record<string, any>): GovernanceDataSource {
     return GovernanceDataSource.reified().new({
       emitterChainId: decodeFromFields("u64", fields.emitter_chain_id),
-      emitterAddress: decodeFromFields(
-        ExternalAddress.reified(),
-        fields.emitter_address,
-      ),
+      emitterAddress: decodeFromFields(ExternalAddress.reified(), fields.emitter_address),
       initialSequence: decodeFromFields("u64", fields.initial_sequence),
     });
   }
@@ -136,25 +127,17 @@ export class GovernanceDataSource implements StructClass {
     }
 
     return GovernanceDataSource.reified().new({
-      emitterChainId: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.emitter_chain_id,
-      ),
+      emitterChainId: decodeFromFieldsWithTypes("u64", item.fields.emitter_chain_id),
       emitterAddress: decodeFromFieldsWithTypes(
         ExternalAddress.reified(),
         item.fields.emitter_address,
       ),
-      initialSequence: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.initial_sequence,
-      ),
+      initialSequence: decodeFromFieldsWithTypes("u64", item.fields.initial_sequence),
     });
   }
 
   static fromBcs(data: Uint8Array): GovernanceDataSource {
-    return GovernanceDataSource.fromFields(
-      GovernanceDataSource.bcs.parse(data),
-    );
+    return GovernanceDataSource.fromFields(GovernanceDataSource.bcs.parse(data));
   }
 
   toJSONField() {
@@ -166,20 +149,13 @@ export class GovernanceDataSource implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): GovernanceDataSource {
     return GovernanceDataSource.reified().new({
       emitterChainId: decodeFromJSONField("u64", field.emitterChainId),
-      emitterAddress: decodeFromJSONField(
-        ExternalAddress.reified(),
-        field.emitterAddress,
-      ),
+      emitterAddress: decodeFromJSONField(ExternalAddress.reified(), field.emitterAddress),
       initialSequence: decodeFromJSONField("u64", field.initialSequence),
     });
   }
@@ -206,11 +182,8 @@ export class GovernanceDataSource implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): GovernanceDataSource {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isGovernanceDataSource(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a GovernanceDataSource object`);
+      if (data.bcs.dataType !== "moveObject" || !isGovernanceDataSource(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a GovernanceDataSource object`);
       }
 
       return GovernanceDataSource.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -223,23 +196,13 @@ export class GovernanceDataSource implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<GovernanceDataSource> {
+  static async fetch(client: SuiClient, id: string): Promise<GovernanceDataSource> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching GovernanceDataSource object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching GovernanceDataSource object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isGovernanceDataSource(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a GovernanceDataSource object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isGovernanceDataSource(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a GovernanceDataSource object`);
     }
 
     return GovernanceDataSource.fromSuiObjectData(res.data);

@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { ID } from "../../../sui/object/structs/index.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -29,10 +25,7 @@ export interface PoolCreationEventFields {
   poolId: ToField<ID>;
 }
 
-export type PoolCreationEventReified = Reified<
-  PoolCreationEvent,
-  PoolCreationEventFields
->;
+export type PoolCreationEventReified = Reified<PoolCreationEvent, PoolCreationEventFields>;
 
 /**
  * Move struct: `PoolCreationEvent`
@@ -72,20 +65,15 @@ export class PoolCreationEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: PoolCreationEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PoolCreationEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PoolCreationEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => PoolCreationEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PoolCreationEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PoolCreationEvent.fromBcs(data),
       bcs: PoolCreationEvent.bcs,
       fromJSONField: (field: any) => PoolCreationEvent.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PoolCreationEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PoolCreationEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PoolCreationEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PoolCreationEvent.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PoolCreationEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PoolCreationEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PoolCreationEvent.fetch(client, id),
       new: (fields: PoolCreationEventFields) => {
         return new PoolCreationEvent([], fields);
       },
@@ -137,11 +125,7 @@ export class PoolCreationEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PoolCreationEvent {
@@ -163,20 +147,15 @@ export class PoolCreationEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isPoolCreationEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PoolCreationEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PoolCreationEvent object`);
     }
     return PoolCreationEvent.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): PoolCreationEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPoolCreationEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PoolCreationEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isPoolCreationEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PoolCreationEvent object`);
       }
 
       return PoolCreationEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -189,20 +168,12 @@ export class PoolCreationEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<PoolCreationEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<PoolCreationEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PoolCreationEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PoolCreationEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPoolCreationEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPoolCreationEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PoolCreationEvent object`);
     }
 

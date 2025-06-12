@@ -25,11 +25,7 @@ export interface AllowArgs {
  * @param string - Function parameter
  * @param txContext - Function parameter
  */
-export function allow(
-  tx: Transaction,
-  typeArg: string,
-  args: AllowArgs,
-): TransactionResult {
+export function allow(tx: Transaction, typeArg: string, args: AllowArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::token::allow`,
     typeArguments: [typeArg],

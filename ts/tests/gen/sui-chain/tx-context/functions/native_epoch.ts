@@ -9,8 +9,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @returns TransactionResult - The transaction result
  */
 export function nativeEpoch(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::tx_context::native_epoch`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::tx_context::native_epoch`, arguments: [] });
 }

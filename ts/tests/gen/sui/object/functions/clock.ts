@@ -9,8 +9,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @returns TransactionResult - The transaction result
  */
 export function clock(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::object::clock`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::object::clock`, arguments: [] });
 }

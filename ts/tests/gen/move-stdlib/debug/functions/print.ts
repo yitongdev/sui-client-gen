@@ -10,11 +10,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param tx - The transaction object
  * @param x - Function parameter
  */
-export function print(
-  tx: Transaction,
-  typeArg: string,
-  x: GenericArg,
-): TransactionResult {
+export function print(tx: Transaction, typeArg: string, x: GenericArg): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::debug::print`,
     typeArguments: [typeArg],

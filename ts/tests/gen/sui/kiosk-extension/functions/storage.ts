@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface StorageArgs {
   ext: GenericArg;
@@ -21,11 +17,7 @@ export interface StorageArgs {
  * @param self - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function storage(
-  tx: Transaction,
-  typeArg: string,
-  args: StorageArgs,
-): TransactionResult {
+export function storage(tx: Transaction, typeArg: string, args: StorageArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk_extension::storage`,
     typeArguments: [typeArg],

@@ -48,9 +48,7 @@ export type TokenPolicyCapReified<T extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T - Type parameter 0 (phantom)
  */
-export class TokenPolicyCap<T extends PhantomTypeArgument>
-  implements StructClass
-{
+export class TokenPolicyCap<T extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::token::TokenPolicyCap`;
@@ -65,10 +63,7 @@ export class TokenPolicyCap<T extends PhantomTypeArgument>
   readonly id: ToField<UID>;
   readonly for: ToField<ID>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: TokenPolicyCapFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: TokenPolicyCapFields<T>) {
     this.$fullTypeName = composeSuiType(
       TokenPolicyCap.$typeName,
       ...typeArgs,
@@ -88,25 +83,18 @@ export class TokenPolicyCap<T extends PhantomTypeArgument>
         TokenPolicyCap.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::token::TokenPolicyCap<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: TokenPolicyCap.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        TokenPolicyCap.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        TokenPolicyCap.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => TokenPolicyCap.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => TokenPolicyCap.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => TokenPolicyCap.fromBcs(T, data),
       bcs: TokenPolicyCap.bcs,
       fromJSONField: (field: any) => TokenPolicyCap.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => TokenPolicyCap.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        TokenPolicyCap.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        TokenPolicyCap.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        TokenPolicyCap.fetch(client, T, id),
+      fromSuiParsedData: (content: SuiParsedData) => TokenPolicyCap.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => TokenPolicyCap.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => TokenPolicyCap.fetch(client, T, id),
       new: (fields: TokenPolicyCapFields<ToPhantomTypeArgument<T>>) => {
         return new TokenPolicyCap([extractType(T)], fields);
       },
@@ -174,11 +162,7 @@ export class TokenPolicyCap<T extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -215,9 +199,7 @@ export class TokenPolicyCap<T extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isTokenPolicyCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a TokenPolicyCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a TokenPolicyCap object`);
     }
     return TokenPolicyCap.fromFieldsWithTypes(typeArg, content);
   }
@@ -227,11 +209,8 @@ export class TokenPolicyCap<T extends PhantomTypeArgument>
     data: SuiObjectData,
   ): TokenPolicyCap<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isTokenPolicyCap(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a TokenPolicyCap object`);
+      if (data.bcs.dataType !== "moveObject" || !isTokenPolicyCap(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a TokenPolicyCap object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -266,14 +245,9 @@ export class TokenPolicyCap<T extends PhantomTypeArgument>
   ): Promise<TokenPolicyCap<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TokenPolicyCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TokenPolicyCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTokenPolicyCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTokenPolicyCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a TokenPolicyCap object`);
     }
 

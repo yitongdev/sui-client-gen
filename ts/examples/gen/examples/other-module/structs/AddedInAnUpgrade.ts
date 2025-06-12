@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V2 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -28,10 +24,7 @@ export interface AddedInAnUpgradeFields {
   dummyField: ToField<"bool">;
 }
 
-export type AddedInAnUpgradeReified = Reified<
-  AddedInAnUpgrade,
-  AddedInAnUpgradeFields
->;
+export type AddedInAnUpgradeReified = Reified<AddedInAnUpgrade, AddedInAnUpgradeFields>;
 
 /**
  * Move struct: `AddedInAnUpgrade`
@@ -71,20 +64,15 @@ export class AddedInAnUpgrade implements StructClass {
       typeArgs: [] as [],
       isPhantom: AddedInAnUpgrade.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        AddedInAnUpgrade.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        AddedInAnUpgrade.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => AddedInAnUpgrade.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => AddedInAnUpgrade.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => AddedInAnUpgrade.fromBcs(data),
       bcs: AddedInAnUpgrade.bcs,
       fromJSONField: (field: any) => AddedInAnUpgrade.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => AddedInAnUpgrade.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        AddedInAnUpgrade.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        AddedInAnUpgrade.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        AddedInAnUpgrade.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => AddedInAnUpgrade.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => AddedInAnUpgrade.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => AddedInAnUpgrade.fetch(client, id),
       new: (fields: AddedInAnUpgradeFields) => {
         return new AddedInAnUpgrade([], fields);
       },
@@ -136,11 +124,7 @@ export class AddedInAnUpgrade implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): AddedInAnUpgrade {
@@ -162,20 +146,15 @@ export class AddedInAnUpgrade implements StructClass {
       throw new Error("not an object");
     }
     if (!isAddedInAnUpgrade(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a AddedInAnUpgrade object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a AddedInAnUpgrade object`);
     }
     return AddedInAnUpgrade.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): AddedInAnUpgrade {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isAddedInAnUpgrade(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a AddedInAnUpgrade object`);
+      if (data.bcs.dataType !== "moveObject" || !isAddedInAnUpgrade(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a AddedInAnUpgrade object`);
       }
 
       return AddedInAnUpgrade.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,14 +170,9 @@ export class AddedInAnUpgrade implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<AddedInAnUpgrade> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching AddedInAnUpgrade object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching AddedInAnUpgrade object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isAddedInAnUpgrade(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isAddedInAnUpgrade(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a AddedInAnUpgrade object`);
     }
 

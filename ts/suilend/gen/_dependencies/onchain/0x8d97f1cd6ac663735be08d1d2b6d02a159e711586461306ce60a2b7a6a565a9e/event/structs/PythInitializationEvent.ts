@@ -71,22 +71,18 @@ export class PythInitializationEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: PythInitializationEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PythInitializationEvent.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => PythInitializationEvent.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         PythInitializationEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PythInitializationEvent.fromBcs(data),
       bcs: PythInitializationEvent.bcs,
-      fromJSONField: (field: any) =>
-        PythInitializationEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        PythInitializationEvent.fromJSON(json),
+      fromJSONField: (field: any) => PythInitializationEvent.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => PythInitializationEvent.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         PythInitializationEvent.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         PythInitializationEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PythInitializationEvent.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => PythInitializationEvent.fetch(client, id),
       new: (fields: PythInitializationEventFields) => {
         return new PythInitializationEvent([], fields);
       },
@@ -128,9 +124,7 @@ export class PythInitializationEvent implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): PythInitializationEvent {
-    return PythInitializationEvent.fromFields(
-      PythInitializationEvent.bcs.parse(data),
-    );
+    return PythInitializationEvent.fromFields(PythInitializationEvent.bcs.parse(data));
   }
 
   toJSONField() {
@@ -140,11 +134,7 @@ export class PythInitializationEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PythInitializationEvent {
@@ -175,11 +165,8 @@ export class PythInitializationEvent implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): PythInitializationEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPythInitializationEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PythInitializationEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isPythInitializationEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PythInitializationEvent object`);
       }
 
       return PythInitializationEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -192,23 +179,15 @@ export class PythInitializationEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<PythInitializationEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<PythInitializationEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
         `error fetching PythInitializationEvent object at id ${id}: ${res.error.code}`,
       );
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPythInitializationEvent(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a PythInitializationEvent object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPythInitializationEvent(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a PythInitializationEvent object`);
     }
 
     return PythInitializationEvent.fromSuiObjectData(res.data);

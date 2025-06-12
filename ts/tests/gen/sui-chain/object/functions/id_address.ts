@@ -11,11 +11,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param t0 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function idAddress(
-  tx: Transaction,
-  typeArg: string,
-  t0: GenericArg,
-): TransactionResult {
+export function idAddress(tx: Transaction, typeArg: string, t0: GenericArg): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::object::id_address`,
     typeArguments: [typeArg],

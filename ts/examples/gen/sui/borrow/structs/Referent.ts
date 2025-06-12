@@ -38,10 +38,7 @@ export interface ReferentFields<T extends TypeArgument> {
   value: ToField<Option<T>>;
 }
 
-export type ReferentReified<T extends TypeArgument> = Reified<
-  Referent<T>,
-  ReferentFields<T>
->;
+export type ReferentReified<T extends TypeArgument> = Reified<Referent<T>, ReferentFields<T>>;
 
 /**
  * Move struct: `Referent`
@@ -75,9 +72,7 @@ export class Referent<T extends TypeArgument> implements StructClass {
     this.value = fields.value;
   }
 
-  static reified<T extends Reified<TypeArgument, any>>(
-    T: T,
-  ): ReferentReified<ToTypeArgument<T>> {
+  static reified<T extends Reified<TypeArgument, any>>(T: T): ReferentReified<ToTypeArgument<T>> {
     return {
       typeName: Referent.$typeName,
       fullTypeName: composeSuiType(
@@ -87,20 +82,15 @@ export class Referent<T extends TypeArgument> implements StructClass {
       typeArgs: [extractType(T)] as [ToTypeStr<ToTypeArgument<T>>],
       isPhantom: Referent.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        Referent.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Referent.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => Referent.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Referent.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => Referent.fromBcs(T, data),
       bcs: Referent.bcs(toBcs(T)),
       fromJSONField: (field: any) => Referent.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => Referent.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Referent.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Referent.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Referent.fetch(client, T, id),
+      fromSuiParsedData: (content: SuiParsedData) => Referent.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => Referent.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => Referent.fetch(client, T, id),
       new: (fields: ReferentFields<ToTypeArgument<T>>) => {
         return new Referent([extractType(T)], fields);
       },
@@ -153,10 +143,7 @@ export class Referent<T extends TypeArgument> implements StructClass {
 
     return Referent.reified(typeArg).new({
       id: decodeFromFieldsWithTypes("address", item.fields.id),
-      value: decodeFromFieldsWithTypes(
-        Option.reified(typeArg),
-        item.fields.value,
-      ),
+      value: decodeFromFieldsWithTypes(Option.reified(typeArg), item.fields.value),
     });
   }
 
@@ -164,28 +151,18 @@ export class Referent<T extends TypeArgument> implements StructClass {
     typeArg: T,
     data: Uint8Array,
   ): Referent<ToTypeArgument<T>> {
-    return Referent.fromFields(
-      typeArg,
-      Referent.bcs(toBcs(typeArg)).parse(data),
-    );
+    return Referent.fromFields(typeArg, Referent.bcs(toBcs(typeArg)).parse(data));
   }
 
   toJSONField() {
     return {
       id: this.id,
-      value: fieldToJSON<Option<T>>(
-        `${Option.$typeName}<${this.$typeArgs?.[0]}>`,
-        this.value,
-      ),
+      value: fieldToJSON<Option<T>>(`${Option.$typeName}<${this.$typeArgs?.[0]}>`, this.value),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends Reified<TypeArgument, any>>(
@@ -222,9 +199,7 @@ export class Referent<T extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isReferent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Referent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Referent object`);
     }
     return Referent.fromFieldsWithTypes(typeArg, content);
   }
@@ -235,7 +210,7 @@ export class Referent<T extends TypeArgument> implements StructClass {
   ): Referent<ToTypeArgument<T>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isReferent(data.bcs.type)) {
-        throw new Error(`object at is not a Referent object`);
+        throw new Error(`object at ${data.objectId} is not a Referent object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -270,14 +245,9 @@ export class Referent<T extends TypeArgument> implements StructClass {
   ): Promise<Referent<ToTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Referent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Referent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isReferent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isReferent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Referent object`);
     }
 

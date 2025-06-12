@@ -68,20 +68,15 @@ export class CurrentDigest implements StructClass {
       typeArgs: [] as [],
       isPhantom: CurrentDigest.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        CurrentDigest.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        CurrentDigest.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => CurrentDigest.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => CurrentDigest.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => CurrentDigest.fromBcs(data),
       bcs: CurrentDigest.bcs,
       fromJSONField: (field: any) => CurrentDigest.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => CurrentDigest.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        CurrentDigest.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        CurrentDigest.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        CurrentDigest.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => CurrentDigest.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => CurrentDigest.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => CurrentDigest.fetch(client, id),
       new: (fields: CurrentDigestFields) => {
         return new CurrentDigest([], fields);
       },
@@ -133,11 +128,7 @@ export class CurrentDigest implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): CurrentDigest {
@@ -159,20 +150,15 @@ export class CurrentDigest implements StructClass {
       throw new Error("not an object");
     }
     if (!isCurrentDigest(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a CurrentDigest object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a CurrentDigest object`);
     }
     return CurrentDigest.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): CurrentDigest {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isCurrentDigest(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a CurrentDigest object`);
+      if (data.bcs.dataType !== "moveObject" || !isCurrentDigest(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a CurrentDigest object`);
       }
 
       return CurrentDigest.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -188,14 +174,9 @@ export class CurrentDigest implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<CurrentDigest> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching CurrentDigest object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching CurrentDigest object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isCurrentDigest(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isCurrentDigest(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a CurrentDigest object`);
     }
 

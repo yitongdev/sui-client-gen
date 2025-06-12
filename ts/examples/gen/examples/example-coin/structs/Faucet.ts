@@ -11,11 +11,7 @@ import {
   phantom,
   ToTypeStr as ToPhantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { TreasuryCap } from "../../../sui/coin/structs/index.js";
 import { UID } from "../../../sui/object/structs/index.js";
 import { PKG_V1 } from "../../constants.js";
@@ -77,16 +73,13 @@ export class Faucet implements StructClass {
       isPhantom: Faucet.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Faucet.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Faucet.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Faucet.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Faucet.fromBcs(data),
       bcs: Faucet.bcs,
       fromJSONField: (field: any) => Faucet.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Faucet.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Faucet.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Faucet.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Faucet.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Faucet.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Faucet.fetch(client, id),
       new: (fields: FaucetFields) => {
         return new Faucet([], fields);
@@ -149,11 +142,7 @@ export class Faucet implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Faucet {
@@ -179,9 +168,7 @@ export class Faucet implements StructClass {
       throw new Error("not an object");
     }
     if (!isFaucet(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Faucet object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Faucet object`);
     }
     return Faucet.fromFieldsWithTypes(content);
   }
@@ -189,7 +176,7 @@ export class Faucet implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Faucet {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isFaucet(data.bcs.type)) {
-        throw new Error(`object at is not a Faucet object`);
+        throw new Error(`object at ${data.objectId} is not a Faucet object`);
       }
 
       return Faucet.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -205,14 +192,9 @@ export class Faucet implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Faucet> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Faucet object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Faucet object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isFaucet(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isFaucet(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Faucet object`);
     }
 

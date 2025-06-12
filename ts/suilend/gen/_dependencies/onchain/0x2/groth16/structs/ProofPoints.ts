@@ -71,20 +71,15 @@ export class ProofPoints implements StructClass {
       typeArgs: [] as [],
       isPhantom: ProofPoints.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ProofPoints.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ProofPoints.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ProofPoints.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ProofPoints.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ProofPoints.fromBcs(data),
       bcs: ProofPoints.bcs,
       fromJSONField: (field: any) => ProofPoints.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ProofPoints.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ProofPoints.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ProofPoints.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ProofPoints.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ProofPoints.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ProofPoints.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ProofPoints.fetch(client, id),
       new: (fields: ProofPointsFields) => {
         return new ProofPoints([], fields);
       },
@@ -136,11 +131,7 @@ export class ProofPoints implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ProofPoints {
@@ -162,9 +153,7 @@ export class ProofPoints implements StructClass {
       throw new Error("not an object");
     }
     if (!isProofPoints(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ProofPoints object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ProofPoints object`);
     }
     return ProofPoints.fromFieldsWithTypes(content);
   }
@@ -172,7 +161,7 @@ export class ProofPoints implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): ProofPoints {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isProofPoints(data.bcs.type)) {
-        throw new Error(`object at is not a ProofPoints object`);
+        throw new Error(`object at ${data.objectId} is not a ProofPoints object`);
       }
 
       return ProofPoints.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -188,14 +177,9 @@ export class ProofPoints implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ProofPoints> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ProofPoints object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ProofPoints object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isProofPoints(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isProofPoints(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ProofPoints object`);
     }
 

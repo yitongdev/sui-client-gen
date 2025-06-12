@@ -20,10 +20,7 @@ export interface SetSpreadFeeBpsArgs {
  * @param reserveConfigBuilder - Function parameter
  * @param u64 - Function parameter
  */
-export function setSpreadFeeBps(
-  tx: Transaction,
-  args: SetSpreadFeeBpsArgs,
-): TransactionResult {
+export function setSpreadFeeBps(tx: Transaction, args: SetSpreadFeeBpsArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve_config::set_spread_fee_bps`,
     arguments: [obj(tx, args.reserveConfigBuilder), pure(tx, args.u64, `u64`)],

@@ -21,10 +21,7 @@ export interface SplitFromSuiPoolArgs {
  * @param u64 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function splitFromSuiPool(
-  tx: Transaction,
-  args: SplitFromSuiPoolArgs,
-): TransactionResult {
+export function splitFromSuiPool(tx: Transaction, args: SplitFromSuiPoolArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::storage::split_from_sui_pool`,
     arguments: [obj(tx, args.storage), pure(tx, args.u64, `u64`)],

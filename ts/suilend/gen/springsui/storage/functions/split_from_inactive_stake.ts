@@ -30,10 +30,6 @@ export function splitFromInactiveStake(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::storage::split_from_inactive_stake`,
-    arguments: [
-      obj(tx, args.storage),
-      pure(tx, args.u641, `u64`),
-      pure(tx, args.u642, `u64`),
-    ],
+    arguments: [obj(tx, args.storage), pure(tx, args.u641, `u64`), pure(tx, args.u642, `u64`)],
   });
 }

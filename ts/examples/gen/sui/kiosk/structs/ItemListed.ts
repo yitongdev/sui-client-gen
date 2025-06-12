@@ -65,10 +65,7 @@ export class ItemListed<T extends PhantomTypeArgument> implements StructClass {
   readonly id: ToField<ID>;
   readonly price: ToField<"u64">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: ItemListedFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: ItemListedFields<T>) {
     this.$fullTypeName = composeSuiType(
       ItemListed.$typeName,
       ...typeArgs,
@@ -89,25 +86,18 @@ export class ItemListed<T extends PhantomTypeArgument> implements StructClass {
         ItemListed.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::kiosk::ItemListed<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: ItemListed.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        ItemListed.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ItemListed.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => ItemListed.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ItemListed.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => ItemListed.fromBcs(T, data),
       bcs: ItemListed.bcs,
       fromJSONField: (field: any) => ItemListed.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => ItemListed.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ItemListed.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ItemListed.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        ItemListed.fetch(client, T, id),
+      fromSuiParsedData: (content: SuiParsedData) => ItemListed.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => ItemListed.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => ItemListed.fetch(client, T, id),
       new: (fields: ItemListedFields<ToPhantomTypeArgument<T>>) => {
         return new ItemListed([extractType(T)], fields);
       },
@@ -179,11 +169,7 @@ export class ItemListed<T extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -221,9 +207,7 @@ export class ItemListed<T extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isItemListed(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ItemListed object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ItemListed object`);
     }
     return ItemListed.fromFieldsWithTypes(typeArg, content);
   }
@@ -234,7 +218,7 @@ export class ItemListed<T extends PhantomTypeArgument> implements StructClass {
   ): ItemListed<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isItemListed(data.bcs.type)) {
-        throw new Error(`object at is not a ItemListed object`);
+        throw new Error(`object at ${data.objectId} is not a ItemListed object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -269,14 +253,9 @@ export class ItemListed<T extends PhantomTypeArgument> implements StructClass {
   ): Promise<ItemListed<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ItemListed object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ItemListed object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isItemListed(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isItemListed(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ItemListed object`);
     }
 

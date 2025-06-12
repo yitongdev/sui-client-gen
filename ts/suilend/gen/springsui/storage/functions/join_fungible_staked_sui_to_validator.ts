@@ -28,10 +28,6 @@ export function joinFungibleStakedSuiToValidator(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::storage::join_fungible_staked_sui_to_validator`,
-    arguments: [
-      obj(tx, args.storage),
-      pure(tx, args.u64, `u64`),
-      obj(tx, args.fungibleStakedSui),
-    ],
+    arguments: [obj(tx, args.storage), pure(tx, args.u64, `u64`), obj(tx, args.fungibleStakedSui)],
   });
 }

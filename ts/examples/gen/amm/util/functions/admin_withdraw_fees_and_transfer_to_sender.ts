@@ -33,10 +33,6 @@ export function adminWithdrawFeesAndTransferToSender(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::admin_withdraw_fees_and_transfer_to_sender`,
     typeArguments: typeArgs,
-    arguments: [
-      obj(tx, args.pool),
-      obj(tx, args.adminCap),
-      pure(tx, args.amount, `u64`),
-    ],
+    arguments: [obj(tx, args.pool), obj(tx, args.adminCap), pure(tx, args.amount, `u64`)],
   });
 }

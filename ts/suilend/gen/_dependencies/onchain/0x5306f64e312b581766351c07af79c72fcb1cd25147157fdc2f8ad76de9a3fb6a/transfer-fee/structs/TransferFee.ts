@@ -71,20 +71,15 @@ export class TransferFee implements StructClass {
       typeArgs: [] as [],
       isPhantom: TransferFee.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        TransferFee.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        TransferFee.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => TransferFee.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => TransferFee.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => TransferFee.fromBcs(data),
       bcs: TransferFee.bcs,
       fromJSONField: (field: any) => TransferFee.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => TransferFee.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        TransferFee.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        TransferFee.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        TransferFee.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => TransferFee.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => TransferFee.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => TransferFee.fetch(client, id),
       new: (fields: TransferFeeFields) => {
         return new TransferFee([], fields);
       },
@@ -143,11 +138,7 @@ export class TransferFee implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): TransferFee {
@@ -170,9 +161,7 @@ export class TransferFee implements StructClass {
       throw new Error("not an object");
     }
     if (!isTransferFee(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a TransferFee object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a TransferFee object`);
     }
     return TransferFee.fromFieldsWithTypes(content);
   }
@@ -180,7 +169,7 @@ export class TransferFee implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): TransferFee {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isTransferFee(data.bcs.type)) {
-        throw new Error(`object at is not a TransferFee object`);
+        throw new Error(`object at ${data.objectId} is not a TransferFee object`);
       }
 
       return TransferFee.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -196,14 +185,9 @@ export class TransferFee implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<TransferFee> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TransferFee object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TransferFee object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTransferFee(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTransferFee(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a TransferFee object`);
     }
 

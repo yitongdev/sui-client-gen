@@ -25,10 +25,7 @@ export interface U128InRangeArgs {
  * @param numOfBytes - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function u128InRange(
-  tx: Transaction,
-  args: U128InRangeArgs,
-): TransactionResult {
+export function u128InRange(tx: Transaction, args: U128InRangeArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::random::u128_in_range`,
     arguments: [

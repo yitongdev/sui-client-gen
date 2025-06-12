@@ -31,10 +31,7 @@ export interface ValidatorJoinEventFields {
   stakingPoolId: ToField<ID>;
 }
 
-export type ValidatorJoinEventReified = Reified<
-  ValidatorJoinEvent,
-  ValidatorJoinEventFields
->;
+export type ValidatorJoinEventReified = Reified<ValidatorJoinEvent, ValidatorJoinEventFields>;
 
 /**
  * Move struct: `ValidatorJoinEvent`
@@ -78,21 +75,15 @@ export class ValidatorJoinEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: ValidatorJoinEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ValidatorJoinEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ValidatorJoinEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ValidatorJoinEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ValidatorJoinEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ValidatorJoinEvent.fromBcs(data),
       bcs: ValidatorJoinEvent.bcs,
       fromJSONField: (field: any) => ValidatorJoinEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        ValidatorJoinEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ValidatorJoinEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ValidatorJoinEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ValidatorJoinEvent.fetch(client, id),
+      fromJSON: (json: Record<string, any>) => ValidatorJoinEvent.fromJSON(json),
+      fromSuiParsedData: (content: SuiParsedData) => ValidatorJoinEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ValidatorJoinEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ValidatorJoinEvent.fetch(client, id),
       new: (fields: ValidatorJoinEventFields) => {
         return new ValidatorJoinEvent([], fields);
       },
@@ -137,14 +128,8 @@ export class ValidatorJoinEvent implements StructClass {
 
     return ValidatorJoinEvent.reified().new({
       epoch: decodeFromFieldsWithTypes("u64", item.fields.epoch),
-      validatorAddress: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.validator_address,
-      ),
-      stakingPoolId: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.staking_pool_id,
-      ),
+      validatorAddress: decodeFromFieldsWithTypes("address", item.fields.validator_address),
+      stakingPoolId: decodeFromFieldsWithTypes(ID.reified(), item.fields.staking_pool_id),
     });
   }
 
@@ -161,11 +146,7 @@ export class ValidatorJoinEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ValidatorJoinEvent {
@@ -189,20 +170,15 @@ export class ValidatorJoinEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isValidatorJoinEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ValidatorJoinEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ValidatorJoinEvent object`);
     }
     return ValidatorJoinEvent.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ValidatorJoinEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isValidatorJoinEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ValidatorJoinEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isValidatorJoinEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ValidatorJoinEvent object`);
       }
 
       return ValidatorJoinEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -215,20 +191,12 @@ export class ValidatorJoinEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<ValidatorJoinEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<ValidatorJoinEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ValidatorJoinEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ValidatorJoinEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isValidatorJoinEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isValidatorJoinEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ValidatorJoinEvent object`);
     }
 

@@ -1,10 +1,6 @@
 import { GenericArg, pure, vector } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface CreateEntriesArgs {
   p: Array<bigint | TransactionArgument> | TransactionArgument;
@@ -29,9 +25,6 @@ export function createEntries(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::priority_queue::create_entries`,
     typeArguments: [typeArg],
-    arguments: [
-      pure(tx, args.p, `vector<u64>`),
-      vector(tx, `${typeArg}`, args.v),
-    ],
+    arguments: [pure(tx, args.p, `vector<u64>`), vector(tx, `${typeArg}`, args.v)],
   });
 }

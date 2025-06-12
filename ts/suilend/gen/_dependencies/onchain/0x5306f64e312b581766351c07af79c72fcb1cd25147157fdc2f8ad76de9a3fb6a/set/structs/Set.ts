@@ -39,10 +39,7 @@ export interface SetFields<T0 extends PhantomTypeArgument> {
   items: ToField<Table<T0, ToPhantom<Empty1>>>;
 }
 
-export type SetReified<T0 extends PhantomTypeArgument> = Reified<
-  Set<T0>,
-  SetFields<T0>
->;
+export type SetReified<T0 extends PhantomTypeArgument> = Reified<Set<T0>, SetFields<T0>>;
 
 /**
  * Move struct: `Set`
@@ -83,22 +80,17 @@ export class Set<T0 extends PhantomTypeArgument> implements StructClass {
         Set.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V1}::set::Set<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: Set.$isPhantom,
       reifiedTypeArgs: [T0],
       fromFields: (fields: Record<string, any>) => Set.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Set.fromFieldsWithTypes(T0, item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Set.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Set.fromBcs(T0, data),
       bcs: Set.bcs,
       fromJSONField: (field: any) => Set.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Set.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Set.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Set.fromSuiObjectData(T0, content),
+      fromSuiParsedData: (content: SuiParsedData) => Set.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Set.fromSuiObjectData(T0, content),
       fetch: async (client: SuiClient, id: string) => Set.fetch(client, T0, id),
       new: (fields: SetFields<ToPhantomTypeArgument<T0>>) => {
         return new Set([extractType(T0)], fields);
@@ -169,11 +161,7 @@ export class Set<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -212,9 +200,7 @@ export class Set<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isSet(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Set object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Set object`);
     }
     return Set.fromFieldsWithTypes(typeArg, content);
   }
@@ -225,7 +211,7 @@ export class Set<T0 extends PhantomTypeArgument> implements StructClass {
   ): Set<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isSet(data.bcs.type)) {
-        throw new Error(`object at is not a Set object`);
+        throw new Error(`object at ${data.objectId} is not a Set object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -260,9 +246,7 @@ export class Set<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<Set<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Set object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Set object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isSet(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Set object`);

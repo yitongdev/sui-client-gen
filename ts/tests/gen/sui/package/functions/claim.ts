@@ -12,11 +12,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param ctx - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function claim(
-  tx: Transaction,
-  typeArg: string,
-  otw: GenericArg,
-): TransactionResult {
+export function claim(tx: Transaction, typeArg: string, otw: GenericArg): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::package::claim`,
     typeArguments: [typeArg],

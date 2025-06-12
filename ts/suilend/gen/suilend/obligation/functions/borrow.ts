@@ -25,11 +25,7 @@ export interface BorrowArgs {
  * @param clock - Function parameter
  * @param u64 - Function parameter
  */
-export function borrow(
-  tx: Transaction,
-  typeArg: string,
-  args: BorrowArgs,
-): TransactionResult {
+export function borrow(tx: Transaction, typeArg: string, args: BorrowArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::obligation::borrow`,
     typeArguments: [typeArg],

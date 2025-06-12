@@ -21,15 +21,9 @@ export interface PushCharArgs {
  * @param string - Function parameter
  * @param char - Function parameter
  */
-export function pushChar(
-  tx: Transaction,
-  args: PushCharArgs,
-): TransactionResult {
+export function pushChar(tx: Transaction, args: PushCharArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::ascii::push_char`,
-    arguments: [
-      pure(tx, args.string, `${String.$typeName}`),
-      obj(tx, args.char),
-    ],
+    arguments: [pure(tx, args.string, `${String.$typeName}`), obj(tx, args.char)],
   });
 }

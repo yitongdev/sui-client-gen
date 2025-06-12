@@ -25,11 +25,7 @@ export interface DepositArgs {
  * @param clock - Function parameter
  * @param u64 - Function parameter
  */
-export function deposit(
-  tx: Transaction,
-  typeArg: string,
-  args: DepositArgs,
-): TransactionResult {
+export function deposit(tx: Transaction, typeArg: string, args: DepositArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::obligation::deposit`,
     typeArguments: [typeArg],

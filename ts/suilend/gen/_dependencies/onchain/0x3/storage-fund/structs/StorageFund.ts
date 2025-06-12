@@ -75,20 +75,15 @@ export class StorageFund implements StructClass {
       typeArgs: [] as [],
       isPhantom: StorageFund.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        StorageFund.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        StorageFund.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => StorageFund.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => StorageFund.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => StorageFund.fromBcs(data),
       bcs: StorageFund.bcs,
       fromJSONField: (field: any) => StorageFund.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => StorageFund.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        StorageFund.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        StorageFund.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        StorageFund.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => StorageFund.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => StorageFund.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => StorageFund.fetch(client, id),
       new: (fields: StorageFundFields) => {
         return new StorageFund([], fields);
       },
@@ -156,11 +151,7 @@ export class StorageFund implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): StorageFund {
@@ -189,9 +180,7 @@ export class StorageFund implements StructClass {
       throw new Error("not an object");
     }
     if (!isStorageFund(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a StorageFund object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a StorageFund object`);
     }
     return StorageFund.fromFieldsWithTypes(content);
   }
@@ -199,7 +188,7 @@ export class StorageFund implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): StorageFund {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isStorageFund(data.bcs.type)) {
-        throw new Error(`object at is not a StorageFund object`);
+        throw new Error(`object at ${data.objectId} is not a StorageFund object`);
       }
 
       return StorageFund.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -215,14 +204,9 @@ export class StorageFund implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<StorageFund> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching StorageFund object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching StorageFund object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isStorageFund(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isStorageFund(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a StorageFund object`);
     }
 

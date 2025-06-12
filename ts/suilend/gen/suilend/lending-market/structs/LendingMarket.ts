@@ -1,9 +1,6 @@
 import * as reified from "../../../_framework/reified.js";
 import { ObjectTable } from "../../../_dependencies/onchain/0x2/object-table/structs/index.js";
-import {
-  ID,
-  UID,
-} from "../../../_dependencies/onchain/0x2/object/structs/index.js";
+import { ID, UID } from "../../../_dependencies/onchain/0x2/object/structs/index.js";
 import {
   PhantomReified,
   PhantomToTypeStr,
@@ -66,9 +63,7 @@ export type LendingMarketReified<T0 extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class LendingMarket<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class LendingMarket<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V1}::lending_market::LendingMarket`;
@@ -83,18 +78,13 @@ export class LendingMarket<T0 extends PhantomTypeArgument>
   readonly id: ToField<UID>;
   readonly version: ToField<"u64">;
   readonly reserves: ToField<Vector<Reserve<T0>>>;
-  readonly obligations: ToField<
-    ObjectTable<ToPhantom<ID>, ToPhantom<Obligation<T0>>>
-  >;
+  readonly obligations: ToField<ObjectTable<ToPhantom<ID>, ToPhantom<Obligation<T0>>>>;
   readonly rateLimiter: ToField<RateLimiter>;
   readonly feeReceiver: ToField<"address">;
   readonly badDebtUsd: ToField<Decimal>;
   readonly badDebtLimitUsd: ToField<Decimal>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: LendingMarketFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: LendingMarketFields<T0>) {
     this.$fullTypeName = composeSuiType(
       LendingMarket.$typeName,
       ...typeArgs,
@@ -120,25 +110,18 @@ export class LendingMarket<T0 extends PhantomTypeArgument>
         LendingMarket.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V1}::lending_market::LendingMarket<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: LendingMarket.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        LendingMarket.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        LendingMarket.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => LendingMarket.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => LendingMarket.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => LendingMarket.fromBcs(T0, data),
       bcs: LendingMarket.bcs,
       fromJSONField: (field: any) => LendingMarket.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => LendingMarket.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        LendingMarket.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        LendingMarket.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        LendingMarket.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => LendingMarket.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => LendingMarket.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => LendingMarket.fetch(client, T0, id),
       new: (fields: LendingMarketFields<ToPhantomTypeArgument<T0>>) => {
         return new LendingMarket([extractType(T0)], fields);
       },
@@ -182,10 +165,7 @@ export class LendingMarket<T0 extends PhantomTypeArgument>
     return LendingMarket.reified(typeArg).new({
       id: decodeFromFields(UID.reified(), fields.id),
       version: decodeFromFields("u64", fields.version),
-      reserves: decodeFromFields(
-        reified.vector(Reserve.reified(typeArg)),
-        fields.reserves,
-      ),
+      reserves: decodeFromFields(reified.vector(Reserve.reified(typeArg)), fields.reserves),
       obligations: decodeFromFields(
         ObjectTable.reified(
           reified.phantom(ID.reified()),
@@ -196,10 +176,7 @@ export class LendingMarket<T0 extends PhantomTypeArgument>
       rateLimiter: decodeFromFields(RateLimiter.reified(), fields.rate_limiter),
       feeReceiver: decodeFromFields("address", fields.fee_receiver),
       badDebtUsd: decodeFromFields(Decimal.reified(), fields.bad_debt_usd),
-      badDebtLimitUsd: decodeFromFields(
-        Decimal.reified(),
-        fields.bad_debt_limit_usd,
-      ),
+      badDebtLimitUsd: decodeFromFields(Decimal.reified(), fields.bad_debt_limit_usd),
     });
   }
 
@@ -226,22 +203,10 @@ export class LendingMarket<T0 extends PhantomTypeArgument>
         ),
         item.fields.obligations,
       ),
-      rateLimiter: decodeFromFieldsWithTypes(
-        RateLimiter.reified(),
-        item.fields.rate_limiter,
-      ),
-      feeReceiver: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.fee_receiver,
-      ),
-      badDebtUsd: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.bad_debt_usd,
-      ),
-      badDebtLimitUsd: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.bad_debt_limit_usd,
-      ),
+      rateLimiter: decodeFromFieldsWithTypes(RateLimiter.reified(), item.fields.rate_limiter),
+      feeReceiver: decodeFromFieldsWithTypes("address", item.fields.fee_receiver),
+      badDebtUsd: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.bad_debt_usd),
+      badDebtLimitUsd: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.bad_debt_limit_usd),
     });
   }
 
@@ -269,11 +234,7 @@ export class LendingMarket<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -283,10 +244,7 @@ export class LendingMarket<T0 extends PhantomTypeArgument>
     return LendingMarket.reified(typeArg).new({
       id: decodeFromJSONField(UID.reified(), field.id),
       version: decodeFromJSONField("u64", field.version),
-      reserves: decodeFromJSONField(
-        reified.vector(Reserve.reified(typeArg)),
-        field.reserves,
-      ),
+      reserves: decodeFromJSONField(reified.vector(Reserve.reified(typeArg)), field.reserves),
       obligations: decodeFromJSONField(
         ObjectTable.reified(
           reified.phantom(ID.reified()),
@@ -294,16 +252,10 @@ export class LendingMarket<T0 extends PhantomTypeArgument>
         ),
         field.obligations,
       ),
-      rateLimiter: decodeFromJSONField(
-        RateLimiter.reified(),
-        field.rateLimiter,
-      ),
+      rateLimiter: decodeFromJSONField(RateLimiter.reified(), field.rateLimiter),
       feeReceiver: decodeFromJSONField("address", field.feeReceiver),
       badDebtUsd: decodeFromJSONField(Decimal.reified(), field.badDebtUsd),
-      badDebtLimitUsd: decodeFromJSONField(
-        Decimal.reified(),
-        field.badDebtLimitUsd,
-      ),
+      badDebtLimitUsd: decodeFromJSONField(Decimal.reified(), field.badDebtLimitUsd),
     });
   }
 
@@ -331,9 +283,7 @@ export class LendingMarket<T0 extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isLendingMarket(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a LendingMarket object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a LendingMarket object`);
     }
     return LendingMarket.fromFieldsWithTypes(typeArg, content);
   }
@@ -343,11 +293,8 @@ export class LendingMarket<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): LendingMarket<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isLendingMarket(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a LendingMarket object`);
+      if (data.bcs.dataType !== "moveObject" || !isLendingMarket(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a LendingMarket object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -382,14 +329,9 @@ export class LendingMarket<T0 extends PhantomTypeArgument>
   ): Promise<LendingMarket<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching LendingMarket object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching LendingMarket object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isLendingMarket(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isLendingMarket(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a LendingMarket object`);
     }
 

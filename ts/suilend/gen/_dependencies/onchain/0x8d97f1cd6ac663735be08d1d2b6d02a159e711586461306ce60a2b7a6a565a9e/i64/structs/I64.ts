@@ -51,10 +51,7 @@ export class I64 implements StructClass {
   readonly magnitude: ToField<"u64">;
 
   private constructor(typeArgs: [], fields: I64Fields) {
-    this.$fullTypeName = composeSuiType(
-      I64.$typeName,
-      ...typeArgs,
-    ) as `${typeof PKG_V1}::i64::I64`;
+    this.$fullTypeName = composeSuiType(I64.$typeName, ...typeArgs) as `${typeof PKG_V1}::i64::I64`;
     this.$typeArgs = typeArgs;
 
     this.negative = fields.negative;
@@ -64,24 +61,18 @@ export class I64 implements StructClass {
   static reified(): I64Reified {
     return {
       typeName: I64.$typeName,
-      fullTypeName: composeSuiType(
-        I64.$typeName,
-        ...[],
-      ) as `${typeof PKG_V1}::i64::I64`,
+      fullTypeName: composeSuiType(I64.$typeName, ...[]) as `${typeof PKG_V1}::i64::I64`,
       typeArgs: [] as [],
       isPhantom: I64.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => I64.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        I64.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => I64.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => I64.fromBcs(data),
       bcs: I64.bcs,
       fromJSONField: (field: any) => I64.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => I64.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        I64.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        I64.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => I64.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => I64.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => I64.fetch(client, id),
       new: (fields: I64Fields) => {
         return new I64([], fields);
@@ -138,11 +129,7 @@ export class I64 implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): I64 {
@@ -165,9 +152,7 @@ export class I64 implements StructClass {
       throw new Error("not an object");
     }
     if (!isI64(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a I64 object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a I64 object`);
     }
     return I64.fromFieldsWithTypes(content);
   }
@@ -175,7 +160,7 @@ export class I64 implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): I64 {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isI64(data.bcs.type)) {
-        throw new Error(`object at is not a I64 object`);
+        throw new Error(`object at ${data.objectId} is not a I64 object`);
       }
 
       return I64.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,9 +176,7 @@ export class I64 implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<I64> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching I64 object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching I64 object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isI64(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a I64 object`);

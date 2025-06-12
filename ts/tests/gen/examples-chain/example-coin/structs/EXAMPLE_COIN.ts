@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -68,20 +64,15 @@ export class EXAMPLE_COIN implements StructClass {
       typeArgs: [] as [],
       isPhantom: EXAMPLE_COIN.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        EXAMPLE_COIN.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        EXAMPLE_COIN.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => EXAMPLE_COIN.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => EXAMPLE_COIN.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => EXAMPLE_COIN.fromBcs(data),
       bcs: EXAMPLE_COIN.bcs,
       fromJSONField: (field: any) => EXAMPLE_COIN.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => EXAMPLE_COIN.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        EXAMPLE_COIN.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        EXAMPLE_COIN.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        EXAMPLE_COIN.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => EXAMPLE_COIN.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => EXAMPLE_COIN.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => EXAMPLE_COIN.fetch(client, id),
       new: (fields: EXAMPLE_COINFields) => {
         return new EXAMPLE_COIN([], fields);
       },
@@ -107,9 +98,7 @@ export class EXAMPLE_COIN implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): EXAMPLE_COIN {
-    return EXAMPLE_COIN.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return EXAMPLE_COIN.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): EXAMPLE_COIN {
@@ -133,11 +122,7 @@ export class EXAMPLE_COIN implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): EXAMPLE_COIN {
@@ -159,20 +144,15 @@ export class EXAMPLE_COIN implements StructClass {
       throw new Error("not an object");
     }
     if (!isEXAMPLE_COIN(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a EXAMPLE_COIN object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a EXAMPLE_COIN object`);
     }
     return EXAMPLE_COIN.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): EXAMPLE_COIN {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isEXAMPLE_COIN(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a EXAMPLE_COIN object`);
+      if (data.bcs.dataType !== "moveObject" || !isEXAMPLE_COIN(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a EXAMPLE_COIN object`);
       }
 
       return EXAMPLE_COIN.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -188,14 +168,9 @@ export class EXAMPLE_COIN implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<EXAMPLE_COIN> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching EXAMPLE_COIN object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching EXAMPLE_COIN object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isEXAMPLE_COIN(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isEXAMPLE_COIN(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a EXAMPLE_COIN object`);
     }
 

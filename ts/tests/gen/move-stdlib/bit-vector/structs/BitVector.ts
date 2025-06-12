@@ -11,11 +11,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V16 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -75,18 +71,14 @@ export class BitVector implements StructClass {
       isPhantom: BitVector.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => BitVector.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        BitVector.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => BitVector.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => BitVector.fromBcs(data),
       bcs: BitVector.bcs,
       fromJSONField: (field: any) => BitVector.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => BitVector.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        BitVector.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        BitVector.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        BitVector.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => BitVector.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => BitVector.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => BitVector.fetch(client, id),
       new: (fields: BitVectorFields) => {
         return new BitVector([], fields);
       },
@@ -126,10 +118,7 @@ export class BitVector implements StructClass {
 
     return BitVector.reified().new({
       length: decodeFromFieldsWithTypes("u64", item.fields.length),
-      bitField: decodeFromFieldsWithTypes(
-        reified.vector("bool"),
-        item.fields.bit_field,
-      ),
+      bitField: decodeFromFieldsWithTypes(reified.vector("bool"), item.fields.bit_field),
     });
   }
 
@@ -145,11 +134,7 @@ export class BitVector implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): BitVector {
@@ -172,9 +157,7 @@ export class BitVector implements StructClass {
       throw new Error("not an object");
     }
     if (!isBitVector(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a BitVector object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a BitVector object`);
     }
     return BitVector.fromFieldsWithTypes(content);
   }
@@ -182,7 +165,7 @@ export class BitVector implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): BitVector {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isBitVector(data.bcs.type)) {
-        throw new Error(`object at is not a BitVector object`);
+        throw new Error(`object at ${data.objectId} is not a BitVector object`);
       }
 
       return BitVector.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -198,14 +181,9 @@ export class BitVector implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<BitVector> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching BitVector object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching BitVector object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isBitVector(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isBitVector(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a BitVector object`);
     }
 

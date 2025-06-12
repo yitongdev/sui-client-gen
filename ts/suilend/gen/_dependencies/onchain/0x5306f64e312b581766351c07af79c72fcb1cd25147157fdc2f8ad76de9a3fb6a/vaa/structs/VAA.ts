@@ -70,10 +70,7 @@ export class VAA implements StructClass {
   readonly digest: ToField<Bytes32>;
 
   private constructor(typeArgs: [], fields: VAAFields) {
-    this.$fullTypeName = composeSuiType(
-      VAA.$typeName,
-      ...typeArgs,
-    ) as `${typeof PKG_V1}::vaa::VAA`;
+    this.$fullTypeName = composeSuiType(VAA.$typeName, ...typeArgs) as `${typeof PKG_V1}::vaa::VAA`;
     this.$typeArgs = typeArgs;
 
     this.guardianSetIndex = fields.guardianSetIndex;
@@ -90,24 +87,18 @@ export class VAA implements StructClass {
   static reified(): VAAReified {
     return {
       typeName: VAA.$typeName,
-      fullTypeName: composeSuiType(
-        VAA.$typeName,
-        ...[],
-      ) as `${typeof PKG_V1}::vaa::VAA`,
+      fullTypeName: composeSuiType(VAA.$typeName, ...[]) as `${typeof PKG_V1}::vaa::VAA`,
       typeArgs: [] as [],
       isPhantom: VAA.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => VAA.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        VAA.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => VAA.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => VAA.fromBcs(data),
       bcs: VAA.bcs,
       fromJSONField: (field: any) => VAA.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => VAA.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        VAA.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        VAA.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => VAA.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => VAA.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => VAA.fetch(client, id),
       new: (fields: VAAFields) => {
         return new VAA([], fields);
@@ -147,10 +138,7 @@ export class VAA implements StructClass {
       timestamp: decodeFromFields("u32", fields.timestamp),
       nonce: decodeFromFields("u32", fields.nonce),
       emitterChain: decodeFromFields("u16", fields.emitter_chain),
-      emitterAddress: decodeFromFields(
-        ExternalAddress.reified(),
-        fields.emitter_address,
-      ),
+      emitterAddress: decodeFromFields(ExternalAddress.reified(), fields.emitter_address),
       sequence: decodeFromFields("u64", fields.sequence),
       consistencyLevel: decodeFromFields("u8", fields.consistency_level),
       payload: decodeFromFields(reified.vector("u8"), fields.payload),
@@ -164,10 +152,7 @@ export class VAA implements StructClass {
     }
 
     return VAA.reified().new({
-      guardianSetIndex: decodeFromFieldsWithTypes(
-        "u32",
-        item.fields.guardian_set_index,
-      ),
+      guardianSetIndex: decodeFromFieldsWithTypes("u32", item.fields.guardian_set_index),
       timestamp: decodeFromFieldsWithTypes("u32", item.fields.timestamp),
       nonce: decodeFromFieldsWithTypes("u32", item.fields.nonce),
       emitterChain: decodeFromFieldsWithTypes("u16", item.fields.emitter_chain),
@@ -176,14 +161,8 @@ export class VAA implements StructClass {
         item.fields.emitter_address,
       ),
       sequence: decodeFromFieldsWithTypes("u64", item.fields.sequence),
-      consistencyLevel: decodeFromFieldsWithTypes(
-        "u8",
-        item.fields.consistency_level,
-      ),
-      payload: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.payload,
-      ),
+      consistencyLevel: decodeFromFieldsWithTypes("u8", item.fields.consistency_level),
+      payload: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.payload),
       digest: decodeFromFieldsWithTypes(Bytes32.reified(), item.fields.digest),
     });
   }
@@ -207,11 +186,7 @@ export class VAA implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): VAA {
@@ -220,10 +195,7 @@ export class VAA implements StructClass {
       timestamp: decodeFromJSONField("u32", field.timestamp),
       nonce: decodeFromJSONField("u32", field.nonce),
       emitterChain: decodeFromJSONField("u16", field.emitterChain),
-      emitterAddress: decodeFromJSONField(
-        ExternalAddress.reified(),
-        field.emitterAddress,
-      ),
+      emitterAddress: decodeFromJSONField(ExternalAddress.reified(), field.emitterAddress),
       sequence: decodeFromJSONField("u64", field.sequence),
       consistencyLevel: decodeFromJSONField("u8", field.consistencyLevel),
       payload: decodeFromJSONField(reified.vector("u8"), field.payload),
@@ -244,9 +216,7 @@ export class VAA implements StructClass {
       throw new Error("not an object");
     }
     if (!isVAA(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a VAA object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a VAA object`);
     }
     return VAA.fromFieldsWithTypes(content);
   }
@@ -254,7 +224,7 @@ export class VAA implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): VAA {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isVAA(data.bcs.type)) {
-        throw new Error(`object at is not a VAA object`);
+        throw new Error(`object at ${data.objectId} is not a VAA object`);
       }
 
       return VAA.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -270,9 +240,7 @@ export class VAA implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<VAA> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching VAA object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching VAA object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isVAA(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a VAA object`);

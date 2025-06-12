@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface ReceiveArgs {
   parent: TransactionObjectInput;
@@ -21,11 +17,7 @@ export interface ReceiveArgs {
  * @param toReceive - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function receive(
-  tx: Transaction,
-  typeArg: string,
-  args: ReceiveArgs,
-): TransactionResult {
+export function receive(tx: Transaction, typeArg: string, args: ReceiveArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::transfer::receive`,
     typeArguments: [typeArg],

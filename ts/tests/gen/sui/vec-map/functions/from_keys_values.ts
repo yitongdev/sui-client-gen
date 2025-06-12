@@ -1,10 +1,6 @@
 import { GenericArg, vector } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface FromKeysValuesArgs {
   keys: Array<GenericArg> | TransactionArgument;
@@ -30,9 +26,6 @@ export function fromKeysValues(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::vec_map::from_keys_values`,
     typeArguments: typeArgs,
-    arguments: [
-      vector(tx, `${typeArgs[0]}`, args.keys),
-      vector(tx, `${typeArgs[1]}`, args.values),
-    ],
+    arguments: [vector(tx, `${typeArgs[0]}`, args.keys), vector(tx, `${typeArgs[1]}`, args.values)],
   });
 }

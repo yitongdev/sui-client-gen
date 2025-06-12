@@ -11,11 +11,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -84,18 +80,14 @@ export class TxContext implements StructClass {
       isPhantom: TxContext.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => TxContext.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        TxContext.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => TxContext.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => TxContext.fromBcs(data),
       bcs: TxContext.bcs,
       fromJSONField: (field: any) => TxContext.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => TxContext.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        TxContext.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        TxContext.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        TxContext.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => TxContext.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => TxContext.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => TxContext.fetch(client, id),
       new: (fields: TxContextFields) => {
         return new TxContext([], fields);
       },
@@ -144,15 +136,9 @@ export class TxContext implements StructClass {
 
     return TxContext.reified().new({
       sender: decodeFromFieldsWithTypes("address", item.fields.sender),
-      txHash: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.tx_hash,
-      ),
+      txHash: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.tx_hash),
       epoch: decodeFromFieldsWithTypes("u64", item.fields.epoch),
-      epochTimestampMs: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.epoch_timestamp_ms,
-      ),
+      epochTimestampMs: decodeFromFieldsWithTypes("u64", item.fields.epoch_timestamp_ms),
       idsCreated: decodeFromFieldsWithTypes("u64", item.fields.ids_created),
     });
   }
@@ -172,11 +158,7 @@ export class TxContext implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): TxContext {
@@ -202,9 +184,7 @@ export class TxContext implements StructClass {
       throw new Error("not an object");
     }
     if (!isTxContext(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a TxContext object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a TxContext object`);
     }
     return TxContext.fromFieldsWithTypes(content);
   }
@@ -212,7 +192,7 @@ export class TxContext implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): TxContext {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isTxContext(data.bcs.type)) {
-        throw new Error(`object at is not a TxContext object`);
+        throw new Error(`object at ${data.objectId} is not a TxContext object`);
       }
 
       return TxContext.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -228,14 +208,9 @@ export class TxContext implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<TxContext> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TxContext object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TxContext object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTxContext(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTxContext(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a TxContext object`);
     }
 

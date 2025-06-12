@@ -32,10 +32,7 @@ export interface TokenAllocationFields {
   stakedWithValidator: ToField<Option<"address">>;
 }
 
-export type TokenAllocationReified = Reified<
-  TokenAllocation,
-  TokenAllocationFields
->;
+export type TokenAllocationReified = Reified<TokenAllocation, TokenAllocationFields>;
 
 /**
  * Move struct: `TokenAllocation`
@@ -79,20 +76,15 @@ export class TokenAllocation implements StructClass {
       typeArgs: [] as [],
       isPhantom: TokenAllocation.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        TokenAllocation.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        TokenAllocation.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => TokenAllocation.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => TokenAllocation.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => TokenAllocation.fromBcs(data),
       bcs: TokenAllocation.bcs,
       fromJSONField: (field: any) => TokenAllocation.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => TokenAllocation.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        TokenAllocation.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        TokenAllocation.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        TokenAllocation.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => TokenAllocation.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => TokenAllocation.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => TokenAllocation.fetch(client, id),
       new: (fields: TokenAllocationFields) => {
         return new TokenAllocation([], fields);
       },
@@ -144,10 +136,7 @@ export class TokenAllocation implements StructClass {
     }
 
     return TokenAllocation.reified().new({
-      recipientAddress: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.recipient_address,
-      ),
+      recipientAddress: decodeFromFieldsWithTypes("address", item.fields.recipient_address),
       amountMist: decodeFromFieldsWithTypes("u64", item.fields.amount_mist),
       stakedWithValidator: decodeFromFieldsWithTypes(
         Option.reified("address"),
@@ -172,11 +161,7 @@ export class TokenAllocation implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): TokenAllocation {
@@ -203,20 +188,15 @@ export class TokenAllocation implements StructClass {
       throw new Error("not an object");
     }
     if (!isTokenAllocation(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a TokenAllocation object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a TokenAllocation object`);
     }
     return TokenAllocation.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): TokenAllocation {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isTokenAllocation(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a TokenAllocation object`);
+      if (data.bcs.dataType !== "moveObject" || !isTokenAllocation(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a TokenAllocation object`);
       }
 
       return TokenAllocation.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -232,14 +212,9 @@ export class TokenAllocation implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<TokenAllocation> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TokenAllocation object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TokenAllocation object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTokenAllocation(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTokenAllocation(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a TokenAllocation object`);
     }
 

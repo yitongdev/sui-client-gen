@@ -35,10 +35,7 @@ export interface SupplyFields<T0 extends PhantomTypeArgument> {
   value: ToField<"u64">;
 }
 
-export type SupplyReified<T0 extends PhantomTypeArgument> = Reified<
-  Supply<T0>,
-  SupplyFields<T0>
->;
+export type SupplyReified<T0 extends PhantomTypeArgument> = Reified<Supply<T0>, SupplyFields<T0>>;
 
 /**
  * Move struct: `Supply`
@@ -60,10 +57,7 @@ export class Supply<T0 extends PhantomTypeArgument> implements StructClass {
 
   readonly value: ToField<"u64">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: SupplyFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: SupplyFields<T0>) {
     this.$fullTypeName = composeSuiType(
       Supply.$typeName,
       ...typeArgs,
@@ -82,25 +76,18 @@ export class Supply<T0 extends PhantomTypeArgument> implements StructClass {
         Supply.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V35}::balance::Supply<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: Supply.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        Supply.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Supply.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => Supply.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Supply.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Supply.fromBcs(T0, data),
       bcs: Supply.bcs,
       fromJSONField: (field: any) => Supply.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Supply.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Supply.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Supply.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Supply.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Supply.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Supply.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Supply.fetch(client, T0, id),
       new: (fields: SupplyFields<ToPhantomTypeArgument<T0>>) => {
         return new Supply([extractType(T0)], fields);
       },
@@ -131,9 +118,7 @@ export class Supply<T0 extends PhantomTypeArgument> implements StructClass {
     typeArg: T0,
     fields: Record<string, any>,
   ): Supply<ToPhantomTypeArgument<T0>> {
-    return Supply.reified(typeArg).new({
-      value: decodeFromFields("u64", fields.value),
-    });
+    return Supply.reified(typeArg).new({ value: decodeFromFields("u64", fields.value) });
   }
 
   static fromFieldsWithTypes<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -164,20 +149,14 @@ export class Supply<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
     typeArg: T0,
     field: any,
   ): Supply<ToPhantomTypeArgument<T0>> {
-    return Supply.reified(typeArg).new({
-      value: decodeFromJSONField("u64", field.value),
-    });
+    return Supply.reified(typeArg).new({ value: decodeFromJSONField("u64", field.value) });
   }
 
   static fromJSON<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -204,9 +183,7 @@ export class Supply<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isSupply(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Supply object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Supply object`);
     }
     return Supply.fromFieldsWithTypes(typeArg, content);
   }
@@ -217,7 +194,7 @@ export class Supply<T0 extends PhantomTypeArgument> implements StructClass {
   ): Supply<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isSupply(data.bcs.type)) {
-        throw new Error(`object at is not a Supply object`);
+        throw new Error(`object at ${data.objectId} is not a Supply object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -252,14 +229,9 @@ export class Supply<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<Supply<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Supply object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Supply object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isSupply(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isSupply(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Supply object`);
     }
 

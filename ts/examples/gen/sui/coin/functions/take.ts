@@ -23,11 +23,7 @@ export interface TakeArgs {
  * @param ctx - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function take(
-  tx: Transaction,
-  typeArg: string,
-  args: TakeArgs,
-): TransactionResult {
+export function take(tx: Transaction, typeArg: string, args: TakeArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::coin::take`,
     typeArguments: [typeArg],

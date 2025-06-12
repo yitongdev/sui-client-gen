@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -79,16 +75,13 @@ export class JWK implements StructClass {
       isPhantom: JWK.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => JWK.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        JWK.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => JWK.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => JWK.fromBcs(data),
       bcs: JWK.bcs,
       fromJSONField: (field: any) => JWK.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => JWK.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        JWK.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        JWK.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => JWK.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => JWK.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => JWK.fetch(client, id),
       new: (fields: JWKFields) => {
         return new JWK([], fields);
@@ -153,11 +146,7 @@ export class JWK implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): JWK {
@@ -182,9 +171,7 @@ export class JWK implements StructClass {
       throw new Error("not an object");
     }
     if (!isJWK(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a JWK object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a JWK object`);
     }
     return JWK.fromFieldsWithTypes(content);
   }
@@ -192,7 +179,7 @@ export class JWK implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): JWK {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isJWK(data.bcs.type)) {
-        throw new Error(`object at is not a JWK object`);
+        throw new Error(`object at ${data.objectId} is not a JWK object`);
       }
 
       return JWK.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -208,9 +195,7 @@ export class JWK implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<JWK> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching JWK object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching JWK object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isJWK(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a JWK object`);

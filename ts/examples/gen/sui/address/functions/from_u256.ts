@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `from_u256`
@@ -14,10 +10,7 @@ import {
  * @param n - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function fromU256(
-  tx: Transaction,
-  n: bigint | TransactionArgument,
-): TransactionResult {
+export function fromU256(tx: Transaction, n: bigint | TransactionArgument): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::address::from_u256`,
     arguments: [pure(tx, n, `u256`)],

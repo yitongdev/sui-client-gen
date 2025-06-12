@@ -65,24 +65,18 @@ export class Clock implements StructClass {
   static reified(): ClockReified {
     return {
       typeName: Clock.$typeName,
-      fullTypeName: composeSuiType(
-        Clock.$typeName,
-        ...[],
-      ) as `${typeof PKG_V35}::clock::Clock`,
+      fullTypeName: composeSuiType(Clock.$typeName, ...[]) as `${typeof PKG_V35}::clock::Clock`,
       typeArgs: [] as [],
       isPhantom: Clock.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Clock.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Clock.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Clock.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Clock.fromBcs(data),
       bcs: Clock.bcs,
       fromJSONField: (field: any) => Clock.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Clock.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Clock.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Clock.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Clock.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Clock.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Clock.fetch(client, id),
       new: (fields: ClockFields) => {
         return new Clock([], fields);
@@ -139,11 +133,7 @@ export class Clock implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Clock {
@@ -166,9 +156,7 @@ export class Clock implements StructClass {
       throw new Error("not an object");
     }
     if (!isClock(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Clock object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Clock object`);
     }
     return Clock.fromFieldsWithTypes(content);
   }
@@ -176,7 +164,7 @@ export class Clock implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Clock {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isClock(data.bcs.type)) {
-        throw new Error(`object at is not a Clock object`);
+        throw new Error(`object at ${data.objectId} is not a Clock object`);
       }
 
       return Clock.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -192,14 +180,9 @@ export class Clock implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Clock> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Clock object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Clock object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isClock(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isClock(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Clock object`);
     }
 

@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { UID } from "../../object/structs/index.js";
 import { Versioned } from "../../versioned/structs/index.js";
@@ -66,24 +62,18 @@ export class Random implements StructClass {
   static reified(): RandomReified {
     return {
       typeName: Random.$typeName,
-      fullTypeName: composeSuiType(
-        Random.$typeName,
-        ...[],
-      ) as `${typeof PKG_V31}::random::Random`,
+      fullTypeName: composeSuiType(Random.$typeName, ...[]) as `${typeof PKG_V31}::random::Random`,
       typeArgs: [] as [],
       isPhantom: Random.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Random.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Random.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Random.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Random.fromBcs(data),
       bcs: Random.bcs,
       fromJSONField: (field: any) => Random.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Random.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Random.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Random.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Random.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Random.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Random.fetch(client, id),
       new: (fields: RandomFields) => {
         return new Random([], fields);
@@ -140,11 +130,7 @@ export class Random implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Random {
@@ -167,9 +153,7 @@ export class Random implements StructClass {
       throw new Error("not an object");
     }
     if (!isRandom(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Random object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Random object`);
     }
     return Random.fromFieldsWithTypes(content);
   }
@@ -177,7 +161,7 @@ export class Random implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Random {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isRandom(data.bcs.type)) {
-        throw new Error(`object at is not a Random object`);
+        throw new Error(`object at ${data.objectId} is not a Random object`);
       }
 
       return Random.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -193,14 +177,9 @@ export class Random implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Random> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Random object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Random object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isRandom(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isRandom(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Random object`);
     }
 

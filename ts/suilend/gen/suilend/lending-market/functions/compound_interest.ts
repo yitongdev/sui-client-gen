@@ -31,10 +31,6 @@ export function compoundInterest(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::lending_market::compound_interest`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.lendingMarket),
-      pure(tx, args.u64, `u64`),
-      obj(tx, args.clock),
-    ],
+    arguments: [obj(tx, args.lendingMarket), pure(tx, args.u64, `u64`), obj(tx, args.clock)],
   });
 }

@@ -25,18 +25,10 @@ export interface WithdrawArgs {
  * @param txContext - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function withdraw(
-  tx: Transaction,
-  typeArg: string,
-  args: WithdrawArgs,
-): TransactionResult {
+export function withdraw(tx: Transaction, typeArg: string, args: WithdrawArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::staker::withdraw`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.staker),
-      pure(tx, args.u64, `u64`),
-      obj(tx, args.suiSystemState),
-    ],
+    arguments: [obj(tx, args.staker), pure(tx, args.u64, `u64`), obj(tx, args.suiSystemState)],
   });
 }

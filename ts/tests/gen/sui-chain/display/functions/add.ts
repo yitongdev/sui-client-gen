@@ -24,11 +24,7 @@ export interface AddArgs {
  * @param string1 - Function parameter
  * @param string2 - Function parameter
  */
-export function add(
-  tx: Transaction,
-  typeArg: string,
-  args: AddArgs,
-): TransactionResult {
+export function add(tx: Transaction, typeArg: string, args: AddArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::display::add`,
     typeArguments: [typeArg],

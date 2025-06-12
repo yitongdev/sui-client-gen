@@ -29,10 +29,7 @@ export interface EmitterCreatedFields {
   emitterCap: ToField<ID>;
 }
 
-export type EmitterCreatedReified = Reified<
-  EmitterCreated,
-  EmitterCreatedFields
->;
+export type EmitterCreatedReified = Reified<EmitterCreated, EmitterCreatedFields>;
 
 /**
  * Move struct: `EmitterCreated`
@@ -72,20 +69,15 @@ export class EmitterCreated implements StructClass {
       typeArgs: [] as [],
       isPhantom: EmitterCreated.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        EmitterCreated.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        EmitterCreated.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => EmitterCreated.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => EmitterCreated.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => EmitterCreated.fromBcs(data),
       bcs: EmitterCreated.bcs,
       fromJSONField: (field: any) => EmitterCreated.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => EmitterCreated.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        EmitterCreated.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        EmitterCreated.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        EmitterCreated.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => EmitterCreated.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => EmitterCreated.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => EmitterCreated.fetch(client, id),
       new: (fields: EmitterCreatedFields) => {
         return new EmitterCreated([], fields);
       },
@@ -122,10 +114,7 @@ export class EmitterCreated implements StructClass {
     }
 
     return EmitterCreated.reified().new({
-      emitterCap: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.emitter_cap,
-      ),
+      emitterCap: decodeFromFieldsWithTypes(ID.reified(), item.fields.emitter_cap),
     });
   }
 
@@ -140,11 +129,7 @@ export class EmitterCreated implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): EmitterCreated {
@@ -166,20 +151,15 @@ export class EmitterCreated implements StructClass {
       throw new Error("not an object");
     }
     if (!isEmitterCreated(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a EmitterCreated object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a EmitterCreated object`);
     }
     return EmitterCreated.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): EmitterCreated {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isEmitterCreated(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a EmitterCreated object`);
+      if (data.bcs.dataType !== "moveObject" || !isEmitterCreated(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a EmitterCreated object`);
       }
 
       return EmitterCreated.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -195,14 +175,9 @@ export class EmitterCreated implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<EmitterCreated> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching EmitterCreated object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching EmitterCreated object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isEmitterCreated(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isEmitterCreated(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a EmitterCreated object`);
     }
 

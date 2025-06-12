@@ -57,9 +57,7 @@ export type ActionRequestReified<T0 extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class ActionRequest<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class ActionRequest<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V35}::token::ActionRequest`;
@@ -78,10 +76,7 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
   readonly spentBalance: ToField<Option<Balance<T0>>>;
   readonly approvals: ToField<VecSet<TypeName>>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: ActionRequestFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: ActionRequestFields<T0>) {
     this.$fullTypeName = composeSuiType(
       ActionRequest.$typeName,
       ...typeArgs,
@@ -105,25 +100,18 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
         ActionRequest.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V35}::token::ActionRequest<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: ActionRequest.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        ActionRequest.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ActionRequest.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => ActionRequest.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ActionRequest.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => ActionRequest.fromBcs(T0, data),
       bcs: ActionRequest.bcs,
       fromJSONField: (field: any) => ActionRequest.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => ActionRequest.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ActionRequest.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ActionRequest.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        ActionRequest.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => ActionRequest.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => ActionRequest.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => ActionRequest.fetch(client, T0, id),
       new: (fields: ActionRequestFields<ToPhantomTypeArgument<T0>>) => {
         return new ActionRequest([extractType(T0)], fields);
       },
@@ -176,10 +164,7 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
         Option.reified(Balance.reified(typeArg)),
         fields.spent_balance,
       ),
-      approvals: decodeFromFields(
-        VecSet.reified(TypeName.reified()),
-        fields.approvals,
-      ),
+      approvals: decodeFromFields(VecSet.reified(TypeName.reified()), fields.approvals),
     });
   }
 
@@ -196,10 +181,7 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
       name: decodeFromFieldsWithTypes(String.reified(), item.fields.name),
       amount: decodeFromFieldsWithTypes("u64", item.fields.amount),
       sender: decodeFromFieldsWithTypes("address", item.fields.sender),
-      recipient: decodeFromFieldsWithTypes(
-        Option.reified("address"),
-        item.fields.recipient,
-      ),
+      recipient: decodeFromFieldsWithTypes(Option.reified("address"), item.fields.recipient),
       spentBalance: decodeFromFieldsWithTypes(
         Option.reified(Balance.reified(typeArg)),
         item.fields.spent_balance,
@@ -223,10 +205,7 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
       name: this.name,
       amount: this.amount.toString(),
       sender: this.sender,
-      recipient: fieldToJSON<Option<"address">>(
-        `${Option.$typeName}<address>`,
-        this.recipient,
-      ),
+      recipient: fieldToJSON<Option<"address">>(`${Option.$typeName}<address>`, this.recipient),
       spentBalance: fieldToJSON<Option<Balance<T0>>>(
         `${Option.$typeName}<${Balance.$typeName}<${this.$typeArgs?.[0]}>>`,
         this.spentBalance,
@@ -236,11 +215,7 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -251,18 +226,12 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
       name: decodeFromJSONField(String.reified(), field.name),
       amount: decodeFromJSONField("u64", field.amount),
       sender: decodeFromJSONField("address", field.sender),
-      recipient: decodeFromJSONField(
-        Option.reified("address"),
-        field.recipient,
-      ),
+      recipient: decodeFromJSONField(Option.reified("address"), field.recipient),
       spentBalance: decodeFromJSONField(
         Option.reified(Balance.reified(typeArg)),
         field.spentBalance,
       ),
-      approvals: decodeFromJSONField(
-        VecSet.reified(TypeName.reified()),
-        field.approvals,
-      ),
+      approvals: decodeFromJSONField(VecSet.reified(TypeName.reified()), field.approvals),
     });
   }
 
@@ -290,9 +259,7 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isActionRequest(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ActionRequest object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ActionRequest object`);
     }
     return ActionRequest.fromFieldsWithTypes(typeArg, content);
   }
@@ -302,11 +269,8 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): ActionRequest<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isActionRequest(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ActionRequest object`);
+      if (data.bcs.dataType !== "moveObject" || !isActionRequest(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ActionRequest object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -341,14 +305,9 @@ export class ActionRequest<T0 extends PhantomTypeArgument>
   ): Promise<ActionRequest<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ActionRequest object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ActionRequest object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isActionRequest(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isActionRequest(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ActionRequest object`);
     }
 

@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -28,10 +24,7 @@ export interface GlobalPauseKeyFields {
   dummyField: ToField<"bool">;
 }
 
-export type GlobalPauseKeyReified = Reified<
-  GlobalPauseKey,
-  GlobalPauseKeyFields
->;
+export type GlobalPauseKeyReified = Reified<GlobalPauseKey, GlobalPauseKeyFields>;
 
 /**
  * Move struct: `GlobalPauseKey`
@@ -71,20 +64,15 @@ export class GlobalPauseKey implements StructClass {
       typeArgs: [] as [],
       isPhantom: GlobalPauseKey.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        GlobalPauseKey.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        GlobalPauseKey.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => GlobalPauseKey.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => GlobalPauseKey.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => GlobalPauseKey.fromBcs(data),
       bcs: GlobalPauseKey.bcs,
       fromJSONField: (field: any) => GlobalPauseKey.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => GlobalPauseKey.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        GlobalPauseKey.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        GlobalPauseKey.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        GlobalPauseKey.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => GlobalPauseKey.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => GlobalPauseKey.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => GlobalPauseKey.fetch(client, id),
       new: (fields: GlobalPauseKeyFields) => {
         return new GlobalPauseKey([], fields);
       },
@@ -136,11 +124,7 @@ export class GlobalPauseKey implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): GlobalPauseKey {
@@ -162,20 +146,15 @@ export class GlobalPauseKey implements StructClass {
       throw new Error("not an object");
     }
     if (!isGlobalPauseKey(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a GlobalPauseKey object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a GlobalPauseKey object`);
     }
     return GlobalPauseKey.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): GlobalPauseKey {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isGlobalPauseKey(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a GlobalPauseKey object`);
+      if (data.bcs.dataType !== "moveObject" || !isGlobalPauseKey(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a GlobalPauseKey object`);
       }
 
       return GlobalPauseKey.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,14 +170,9 @@ export class GlobalPauseKey implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<GlobalPauseKey> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching GlobalPauseKey object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching GlobalPauseKey object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isGlobalPauseKey(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isGlobalPauseKey(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a GlobalPauseKey object`);
     }
 

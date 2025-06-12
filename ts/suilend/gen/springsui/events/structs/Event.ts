@@ -36,10 +36,7 @@ export interface EventFields<T0 extends TypeArgument> {
   event: ToField<T0>;
 }
 
-export type EventReified<T0 extends TypeArgument> = Reified<
-  Event<T0>,
-  EventFields<T0>
->;
+export type EventReified<T0 extends TypeArgument> = Reified<Event<T0>, EventFields<T0>>;
 
 /**
  * Move struct: `Event`
@@ -71,9 +68,7 @@ export class Event<T0 extends TypeArgument> implements StructClass {
     this.event = fields.event;
   }
 
-  static reified<T0 extends Reified<TypeArgument, any>>(
-    T0: T0,
-  ): EventReified<ToTypeArgument<T0>> {
+  static reified<T0 extends Reified<TypeArgument, any>>(T0: T0): EventReified<ToTypeArgument<T0>> {
     return {
       typeName: Event.$typeName,
       fullTypeName: composeSuiType(
@@ -84,18 +79,14 @@ export class Event<T0 extends TypeArgument> implements StructClass {
       isPhantom: Event.$isPhantom,
       reifiedTypeArgs: [T0],
       fromFields: (fields: Record<string, any>) => Event.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Event.fromFieldsWithTypes(T0, item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Event.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Event.fromBcs(T0, data),
       bcs: Event.bcs(toBcs(T0)),
       fromJSONField: (field: any) => Event.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Event.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Event.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Event.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Event.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Event.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Event.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Event.fetch(client, T0, id),
       new: (fields: EventFields<ToTypeArgument<T0>>) => {
         return new Event([extractType(T0)], fields);
       },
@@ -127,9 +118,7 @@ export class Event<T0 extends TypeArgument> implements StructClass {
     typeArg: T0,
     fields: Record<string, any>,
   ): Event<ToTypeArgument<T0>> {
-    return Event.reified(typeArg).new({
-      event: decodeFromFields(typeArg, fields.event),
-    });
+    return Event.reified(typeArg).new({ event: decodeFromFields(typeArg, fields.event) });
   }
 
   static fromFieldsWithTypes<T0 extends Reified<TypeArgument, any>>(
@@ -160,20 +149,14 @@ export class Event<T0 extends TypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
     typeArg: T0,
     field: any,
   ): Event<ToTypeArgument<T0>> {
-    return Event.reified(typeArg).new({
-      event: decodeFromJSONField(typeArg, field.event),
-    });
+    return Event.reified(typeArg).new({ event: decodeFromJSONField(typeArg, field.event) });
   }
 
   static fromJSON<T0 extends Reified<TypeArgument, any>>(
@@ -200,9 +183,7 @@ export class Event<T0 extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Event object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Event object`);
     }
     return Event.fromFieldsWithTypes(typeArg, content);
   }
@@ -213,7 +194,7 @@ export class Event<T0 extends TypeArgument> implements StructClass {
   ): Event<ToTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isEvent(data.bcs.type)) {
-        throw new Error(`object at is not a Event object`);
+        throw new Error(`object at ${data.objectId} is not a Event object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -248,14 +229,9 @@ export class Event<T0 extends TypeArgument> implements StructClass {
   ): Promise<Event<ToTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Event object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Event object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Event object`);
     }
 

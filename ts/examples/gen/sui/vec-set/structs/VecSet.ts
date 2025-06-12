@@ -38,10 +38,7 @@ export interface VecSetFields<K extends TypeArgument> {
   contents: ToField<Vector<K>>;
 }
 
-export type VecSetReified<K extends TypeArgument> = Reified<
-  VecSet<K>,
-  VecSetFields<K>
->;
+export type VecSetReified<K extends TypeArgument> = Reified<VecSet<K>, VecSetFields<K>>;
 
 /**
  * Move struct: `VecSet`
@@ -73,9 +70,7 @@ export class VecSet<K extends TypeArgument> implements StructClass {
     this.contents = fields.contents;
   }
 
-  static reified<K extends Reified<TypeArgument, any>>(
-    K: K,
-  ): VecSetReified<ToTypeArgument<K>> {
+  static reified<K extends Reified<TypeArgument, any>>(K: K): VecSetReified<ToTypeArgument<K>> {
     return {
       typeName: VecSet.$typeName,
       fullTypeName: composeSuiType(
@@ -86,18 +81,14 @@ export class VecSet<K extends TypeArgument> implements StructClass {
       isPhantom: VecSet.$isPhantom,
       reifiedTypeArgs: [K],
       fromFields: (fields: Record<string, any>) => VecSet.fromFields(K, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        VecSet.fromFieldsWithTypes(K, item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => VecSet.fromFieldsWithTypes(K, item),
       fromBcs: (data: Uint8Array) => VecSet.fromBcs(K, data),
       bcs: VecSet.bcs(toBcs(K)),
       fromJSONField: (field: any) => VecSet.fromJSONField(K, field),
       fromJSON: (json: Record<string, any>) => VecSet.fromJSON(K, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        VecSet.fromSuiParsedData(K, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        VecSet.fromSuiObjectData(K, content),
-      fetch: async (client: SuiClient, id: string) =>
-        VecSet.fetch(client, K, id),
+      fromSuiParsedData: (content: SuiParsedData) => VecSet.fromSuiParsedData(K, content),
+      fromSuiObjectData: (content: SuiObjectData) => VecSet.fromSuiObjectData(K, content),
+      fetch: async (client: SuiClient, id: string) => VecSet.fetch(client, K, id),
       new: (fields: VecSetFields<ToTypeArgument<K>>) => {
         return new VecSet([extractType(K)], fields);
       },
@@ -144,10 +135,7 @@ export class VecSet<K extends TypeArgument> implements StructClass {
     assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
     return VecSet.reified(typeArg).new({
-      contents: decodeFromFieldsWithTypes(
-        reified.vector(typeArg),
-        item.fields.contents,
-      ),
+      contents: decodeFromFieldsWithTypes(reified.vector(typeArg), item.fields.contents),
     });
   }
 
@@ -160,19 +148,12 @@ export class VecSet<K extends TypeArgument> implements StructClass {
 
   toJSONField() {
     return {
-      contents: fieldToJSON<Vector<K>>(
-        `vector<${this.$typeArgs?.[0]}>`,
-        this.contents,
-      ),
+      contents: fieldToJSON<Vector<K>>(`vector<${this.$typeArgs?.[0]}>`, this.contents),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<K extends Reified<TypeArgument, any>>(
@@ -208,9 +189,7 @@ export class VecSet<K extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isVecSet(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a VecSet object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a VecSet object`);
     }
     return VecSet.fromFieldsWithTypes(typeArg, content);
   }
@@ -221,7 +200,7 @@ export class VecSet<K extends TypeArgument> implements StructClass {
   ): VecSet<ToTypeArgument<K>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isVecSet(data.bcs.type)) {
-        throw new Error(`object at is not a VecSet object`);
+        throw new Error(`object at ${data.objectId} is not a VecSet object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -256,14 +235,9 @@ export class VecSet<K extends TypeArgument> implements StructClass {
   ): Promise<VecSet<ToTypeArgument<K>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching VecSet object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching VecSet object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isVecSet(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isVecSet(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a VecSet object`);
     }
 

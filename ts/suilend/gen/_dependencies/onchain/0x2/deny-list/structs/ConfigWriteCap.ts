@@ -28,10 +28,7 @@ export interface ConfigWriteCapFields {
   dummyField: ToField<"bool">;
 }
 
-export type ConfigWriteCapReified = Reified<
-  ConfigWriteCap,
-  ConfigWriteCapFields
->;
+export type ConfigWriteCapReified = Reified<ConfigWriteCap, ConfigWriteCapFields>;
 
 /**
  * Move struct: `ConfigWriteCap`
@@ -71,20 +68,15 @@ export class ConfigWriteCap implements StructClass {
       typeArgs: [] as [],
       isPhantom: ConfigWriteCap.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ConfigWriteCap.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ConfigWriteCap.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ConfigWriteCap.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ConfigWriteCap.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ConfigWriteCap.fromBcs(data),
       bcs: ConfigWriteCap.bcs,
       fromJSONField: (field: any) => ConfigWriteCap.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ConfigWriteCap.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ConfigWriteCap.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ConfigWriteCap.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ConfigWriteCap.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ConfigWriteCap.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ConfigWriteCap.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ConfigWriteCap.fetch(client, id),
       new: (fields: ConfigWriteCapFields) => {
         return new ConfigWriteCap([], fields);
       },
@@ -136,11 +128,7 @@ export class ConfigWriteCap implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ConfigWriteCap {
@@ -162,20 +150,15 @@ export class ConfigWriteCap implements StructClass {
       throw new Error("not an object");
     }
     if (!isConfigWriteCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ConfigWriteCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ConfigWriteCap object`);
     }
     return ConfigWriteCap.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ConfigWriteCap {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isConfigWriteCap(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ConfigWriteCap object`);
+      if (data.bcs.dataType !== "moveObject" || !isConfigWriteCap(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ConfigWriteCap object`);
       }
 
       return ConfigWriteCap.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,14 +174,9 @@ export class ConfigWriteCap implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ConfigWriteCap> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ConfigWriteCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ConfigWriteCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isConfigWriteCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isConfigWriteCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ConfigWriteCap object`);
     }
 

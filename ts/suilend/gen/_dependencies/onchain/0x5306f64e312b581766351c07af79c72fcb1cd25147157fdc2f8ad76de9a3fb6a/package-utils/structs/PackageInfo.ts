@@ -73,20 +73,15 @@ export class PackageInfo implements StructClass {
       typeArgs: [] as [],
       isPhantom: PackageInfo.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PackageInfo.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PackageInfo.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => PackageInfo.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PackageInfo.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PackageInfo.fromBcs(data),
       bcs: PackageInfo.bcs,
       fromJSONField: (field: any) => PackageInfo.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PackageInfo.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PackageInfo.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PackageInfo.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PackageInfo.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PackageInfo.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PackageInfo.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PackageInfo.fetch(client, id),
       new: (fields: PackageInfoFields) => {
         return new PackageInfo([], fields);
       },
@@ -142,11 +137,7 @@ export class PackageInfo implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PackageInfo {
@@ -169,9 +160,7 @@ export class PackageInfo implements StructClass {
       throw new Error("not an object");
     }
     if (!isPackageInfo(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PackageInfo object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PackageInfo object`);
     }
     return PackageInfo.fromFieldsWithTypes(content);
   }
@@ -179,7 +168,7 @@ export class PackageInfo implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): PackageInfo {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isPackageInfo(data.bcs.type)) {
-        throw new Error(`object at is not a PackageInfo object`);
+        throw new Error(`object at ${data.objectId} is not a PackageInfo object`);
       }
 
       return PackageInfo.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -195,14 +184,9 @@ export class PackageInfo implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<PackageInfo> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PackageInfo object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PackageInfo object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPackageInfo(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPackageInfo(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PackageInfo object`);
     }
 

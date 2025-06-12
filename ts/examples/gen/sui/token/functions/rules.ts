@@ -23,17 +23,10 @@ export interface RulesArgs {
  * @param action - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function rules(
-  tx: Transaction,
-  typeArg: string,
-  args: RulesArgs,
-): TransactionResult {
+export function rules(tx: Transaction, typeArg: string, args: RulesArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::token::rules`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.self),
-      pure(tx, args.action, `${String.$typeName}`),
-    ],
+    arguments: [obj(tx, args.self), pure(tx, args.action, `${String.$typeName}`)],
   });
 }

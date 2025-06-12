@@ -11,11 +11,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V10 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -77,20 +73,15 @@ export class FeeReceivers implements StructClass {
       typeArgs: [] as [],
       isPhantom: FeeReceivers.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        FeeReceivers.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        FeeReceivers.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => FeeReceivers.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => FeeReceivers.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => FeeReceivers.fromBcs(data),
       bcs: FeeReceivers.bcs,
       fromJSONField: (field: any) => FeeReceivers.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => FeeReceivers.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        FeeReceivers.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        FeeReceivers.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        FeeReceivers.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => FeeReceivers.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => FeeReceivers.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => FeeReceivers.fetch(client, id),
       new: (fields: FeeReceiversFields) => {
         return new FeeReceivers([], fields);
       },
@@ -136,14 +127,8 @@ export class FeeReceivers implements StructClass {
     }
 
     return FeeReceivers.reified().new({
-      receivers: decodeFromFieldsWithTypes(
-        reified.vector("address"),
-        item.fields.receivers,
-      ),
-      weights: decodeFromFieldsWithTypes(
-        reified.vector("u64"),
-        item.fields.weights,
-      ),
+      receivers: decodeFromFieldsWithTypes(reified.vector("address"), item.fields.receivers),
+      weights: decodeFromFieldsWithTypes(reified.vector("u64"), item.fields.weights),
       totalWeight: decodeFromFieldsWithTypes("u64", item.fields.total_weight),
     });
   }
@@ -154,29 +139,19 @@ export class FeeReceivers implements StructClass {
 
   toJSONField() {
     return {
-      receivers: fieldToJSON<Vector<"address">>(
-        `vector<address>`,
-        this.receivers,
-      ),
+      receivers: fieldToJSON<Vector<"address">>(`vector<address>`, this.receivers),
       weights: fieldToJSON<Vector<"u64">>(`vector<u64>`, this.weights),
       totalWeight: this.totalWeight.toString(),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): FeeReceivers {
     return FeeReceivers.reified().new({
-      receivers: decodeFromJSONField(
-        reified.vector("address"),
-        field.receivers,
-      ),
+      receivers: decodeFromJSONField(reified.vector("address"), field.receivers),
       weights: decodeFromJSONField(reified.vector("u64"), field.weights),
       totalWeight: decodeFromJSONField("u64", field.totalWeight),
     });
@@ -195,20 +170,15 @@ export class FeeReceivers implements StructClass {
       throw new Error("not an object");
     }
     if (!isFeeReceivers(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a FeeReceivers object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a FeeReceivers object`);
     }
     return FeeReceivers.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): FeeReceivers {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isFeeReceivers(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a FeeReceivers object`);
+      if (data.bcs.dataType !== "moveObject" || !isFeeReceivers(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a FeeReceivers object`);
       }
 
       return FeeReceivers.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -224,14 +194,9 @@ export class FeeReceivers implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<FeeReceivers> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching FeeReceivers object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching FeeReceivers object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isFeeReceivers(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isFeeReceivers(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a FeeReceivers object`);
     }
 

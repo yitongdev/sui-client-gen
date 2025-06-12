@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -84,20 +80,15 @@ export class BorrowEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: BorrowEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        BorrowEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        BorrowEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => BorrowEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => BorrowEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => BorrowEvent.fromBcs(data),
       bcs: BorrowEvent.bcs,
       fromJSONField: (field: any) => BorrowEvent.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => BorrowEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        BorrowEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        BorrowEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        BorrowEvent.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => BorrowEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => BorrowEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => BorrowEvent.fetch(client, id),
       new: (fields: BorrowEventFields) => {
         return new BorrowEvent([], fields);
       },
@@ -143,10 +134,7 @@ export class BorrowEvent implements StructClass {
       reserveId: decodeFromFields("address", fields.reserve_id),
       obligationId: decodeFromFields("address", fields.obligation_id),
       liquidityAmount: decodeFromFields("u64", fields.liquidity_amount),
-      originationFeeAmount: decodeFromFields(
-        "u64",
-        fields.origination_fee_amount,
-      ),
+      originationFeeAmount: decodeFromFields("u64", fields.origination_fee_amount),
     });
   }
 
@@ -156,27 +144,12 @@ export class BorrowEvent implements StructClass {
     }
 
     return BorrowEvent.reified().new({
-      lendingMarketId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.lending_market_id,
-      ),
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes("address", item.fields.lending_market_id),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
       reserveId: decodeFromFieldsWithTypes("address", item.fields.reserve_id),
-      obligationId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.obligation_id,
-      ),
-      liquidityAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.liquidity_amount,
-      ),
-      originationFeeAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.origination_fee_amount,
-      ),
+      obligationId: decodeFromFieldsWithTypes("address", item.fields.obligation_id),
+      liquidityAmount: decodeFromFieldsWithTypes("u64", item.fields.liquidity_amount),
+      originationFeeAmount: decodeFromFieldsWithTypes("u64", item.fields.origination_fee_amount),
     });
   }
 
@@ -196,11 +169,7 @@ export class BorrowEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): BorrowEvent {
@@ -210,10 +179,7 @@ export class BorrowEvent implements StructClass {
       reserveId: decodeFromJSONField("address", field.reserveId),
       obligationId: decodeFromJSONField("address", field.obligationId),
       liquidityAmount: decodeFromJSONField("u64", field.liquidityAmount),
-      originationFeeAmount: decodeFromJSONField(
-        "u64",
-        field.originationFeeAmount,
-      ),
+      originationFeeAmount: decodeFromJSONField("u64", field.originationFeeAmount),
     });
   }
 
@@ -230,9 +196,7 @@ export class BorrowEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isBorrowEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a BorrowEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a BorrowEvent object`);
     }
     return BorrowEvent.fromFieldsWithTypes(content);
   }
@@ -240,7 +204,7 @@ export class BorrowEvent implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): BorrowEvent {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isBorrowEvent(data.bcs.type)) {
-        throw new Error(`object at is not a BorrowEvent object`);
+        throw new Error(`object at ${data.objectId} is not a BorrowEvent object`);
       }
 
       return BorrowEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -256,14 +220,9 @@ export class BorrowEvent implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<BorrowEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching BorrowEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching BorrowEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isBorrowEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isBorrowEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a BorrowEvent object`);
     }
 

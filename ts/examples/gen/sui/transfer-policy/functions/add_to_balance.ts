@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface AddToBalanceArgs {
   rule: GenericArg;
@@ -31,10 +27,6 @@ export function addToBalance(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::transfer_policy::add_to_balance`,
     typeArguments: typeArgs,
-    arguments: [
-      generic(tx, `${typeArgs[1]}`, args.rule),
-      obj(tx, args.policy),
-      obj(tx, args.coin),
-    ],
+    arguments: [generic(tx, `${typeArgs[1]}`, args.rule), obj(tx, args.policy), obj(tx, args.coin)],
   });
 }

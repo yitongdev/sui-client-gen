@@ -33,10 +33,6 @@ export function adminWithdrawFees(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pool::admin_withdraw_fees`,
     typeArguments: typeArgs,
-    arguments: [
-      obj(tx, args.pool),
-      obj(tx, args.adminCap),
-      pure(tx, args.amount, `u64`),
-    ],
+    arguments: [obj(tx, args.pool), obj(tx, args.adminCap), pure(tx, args.amount, `u64`)],
   });
 }

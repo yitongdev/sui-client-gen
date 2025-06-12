@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface InternalHashToArgs {
   u8: number | TransactionArgument;
@@ -20,10 +16,7 @@ export interface InternalHashToArgs {
  * @param vecU8 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function internalHashTo(
-  tx: Transaction,
-  args: InternalHashToArgs,
-): TransactionResult {
+export function internalHashTo(tx: Transaction, args: InternalHashToArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::group_ops::internal_hash_to`,
     arguments: [pure(tx, args.u8, `u8`), pure(tx, args.vecU8, `vector<u8>`)],

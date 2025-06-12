@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { Decimal } from "../../decimal/structs/index.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -118,21 +114,18 @@ export class ReserveAssetDataEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: ReserveAssetDataEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ReserveAssetDataEvent.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => ReserveAssetDataEvent.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         ReserveAssetDataEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ReserveAssetDataEvent.fromBcs(data),
       bcs: ReserveAssetDataEvent.bcs,
       fromJSONField: (field: any) => ReserveAssetDataEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        ReserveAssetDataEvent.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => ReserveAssetDataEvent.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         ReserveAssetDataEvent.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         ReserveAssetDataEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ReserveAssetDataEvent.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => ReserveAssetDataEvent.fetch(client, id),
       new: (fields: ReserveAssetDataEventFields) => {
         return new ReserveAssetDataEvent([], fields);
       },
@@ -183,15 +176,9 @@ export class ReserveAssetDataEvent implements StructClass {
       lendingMarketId: decodeFromFields("address", fields.lending_market_id),
       coinType: decodeFromFields(TypeName.reified(), fields.coin_type),
       reserveId: decodeFromFields("address", fields.reserve_id),
-      availableAmount: decodeFromFields(
-        Decimal.reified(),
-        fields.available_amount,
-      ),
+      availableAmount: decodeFromFields(Decimal.reified(), fields.available_amount),
       supplyAmount: decodeFromFields(Decimal.reified(), fields.supply_amount),
-      borrowedAmount: decodeFromFields(
-        Decimal.reified(),
-        fields.borrowed_amount,
-      ),
+      borrowedAmount: decodeFromFields(Decimal.reified(), fields.borrowed_amount),
       availableAmountUsdEstimate: decodeFromFields(
         Decimal.reified(),
         fields.available_amount_usd_estimate,
@@ -207,16 +194,10 @@ export class ReserveAssetDataEvent implements StructClass {
       borrowApr: decodeFromFields(Decimal.reified(), fields.borrow_apr),
       supplyApr: decodeFromFields(Decimal.reified(), fields.supply_apr),
       ctokenSupply: decodeFromFields("u64", fields.ctoken_supply),
-      cumulativeBorrowRate: decodeFromFields(
-        Decimal.reified(),
-        fields.cumulative_borrow_rate,
-      ),
+      cumulativeBorrowRate: decodeFromFields(Decimal.reified(), fields.cumulative_borrow_rate),
       price: decodeFromFields(Decimal.reified(), fields.price),
       smoothedPrice: decodeFromFields(Decimal.reified(), fields.smoothed_price),
-      priceLastUpdateTimestampS: decodeFromFields(
-        "u64",
-        fields.price_last_update_timestamp_s,
-      ),
+      priceLastUpdateTimestampS: decodeFromFields("u64", fields.price_last_update_timestamp_s),
     });
   }
 
@@ -226,27 +207,12 @@ export class ReserveAssetDataEvent implements StructClass {
     }
 
     return ReserveAssetDataEvent.reified().new({
-      lendingMarketId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.lending_market_id,
-      ),
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes("address", item.fields.lending_market_id),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
       reserveId: decodeFromFieldsWithTypes("address", item.fields.reserve_id),
-      availableAmount: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.available_amount,
-      ),
-      supplyAmount: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.supply_amount,
-      ),
-      borrowedAmount: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.borrowed_amount,
-      ),
+      availableAmount: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.available_amount),
+      supplyAmount: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.supply_amount),
+      borrowedAmount: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.borrowed_amount),
       availableAmountUsdEstimate: decodeFromFieldsWithTypes(
         Decimal.reified(),
         item.fields.available_amount_usd_estimate,
@@ -259,24 +225,15 @@ export class ReserveAssetDataEvent implements StructClass {
         Decimal.reified(),
         item.fields.borrowed_amount_usd_estimate,
       ),
-      borrowApr: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.borrow_apr,
-      ),
-      supplyApr: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.supply_apr,
-      ),
+      borrowApr: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.borrow_apr),
+      supplyApr: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.supply_apr),
       ctokenSupply: decodeFromFieldsWithTypes("u64", item.fields.ctoken_supply),
       cumulativeBorrowRate: decodeFromFieldsWithTypes(
         Decimal.reified(),
         item.fields.cumulative_borrow_rate,
       ),
       price: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.price),
-      smoothedPrice: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.smoothed_price,
-      ),
+      smoothedPrice: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.smoothed_price),
       priceLastUpdateTimestampS: decodeFromFieldsWithTypes(
         "u64",
         item.fields.price_last_update_timestamp_s,
@@ -285,9 +242,7 @@ export class ReserveAssetDataEvent implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): ReserveAssetDataEvent {
-    return ReserveAssetDataEvent.fromFields(
-      ReserveAssetDataEvent.bcs.parse(data),
-    );
+    return ReserveAssetDataEvent.fromFields(ReserveAssetDataEvent.bcs.parse(data));
   }
 
   toJSONField() {
@@ -312,11 +267,7 @@ export class ReserveAssetDataEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ReserveAssetDataEvent {
@@ -324,15 +275,9 @@ export class ReserveAssetDataEvent implements StructClass {
       lendingMarketId: decodeFromJSONField("address", field.lendingMarketId),
       coinType: decodeFromJSONField(TypeName.reified(), field.coinType),
       reserveId: decodeFromJSONField("address", field.reserveId),
-      availableAmount: decodeFromJSONField(
-        Decimal.reified(),
-        field.availableAmount,
-      ),
+      availableAmount: decodeFromJSONField(Decimal.reified(), field.availableAmount),
       supplyAmount: decodeFromJSONField(Decimal.reified(), field.supplyAmount),
-      borrowedAmount: decodeFromJSONField(
-        Decimal.reified(),
-        field.borrowedAmount,
-      ),
+      borrowedAmount: decodeFromJSONField(Decimal.reified(), field.borrowedAmount),
       availableAmountUsdEstimate: decodeFromJSONField(
         Decimal.reified(),
         field.availableAmountUsdEstimate,
@@ -348,19 +293,10 @@ export class ReserveAssetDataEvent implements StructClass {
       borrowApr: decodeFromJSONField(Decimal.reified(), field.borrowApr),
       supplyApr: decodeFromJSONField(Decimal.reified(), field.supplyApr),
       ctokenSupply: decodeFromJSONField("u64", field.ctokenSupply),
-      cumulativeBorrowRate: decodeFromJSONField(
-        Decimal.reified(),
-        field.cumulativeBorrowRate,
-      ),
+      cumulativeBorrowRate: decodeFromJSONField(Decimal.reified(), field.cumulativeBorrowRate),
       price: decodeFromJSONField(Decimal.reified(), field.price),
-      smoothedPrice: decodeFromJSONField(
-        Decimal.reified(),
-        field.smoothedPrice,
-      ),
-      priceLastUpdateTimestampS: decodeFromJSONField(
-        "u64",
-        field.priceLastUpdateTimestampS,
-      ),
+      smoothedPrice: decodeFromJSONField(Decimal.reified(), field.smoothedPrice),
+      priceLastUpdateTimestampS: decodeFromJSONField("u64", field.priceLastUpdateTimestampS),
     });
   }
 
@@ -386,11 +322,8 @@ export class ReserveAssetDataEvent implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): ReserveAssetDataEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isReserveAssetDataEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ReserveAssetDataEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isReserveAssetDataEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ReserveAssetDataEvent object`);
       }
 
       return ReserveAssetDataEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -403,23 +336,13 @@ export class ReserveAssetDataEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<ReserveAssetDataEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<ReserveAssetDataEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ReserveAssetDataEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ReserveAssetDataEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isReserveAssetDataEvent(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a ReserveAssetDataEvent object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isReserveAssetDataEvent(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a ReserveAssetDataEvent object`);
     }
 
     return ReserveAssetDataEvent.fromSuiObjectData(res.data);

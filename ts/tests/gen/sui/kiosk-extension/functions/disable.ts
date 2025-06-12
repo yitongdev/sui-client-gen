@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface DisableArgs {
   self: TransactionObjectInput;
@@ -20,11 +16,7 @@ export interface DisableArgs {
  * @param self - Function parameter
  * @param cap - Function parameter
  */
-export function disable(
-  tx: Transaction,
-  typeArg: string,
-  args: DisableArgs,
-): TransactionResult {
+export function disable(tx: Transaction, typeArg: string, args: DisableArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk_extension::disable`,
     typeArguments: [typeArg],

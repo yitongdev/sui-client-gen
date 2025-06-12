@@ -33,10 +33,6 @@ export function swapA(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pool::swap_a`,
     typeArguments: typeArgs,
-    arguments: [
-      obj(tx, args.pool),
-      obj(tx, args.input),
-      pure(tx, args.minOut, `u64`),
-    ],
+    arguments: [obj(tx, args.pool), obj(tx, args.input), pure(tx, args.minOut, `u64`)],
   });
 }

@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -69,16 +65,13 @@ export class Version implements StructClass {
       isPhantom: Version.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Version.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Version.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Version.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Version.fromBcs(data),
       bcs: Version.bcs,
       fromJSONField: (field: any) => Version.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Version.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Version.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Version.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Version.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Version.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Version.fetch(client, id),
       new: (fields: VersionFields) => {
         return new Version([], fields);
@@ -105,9 +98,7 @@ export class Version implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): Version {
-    return Version.reified().new({
-      pos0: decodeFromFields("u16", fields.pos0),
-    });
+    return Version.reified().new({ pos0: decodeFromFields("u16", fields.pos0) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): Version {
@@ -115,9 +106,7 @@ export class Version implements StructClass {
       throw new Error("not a Version type");
     }
 
-    return Version.reified().new({
-      pos0: decodeFromFieldsWithTypes("u16", item.fields.pos0),
-    });
+    return Version.reified().new({ pos0: decodeFromFieldsWithTypes("u16", item.fields.pos0) });
   }
 
   static fromBcs(data: Uint8Array): Version {
@@ -131,17 +120,11 @@ export class Version implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Version {
-    return Version.reified().new({
-      pos0: decodeFromJSONField("u16", field.pos0),
-    });
+    return Version.reified().new({ pos0: decodeFromJSONField("u16", field.pos0) });
   }
 
   static fromJSON(json: Record<string, any>): Version {
@@ -157,9 +140,7 @@ export class Version implements StructClass {
       throw new Error("not an object");
     }
     if (!isVersion(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Version object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Version object`);
     }
     return Version.fromFieldsWithTypes(content);
   }
@@ -167,7 +148,7 @@ export class Version implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Version {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isVersion(data.bcs.type)) {
-        throw new Error(`object at is not a Version object`);
+        throw new Error(`object at ${data.objectId} is not a Version object`);
       }
 
       return Version.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,14 +164,9 @@ export class Version implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Version> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Version object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Version object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isVersion(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isVersion(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Version object`);
     }
 

@@ -29,17 +29,17 @@ import { fromBase64 } from "@mysten/sui/utils";
 
 export function isTransferPolicyCreated(type: string): boolean {
   type = compressSuiType(type);
-  return type.startsWith(
-    `${PKG_V31}::transfer_policy::TransferPolicyCreated` + "<",
-  );
+  return type.startsWith(`${PKG_V31}::transfer_policy::TransferPolicyCreated` + "<");
 }
 
 export interface TransferPolicyCreatedFields<T extends PhantomTypeArgument> {
   id: ToField<ID>;
 }
 
-export type TransferPolicyCreatedReified<T extends PhantomTypeArgument> =
-  Reified<TransferPolicyCreated<T>, TransferPolicyCreatedFields<T>>;
+export type TransferPolicyCreatedReified<T extends PhantomTypeArgument> = Reified<
+  TransferPolicyCreated<T>,
+  TransferPolicyCreatedFields<T>
+>;
 
 /**
  * Move struct: `TransferPolicyCreated`
@@ -47,9 +47,7 @@ export type TransferPolicyCreatedReified<T extends PhantomTypeArgument> =
  *
  * @typeParam T - Type parameter 0 (phantom)
  */
-export class TransferPolicyCreated<T extends PhantomTypeArgument>
-  implements StructClass
-{
+export class TransferPolicyCreated<T extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::transfer_policy::TransferPolicyCreated`;
@@ -63,10 +61,7 @@ export class TransferPolicyCreated<T extends PhantomTypeArgument>
 
   readonly id: ToField<ID>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: TransferPolicyCreatedFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: TransferPolicyCreatedFields<T>) {
     this.$fullTypeName = composeSuiType(
       TransferPolicyCreated.$typeName,
       ...typeArgs,
@@ -85,27 +80,21 @@ export class TransferPolicyCreated<T extends PhantomTypeArgument>
         TransferPolicyCreated.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::transfer_policy::TransferPolicyCreated<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: TransferPolicyCreated.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        TransferPolicyCreated.fromFields(T, fields),
+      fromFields: (fields: Record<string, any>) => TransferPolicyCreated.fromFields(T, fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         TransferPolicyCreated.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => TransferPolicyCreated.fromBcs(T, data),
       bcs: TransferPolicyCreated.bcs,
-      fromJSONField: (field: any) =>
-        TransferPolicyCreated.fromJSONField(T, field),
-      fromJSON: (json: Record<string, any>) =>
-        TransferPolicyCreated.fromJSON(T, json),
+      fromJSONField: (field: any) => TransferPolicyCreated.fromJSONField(T, field),
+      fromJSON: (json: Record<string, any>) => TransferPolicyCreated.fromJSON(T, json),
       fromSuiParsedData: (content: SuiParsedData) =>
         TransferPolicyCreated.fromSuiParsedData(T, content),
       fromSuiObjectData: (content: SuiObjectData) =>
         TransferPolicyCreated.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        TransferPolicyCreated.fetch(client, T, id),
+      fetch: async (client: SuiClient, id: string) => TransferPolicyCreated.fetch(client, T, id),
       new: (fields: TransferPolicyCreatedFields<ToPhantomTypeArgument<T>>) => {
         return new TransferPolicyCreated([extractType(T)], fields);
       },
@@ -119,9 +108,7 @@ export class TransferPolicyCreated<T extends PhantomTypeArgument>
 
   static phantom<T extends PhantomReified<PhantomTypeArgument>>(
     T: T,
-  ): PhantomReified<
-    ToTypeStr<TransferPolicyCreated<ToPhantomTypeArgument<T>>>
-  > {
+  ): PhantomReified<ToTypeStr<TransferPolicyCreated<ToPhantomTypeArgument<T>>>> {
     return phantom(TransferPolicyCreated.reified(T));
   }
   static get p() {
@@ -161,10 +148,7 @@ export class TransferPolicyCreated<T extends PhantomTypeArgument>
     typeArg: T,
     data: Uint8Array,
   ): TransferPolicyCreated<ToPhantomTypeArgument<T>> {
-    return TransferPolicyCreated.fromFields(
-      typeArg,
-      TransferPolicyCreated.bcs.parse(data),
-    );
+    return TransferPolicyCreated.fromFields(typeArg, TransferPolicyCreated.bcs.parse(data));
   }
 
   toJSONField() {
@@ -174,11 +158,7 @@ export class TransferPolicyCreated<T extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -226,11 +206,8 @@ export class TransferPolicyCreated<T extends PhantomTypeArgument>
     data: SuiObjectData,
   ): TransferPolicyCreated<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isTransferPolicyCreated(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a TransferPolicyCreated object`);
+      if (data.bcs.dataType !== "moveObject" || !isTransferPolicyCreated(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a TransferPolicyCreated object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -248,10 +225,7 @@ export class TransferPolicyCreated<T extends PhantomTypeArgument>
         );
       }
 
-      return TransferPolicyCreated.fromBcs(
-        typeArg,
-        fromBase64(data.bcs.bcsBytes),
-      );
+      return TransferPolicyCreated.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return TransferPolicyCreated.fromSuiParsedData(typeArg, data.content);
@@ -268,17 +242,10 @@ export class TransferPolicyCreated<T extends PhantomTypeArgument>
   ): Promise<TransferPolicyCreated<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TransferPolicyCreated object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TransferPolicyCreated object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTransferPolicyCreated(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a TransferPolicyCreated object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTransferPolicyCreated(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a TransferPolicyCreated object`);
     }
 
     return TransferPolicyCreated.fromSuiObjectData(typeArg, res.data);

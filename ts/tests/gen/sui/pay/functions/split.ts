@@ -22,11 +22,7 @@ export interface SplitArgs {
  * @param splitAmount - Function parameter
  * @param ctx - Function parameter
  */
-export function split(
-  tx: Transaction,
-  typeArg: string,
-  args: SplitArgs,
-): TransactionResult {
+export function split(tx: Transaction, typeArg: string, args: SplitArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pay::split`,
     typeArguments: [typeArg],

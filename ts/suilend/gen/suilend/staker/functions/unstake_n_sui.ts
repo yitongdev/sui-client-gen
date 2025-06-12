@@ -32,10 +32,6 @@ export function unstakeNSui(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::staker::unstake_n_sui`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.staker),
-      obj(tx, args.suiSystemState),
-      pure(tx, args.u64, `u64`),
-    ],
+    arguments: [obj(tx, args.staker), obj(tx, args.suiSystemState), pure(tx, args.u64, `u64`)],
   });
 }

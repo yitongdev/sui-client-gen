@@ -60,10 +60,7 @@ export class RuleKey<T0 extends PhantomTypeArgument> implements StructClass {
 
   readonly dummyField: ToField<"bool">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: RuleKeyFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: RuleKeyFields<T0>) {
     this.$fullTypeName = composeSuiType(
       RuleKey.$typeName,
       ...typeArgs,
@@ -82,25 +79,18 @@ export class RuleKey<T0 extends PhantomTypeArgument> implements StructClass {
         RuleKey.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V31}::transfer_policy::RuleKey<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: RuleKey.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        RuleKey.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        RuleKey.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => RuleKey.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => RuleKey.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => RuleKey.fromBcs(T0, data),
       bcs: RuleKey.bcs,
       fromJSONField: (field: any) => RuleKey.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => RuleKey.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        RuleKey.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        RuleKey.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        RuleKey.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => RuleKey.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => RuleKey.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => RuleKey.fetch(client, T0, id),
       new: (fields: RuleKeyFields<ToPhantomTypeArgument<T0>>) => {
         return new RuleKey([extractType(T0)], fields);
       },
@@ -164,11 +154,7 @@ export class RuleKey<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -204,9 +190,7 @@ export class RuleKey<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isRuleKey(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a RuleKey object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a RuleKey object`);
     }
     return RuleKey.fromFieldsWithTypes(typeArg, content);
   }
@@ -217,7 +201,7 @@ export class RuleKey<T0 extends PhantomTypeArgument> implements StructClass {
   ): RuleKey<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isRuleKey(data.bcs.type)) {
-        throw new Error(`object at is not a RuleKey object`);
+        throw new Error(`object at ${data.objectId} is not a RuleKey object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -252,14 +236,9 @@ export class RuleKey<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<RuleKey<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching RuleKey object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching RuleKey object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isRuleKey(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isRuleKey(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a RuleKey object`);
     }
 

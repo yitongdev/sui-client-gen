@@ -1,8 +1,5 @@
 import * as reified from "../../../_framework/reified.js";
-import {
-  Balance,
-  Supply,
-} from "../../../_dependencies/onchain/0x2/balance/structs/index.js";
+import { Balance, Supply } from "../../../_dependencies/onchain/0x2/balance/structs/index.js";
 import {
   PhantomReified,
   PhantomToTypeStr,
@@ -38,10 +35,7 @@ export function isBalances(type: string): boolean {
   return type.startsWith(`${PKG_V1}::reserve::Balances` + "<");
 }
 
-export interface BalancesFields<
-  T0 extends PhantomTypeArgument,
-  T1 extends PhantomTypeArgument,
-> {
+export interface BalancesFields<T0 extends PhantomTypeArgument, T1 extends PhantomTypeArgument> {
   availableAmount: ToField<Balance<T1>>;
   ctokenSupply: ToField<Supply<ToPhantom<CToken1<T0, T1>>>>;
   fees: ToField<Balance<T1>>;
@@ -61,10 +55,8 @@ export type BalancesReified<
  * @typeParam T0 - Type parameter 0 (phantom)
  * @typeParam T1 - Type parameter 1 (phantom)
  */
-export class Balances<
-  T0 extends PhantomTypeArgument,
-  T1 extends PhantomTypeArgument,
-> implements StructClass
+export class Balances<T0 extends PhantomTypeArgument, T1 extends PhantomTypeArgument>
+  implements StructClass
 {
   __StructClass = true as const;
 
@@ -103,10 +95,7 @@ export class Balances<
   static reified<
     T0 extends PhantomReified<PhantomTypeArgument>,
     T1 extends PhantomReified<PhantomTypeArgument>,
-  >(
-    T0: T0,
-    T1: T1,
-  ): BalancesReified<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
+  >(T0: T0, T1: T1): BalancesReified<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     return {
       typeName: Balances.$typeName,
       fullTypeName: composeSuiType(
@@ -119,27 +108,16 @@ export class Balances<
       ],
       isPhantom: Balances.$isPhantom,
       reifiedTypeArgs: [T0, T1],
-      fromFields: (fields: Record<string, any>) =>
-        Balances.fromFields([T0, T1], fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Balances.fromFieldsWithTypes([T0, T1], item),
+      fromFields: (fields: Record<string, any>) => Balances.fromFields([T0, T1], fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Balances.fromFieldsWithTypes([T0, T1], item),
       fromBcs: (data: Uint8Array) => Balances.fromBcs([T0, T1], data),
       bcs: Balances.bcs,
       fromJSONField: (field: any) => Balances.fromJSONField([T0, T1], field),
-      fromJSON: (json: Record<string, any>) =>
-        Balances.fromJSON([T0, T1], json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Balances.fromSuiParsedData([T0, T1], content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Balances.fromSuiObjectData([T0, T1], content),
-      fetch: async (client: SuiClient, id: string) =>
-        Balances.fetch(client, [T0, T1], id),
-      new: (
-        fields: BalancesFields<
-          ToPhantomTypeArgument<T0>,
-          ToPhantomTypeArgument<T1>
-        >,
-      ) => {
+      fromJSON: (json: Record<string, any>) => Balances.fromJSON([T0, T1], json),
+      fromSuiParsedData: (content: SuiParsedData) => Balances.fromSuiParsedData([T0, T1], content),
+      fromSuiObjectData: (content: SuiObjectData) => Balances.fromSuiObjectData([T0, T1], content),
+      fetch: async (client: SuiClient, id: string) => Balances.fetch(client, [T0, T1], id),
+      new: (fields: BalancesFields<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>) => {
         return new Balances([extractType(T0), extractType(T1)], fields);
       },
       kind: "StructClassReified",
@@ -156,9 +134,7 @@ export class Balances<
   >(
     T0: T0,
     T1: T1,
-  ): PhantomReified<
-    ToTypeStr<Balances<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>>
-  > {
+  ): PhantomReified<ToTypeStr<Balances<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>>> {
     return phantom(Balances.reified(T0, T1));
   }
   static get p() {
@@ -184,10 +160,7 @@ export class Balances<
   ): Balances<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     const [typeArg0, typeArg1] = typeArgs;
     return Balances.reified(typeArg0, typeArg1).new({
-      availableAmount: decodeFromFields(
-        Balance.reified(typeArg1),
-        fields.available_amount,
-      ),
+      availableAmount: decodeFromFields(Balance.reified(typeArg1), fields.available_amount),
       ctokenSupply: decodeFromFields(
         Supply.reified(reified.phantom(CToken1.reified(typeArg0, typeArg1))),
         fields.ctoken_supply,
@@ -226,10 +199,7 @@ export class Balances<
         Supply.reified(reified.phantom(CToken1.reified(typeArg0, typeArg1))),
         item.fields.ctoken_supply,
       ),
-      fees: decodeFromFieldsWithTypes(
-        Balance.reified(typeArg1),
-        item.fields.fees,
-      ),
+      fees: decodeFromFieldsWithTypes(Balance.reified(typeArg1), item.fields.fees),
       ctokenFees: decodeFromFieldsWithTypes(
         Balance.reified(reified.phantom(CToken1.reified(typeArg0, typeArg1))),
         item.fields.ctoken_fees,
@@ -264,11 +234,7 @@ export class Balances<
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
@@ -280,10 +246,7 @@ export class Balances<
   ): Balances<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     const [typeArg0, typeArg1] = typeArgs;
     return Balances.reified(typeArg0, typeArg1).new({
-      availableAmount: decodeFromJSONField(
-        Balance.reified(typeArg1),
-        field.availableAmount,
-      ),
+      availableAmount: decodeFromJSONField(Balance.reified(typeArg1), field.availableAmount),
       ctokenSupply: decodeFromJSONField(
         Supply.reified(reified.phantom(CToken1.reified(typeArg0, typeArg1))),
         field.ctokenSupply,
@@ -312,10 +275,7 @@ export class Balances<
     }
     const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(
-        Balances.$typeName,
-        ...[typeArg0, typeArg1].map(extractType),
-      ),
+      composeSuiType(Balances.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
       [typeArg0, typeArg1],
     );
@@ -334,9 +294,7 @@ export class Balances<
       throw new Error("not an object");
     }
     if (!isBalances(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Balances object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Balances object`);
     }
     return Balances.fromFieldsWithTypes(typeArgs, content);
   }
@@ -350,7 +308,7 @@ export class Balances<
   ): Balances<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isBalances(data.bcs.type)) {
-        throw new Error(`object at is not a Balances object`);
+        throw new Error(`object at ${data.objectId} is not a Balances object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -393,14 +351,9 @@ export class Balances<
   ): Promise<Balances<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Balances object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Balances object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isBalances(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isBalances(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Balances object`);
     }
 

@@ -32,10 +32,7 @@ export interface ValidatorLeaveEventFields {
   isVoluntary: ToField<"bool">;
 }
 
-export type ValidatorLeaveEventReified = Reified<
-  ValidatorLeaveEvent,
-  ValidatorLeaveEventFields
->;
+export type ValidatorLeaveEventReified = Reified<ValidatorLeaveEvent, ValidatorLeaveEventFields>;
 
 /**
  * Move struct: `ValidatorLeaveEvent`
@@ -81,21 +78,15 @@ export class ValidatorLeaveEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: ValidatorLeaveEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ValidatorLeaveEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ValidatorLeaveEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ValidatorLeaveEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ValidatorLeaveEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ValidatorLeaveEvent.fromBcs(data),
       bcs: ValidatorLeaveEvent.bcs,
       fromJSONField: (field: any) => ValidatorLeaveEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        ValidatorLeaveEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ValidatorLeaveEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ValidatorLeaveEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ValidatorLeaveEvent.fetch(client, id),
+      fromJSON: (json: Record<string, any>) => ValidatorLeaveEvent.fromJSON(json),
+      fromSuiParsedData: (content: SuiParsedData) => ValidatorLeaveEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ValidatorLeaveEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ValidatorLeaveEvent.fetch(client, id),
       new: (fields: ValidatorLeaveEventFields) => {
         return new ValidatorLeaveEvent([], fields);
       },
@@ -142,14 +133,8 @@ export class ValidatorLeaveEvent implements StructClass {
 
     return ValidatorLeaveEvent.reified().new({
       epoch: decodeFromFieldsWithTypes("u64", item.fields.epoch),
-      validatorAddress: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.validator_address,
-      ),
-      stakingPoolId: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.staking_pool_id,
-      ),
+      validatorAddress: decodeFromFieldsWithTypes("address", item.fields.validator_address),
+      stakingPoolId: decodeFromFieldsWithTypes(ID.reified(), item.fields.staking_pool_id),
       isVoluntary: decodeFromFieldsWithTypes("bool", item.fields.is_voluntary),
     });
   }
@@ -168,11 +153,7 @@ export class ValidatorLeaveEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ValidatorLeaveEvent {
@@ -206,11 +187,8 @@ export class ValidatorLeaveEvent implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): ValidatorLeaveEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isValidatorLeaveEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ValidatorLeaveEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isValidatorLeaveEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ValidatorLeaveEvent object`);
       }
 
       return ValidatorLeaveEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -223,20 +201,12 @@ export class ValidatorLeaveEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<ValidatorLeaveEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<ValidatorLeaveEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ValidatorLeaveEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ValidatorLeaveEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isValidatorLeaveEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isValidatorLeaveEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ValidatorLeaveEvent object`);
     }
 

@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { String } from "../../../move-stdlib-chain/ascii/structs/index.js";
 import { PKG_V31 } from "../../constants.js";
 import { UID } from "../../object/structs/index.js";
@@ -77,18 +73,14 @@ export class Publisher implements StructClass {
       isPhantom: Publisher.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Publisher.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Publisher.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Publisher.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Publisher.fromBcs(data),
       bcs: Publisher.bcs,
       fromJSONField: (field: any) => Publisher.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Publisher.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Publisher.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Publisher.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        Publisher.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => Publisher.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Publisher.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => Publisher.fetch(client, id),
       new: (fields: PublisherFields) => {
         return new Publisher([], fields);
       },
@@ -131,10 +123,7 @@ export class Publisher implements StructClass {
     return Publisher.reified().new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
       package: decodeFromFieldsWithTypes(String.reified(), item.fields.package),
-      moduleName: decodeFromFieldsWithTypes(
-        String.reified(),
-        item.fields.module_name,
-      ),
+      moduleName: decodeFromFieldsWithTypes(String.reified(), item.fields.module_name),
     });
   }
 
@@ -151,11 +140,7 @@ export class Publisher implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Publisher {
@@ -179,9 +164,7 @@ export class Publisher implements StructClass {
       throw new Error("not an object");
     }
     if (!isPublisher(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Publisher object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Publisher object`);
     }
     return Publisher.fromFieldsWithTypes(content);
   }
@@ -189,7 +172,7 @@ export class Publisher implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Publisher {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isPublisher(data.bcs.type)) {
-        throw new Error(`object at is not a Publisher object`);
+        throw new Error(`object at ${data.objectId} is not a Publisher object`);
       }
 
       return Publisher.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -205,14 +188,9 @@ export class Publisher implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Publisher> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Publisher object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Publisher object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPublisher(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPublisher(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Publisher object`);
     }
 

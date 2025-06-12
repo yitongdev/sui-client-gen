@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { ID } from "../../object/structs/index.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -30,10 +26,7 @@ export interface VersionChangeCapFields {
   oldVersion: ToField<"u64">;
 }
 
-export type VersionChangeCapReified = Reified<
-  VersionChangeCap,
-  VersionChangeCapFields
->;
+export type VersionChangeCapReified = Reified<VersionChangeCap, VersionChangeCapFields>;
 
 /**
  * Move struct: `VersionChangeCap`
@@ -75,20 +68,15 @@ export class VersionChangeCap implements StructClass {
       typeArgs: [] as [],
       isPhantom: VersionChangeCap.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        VersionChangeCap.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        VersionChangeCap.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => VersionChangeCap.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => VersionChangeCap.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => VersionChangeCap.fromBcs(data),
       bcs: VersionChangeCap.bcs,
       fromJSONField: (field: any) => VersionChangeCap.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => VersionChangeCap.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        VersionChangeCap.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        VersionChangeCap.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        VersionChangeCap.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => VersionChangeCap.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => VersionChangeCap.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => VersionChangeCap.fetch(client, id),
       new: (fields: VersionChangeCapFields) => {
         return new VersionChangeCap([], fields);
       },
@@ -127,10 +115,7 @@ export class VersionChangeCap implements StructClass {
     }
 
     return VersionChangeCap.reified().new({
-      versionedId: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.versioned_id,
-      ),
+      versionedId: decodeFromFieldsWithTypes(ID.reified(), item.fields.versioned_id),
       oldVersion: decodeFromFieldsWithTypes("u64", item.fields.old_version),
     });
   }
@@ -147,11 +132,7 @@ export class VersionChangeCap implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): VersionChangeCap {
@@ -174,20 +155,15 @@ export class VersionChangeCap implements StructClass {
       throw new Error("not an object");
     }
     if (!isVersionChangeCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a VersionChangeCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a VersionChangeCap object`);
     }
     return VersionChangeCap.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): VersionChangeCap {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isVersionChangeCap(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a VersionChangeCap object`);
+      if (data.bcs.dataType !== "moveObject" || !isVersionChangeCap(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a VersionChangeCap object`);
       }
 
       return VersionChangeCap.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -203,14 +179,9 @@ export class VersionChangeCap implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<VersionChangeCap> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching VersionChangeCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching VersionChangeCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isVersionChangeCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isVersionChangeCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a VersionChangeCap object`);
     }
 

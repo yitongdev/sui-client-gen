@@ -1,10 +1,6 @@
 import { GenericArg, generic, vector } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface PushBackArgs {
   v: Array<GenericArg> | TransactionArgument;
@@ -20,17 +16,10 @@ export interface PushBackArgs {
  * @param v - Function parameter
  * @param e - Function parameter
  */
-export function pushBack(
-  tx: Transaction,
-  typeArg: string,
-  args: PushBackArgs,
-): TransactionResult {
+export function pushBack(tx: Transaction, typeArg: string, args: PushBackArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::vector::push_back`,
     typeArguments: [typeArg],
-    arguments: [
-      vector(tx, `${typeArg}`, args.v),
-      generic(tx, `${typeArg}`, args.e),
-    ],
+    arguments: [vector(tx, `${typeArg}`, args.v), generic(tx, `${typeArg}`, args.e)],
   });
 }

@@ -31,9 +31,6 @@ export function isAllowed(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::token::is_allowed`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.self),
-      pure(tx, args.action, `${String.$typeName}`),
-    ],
+    arguments: [obj(tx, args.self), pure(tx, args.action, `${String.$typeName}`)],
   });
 }

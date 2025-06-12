@@ -11,11 +11,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -64,24 +60,18 @@ export class BCS implements StructClass {
   static reified(): BCSReified {
     return {
       typeName: BCS.$typeName,
-      fullTypeName: composeSuiType(
-        BCS.$typeName,
-        ...[],
-      ) as `${typeof PKG_V31}::bcs::BCS`,
+      fullTypeName: composeSuiType(BCS.$typeName, ...[]) as `${typeof PKG_V31}::bcs::BCS`,
       typeArgs: [] as [],
       isPhantom: BCS.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => BCS.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        BCS.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => BCS.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => BCS.fromBcs(data),
       bcs: BCS.bcs,
       fromJSONField: (field: any) => BCS.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => BCS.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        BCS.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        BCS.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => BCS.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => BCS.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => BCS.fetch(client, id),
       new: (fields: BCSFields) => {
         return new BCS([], fields);
@@ -108,9 +98,7 @@ export class BCS implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): BCS {
-    return BCS.reified().new({
-      bytes: decodeFromFields(reified.vector("u8"), fields.bytes),
-    });
+    return BCS.reified().new({ bytes: decodeFromFields(reified.vector("u8"), fields.bytes) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): BCS {
@@ -134,17 +122,11 @@ export class BCS implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): BCS {
-    return BCS.reified().new({
-      bytes: decodeFromJSONField(reified.vector("u8"), field.bytes),
-    });
+    return BCS.reified().new({ bytes: decodeFromJSONField(reified.vector("u8"), field.bytes) });
   }
 
   static fromJSON(json: Record<string, any>): BCS {
@@ -160,9 +142,7 @@ export class BCS implements StructClass {
       throw new Error("not an object");
     }
     if (!isBCS(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a BCS object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a BCS object`);
     }
     return BCS.fromFieldsWithTypes(content);
   }
@@ -170,7 +150,7 @@ export class BCS implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): BCS {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isBCS(data.bcs.type)) {
-        throw new Error(`object at is not a BCS object`);
+        throw new Error(`object at ${data.objectId} is not a BCS object`);
       }
 
       return BCS.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -186,9 +166,7 @@ export class BCS implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<BCS> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching BCS object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching BCS object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isBCS(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a BCS object`);

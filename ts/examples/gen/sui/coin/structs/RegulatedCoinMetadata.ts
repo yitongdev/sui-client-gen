@@ -38,8 +38,10 @@ export interface RegulatedCoinMetadataFields<T extends PhantomTypeArgument> {
   denyCapObject: ToField<ID>;
 }
 
-export type RegulatedCoinMetadataReified<T extends PhantomTypeArgument> =
-  Reified<RegulatedCoinMetadata<T>, RegulatedCoinMetadataFields<T>>;
+export type RegulatedCoinMetadataReified<T extends PhantomTypeArgument> = Reified<
+  RegulatedCoinMetadata<T>,
+  RegulatedCoinMetadataFields<T>
+>;
 
 /**
  * Move struct: `RegulatedCoinMetadata`
@@ -47,9 +49,7 @@ export type RegulatedCoinMetadataReified<T extends PhantomTypeArgument> =
  *
  * @typeParam T - Type parameter 0 (phantom)
  */
-export class RegulatedCoinMetadata<T extends PhantomTypeArgument>
-  implements StructClass
-{
+export class RegulatedCoinMetadata<T extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::coin::RegulatedCoinMetadata`;
@@ -65,10 +65,7 @@ export class RegulatedCoinMetadata<T extends PhantomTypeArgument>
   readonly coinMetadataObject: ToField<ID>;
   readonly denyCapObject: ToField<ID>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: RegulatedCoinMetadataFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: RegulatedCoinMetadataFields<T>) {
     this.$fullTypeName = composeSuiType(
       RegulatedCoinMetadata.$typeName,
       ...typeArgs,
@@ -89,27 +86,21 @@ export class RegulatedCoinMetadata<T extends PhantomTypeArgument>
         RegulatedCoinMetadata.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::coin::RegulatedCoinMetadata<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: RegulatedCoinMetadata.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        RegulatedCoinMetadata.fromFields(T, fields),
+      fromFields: (fields: Record<string, any>) => RegulatedCoinMetadata.fromFields(T, fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         RegulatedCoinMetadata.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => RegulatedCoinMetadata.fromBcs(T, data),
       bcs: RegulatedCoinMetadata.bcs,
-      fromJSONField: (field: any) =>
-        RegulatedCoinMetadata.fromJSONField(T, field),
-      fromJSON: (json: Record<string, any>) =>
-        RegulatedCoinMetadata.fromJSON(T, json),
+      fromJSONField: (field: any) => RegulatedCoinMetadata.fromJSONField(T, field),
+      fromJSON: (json: Record<string, any>) => RegulatedCoinMetadata.fromJSON(T, json),
       fromSuiParsedData: (content: SuiParsedData) =>
         RegulatedCoinMetadata.fromSuiParsedData(T, content),
       fromSuiObjectData: (content: SuiObjectData) =>
         RegulatedCoinMetadata.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        RegulatedCoinMetadata.fetch(client, T, id),
+      fetch: async (client: SuiClient, id: string) => RegulatedCoinMetadata.fetch(client, T, id),
       new: (fields: RegulatedCoinMetadataFields<ToPhantomTypeArgument<T>>) => {
         return new RegulatedCoinMetadata([extractType(T)], fields);
       },
@@ -123,9 +114,7 @@ export class RegulatedCoinMetadata<T extends PhantomTypeArgument>
 
   static phantom<T extends PhantomReified<PhantomTypeArgument>>(
     T: T,
-  ): PhantomReified<
-    ToTypeStr<RegulatedCoinMetadata<ToPhantomTypeArgument<T>>>
-  > {
+  ): PhantomReified<ToTypeStr<RegulatedCoinMetadata<ToPhantomTypeArgument<T>>>> {
     return phantom(RegulatedCoinMetadata.reified(T));
   }
   static get p() {
@@ -146,10 +135,7 @@ export class RegulatedCoinMetadata<T extends PhantomTypeArgument>
   ): RegulatedCoinMetadata<ToPhantomTypeArgument<T>> {
     return RegulatedCoinMetadata.reified(typeArg).new({
       id: decodeFromFields(UID.reified(), fields.id),
-      coinMetadataObject: decodeFromFields(
-        ID.reified(),
-        fields.coin_metadata_object,
-      ),
+      coinMetadataObject: decodeFromFields(ID.reified(), fields.coin_metadata_object),
       denyCapObject: decodeFromFields(ID.reified(), fields.deny_cap_object),
     });
   }
@@ -165,14 +151,8 @@ export class RegulatedCoinMetadata<T extends PhantomTypeArgument>
 
     return RegulatedCoinMetadata.reified(typeArg).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      coinMetadataObject: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.coin_metadata_object,
-      ),
-      denyCapObject: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.deny_cap_object,
-      ),
+      coinMetadataObject: decodeFromFieldsWithTypes(ID.reified(), item.fields.coin_metadata_object),
+      denyCapObject: decodeFromFieldsWithTypes(ID.reified(), item.fields.deny_cap_object),
     });
   }
 
@@ -180,10 +160,7 @@ export class RegulatedCoinMetadata<T extends PhantomTypeArgument>
     typeArg: T,
     data: Uint8Array,
   ): RegulatedCoinMetadata<ToPhantomTypeArgument<T>> {
-    return RegulatedCoinMetadata.fromFields(
-      typeArg,
-      RegulatedCoinMetadata.bcs.parse(data),
-    );
+    return RegulatedCoinMetadata.fromFields(typeArg, RegulatedCoinMetadata.bcs.parse(data));
   }
 
   toJSONField() {
@@ -195,11 +172,7 @@ export class RegulatedCoinMetadata<T extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -208,10 +181,7 @@ export class RegulatedCoinMetadata<T extends PhantomTypeArgument>
   ): RegulatedCoinMetadata<ToPhantomTypeArgument<T>> {
     return RegulatedCoinMetadata.reified(typeArg).new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      coinMetadataObject: decodeFromJSONField(
-        ID.reified(),
-        field.coinMetadataObject,
-      ),
+      coinMetadataObject: decodeFromJSONField(ID.reified(), field.coinMetadataObject),
       denyCapObject: decodeFromJSONField(ID.reified(), field.denyCapObject),
     });
   }
@@ -252,11 +222,8 @@ export class RegulatedCoinMetadata<T extends PhantomTypeArgument>
     data: SuiObjectData,
   ): RegulatedCoinMetadata<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isRegulatedCoinMetadata(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a RegulatedCoinMetadata object`);
+      if (data.bcs.dataType !== "moveObject" || !isRegulatedCoinMetadata(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a RegulatedCoinMetadata object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -274,10 +241,7 @@ export class RegulatedCoinMetadata<T extends PhantomTypeArgument>
         );
       }
 
-      return RegulatedCoinMetadata.fromBcs(
-        typeArg,
-        fromBase64(data.bcs.bcsBytes),
-      );
+      return RegulatedCoinMetadata.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return RegulatedCoinMetadata.fromSuiParsedData(typeArg, data.content);
@@ -294,17 +258,10 @@ export class RegulatedCoinMetadata<T extends PhantomTypeArgument>
   ): Promise<RegulatedCoinMetadata<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching RegulatedCoinMetadata object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching RegulatedCoinMetadata object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isRegulatedCoinMetadata(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a RegulatedCoinMetadata object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isRegulatedCoinMetadata(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a RegulatedCoinMetadata object`);
     }
 
     return RegulatedCoinMetadata.fromSuiObjectData(typeArg, res.data);

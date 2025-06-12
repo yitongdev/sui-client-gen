@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { Decimal } from "../../decimal/structs/index.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -86,16 +82,13 @@ export class Borrow implements StructClass {
       isPhantom: Borrow.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Borrow.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Borrow.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Borrow.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Borrow.fromBcs(data),
       bcs: Borrow.bcs,
       fromJSONField: (field: any) => Borrow.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Borrow.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Borrow.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Borrow.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Borrow.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Borrow.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Borrow.fetch(client, id),
       new: (fields: BorrowFields) => {
         return new Borrow([], fields);
@@ -130,19 +123,10 @@ export class Borrow implements StructClass {
     return Borrow.reified().new({
       coinType: decodeFromFields(TypeName.reified(), fields.coin_type),
       reserveArrayIndex: decodeFromFields("u64", fields.reserve_array_index),
-      borrowedAmount: decodeFromFields(
-        Decimal.reified(),
-        fields.borrowed_amount,
-      ),
-      cumulativeBorrowRate: decodeFromFields(
-        Decimal.reified(),
-        fields.cumulative_borrow_rate,
-      ),
+      borrowedAmount: decodeFromFields(Decimal.reified(), fields.borrowed_amount),
+      cumulativeBorrowRate: decodeFromFields(Decimal.reified(), fields.cumulative_borrow_rate),
       marketValue: decodeFromFields(Decimal.reified(), fields.market_value),
-      userRewardManagerIndex: decodeFromFields(
-        "u64",
-        fields.user_reward_manager_index,
-      ),
+      userRewardManagerIndex: decodeFromFields("u64", fields.user_reward_manager_index),
     });
   }
 
@@ -152,26 +136,14 @@ export class Borrow implements StructClass {
     }
 
     return Borrow.reified().new({
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
-      reserveArrayIndex: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.reserve_array_index,
-      ),
-      borrowedAmount: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.borrowed_amount,
-      ),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
+      reserveArrayIndex: decodeFromFieldsWithTypes("u64", item.fields.reserve_array_index),
+      borrowedAmount: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.borrowed_amount),
       cumulativeBorrowRate: decodeFromFieldsWithTypes(
         Decimal.reified(),
         item.fields.cumulative_borrow_rate,
       ),
-      marketValue: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.market_value,
-      ),
+      marketValue: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.market_value),
       userRewardManagerIndex: decodeFromFieldsWithTypes(
         "u64",
         item.fields.user_reward_manager_index,
@@ -195,30 +167,17 @@ export class Borrow implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Borrow {
     return Borrow.reified().new({
       coinType: decodeFromJSONField(TypeName.reified(), field.coinType),
       reserveArrayIndex: decodeFromJSONField("u64", field.reserveArrayIndex),
-      borrowedAmount: decodeFromJSONField(
-        Decimal.reified(),
-        field.borrowedAmount,
-      ),
-      cumulativeBorrowRate: decodeFromJSONField(
-        Decimal.reified(),
-        field.cumulativeBorrowRate,
-      ),
+      borrowedAmount: decodeFromJSONField(Decimal.reified(), field.borrowedAmount),
+      cumulativeBorrowRate: decodeFromJSONField(Decimal.reified(), field.cumulativeBorrowRate),
       marketValue: decodeFromJSONField(Decimal.reified(), field.marketValue),
-      userRewardManagerIndex: decodeFromJSONField(
-        "u64",
-        field.userRewardManagerIndex,
-      ),
+      userRewardManagerIndex: decodeFromJSONField("u64", field.userRewardManagerIndex),
     });
   }
 
@@ -235,9 +194,7 @@ export class Borrow implements StructClass {
       throw new Error("not an object");
     }
     if (!isBorrow(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Borrow object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Borrow object`);
     }
     return Borrow.fromFieldsWithTypes(content);
   }
@@ -245,7 +202,7 @@ export class Borrow implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Borrow {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isBorrow(data.bcs.type)) {
-        throw new Error(`object at is not a Borrow object`);
+        throw new Error(`object at ${data.objectId} is not a Borrow object`);
       }
 
       return Borrow.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -261,14 +218,9 @@ export class Borrow implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Borrow> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Borrow object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Borrow object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isBorrow(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isBorrow(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Borrow object`);
     }
 

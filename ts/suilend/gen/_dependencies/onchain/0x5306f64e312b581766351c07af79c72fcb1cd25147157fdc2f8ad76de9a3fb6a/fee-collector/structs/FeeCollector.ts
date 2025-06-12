@@ -75,20 +75,15 @@ export class FeeCollector implements StructClass {
       typeArgs: [] as [],
       isPhantom: FeeCollector.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        FeeCollector.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        FeeCollector.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => FeeCollector.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => FeeCollector.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => FeeCollector.fromBcs(data),
       bcs: FeeCollector.bcs,
       fromJSONField: (field: any) => FeeCollector.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => FeeCollector.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        FeeCollector.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        FeeCollector.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        FeeCollector.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => FeeCollector.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => FeeCollector.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => FeeCollector.fetch(client, id),
       new: (fields: FeeCollectorFields) => {
         return new FeeCollector([], fields);
       },
@@ -117,10 +112,7 @@ export class FeeCollector implements StructClass {
   static fromFields(fields: Record<string, any>): FeeCollector {
     return FeeCollector.reified().new({
       feeAmount: decodeFromFields("u64", fields.fee_amount),
-      balance: decodeFromFields(
-        Balance.reified(reified.phantom(SUI.reified())),
-        fields.balance,
-      ),
+      balance: decodeFromFields(Balance.reified(reified.phantom(SUI.reified())), fields.balance),
     });
   }
 
@@ -150,20 +142,13 @@ export class FeeCollector implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): FeeCollector {
     return FeeCollector.reified().new({
       feeAmount: decodeFromJSONField("u64", field.feeAmount),
-      balance: decodeFromJSONField(
-        Balance.reified(reified.phantom(SUI.reified())),
-        field.balance,
-      ),
+      balance: decodeFromJSONField(Balance.reified(reified.phantom(SUI.reified())), field.balance),
     });
   }
 
@@ -180,20 +165,15 @@ export class FeeCollector implements StructClass {
       throw new Error("not an object");
     }
     if (!isFeeCollector(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a FeeCollector object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a FeeCollector object`);
     }
     return FeeCollector.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): FeeCollector {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isFeeCollector(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a FeeCollector object`);
+      if (data.bcs.dataType !== "moveObject" || !isFeeCollector(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a FeeCollector object`);
       }
 
       return FeeCollector.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -209,14 +189,9 @@ export class FeeCollector implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<FeeCollector> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching FeeCollector object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching FeeCollector object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isFeeCollector(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isFeeCollector(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a FeeCollector object`);
     }
 

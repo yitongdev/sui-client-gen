@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface SetArgs {
   cell: TransactionObjectInput;
@@ -21,11 +17,7 @@ export interface SetArgs {
  * @param t0 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function set(
-  tx: Transaction,
-  typeArg: string,
-  args: SetArgs,
-): TransactionResult {
+export function set(tx: Transaction, typeArg: string, args: SetArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::cell::set`,
     typeArguments: [typeArg],

@@ -21,10 +21,7 @@ export interface ExpireJwksArgs {
  * @param minEpoch - Function parameter
  * @param ctx - Function parameter
  */
-export function expireJwks(
-  tx: Transaction,
-  args: ExpireJwksArgs,
-): TransactionResult {
+export function expireJwks(tx: Transaction, args: ExpireJwksArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::authenticator_state::expire_jwks`,
     arguments: [obj(tx, args.self), pure(tx, args.minEpoch, `u64`)],

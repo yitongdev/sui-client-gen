@@ -68,20 +68,15 @@ export class PriceStatus implements StructClass {
       typeArgs: [] as [],
       isPhantom: PriceStatus.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PriceStatus.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PriceStatus.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => PriceStatus.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PriceStatus.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PriceStatus.fromBcs(data),
       bcs: PriceStatus.bcs,
       fromJSONField: (field: any) => PriceStatus.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PriceStatus.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PriceStatus.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PriceStatus.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PriceStatus.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PriceStatus.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PriceStatus.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PriceStatus.fetch(client, id),
       new: (fields: PriceStatusFields) => {
         return new PriceStatus([], fields);
       },
@@ -107,9 +102,7 @@ export class PriceStatus implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): PriceStatus {
-    return PriceStatus.reified().new({
-      status: decodeFromFields("u64", fields.status),
-    });
+    return PriceStatus.reified().new({ status: decodeFromFields("u64", fields.status) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): PriceStatus {
@@ -133,17 +126,11 @@ export class PriceStatus implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PriceStatus {
-    return PriceStatus.reified().new({
-      status: decodeFromJSONField("u64", field.status),
-    });
+    return PriceStatus.reified().new({ status: decodeFromJSONField("u64", field.status) });
   }
 
   static fromJSON(json: Record<string, any>): PriceStatus {
@@ -159,9 +146,7 @@ export class PriceStatus implements StructClass {
       throw new Error("not an object");
     }
     if (!isPriceStatus(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PriceStatus object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PriceStatus object`);
     }
     return PriceStatus.fromFieldsWithTypes(content);
   }
@@ -169,7 +154,7 @@ export class PriceStatus implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): PriceStatus {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isPriceStatus(data.bcs.type)) {
-        throw new Error(`object at is not a PriceStatus object`);
+        throw new Error(`object at ${data.objectId} is not a PriceStatus object`);
       }
 
       return PriceStatus.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -185,14 +170,9 @@ export class PriceStatus implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<PriceStatus> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PriceStatus object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PriceStatus object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPriceStatus(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPriceStatus(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PriceStatus object`);
     }
 

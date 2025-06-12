@@ -18,11 +18,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -95,20 +91,15 @@ export class ValidatorInfo implements StructClass {
       typeArgs: [] as [],
       isPhantom: ValidatorInfo.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ValidatorInfo.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ValidatorInfo.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ValidatorInfo.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ValidatorInfo.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ValidatorInfo.fromBcs(data),
       bcs: ValidatorInfo.bcs,
       fromJSONField: (field: any) => ValidatorInfo.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ValidatorInfo.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ValidatorInfo.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ValidatorInfo.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ValidatorInfo.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ValidatorInfo.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ValidatorInfo.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ValidatorInfo.fetch(client, id),
       new: (fields: ValidatorInfoFields) => {
         return new ValidatorInfo([], fields);
       },
@@ -150,14 +141,8 @@ export class ValidatorInfo implements StructClass {
         Option.reified(FungibleStakedSui.reified()),
         fields.active_stake,
       ),
-      inactiveStake: decodeFromFields(
-        Option.reified(StakedSui.reified()),
-        fields.inactive_stake,
-      ),
-      exchangeRate: decodeFromFields(
-        PoolTokenExchangeRate.reified(),
-        fields.exchange_rate,
-      ),
+      inactiveStake: decodeFromFields(Option.reified(StakedSui.reified()), fields.inactive_stake),
+      exchangeRate: decodeFromFields(PoolTokenExchangeRate.reified(), fields.exchange_rate),
       totalSuiAmount: decodeFromFields("u64", fields.total_sui_amount),
       extraFields: decodeFromFields(Bag.reified(), fields.extra_fields),
     });
@@ -169,14 +154,8 @@ export class ValidatorInfo implements StructClass {
     }
 
     return ValidatorInfo.reified().new({
-      stakingPoolId: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.staking_pool_id,
-      ),
-      validatorAddress: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.validator_address,
-      ),
+      stakingPoolId: decodeFromFieldsWithTypes(ID.reified(), item.fields.staking_pool_id),
+      validatorAddress: decodeFromFieldsWithTypes("address", item.fields.validator_address),
       activeStake: decodeFromFieldsWithTypes(
         Option.reified(FungibleStakedSui.reified()),
         item.fields.active_stake,
@@ -189,14 +168,8 @@ export class ValidatorInfo implements StructClass {
         PoolTokenExchangeRate.reified(),
         item.fields.exchange_rate,
       ),
-      totalSuiAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.total_sui_amount,
-      ),
-      extraFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.extra_fields,
-      ),
+      totalSuiAmount: decodeFromFieldsWithTypes("u64", item.fields.total_sui_amount),
+      extraFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.extra_fields),
     });
   }
 
@@ -223,11 +196,7 @@ export class ValidatorInfo implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ValidatorInfo {
@@ -238,14 +207,8 @@ export class ValidatorInfo implements StructClass {
         Option.reified(FungibleStakedSui.reified()),
         field.activeStake,
       ),
-      inactiveStake: decodeFromJSONField(
-        Option.reified(StakedSui.reified()),
-        field.inactiveStake,
-      ),
-      exchangeRate: decodeFromJSONField(
-        PoolTokenExchangeRate.reified(),
-        field.exchangeRate,
-      ),
+      inactiveStake: decodeFromJSONField(Option.reified(StakedSui.reified()), field.inactiveStake),
+      exchangeRate: decodeFromJSONField(PoolTokenExchangeRate.reified(), field.exchangeRate),
       totalSuiAmount: decodeFromJSONField("u64", field.totalSuiAmount),
       extraFields: decodeFromJSONField(Bag.reified(), field.extraFields),
     });
@@ -264,20 +227,15 @@ export class ValidatorInfo implements StructClass {
       throw new Error("not an object");
     }
     if (!isValidatorInfo(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ValidatorInfo object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ValidatorInfo object`);
     }
     return ValidatorInfo.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ValidatorInfo {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isValidatorInfo(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ValidatorInfo object`);
+      if (data.bcs.dataType !== "moveObject" || !isValidatorInfo(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ValidatorInfo object`);
       }
 
       return ValidatorInfo.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -293,14 +251,9 @@ export class ValidatorInfo implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ValidatorInfo> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ValidatorInfo object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ValidatorInfo object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isValidatorInfo(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isValidatorInfo(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ValidatorInfo object`);
     }
 

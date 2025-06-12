@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface ContainsWithTypeArgs {
   objectBag: TransactionObjectInput;
@@ -30,9 +26,6 @@ export function containsWithType(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::object_bag::contains_with_type`,
     typeArguments: typeArgs,
-    arguments: [
-      obj(tx, args.objectBag),
-      generic(tx, `${typeArgs[0]}`, args.t0),
-    ],
+    arguments: [obj(tx, args.objectBag), generic(tx, `${typeArgs[0]}`, args.t0)],
   });
 }

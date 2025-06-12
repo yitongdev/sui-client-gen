@@ -38,10 +38,7 @@ export interface CoinFields<T0 extends PhantomTypeArgument> {
   balance: ToField<Balance<T0>>;
 }
 
-export type CoinReified<T0 extends PhantomTypeArgument> = Reified<
-  Coin<T0>,
-  CoinFields<T0>
->;
+export type CoinReified<T0 extends PhantomTypeArgument> = Reified<Coin<T0>, CoinFields<T0>>;
 
 /**
  * Move struct: `Coin`
@@ -64,10 +61,7 @@ export class Coin<T0 extends PhantomTypeArgument> implements StructClass {
   readonly id: ToField<UID>;
   readonly balance: ToField<Balance<T0>>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: CoinFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: CoinFields<T0>) {
     this.$fullTypeName = composeSuiType(
       Coin.$typeName,
       ...typeArgs,
@@ -87,24 +81,18 @@ export class Coin<T0 extends PhantomTypeArgument> implements StructClass {
         Coin.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V31}::coin::Coin<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: Coin.$isPhantom,
       reifiedTypeArgs: [T0],
       fromFields: (fields: Record<string, any>) => Coin.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Coin.fromFieldsWithTypes(T0, item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Coin.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Coin.fromBcs(T0, data),
       bcs: Coin.bcs,
       fromJSONField: (field: any) => Coin.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Coin.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Coin.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Coin.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Coin.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Coin.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Coin.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Coin.fetch(client, T0, id),
       new: (fields: CoinFields<ToPhantomTypeArgument<T0>>) => {
         return new Coin([extractType(T0)], fields);
       },
@@ -153,10 +141,7 @@ export class Coin<T0 extends PhantomTypeArgument> implements StructClass {
 
     return Coin.reified(typeArg).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      balance: decodeFromFieldsWithTypes(
-        Balance.reified(typeArg),
-        item.fields.balance,
-      ),
+      balance: decodeFromFieldsWithTypes(Balance.reified(typeArg), item.fields.balance),
     });
   }
 
@@ -175,11 +160,7 @@ export class Coin<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -216,9 +197,7 @@ export class Coin<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isCoin(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Coin object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Coin object`);
     }
     return Coin.fromFieldsWithTypes(typeArg, content);
   }
@@ -229,7 +208,7 @@ export class Coin<T0 extends PhantomTypeArgument> implements StructClass {
   ): Coin<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isCoin(data.bcs.type)) {
-        throw new Error(`object at is not a Coin object`);
+        throw new Error(`object at ${data.objectId} is not a Coin object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -264,14 +243,9 @@ export class Coin<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<Coin<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Coin object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Coin object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isCoin(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isCoin(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Coin object`);
     }
 

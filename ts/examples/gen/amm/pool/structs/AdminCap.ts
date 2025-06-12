@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { UID } from "../../../sui/object/structs/index.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -62,26 +58,19 @@ export class AdminCap implements StructClass {
   static reified(): AdminCapReified {
     return {
       typeName: AdminCap.$typeName,
-      fullTypeName: composeSuiType(
-        AdminCap.$typeName,
-        ...[],
-      ) as `${typeof PKG_V1}::pool::AdminCap`,
+      fullTypeName: composeSuiType(AdminCap.$typeName, ...[]) as `${typeof PKG_V1}::pool::AdminCap`,
       typeArgs: [] as [],
       isPhantom: AdminCap.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => AdminCap.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        AdminCap.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => AdminCap.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => AdminCap.fromBcs(data),
       bcs: AdminCap.bcs,
       fromJSONField: (field: any) => AdminCap.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => AdminCap.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        AdminCap.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        AdminCap.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        AdminCap.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => AdminCap.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => AdminCap.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => AdminCap.fetch(client, id),
       new: (fields: AdminCapFields) => {
         return new AdminCap([], fields);
       },
@@ -107,9 +96,7 @@ export class AdminCap implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): AdminCap {
-    return AdminCap.reified().new({
-      id: decodeFromFields(UID.reified(), fields.id),
-    });
+    return AdminCap.reified().new({ id: decodeFromFields(UID.reified(), fields.id) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): AdminCap {
@@ -117,9 +104,7 @@ export class AdminCap implements StructClass {
       throw new Error("not a AdminCap type");
     }
 
-    return AdminCap.reified().new({
-      id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-    });
+    return AdminCap.reified().new({ id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id) });
   }
 
   static fromBcs(data: Uint8Array): AdminCap {
@@ -133,17 +118,11 @@ export class AdminCap implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): AdminCap {
-    return AdminCap.reified().new({
-      id: decodeFromJSONField(UID.reified(), field.id),
-    });
+    return AdminCap.reified().new({ id: decodeFromJSONField(UID.reified(), field.id) });
   }
 
   static fromJSON(json: Record<string, any>): AdminCap {
@@ -159,9 +138,7 @@ export class AdminCap implements StructClass {
       throw new Error("not an object");
     }
     if (!isAdminCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a AdminCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a AdminCap object`);
     }
     return AdminCap.fromFieldsWithTypes(content);
   }
@@ -169,7 +146,7 @@ export class AdminCap implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): AdminCap {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isAdminCap(data.bcs.type)) {
-        throw new Error(`object at is not a AdminCap object`);
+        throw new Error(`object at ${data.objectId} is not a AdminCap object`);
       }
 
       return AdminCap.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -185,14 +162,9 @@ export class AdminCap implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<AdminCap> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching AdminCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching AdminCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isAdminCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isAdminCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a AdminCap object`);
     }
 

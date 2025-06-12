@@ -28,10 +28,6 @@ export function changeValidatorPriority(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::storage::change_validator_priority`,
-    arguments: [
-      obj(tx, args.storage),
-      pure(tx, args.u641, `u64`),
-      pure(tx, args.u642, `u64`),
-    ],
+    arguments: [obj(tx, args.storage), pure(tx, args.u641, `u64`), pure(tx, args.u642, `u64`)],
   });
 }

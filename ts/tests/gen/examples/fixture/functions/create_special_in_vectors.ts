@@ -18,9 +18,7 @@ export interface CreateSpecialInVectorsArgs {
   idField: Array<string | TransactionArgument> | TransactionArgument;
   bar: Array<TransactionObjectInput> | TransactionArgument;
   option: Array<bigint | TransactionArgument | null> | TransactionArgument;
-  optionGeneric:
-    | Array<GenericArg | TransactionArgument | null>
-    | TransactionArgument;
+  optionGeneric: Array<GenericArg | TransactionArgument | null> | TransactionArgument;
 }
 
 /**

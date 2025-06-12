@@ -74,18 +74,14 @@ export class DenyList implements StructClass {
       isPhantom: DenyList.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => DenyList.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        DenyList.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => DenyList.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => DenyList.fromBcs(data),
       bcs: DenyList.bcs,
       fromJSONField: (field: any) => DenyList.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => DenyList.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        DenyList.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        DenyList.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        DenyList.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => DenyList.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => DenyList.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => DenyList.fetch(client, id),
       new: (fields: DenyListFields) => {
         return new DenyList([], fields);
       },
@@ -141,11 +137,7 @@ export class DenyList implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): DenyList {
@@ -168,9 +160,7 @@ export class DenyList implements StructClass {
       throw new Error("not an object");
     }
     if (!isDenyList(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a DenyList object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a DenyList object`);
     }
     return DenyList.fromFieldsWithTypes(content);
   }
@@ -178,7 +168,7 @@ export class DenyList implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): DenyList {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isDenyList(data.bcs.type)) {
-        throw new Error(`object at is not a DenyList object`);
+        throw new Error(`object at ${data.objectId} is not a DenyList object`);
       }
 
       return DenyList.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -194,14 +184,9 @@ export class DenyList implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<DenyList> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching DenyList object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching DenyList object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDenyList(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDenyList(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a DenyList object`);
     }
 

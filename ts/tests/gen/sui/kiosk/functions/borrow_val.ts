@@ -33,10 +33,6 @@ export function borrowVal(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::borrow_val`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.self),
-      obj(tx, args.cap),
-      pure(tx, args.id, `${ID.$typeName}`),
-    ],
+    arguments: [obj(tx, args.self), obj(tx, args.cap), pure(tx, args.id, `${ID.$typeName}`)],
   });
 }

@@ -29,10 +29,7 @@ export interface VotingPowerInfoFields {
   votingPower: ToField<"u64">;
 }
 
-export type VotingPowerInfoReified = Reified<
-  VotingPowerInfo,
-  VotingPowerInfoFields
->;
+export type VotingPowerInfoReified = Reified<VotingPowerInfo, VotingPowerInfoFields>;
 
 /**
  * Move struct: `VotingPowerInfo`
@@ -74,20 +71,15 @@ export class VotingPowerInfo implements StructClass {
       typeArgs: [] as [],
       isPhantom: VotingPowerInfo.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        VotingPowerInfo.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        VotingPowerInfo.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => VotingPowerInfo.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => VotingPowerInfo.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => VotingPowerInfo.fromBcs(data),
       bcs: VotingPowerInfo.bcs,
       fromJSONField: (field: any) => VotingPowerInfo.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => VotingPowerInfo.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        VotingPowerInfo.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        VotingPowerInfo.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        VotingPowerInfo.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => VotingPowerInfo.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => VotingPowerInfo.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => VotingPowerInfo.fetch(client, id),
       new: (fields: VotingPowerInfoFields) => {
         return new VotingPowerInfo([], fields);
       },
@@ -126,10 +118,7 @@ export class VotingPowerInfo implements StructClass {
     }
 
     return VotingPowerInfo.reified().new({
-      validatorIndex: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.validator_index,
-      ),
+      validatorIndex: decodeFromFieldsWithTypes("u64", item.fields.validator_index),
       votingPower: decodeFromFieldsWithTypes("u64", item.fields.voting_power),
     });
   }
@@ -146,11 +135,7 @@ export class VotingPowerInfo implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): VotingPowerInfo {
@@ -173,20 +158,15 @@ export class VotingPowerInfo implements StructClass {
       throw new Error("not an object");
     }
     if (!isVotingPowerInfo(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a VotingPowerInfo object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a VotingPowerInfo object`);
     }
     return VotingPowerInfo.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): VotingPowerInfo {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isVotingPowerInfo(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a VotingPowerInfo object`);
+      if (data.bcs.dataType !== "moveObject" || !isVotingPowerInfo(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a VotingPowerInfo object`);
       }
 
       return VotingPowerInfo.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -202,14 +182,9 @@ export class VotingPowerInfo implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<VotingPowerInfo> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching VotingPowerInfo object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching VotingPowerInfo object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isVotingPowerInfo(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isVotingPowerInfo(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a VotingPowerInfo object`);
     }
 

@@ -1,10 +1,6 @@
 import { GenericArg, generic, pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface NewEntryArgs {
   priority: bigint | TransactionArgument;
@@ -21,17 +17,10 @@ export interface NewEntryArgs {
  * @param value - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function newEntry(
-  tx: Transaction,
-  typeArg: string,
-  args: NewEntryArgs,
-): TransactionResult {
+export function newEntry(tx: Transaction, typeArg: string, args: NewEntryArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::priority_queue::new_entry`,
     typeArguments: [typeArg],
-    arguments: [
-      pure(tx, args.priority, `u64`),
-      generic(tx, `${typeArg}`, args.value),
-    ],
+    arguments: [pure(tx, args.priority, `u64`), generic(tx, `${typeArg}`, args.value)],
   });
 }

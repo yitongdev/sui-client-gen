@@ -59,10 +59,7 @@ export class WormholeVAAVerificationReceipt implements StructClass {
   readonly digest: ToField<Bytes32>;
   readonly sequence: ToField<"u64">;
 
-  private constructor(
-    typeArgs: [],
-    fields: WormholeVAAVerificationReceiptFields,
-  ) {
+  private constructor(typeArgs: [], fields: WormholeVAAVerificationReceiptFields) {
     this.$fullTypeName = composeSuiType(
       WormholeVAAVerificationReceipt.$typeName,
       ...typeArgs,
@@ -88,13 +85,10 @@ export class WormholeVAAVerificationReceipt implements StructClass {
         WormholeVAAVerificationReceipt.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         WormholeVAAVerificationReceipt.fromFieldsWithTypes(item),
-      fromBcs: (data: Uint8Array) =>
-        WormholeVAAVerificationReceipt.fromBcs(data),
+      fromBcs: (data: Uint8Array) => WormholeVAAVerificationReceipt.fromBcs(data),
       bcs: WormholeVAAVerificationReceipt.bcs,
-      fromJSONField: (field: any) =>
-        WormholeVAAVerificationReceipt.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        WormholeVAAVerificationReceipt.fromJSON(json),
+      fromJSONField: (field: any) => WormholeVAAVerificationReceipt.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => WormholeVAAVerificationReceipt.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         WormholeVAAVerificationReceipt.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
@@ -127,9 +121,7 @@ export class WormholeVAAVerificationReceipt implements StructClass {
     });
   }
 
-  static fromFields(
-    fields: Record<string, any>,
-  ): WormholeVAAVerificationReceipt {
+  static fromFields(fields: Record<string, any>): WormholeVAAVerificationReceipt {
     return WormholeVAAVerificationReceipt.reified().new({
       payload: decodeFromFields(reified.vector("u8"), fields.payload),
       digest: decodeFromFields(Bytes32.reified(), fields.digest),
@@ -137,18 +129,13 @@ export class WormholeVAAVerificationReceipt implements StructClass {
     });
   }
 
-  static fromFieldsWithTypes(
-    item: FieldsWithTypes,
-  ): WormholeVAAVerificationReceipt {
+  static fromFieldsWithTypes(item: FieldsWithTypes): WormholeVAAVerificationReceipt {
     if (!isWormholeVAAVerificationReceipt(item.type)) {
       throw new Error("not a WormholeVAAVerificationReceipt type");
     }
 
     return WormholeVAAVerificationReceipt.reified().new({
-      payload: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.payload,
-      ),
+      payload: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.payload),
       digest: decodeFromFieldsWithTypes(Bytes32.reified(), item.fields.digest),
       sequence: decodeFromFieldsWithTypes("u64", item.fields.sequence),
     });
@@ -169,11 +156,7 @@ export class WormholeVAAVerificationReceipt implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): WormholeVAAVerificationReceipt {
@@ -192,9 +175,7 @@ export class WormholeVAAVerificationReceipt implements StructClass {
     return WormholeVAAVerificationReceipt.fromJSONField(json);
   }
 
-  static fromSuiParsedData(
-    content: SuiParsedData,
-  ): WormholeVAAVerificationReceipt {
+  static fromSuiParsedData(content: SuiParsedData): WormholeVAAVerificationReceipt {
     if (content.dataType !== "moveObject") {
       throw new Error("not an object");
     }
@@ -206,22 +187,15 @@ export class WormholeVAAVerificationReceipt implements StructClass {
     return WormholeVAAVerificationReceipt.fromFieldsWithTypes(content);
   }
 
-  static fromSuiObjectData(
-    data: SuiObjectData,
-  ): WormholeVAAVerificationReceipt {
+  static fromSuiObjectData(data: SuiObjectData): WormholeVAAVerificationReceipt {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isWormholeVAAVerificationReceipt(data.bcs.type)
-      ) {
+      if (data.bcs.dataType !== "moveObject" || !isWormholeVAAVerificationReceipt(data.bcs.type)) {
         throw new Error(
-          `object at is not a WormholeVAAVerificationReceipt object`,
+          `object at ${data.objectId} is not a WormholeVAAVerificationReceipt object`,
         );
       }
 
-      return WormholeVAAVerificationReceipt.fromBcs(
-        fromBase64(data.bcs.bcsBytes),
-      );
+      return WormholeVAAVerificationReceipt.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return WormholeVAAVerificationReceipt.fromSuiParsedData(data.content);
@@ -231,10 +205,7 @@ export class WormholeVAAVerificationReceipt implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<WormholeVAAVerificationReceipt> {
+  static async fetch(client: SuiClient, id: string): Promise<WormholeVAAVerificationReceipt> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
@@ -245,9 +216,7 @@ export class WormholeVAAVerificationReceipt implements StructClass {
       res.data?.bcs?.dataType !== "moveObject" ||
       !isWormholeVAAVerificationReceipt(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a WormholeVAAVerificationReceipt object`,
-      );
+      throw new Error(`object at id ${id} is not a WormholeVAAVerificationReceipt object`);
     }
 
     return WormholeVAAVerificationReceipt.fromSuiObjectData(res.data);

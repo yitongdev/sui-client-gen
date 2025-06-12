@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -61,24 +57,18 @@ export class SUI implements StructClass {
   static reified(): SUIReified {
     return {
       typeName: SUI.$typeName,
-      fullTypeName: composeSuiType(
-        SUI.$typeName,
-        ...[],
-      ) as `${typeof PKG_V31}::sui::SUI`,
+      fullTypeName: composeSuiType(SUI.$typeName, ...[]) as `${typeof PKG_V31}::sui::SUI`,
       typeArgs: [] as [],
       isPhantom: SUI.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => SUI.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        SUI.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => SUI.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => SUI.fromBcs(data),
       bcs: SUI.bcs,
       fromJSONField: (field: any) => SUI.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => SUI.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        SUI.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        SUI.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => SUI.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => SUI.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => SUI.fetch(client, id),
       new: (fields: SUIFields) => {
         return new SUI([], fields);
@@ -105,9 +95,7 @@ export class SUI implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): SUI {
-    return SUI.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return SUI.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): SUI {
@@ -131,17 +119,11 @@ export class SUI implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): SUI {
-    return SUI.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return SUI.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): SUI {
@@ -157,9 +139,7 @@ export class SUI implements StructClass {
       throw new Error("not an object");
     }
     if (!isSUI(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a SUI object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a SUI object`);
     }
     return SUI.fromFieldsWithTypes(content);
   }
@@ -167,7 +147,7 @@ export class SUI implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): SUI {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isSUI(data.bcs.type)) {
-        throw new Error(`object at is not a SUI object`);
+        throw new Error(`object at ${data.objectId} is not a SUI object`);
       }
 
       return SUI.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,9 +163,7 @@ export class SUI implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<SUI> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching SUI object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching SUI object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isSUI(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a SUI object`);

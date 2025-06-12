@@ -78,24 +78,18 @@ export class Kiosk implements StructClass {
   static reified(): KioskReified {
     return {
       typeName: Kiosk.$typeName,
-      fullTypeName: composeSuiType(
-        Kiosk.$typeName,
-        ...[],
-      ) as `${typeof PKG_V35}::kiosk::Kiosk`,
+      fullTypeName: composeSuiType(Kiosk.$typeName, ...[]) as `${typeof PKG_V35}::kiosk::Kiosk`,
       typeArgs: [] as [],
       isPhantom: Kiosk.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Kiosk.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Kiosk.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Kiosk.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Kiosk.fromBcs(data),
       bcs: Kiosk.bcs,
       fromJSONField: (field: any) => Kiosk.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Kiosk.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Kiosk.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Kiosk.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Kiosk.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Kiosk.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Kiosk.fetch(client, id),
       new: (fields: KioskFields) => {
         return new Kiosk([], fields);
@@ -131,10 +125,7 @@ export class Kiosk implements StructClass {
   static fromFields(fields: Record<string, any>): Kiosk {
     return Kiosk.reified().new({
       id: decodeFromFields(UID.reified(), fields.id),
-      profits: decodeFromFields(
-        Balance.reified(reified.phantom(SUI.reified())),
-        fields.profits,
-      ),
+      profits: decodeFromFields(Balance.reified(reified.phantom(SUI.reified())), fields.profits),
       owner: decodeFromFields("address", fields.owner),
       itemCount: decodeFromFields("u32", fields.item_count),
       allowExtensions: decodeFromFields("bool", fields.allow_extensions),
@@ -154,10 +145,7 @@ export class Kiosk implements StructClass {
       ),
       owner: decodeFromFieldsWithTypes("address", item.fields.owner),
       itemCount: decodeFromFieldsWithTypes("u32", item.fields.item_count),
-      allowExtensions: decodeFromFieldsWithTypes(
-        "bool",
-        item.fields.allow_extensions,
-      ),
+      allowExtensions: decodeFromFieldsWithTypes("bool", item.fields.allow_extensions),
     });
   }
 
@@ -176,20 +164,13 @@ export class Kiosk implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Kiosk {
     return Kiosk.reified().new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      profits: decodeFromJSONField(
-        Balance.reified(reified.phantom(SUI.reified())),
-        field.profits,
-      ),
+      profits: decodeFromJSONField(Balance.reified(reified.phantom(SUI.reified())), field.profits),
       owner: decodeFromJSONField("address", field.owner),
       itemCount: decodeFromJSONField("u32", field.itemCount),
       allowExtensions: decodeFromJSONField("bool", field.allowExtensions),
@@ -209,9 +190,7 @@ export class Kiosk implements StructClass {
       throw new Error("not an object");
     }
     if (!isKiosk(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Kiosk object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Kiosk object`);
     }
     return Kiosk.fromFieldsWithTypes(content);
   }
@@ -219,7 +198,7 @@ export class Kiosk implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Kiosk {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isKiosk(data.bcs.type)) {
-        throw new Error(`object at is not a Kiosk object`);
+        throw new Error(`object at ${data.objectId} is not a Kiosk object`);
       }
 
       return Kiosk.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -235,14 +214,9 @@ export class Kiosk implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Kiosk> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Kiosk object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Kiosk object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isKiosk(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isKiosk(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Kiosk object`);
     }
 

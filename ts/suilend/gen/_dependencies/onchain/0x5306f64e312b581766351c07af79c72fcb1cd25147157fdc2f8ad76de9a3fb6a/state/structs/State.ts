@@ -94,24 +94,18 @@ export class State implements StructClass {
   static reified(): StateReified {
     return {
       typeName: State.$typeName,
-      fullTypeName: composeSuiType(
-        State.$typeName,
-        ...[],
-      ) as `${typeof PKG_V1}::state::State`,
+      fullTypeName: composeSuiType(State.$typeName, ...[]) as `${typeof PKG_V1}::state::State`,
       typeArgs: [] as [],
       isPhantom: State.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => State.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        State.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => State.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => State.fromBcs(data),
       bcs: State.bcs,
       fromJSONField: (field: any) => State.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => State.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        State.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        State.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => State.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => State.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => State.fetch(client, id),
       new: (fields: StateFields) => {
         return new State([], fields);
@@ -149,30 +143,15 @@ export class State implements StructClass {
     return State.reified().new({
       id: decodeFromFields(UID.reified(), fields.id),
       governanceChain: decodeFromFields("u16", fields.governance_chain),
-      governanceContract: decodeFromFields(
-        ExternalAddress.reified(),
-        fields.governance_contract,
-      ),
+      governanceContract: decodeFromFields(ExternalAddress.reified(), fields.governance_contract),
       guardianSetIndex: decodeFromFields("u32", fields.guardian_set_index),
       guardianSets: decodeFromFields(
-        Table.reified(
-          reified.phantom("u32"),
-          reified.phantom(GuardianSet.reified()),
-        ),
+        Table.reified(reified.phantom("u32"), reified.phantom(GuardianSet.reified())),
         fields.guardian_sets,
       ),
-      guardianSetSecondsToLive: decodeFromFields(
-        "u32",
-        fields.guardian_set_seconds_to_live,
-      ),
-      consumedVaas: decodeFromFields(
-        ConsumedVAAs.reified(),
-        fields.consumed_vaas,
-      ),
-      feeCollector: decodeFromFields(
-        FeeCollector.reified(),
-        fields.fee_collector,
-      ),
+      guardianSetSecondsToLive: decodeFromFields("u32", fields.guardian_set_seconds_to_live),
+      consumedVaas: decodeFromFields(ConsumedVAAs.reified(), fields.consumed_vaas),
+      feeCollector: decodeFromFields(FeeCollector.reified(), fields.fee_collector),
       upgradeCap: decodeFromFields(UpgradeCap.reified(), fields.upgrade_cap),
     });
   }
@@ -184,41 +163,23 @@ export class State implements StructClass {
 
     return State.reified().new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      governanceChain: decodeFromFieldsWithTypes(
-        "u16",
-        item.fields.governance_chain,
-      ),
+      governanceChain: decodeFromFieldsWithTypes("u16", item.fields.governance_chain),
       governanceContract: decodeFromFieldsWithTypes(
         ExternalAddress.reified(),
         item.fields.governance_contract,
       ),
-      guardianSetIndex: decodeFromFieldsWithTypes(
-        "u32",
-        item.fields.guardian_set_index,
-      ),
+      guardianSetIndex: decodeFromFieldsWithTypes("u32", item.fields.guardian_set_index),
       guardianSets: decodeFromFieldsWithTypes(
-        Table.reified(
-          reified.phantom("u32"),
-          reified.phantom(GuardianSet.reified()),
-        ),
+        Table.reified(reified.phantom("u32"), reified.phantom(GuardianSet.reified())),
         item.fields.guardian_sets,
       ),
       guardianSetSecondsToLive: decodeFromFieldsWithTypes(
         "u32",
         item.fields.guardian_set_seconds_to_live,
       ),
-      consumedVaas: decodeFromFieldsWithTypes(
-        ConsumedVAAs.reified(),
-        item.fields.consumed_vaas,
-      ),
-      feeCollector: decodeFromFieldsWithTypes(
-        FeeCollector.reified(),
-        item.fields.fee_collector,
-      ),
-      upgradeCap: decodeFromFieldsWithTypes(
-        UpgradeCap.reified(),
-        item.fields.upgrade_cap,
-      ),
+      consumedVaas: decodeFromFieldsWithTypes(ConsumedVAAs.reified(), item.fields.consumed_vaas),
+      feeCollector: decodeFromFieldsWithTypes(FeeCollector.reified(), item.fields.fee_collector),
+      upgradeCap: decodeFromFieldsWithTypes(UpgradeCap.reified(), item.fields.upgrade_cap),
     });
   }
 
@@ -241,41 +202,22 @@ export class State implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): State {
     return State.reified().new({
       id: decodeFromJSONField(UID.reified(), field.id),
       governanceChain: decodeFromJSONField("u16", field.governanceChain),
-      governanceContract: decodeFromJSONField(
-        ExternalAddress.reified(),
-        field.governanceContract,
-      ),
+      governanceContract: decodeFromJSONField(ExternalAddress.reified(), field.governanceContract),
       guardianSetIndex: decodeFromJSONField("u32", field.guardianSetIndex),
       guardianSets: decodeFromJSONField(
-        Table.reified(
-          reified.phantom("u32"),
-          reified.phantom(GuardianSet.reified()),
-        ),
+        Table.reified(reified.phantom("u32"), reified.phantom(GuardianSet.reified())),
         field.guardianSets,
       ),
-      guardianSetSecondsToLive: decodeFromJSONField(
-        "u32",
-        field.guardianSetSecondsToLive,
-      ),
-      consumedVaas: decodeFromJSONField(
-        ConsumedVAAs.reified(),
-        field.consumedVaas,
-      ),
-      feeCollector: decodeFromJSONField(
-        FeeCollector.reified(),
-        field.feeCollector,
-      ),
+      guardianSetSecondsToLive: decodeFromJSONField("u32", field.guardianSetSecondsToLive),
+      consumedVaas: decodeFromJSONField(ConsumedVAAs.reified(), field.consumedVaas),
+      feeCollector: decodeFromJSONField(FeeCollector.reified(), field.feeCollector),
       upgradeCap: decodeFromJSONField(UpgradeCap.reified(), field.upgradeCap),
     });
   }
@@ -293,9 +235,7 @@ export class State implements StructClass {
       throw new Error("not an object");
     }
     if (!isState(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a State object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a State object`);
     }
     return State.fromFieldsWithTypes(content);
   }
@@ -303,7 +243,7 @@ export class State implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): State {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isState(data.bcs.type)) {
-        throw new Error(`object at is not a State object`);
+        throw new Error(`object at ${data.objectId} is not a State object`);
       }
 
       return State.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -319,14 +259,9 @@ export class State implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<State> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching State object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching State object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isState(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isState(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a State object`);
     }
 

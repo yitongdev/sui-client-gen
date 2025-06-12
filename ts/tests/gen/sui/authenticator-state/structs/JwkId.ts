@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { String } from "../../../move-stdlib/string/structs/index.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -73,16 +69,13 @@ export class JwkId implements StructClass {
       isPhantom: JwkId.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => JwkId.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        JwkId.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => JwkId.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => JwkId.fromBcs(data),
       bcs: JwkId.bcs,
       fromJSONField: (field: any) => JwkId.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => JwkId.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        JwkId.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        JwkId.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => JwkId.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => JwkId.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => JwkId.fetch(client, id),
       new: (fields: JwkIdFields) => {
         return new JwkId([], fields);
@@ -139,11 +132,7 @@ export class JwkId implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): JwkId {
@@ -166,9 +155,7 @@ export class JwkId implements StructClass {
       throw new Error("not an object");
     }
     if (!isJwkId(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a JwkId object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a JwkId object`);
     }
     return JwkId.fromFieldsWithTypes(content);
   }
@@ -176,7 +163,7 @@ export class JwkId implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): JwkId {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isJwkId(data.bcs.type)) {
-        throw new Error(`object at is not a JwkId object`);
+        throw new Error(`object at ${data.objectId} is not a JwkId object`);
       }
 
       return JwkId.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -192,14 +179,9 @@ export class JwkId implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<JwkId> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching JwkId object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching JwkId object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isJwkId(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isJwkId(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a JwkId object`);
     }
 

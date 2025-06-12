@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `is_valid_char`
@@ -14,10 +10,7 @@ import {
  * @param u8 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function isValidChar(
-  tx: Transaction,
-  u8: number | TransactionArgument,
-): TransactionResult {
+export function isValidChar(tx: Transaction, u8: number | TransactionArgument): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::ascii::is_valid_char`,
     arguments: [pure(tx, u8, `u8`)],

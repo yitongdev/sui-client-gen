@@ -64,10 +64,7 @@ export class PriorityQueue<T extends TypeArgument> implements StructClass {
 
   readonly entries: ToField<Vector<Entry1<T>>>;
 
-  private constructor(
-    typeArgs: [ToTypeStr<T>],
-    fields: PriorityQueueFields<T>,
-  ) {
+  private constructor(typeArgs: [ToTypeStr<T>], fields: PriorityQueueFields<T>) {
     this.$fullTypeName = composeSuiType(
       PriorityQueue.$typeName,
       ...typeArgs,
@@ -89,20 +86,15 @@ export class PriorityQueue<T extends TypeArgument> implements StructClass {
       typeArgs: [extractType(T)] as [ToTypeStr<ToTypeArgument<T>>],
       isPhantom: PriorityQueue.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        PriorityQueue.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PriorityQueue.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => PriorityQueue.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PriorityQueue.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => PriorityQueue.fromBcs(T, data),
       bcs: PriorityQueue.bcs(toBcs(T)),
       fromJSONField: (field: any) => PriorityQueue.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => PriorityQueue.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PriorityQueue.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PriorityQueue.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        PriorityQueue.fetch(client, T, id),
+      fromSuiParsedData: (content: SuiParsedData) => PriorityQueue.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => PriorityQueue.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => PriorityQueue.fetch(client, T, id),
       new: (fields: PriorityQueueFields<ToTypeArgument<T>>) => {
         return new PriorityQueue([extractType(T)], fields);
       },
@@ -135,10 +127,7 @@ export class PriorityQueue<T extends TypeArgument> implements StructClass {
     fields: Record<string, any>,
   ): PriorityQueue<ToTypeArgument<T>> {
     return PriorityQueue.reified(typeArg).new({
-      entries: decodeFromFields(
-        reified.vector(Entry1.reified(typeArg)),
-        fields.entries,
-      ),
+      entries: decodeFromFields(reified.vector(Entry1.reified(typeArg)), fields.entries),
     });
   }
 
@@ -163,10 +152,7 @@ export class PriorityQueue<T extends TypeArgument> implements StructClass {
     typeArg: T,
     data: Uint8Array,
   ): PriorityQueue<ToTypeArgument<T>> {
-    return PriorityQueue.fromFields(
-      typeArg,
-      PriorityQueue.bcs(toBcs(typeArg)).parse(data),
-    );
+    return PriorityQueue.fromFields(typeArg, PriorityQueue.bcs(toBcs(typeArg)).parse(data));
   }
 
   toJSONField() {
@@ -179,11 +165,7 @@ export class PriorityQueue<T extends TypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends Reified<TypeArgument, any>>(
@@ -191,10 +173,7 @@ export class PriorityQueue<T extends TypeArgument> implements StructClass {
     field: any,
   ): PriorityQueue<ToTypeArgument<T>> {
     return PriorityQueue.reified(typeArg).new({
-      entries: decodeFromJSONField(
-        reified.vector(Entry1.reified(typeArg)),
-        field.entries,
-      ),
+      entries: decodeFromJSONField(reified.vector(Entry1.reified(typeArg)), field.entries),
     });
   }
 
@@ -222,9 +201,7 @@ export class PriorityQueue<T extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isPriorityQueue(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PriorityQueue object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PriorityQueue object`);
     }
     return PriorityQueue.fromFieldsWithTypes(typeArg, content);
   }
@@ -234,11 +211,8 @@ export class PriorityQueue<T extends TypeArgument> implements StructClass {
     data: SuiObjectData,
   ): PriorityQueue<ToTypeArgument<T>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPriorityQueue(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PriorityQueue object`);
+      if (data.bcs.dataType !== "moveObject" || !isPriorityQueue(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PriorityQueue object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -273,14 +247,9 @@ export class PriorityQueue<T extends TypeArgument> implements StructClass {
   ): Promise<PriorityQueue<ToTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PriorityQueue object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PriorityQueue object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPriorityQueue(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPriorityQueue(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PriorityQueue object`);
     }
 

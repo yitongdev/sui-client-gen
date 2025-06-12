@@ -32,10 +32,7 @@ export interface GuardianSignatureFields {
   index: ToField<"u8">;
 }
 
-export type GuardianSignatureReified = Reified<
-  GuardianSignature,
-  GuardianSignatureFields
->;
+export type GuardianSignatureReified = Reified<GuardianSignature, GuardianSignatureFields>;
 
 /**
  * Move struct: `GuardianSignature`
@@ -81,20 +78,15 @@ export class GuardianSignature implements StructClass {
       typeArgs: [] as [],
       isPhantom: GuardianSignature.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        GuardianSignature.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        GuardianSignature.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => GuardianSignature.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => GuardianSignature.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => GuardianSignature.fromBcs(data),
       bcs: GuardianSignature.bcs,
       fromJSONField: (field: any) => GuardianSignature.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => GuardianSignature.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        GuardianSignature.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        GuardianSignature.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        GuardianSignature.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => GuardianSignature.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => GuardianSignature.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => GuardianSignature.fetch(client, id),
       new: (fields: GuardianSignatureFields) => {
         return new GuardianSignature([], fields);
       },
@@ -158,11 +150,7 @@ export class GuardianSignature implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): GuardianSignature {
@@ -187,20 +175,15 @@ export class GuardianSignature implements StructClass {
       throw new Error("not an object");
     }
     if (!isGuardianSignature(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a GuardianSignature object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a GuardianSignature object`);
     }
     return GuardianSignature.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): GuardianSignature {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isGuardianSignature(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a GuardianSignature object`);
+      if (data.bcs.dataType !== "moveObject" || !isGuardianSignature(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a GuardianSignature object`);
       }
 
       return GuardianSignature.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -213,20 +196,12 @@ export class GuardianSignature implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<GuardianSignature> {
+  static async fetch(client: SuiClient, id: string): Promise<GuardianSignature> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching GuardianSignature object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching GuardianSignature object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isGuardianSignature(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isGuardianSignature(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a GuardianSignature object`);
     }
 

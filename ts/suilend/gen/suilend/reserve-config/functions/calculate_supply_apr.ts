@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface CalculateSupplyAprArgs {
   reserveConfig: TransactionObjectInput;
@@ -28,10 +24,6 @@ export function calculateSupplyApr(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve_config::calculate_supply_apr`,
-    arguments: [
-      obj(tx, args.reserveConfig),
-      obj(tx, args.decimal1),
-      obj(tx, args.decimal2),
-    ],
+    arguments: [obj(tx, args.reserveConfig), obj(tx, args.decimal1), obj(tx, args.decimal2)],
   });
 }

@@ -23,16 +23,9 @@ export interface GenerateU8InRangeArgs {
  * @param u82 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function generateU8InRange(
-  tx: Transaction,
-  args: GenerateU8InRangeArgs,
-): TransactionResult {
+export function generateU8InRange(tx: Transaction, args: GenerateU8InRangeArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::random::generate_u8_in_range`,
-    arguments: [
-      obj(tx, args.randomGenerator),
-      pure(tx, args.u81, `u8`),
-      pure(tx, args.u82, `u8`),
-    ],
+    arguments: [obj(tx, args.randomGenerator), pure(tx, args.u81, `u8`), pure(tx, args.u82, `u8`)],
   });
 }

@@ -1,10 +1,6 @@
 import { GenericArg, generic, vector } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface IndexOfArgs {
   vecT0: Array<GenericArg> | TransactionArgument;
@@ -21,17 +17,10 @@ export interface IndexOfArgs {
  * @param t0 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function indexOf(
-  tx: Transaction,
-  typeArg: string,
-  args: IndexOfArgs,
-): TransactionResult {
+export function indexOf(tx: Transaction, typeArg: string, args: IndexOfArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::vector::index_of`,
     typeArguments: [typeArg],
-    arguments: [
-      vector(tx, `${typeArg}`, args.vecT0),
-      generic(tx, `${typeArg}`, args.t0),
-    ],
+    arguments: [vector(tx, `${typeArg}`, args.vecT0), generic(tx, `${typeArg}`, args.t0)],
   });
 }

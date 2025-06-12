@@ -242,7 +242,9 @@ export class ObligationOwnerCap<T0 extends PhantomTypeArgument>
         data.bcs.dataType !== "moveObject" ||
         !isObligationOwnerCap(data.bcs.type)
       ) {
-        throw new Error(`object at is not a ObligationOwnerCap object`);
+        throw new Error(
+          `object at ${data.objectId} is not a ObligationOwnerCap object`,
+        );
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;

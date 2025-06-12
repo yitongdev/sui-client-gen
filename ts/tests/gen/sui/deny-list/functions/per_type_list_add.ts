@@ -22,10 +22,7 @@ export interface PerTypeListAddArgs {
  * @param type - Function parameter
  * @param addr - Function parameter
  */
-export function perTypeListAdd(
-  tx: Transaction,
-  args: PerTypeListAddArgs,
-): TransactionResult {
+export function perTypeListAdd(tx: Transaction, args: PerTypeListAddArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::per_type_list_add`,
     arguments: [

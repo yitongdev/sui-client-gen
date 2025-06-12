@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface AddToRegistryArgs {
   weightHook: TransactionObjectInput;
@@ -30,10 +26,6 @@ export function addToRegistry(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::weight::add_to_registry`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.weightHook),
-      obj(tx, args.registry),
-      obj(tx, args.liquidStakingInfo),
-    ],
+    arguments: [obj(tx, args.weightHook), obj(tx, args.registry), obj(tx, args.liquidStakingInfo)],
   });
 }

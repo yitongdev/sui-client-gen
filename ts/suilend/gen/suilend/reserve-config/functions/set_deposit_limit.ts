@@ -20,10 +20,7 @@ export interface SetDepositLimitArgs {
  * @param reserveConfigBuilder - Function parameter
  * @param u64 - Function parameter
  */
-export function setDepositLimit(
-  tx: Transaction,
-  args: SetDepositLimitArgs,
-): TransactionResult {
+export function setDepositLimit(tx: Transaction, args: SetDepositLimitArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve_config::set_deposit_limit`,
     arguments: [obj(tx, args.reserveConfigBuilder), pure(tx, args.u64, `u64`)],

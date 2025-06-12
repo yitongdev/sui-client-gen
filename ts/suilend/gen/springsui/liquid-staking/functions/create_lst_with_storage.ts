@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface CreateLstWithStorageArgs {
   feeConfig: TransactionObjectInput;
@@ -32,10 +28,6 @@ export function createLstWithStorage(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::liquid_staking::create_lst_with_storage`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.feeConfig),
-      obj(tx, args.treasuryCap),
-      obj(tx, args.storage),
-    ],
+    arguments: [obj(tx, args.feeConfig), obj(tx, args.treasuryCap), obj(tx, args.storage)],
   });
 }

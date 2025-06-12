@@ -67,10 +67,7 @@ export function splitGenericParameters(
   return tok;
 }
 
-export function parseTypeName(name: string): {
-  typeName: string;
-  typeArgs: string[];
-} {
+export function parseTypeName(name: string): { typeName: string; typeArgs: string[] } {
   if (typeof name !== "string") {
     throw new Error(`Illegal type passed as a name of the type: ${name}`);
   }
@@ -91,41 +88,27 @@ export function parseTypeName(name: string): {
   }
 
   const typeName = name.slice(0, l_bound);
-  const typeArgs = splitGenericParameters(
-    name.slice(l_bound + 1, name.length - r_bound - 1),
-    [left, right],
-  );
+  const typeArgs = splitGenericParameters(name.slice(l_bound + 1, name.length - r_bound - 1), [
+    left,
+    right,
+  ]);
 
   return { typeName, typeArgs };
 }
 
-export function isTransactionArgument(
-  arg: GenericArg,
-): arg is TransactionArgument {
+export function isTransactionArgument(arg: GenericArg): arg is TransactionArgument {
   if (!arg || typeof arg !== "object" || Array.isArray(arg)) {
     return false;
   }
 
-  return (
-    "GasCoin" in arg ||
-    "Input" in arg ||
-    "Result" in arg ||
-    "NestedResult" in arg
-  );
+  return "GasCoin" in arg || "Input" in arg || "Result" in arg || "NestedResult" in arg;
 }
 
-export function obj(
-  tx: Transaction,
-  arg: TransactionObjectInput,
-): TransactionArgument {
+export function obj(tx: Transaction, arg: TransactionObjectInput): TransactionArgument {
   return isTransactionArgument(arg) ? arg : tx.object(arg);
 }
 
-export function pure(
-  tx: Transaction,
-  arg: PureArg,
-  type: string,
-): TransactionArgument {
+export function pure(tx: Transaction, arg: PureArg, type: string): TransactionArgument {
   if (isTransactionArgument(arg)) {
     return arg;
   }
@@ -231,9 +214,7 @@ export function pure(
         return tx.pure(getBcsForType(type).serialize(arg));
       }
       if (hasPrimitiveValues([arg])) {
-        throw new Error(
-          "mixing primitive and TransactionArgument values is not supported",
-        );
+        throw new Error("mixing primitive and TransactionArgument values is not supported");
       }
 
       // wrap it with some
@@ -256,9 +237,7 @@ export function pure(
         return tx.pure(getBcsForType(type).serialize(arg));
       }
       if (hasPrimitiveValues(arg)) {
-        throw new Error(
-          "mixing primitive and TransactionArgument values is not supported",
-        );
+        throw new Error("mixing primitive and TransactionArgument values is not supported");
       }
 
       return tx.makeMoveVec({
@@ -270,21 +249,13 @@ export function pure(
   }
 }
 
-export function option(
-  tx: Transaction,
-  type: string,
-  arg: GenericArg | null,
-): TransactionArgument {
+export function option(tx: Transaction, type: string, arg: GenericArg | null): TransactionArgument {
   if (isTransactionArgument(arg)) {
     return arg;
   }
 
   if (typeArgIsPure(type)) {
-    return pure(
-      tx,
-      arg as PureArg | TransactionArgument,
-      `0x1::option::Option<${type}>`,
-    );
+    return pure(tx, arg as PureArg | TransactionArgument, `0x1::option::Option<${type}>`);
   }
 
   if (arg === null) {
@@ -304,11 +275,7 @@ export function option(
   });
 }
 
-export function generic(
-  tx: Transaction,
-  type: string,
-  arg: GenericArg,
-): TransactionArgument {
+export function generic(tx: Transaction, type: string, arg: GenericArg): TransactionArgument {
   if (typeArgIsPure(type)) {
     return pure(tx, arg as PureArg | TransactionArgument, type);
   } else {
@@ -342,8 +309,7 @@ export function vector(
   } else if (isTransactionArgument(items)) {
     return items;
   } else {
-    const { typeName: itemTypeName, typeArgs: itemTypeArgs } =
-      parseTypeName(itemType);
+    const { typeName: itemTypeName, typeArgs: itemTypeArgs } = parseTypeName(itemType);
     if (itemTypeName === "0x1::option::Option") {
       const elements = items.map((item) =>
         option(tx, itemTypeArgs[0] as string, item),
@@ -424,9 +390,7 @@ export function compressSuiType(type: string): string {
       if (firstPart === undefined) {
         return typeName;
       }
-      const compressedName = [compressSuiAddress(firstPart), ...rest].join(
-        "::",
-      );
+      const compressedName = [compressSuiAddress(firstPart), ...rest].join("::");
       if (typeArgs.length > 0) {
         return `${compressedName}<${typeArgs.map((typeArg) => compressSuiType(typeArg)).join(",")}>`;
       } else {
@@ -436,10 +400,7 @@ export function compressSuiType(type: string): string {
   }
 }
 
-export function composeSuiType(
-  typeName: string,
-  ...typeArgs: string[]
-): string {
+export function composeSuiType(typeName: string, ...typeArgs: string[]): string {
   if (typeArgs.length > 0) {
     return `${typeName}<${typeArgs.join(", ")}>`;
   } else {

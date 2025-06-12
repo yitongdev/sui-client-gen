@@ -11,11 +11,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -79,22 +75,18 @@ export class IncreaseValidatorStakeEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: IncreaseValidatorStakeEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        IncreaseValidatorStakeEvent.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => IncreaseValidatorStakeEvent.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         IncreaseValidatorStakeEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => IncreaseValidatorStakeEvent.fromBcs(data),
       bcs: IncreaseValidatorStakeEvent.bcs,
-      fromJSONField: (field: any) =>
-        IncreaseValidatorStakeEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        IncreaseValidatorStakeEvent.fromJSON(json),
+      fromJSONField: (field: any) => IncreaseValidatorStakeEvent.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => IncreaseValidatorStakeEvent.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         IncreaseValidatorStakeEvent.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         IncreaseValidatorStakeEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        IncreaseValidatorStakeEvent.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => IncreaseValidatorStakeEvent.fetch(client, id),
       new: (fields: IncreaseValidatorStakeEventFields) => {
         return new IncreaseValidatorStakeEvent([], fields);
       },
@@ -129,30 +121,20 @@ export class IncreaseValidatorStakeEvent implements StructClass {
     });
   }
 
-  static fromFieldsWithTypes(
-    item: FieldsWithTypes,
-  ): IncreaseValidatorStakeEvent {
+  static fromFieldsWithTypes(item: FieldsWithTypes): IncreaseValidatorStakeEvent {
     if (!isIncreaseValidatorStakeEvent(item.type)) {
       throw new Error("not a IncreaseValidatorStakeEvent type");
     }
 
     return IncreaseValidatorStakeEvent.reified().new({
-      typename: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.typename,
-      ),
-      stakingPoolId: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.staking_pool_id,
-      ),
+      typename: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.typename),
+      stakingPoolId: decodeFromFieldsWithTypes(ID.reified(), item.fields.staking_pool_id),
       amount: decodeFromFieldsWithTypes("u64", item.fields.amount),
     });
   }
 
   static fromBcs(data: Uint8Array): IncreaseValidatorStakeEvent {
-    return IncreaseValidatorStakeEvent.fromFields(
-      IncreaseValidatorStakeEvent.bcs.parse(data),
-    );
+    return IncreaseValidatorStakeEvent.fromFields(IncreaseValidatorStakeEvent.bcs.parse(data));
   }
 
   toJSONField() {
@@ -164,11 +146,7 @@ export class IncreaseValidatorStakeEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): IncreaseValidatorStakeEvent {
@@ -187,9 +165,7 @@ export class IncreaseValidatorStakeEvent implements StructClass {
     return IncreaseValidatorStakeEvent.fromJSONField(json);
   }
 
-  static fromSuiParsedData(
-    content: SuiParsedData,
-  ): IncreaseValidatorStakeEvent {
+  static fromSuiParsedData(content: SuiParsedData): IncreaseValidatorStakeEvent {
     if (content.dataType !== "moveObject") {
       throw new Error("not an object");
     }
@@ -203,13 +179,8 @@ export class IncreaseValidatorStakeEvent implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): IncreaseValidatorStakeEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isIncreaseValidatorStakeEvent(data.bcs.type)
-      ) {
-        throw new Error(
-          `object at is not a IncreaseValidatorStakeEvent object`,
-        );
+      if (data.bcs.dataType !== "moveObject" || !isIncreaseValidatorStakeEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a IncreaseValidatorStakeEvent object`);
       }
 
       return IncreaseValidatorStakeEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -222,10 +193,7 @@ export class IncreaseValidatorStakeEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<IncreaseValidatorStakeEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<IncreaseValidatorStakeEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
@@ -236,9 +204,7 @@ export class IncreaseValidatorStakeEvent implements StructClass {
       res.data?.bcs?.dataType !== "moveObject" ||
       !isIncreaseValidatorStakeEvent(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a IncreaseValidatorStakeEvent object`,
-      );
+      throw new Error(`object at id ${id} is not a IncreaseValidatorStakeEvent object`);
     }
 
     return IncreaseValidatorStakeEvent.fromSuiObjectData(res.data);

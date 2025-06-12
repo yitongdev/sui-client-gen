@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface Secp256k1VerifyArgs {
   vecU81: Array<number | TransactionArgument> | TransactionArgument;
@@ -24,10 +20,7 @@ export interface Secp256k1VerifyArgs {
  * @param u8 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function secp256k1Verify(
-  tx: Transaction,
-  args: Secp256k1VerifyArgs,
-): TransactionResult {
+export function secp256k1Verify(tx: Transaction, args: Secp256k1VerifyArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::ecdsa_k1::secp256k1_verify`,
     arguments: [

@@ -28,10 +28,7 @@ export interface GovernanceWitnessFields {
   dummyField: ToField<"bool">;
 }
 
-export type GovernanceWitnessReified = Reified<
-  GovernanceWitness,
-  GovernanceWitnessFields
->;
+export type GovernanceWitnessReified = Reified<GovernanceWitness, GovernanceWitnessFields>;
 
 /**
  * Move struct: `GovernanceWitness`
@@ -71,20 +68,15 @@ export class GovernanceWitness implements StructClass {
       typeArgs: [] as [],
       isPhantom: GovernanceWitness.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        GovernanceWitness.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        GovernanceWitness.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => GovernanceWitness.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => GovernanceWitness.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => GovernanceWitness.fromBcs(data),
       bcs: GovernanceWitness.bcs,
       fromJSONField: (field: any) => GovernanceWitness.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => GovernanceWitness.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        GovernanceWitness.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        GovernanceWitness.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        GovernanceWitness.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => GovernanceWitness.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => GovernanceWitness.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => GovernanceWitness.fetch(client, id),
       new: (fields: GovernanceWitnessFields) => {
         return new GovernanceWitness([], fields);
       },
@@ -136,11 +128,7 @@ export class GovernanceWitness implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): GovernanceWitness {
@@ -162,20 +150,15 @@ export class GovernanceWitness implements StructClass {
       throw new Error("not an object");
     }
     if (!isGovernanceWitness(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a GovernanceWitness object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a GovernanceWitness object`);
     }
     return GovernanceWitness.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): GovernanceWitness {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isGovernanceWitness(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a GovernanceWitness object`);
+      if (data.bcs.dataType !== "moveObject" || !isGovernanceWitness(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a GovernanceWitness object`);
       }
 
       return GovernanceWitness.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -188,20 +171,12 @@ export class GovernanceWitness implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<GovernanceWitness> {
+  static async fetch(client: SuiClient, id: string): Promise<GovernanceWitness> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching GovernanceWitness object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching GovernanceWitness object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isGovernanceWitness(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isGovernanceWitness(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a GovernanceWitness object`);
     }
 

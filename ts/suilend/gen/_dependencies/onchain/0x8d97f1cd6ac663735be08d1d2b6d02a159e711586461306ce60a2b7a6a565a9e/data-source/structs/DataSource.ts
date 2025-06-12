@@ -72,20 +72,15 @@ export class DataSource implements StructClass {
       typeArgs: [] as [],
       isPhantom: DataSource.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        DataSource.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        DataSource.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => DataSource.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => DataSource.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => DataSource.fromBcs(data),
       bcs: DataSource.bcs,
       fromJSONField: (field: any) => DataSource.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => DataSource.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        DataSource.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        DataSource.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        DataSource.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => DataSource.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => DataSource.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => DataSource.fetch(client, id),
       new: (fields: DataSourceFields) => {
         return new DataSource([], fields);
       },
@@ -114,10 +109,7 @@ export class DataSource implements StructClass {
   static fromFields(fields: Record<string, any>): DataSource {
     return DataSource.reified().new({
       emitterChain: decodeFromFields("u64", fields.emitter_chain),
-      emitterAddress: decodeFromFields(
-        ExternalAddress.reified(),
-        fields.emitter_address,
-      ),
+      emitterAddress: decodeFromFields(ExternalAddress.reified(), fields.emitter_address),
     });
   }
 
@@ -147,20 +139,13 @@ export class DataSource implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): DataSource {
     return DataSource.reified().new({
       emitterChain: decodeFromJSONField("u64", field.emitterChain),
-      emitterAddress: decodeFromJSONField(
-        ExternalAddress.reified(),
-        field.emitterAddress,
-      ),
+      emitterAddress: decodeFromJSONField(ExternalAddress.reified(), field.emitterAddress),
     });
   }
 
@@ -177,9 +162,7 @@ export class DataSource implements StructClass {
       throw new Error("not an object");
     }
     if (!isDataSource(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a DataSource object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a DataSource object`);
     }
     return DataSource.fromFieldsWithTypes(content);
   }
@@ -187,7 +170,7 @@ export class DataSource implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): DataSource {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isDataSource(data.bcs.type)) {
-        throw new Error(`object at is not a DataSource object`);
+        throw new Error(`object at ${data.objectId} is not a DataSource object`);
       }
 
       return DataSource.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -203,14 +186,9 @@ export class DataSource implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<DataSource> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching DataSource object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching DataSource object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDataSource(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDataSource(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a DataSource object`);
     }
 

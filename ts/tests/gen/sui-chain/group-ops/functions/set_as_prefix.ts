@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface SetAsPrefixArgs {
   u64: bigint | TransactionArgument;
@@ -21,10 +17,7 @@ export interface SetAsPrefixArgs {
  * @param bool - Function parameter
  * @param vecU8 - Function parameter
  */
-export function setAsPrefix(
-  tx: Transaction,
-  args: SetAsPrefixArgs,
-): TransactionResult {
+export function setAsPrefix(tx: Transaction, args: SetAsPrefixArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::group_ops::set_as_prefix`,
     arguments: [

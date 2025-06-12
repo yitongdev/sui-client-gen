@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -81,20 +77,15 @@ export class DepositEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: DepositEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        DepositEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        DepositEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => DepositEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => DepositEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => DepositEvent.fromBcs(data),
       bcs: DepositEvent.bcs,
       fromJSONField: (field: any) => DepositEvent.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => DepositEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        DepositEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        DepositEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        DepositEvent.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => DepositEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => DepositEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => DepositEvent.fetch(client, id),
       new: (fields: DepositEventFields) => {
         return new DepositEvent([], fields);
       },
@@ -148,19 +139,10 @@ export class DepositEvent implements StructClass {
     }
 
     return DepositEvent.reified().new({
-      lendingMarketId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.lending_market_id,
-      ),
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes("address", item.fields.lending_market_id),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
       reserveId: decodeFromFieldsWithTypes("address", item.fields.reserve_id),
-      obligationId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.obligation_id,
-      ),
+      obligationId: decodeFromFieldsWithTypes("address", item.fields.obligation_id),
       ctokenAmount: decodeFromFieldsWithTypes("u64", item.fields.ctoken_amount),
     });
   }
@@ -180,11 +162,7 @@ export class DepositEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): DepositEvent {
@@ -210,20 +188,15 @@ export class DepositEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isDepositEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a DepositEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a DepositEvent object`);
     }
     return DepositEvent.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): DepositEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isDepositEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a DepositEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isDepositEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a DepositEvent object`);
       }
 
       return DepositEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -239,14 +212,9 @@ export class DepositEvent implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<DepositEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching DepositEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching DepositEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDepositEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDepositEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a DepositEvent object`);
     }
 

@@ -1,11 +1,7 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
 import { String } from "../index.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface IndexOfArgs {
   s: string | TransactionArgument;
@@ -24,9 +20,6 @@ export interface IndexOfArgs {
 export function indexOf(tx: Transaction, args: IndexOfArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::string::index_of`,
-    arguments: [
-      pure(tx, args.s, `${String.$typeName}`),
-      pure(tx, args.r, `${String.$typeName}`),
-    ],
+    arguments: [pure(tx, args.s, `${String.$typeName}`), pure(tx, args.r, `${String.$typeName}`)],
   });
 }

@@ -61,24 +61,18 @@ export class Curve implements StructClass {
   static reified(): CurveReified {
     return {
       typeName: Curve.$typeName,
-      fullTypeName: composeSuiType(
-        Curve.$typeName,
-        ...[],
-      ) as `${typeof PKG_V35}::groth16::Curve`,
+      fullTypeName: composeSuiType(Curve.$typeName, ...[]) as `${typeof PKG_V35}::groth16::Curve`,
       typeArgs: [] as [],
       isPhantom: Curve.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Curve.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Curve.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Curve.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Curve.fromBcs(data),
       bcs: Curve.bcs,
       fromJSONField: (field: any) => Curve.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Curve.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Curve.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Curve.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Curve.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Curve.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Curve.fetch(client, id),
       new: (fields: CurveFields) => {
         return new Curve([], fields);
@@ -113,9 +107,7 @@ export class Curve implements StructClass {
       throw new Error("not a Curve type");
     }
 
-    return Curve.reified().new({
-      id: decodeFromFieldsWithTypes("u8", item.fields.id),
-    });
+    return Curve.reified().new({ id: decodeFromFieldsWithTypes("u8", item.fields.id) });
   }
 
   static fromBcs(data: Uint8Array): Curve {
@@ -129,11 +121,7 @@ export class Curve implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Curve {
@@ -153,9 +141,7 @@ export class Curve implements StructClass {
       throw new Error("not an object");
     }
     if (!isCurve(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Curve object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Curve object`);
     }
     return Curve.fromFieldsWithTypes(content);
   }
@@ -163,7 +149,7 @@ export class Curve implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Curve {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isCurve(data.bcs.type)) {
-        throw new Error(`object at is not a Curve object`);
+        throw new Error(`object at ${data.objectId} is not a Curve object`);
       }
 
       return Curve.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -179,14 +165,9 @@ export class Curve implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Curve> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Curve object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Curve object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isCurve(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isCurve(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Curve object`);
     }
 

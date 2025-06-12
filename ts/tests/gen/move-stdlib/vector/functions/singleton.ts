@@ -11,11 +11,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param e - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function singleton(
-  tx: Transaction,
-  typeArg: string,
-  e: GenericArg,
-): TransactionResult {
+export function singleton(tx: Transaction, typeArg: string, e: GenericArg): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::vector::singleton`,
     typeArguments: [typeArg],

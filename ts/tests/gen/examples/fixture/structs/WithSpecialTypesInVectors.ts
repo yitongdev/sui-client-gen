@@ -60,9 +60,7 @@ export type WithSpecialTypesInVectorsReified<T extends TypeArgument> = Reified<
  *
  * @typeParam T - Type parameter 0
  */
-export class WithSpecialTypesInVectors<T extends TypeArgument>
-  implements StructClass
-{
+export class WithSpecialTypesInVectors<T extends TypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V1}::fixture::WithSpecialTypesInVectors`;
@@ -82,10 +80,7 @@ export class WithSpecialTypesInVectors<T extends TypeArgument>
   readonly option: ToField<Vector<Option<"u64">>>;
   readonly optionGeneric: ToField<Vector<Option<T>>>;
 
-  private constructor(
-    typeArgs: [ToTypeStr<T>],
-    fields: WithSpecialTypesInVectorsFields<T>,
-  ) {
+  private constructor(typeArgs: [ToTypeStr<T>], fields: WithSpecialTypesInVectorsFields<T>) {
     this.$fullTypeName = composeSuiType(
       WithSpecialTypesInVectors.$typeName,
       ...typeArgs,
@@ -113,16 +108,13 @@ export class WithSpecialTypesInVectors<T extends TypeArgument>
       typeArgs: [extractType(T)] as [ToTypeStr<ToTypeArgument<T>>],
       isPhantom: WithSpecialTypesInVectors.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        WithSpecialTypesInVectors.fromFields(T, fields),
+      fromFields: (fields: Record<string, any>) => WithSpecialTypesInVectors.fromFields(T, fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         WithSpecialTypesInVectors.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => WithSpecialTypesInVectors.fromBcs(T, data),
       bcs: WithSpecialTypesInVectors.bcs(toBcs(T)),
-      fromJSONField: (field: any) =>
-        WithSpecialTypesInVectors.fromJSONField(T, field),
-      fromJSON: (json: Record<string, any>) =>
-        WithSpecialTypesInVectors.fromJSON(T, json),
+      fromJSONField: (field: any) => WithSpecialTypesInVectors.fromJSONField(T, field),
+      fromJSON: (json: Record<string, any>) => WithSpecialTypesInVectors.fromJSON(T, json),
       fromSuiParsedData: (content: SuiParsedData) =>
         WithSpecialTypesInVectors.fromSuiParsedData(T, content),
       fromSuiObjectData: (content: SuiObjectData) =>
@@ -169,16 +161,10 @@ export class WithSpecialTypesInVectors<T extends TypeArgument>
     return WithSpecialTypesInVectors.reified(typeArg).new({
       id: decodeFromFields(UID.reified(), fields.id),
       string: decodeFromFields(reified.vector(String.reified()), fields.string),
-      asciiString: decodeFromFields(
-        reified.vector(String1.reified()),
-        fields.ascii_string,
-      ),
+      asciiString: decodeFromFields(reified.vector(String1.reified()), fields.ascii_string),
       idField: decodeFromFields(reified.vector(ID.reified()), fields.id_field),
       bar: decodeFromFields(reified.vector(Bar1.reified()), fields.bar),
-      option: decodeFromFields(
-        reified.vector(Option.reified("u64")),
-        fields.option,
-      ),
+      option: decodeFromFields(reified.vector(Option.reified("u64")), fields.option),
       optionGeneric: decodeFromFields(
         reified.vector(Option.reified(typeArg)),
         fields.option_generic,
@@ -197,26 +183,14 @@ export class WithSpecialTypesInVectors<T extends TypeArgument>
 
     return WithSpecialTypesInVectors.reified(typeArg).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      string: decodeFromFieldsWithTypes(
-        reified.vector(String.reified()),
-        item.fields.string,
-      ),
+      string: decodeFromFieldsWithTypes(reified.vector(String.reified()), item.fields.string),
       asciiString: decodeFromFieldsWithTypes(
         reified.vector(String1.reified()),
         item.fields.ascii_string,
       ),
-      idField: decodeFromFieldsWithTypes(
-        reified.vector(ID.reified()),
-        item.fields.id_field,
-      ),
-      bar: decodeFromFieldsWithTypes(
-        reified.vector(Bar1.reified()),
-        item.fields.bar,
-      ),
-      option: decodeFromFieldsWithTypes(
-        reified.vector(Option.reified("u64")),
-        item.fields.option,
-      ),
+      idField: decodeFromFieldsWithTypes(reified.vector(ID.reified()), item.fields.id_field),
+      bar: decodeFromFieldsWithTypes(reified.vector(Bar1.reified()), item.fields.bar),
+      option: decodeFromFieldsWithTypes(reified.vector(Option.reified("u64")), item.fields.option),
       optionGeneric: decodeFromFieldsWithTypes(
         reified.vector(Option.reified(typeArg)),
         item.fields.option_generic,
@@ -237,20 +211,11 @@ export class WithSpecialTypesInVectors<T extends TypeArgument>
   toJSONField() {
     return {
       id: this.id,
-      string: fieldToJSON<Vector<String>>(
-        `vector<${String.$typeName}>`,
-        this.string,
-      ),
-      asciiString: fieldToJSON<Vector<String1>>(
-        `vector<${String1.$typeName}>`,
-        this.asciiString,
-      ),
+      string: fieldToJSON<Vector<String>>(`vector<${String.$typeName}>`, this.string),
+      asciiString: fieldToJSON<Vector<String1>>(`vector<${String1.$typeName}>`, this.asciiString),
       idField: fieldToJSON<Vector<ID>>(`vector<${ID.$typeName}>`, this.idField),
       bar: fieldToJSON<Vector<Bar1>>(`vector<${Bar1.$typeName}>`, this.bar),
-      option: fieldToJSON<Vector<Option<"u64">>>(
-        `vector<${Option.$typeName}<u64>>`,
-        this.option,
-      ),
+      option: fieldToJSON<Vector<Option<"u64">>>(`vector<${Option.$typeName}<u64>>`, this.option),
       optionGeneric: fieldToJSON<Vector<Option<T>>>(
         `vector<${Option.$typeName}<${this.$typeArgs?.[0]}>>`,
         this.optionGeneric,
@@ -259,11 +224,7 @@ export class WithSpecialTypesInVectors<T extends TypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends Reified<TypeArgument, any>>(
@@ -272,20 +233,11 @@ export class WithSpecialTypesInVectors<T extends TypeArgument>
   ): WithSpecialTypesInVectors<ToTypeArgument<T>> {
     return WithSpecialTypesInVectors.reified(typeArg).new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      string: decodeFromJSONField(
-        reified.vector(String.reified()),
-        field.string,
-      ),
-      asciiString: decodeFromJSONField(
-        reified.vector(String1.reified()),
-        field.asciiString,
-      ),
+      string: decodeFromJSONField(reified.vector(String.reified()), field.string),
+      asciiString: decodeFromJSONField(reified.vector(String1.reified()), field.asciiString),
       idField: decodeFromJSONField(reified.vector(ID.reified()), field.idField),
       bar: decodeFromJSONField(reified.vector(Bar1.reified()), field.bar),
-      option: decodeFromJSONField(
-        reified.vector(Option.reified("u64")),
-        field.option,
-      ),
+      option: decodeFromJSONField(reified.vector(Option.reified("u64")), field.option),
       optionGeneric: decodeFromJSONField(
         reified.vector(Option.reified(typeArg)),
         field.optionGeneric,
@@ -329,11 +281,8 @@ export class WithSpecialTypesInVectors<T extends TypeArgument>
     data: SuiObjectData,
   ): WithSpecialTypesInVectors<ToTypeArgument<T>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isWithSpecialTypesInVectors(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a WithSpecialTypesInVectors object`);
+      if (data.bcs.dataType !== "moveObject" || !isWithSpecialTypesInVectors(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a WithSpecialTypesInVectors object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -351,10 +300,7 @@ export class WithSpecialTypesInVectors<T extends TypeArgument>
         );
       }
 
-      return WithSpecialTypesInVectors.fromBcs(
-        typeArg,
-        fromBase64(data.bcs.bcsBytes),
-      );
+      return WithSpecialTypesInVectors.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return WithSpecialTypesInVectors.fromSuiParsedData(typeArg, data.content);
@@ -379,9 +325,7 @@ export class WithSpecialTypesInVectors<T extends TypeArgument>
       res.data?.bcs?.dataType !== "moveObject" ||
       !isWithSpecialTypesInVectors(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a WithSpecialTypesInVectors object`,
-      );
+      throw new Error(`object at id ${id} is not a WithSpecialTypesInVectors object`);
     }
 
     return WithSpecialTypesInVectors.fromSuiObjectData(typeArg, res.data);

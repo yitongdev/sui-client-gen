@@ -49,9 +49,7 @@ export type ItemPurchasedReified<T extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T - Type parameter 0 (phantom)
  */
-export class ItemPurchased<T extends PhantomTypeArgument>
-  implements StructClass
-{
+export class ItemPurchased<T extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::kiosk::ItemPurchased`;
@@ -67,10 +65,7 @@ export class ItemPurchased<T extends PhantomTypeArgument>
   readonly id: ToField<ID>;
   readonly price: ToField<"u64">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: ItemPurchasedFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: ItemPurchasedFields<T>) {
     this.$fullTypeName = composeSuiType(
       ItemPurchased.$typeName,
       ...typeArgs,
@@ -91,25 +86,18 @@ export class ItemPurchased<T extends PhantomTypeArgument>
         ItemPurchased.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::kiosk::ItemPurchased<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: ItemPurchased.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        ItemPurchased.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ItemPurchased.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => ItemPurchased.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ItemPurchased.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => ItemPurchased.fromBcs(T, data),
       bcs: ItemPurchased.bcs,
       fromJSONField: (field: any) => ItemPurchased.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => ItemPurchased.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ItemPurchased.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ItemPurchased.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        ItemPurchased.fetch(client, T, id),
+      fromSuiParsedData: (content: SuiParsedData) => ItemPurchased.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => ItemPurchased.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => ItemPurchased.fetch(client, T, id),
       new: (fields: ItemPurchasedFields<ToPhantomTypeArgument<T>>) => {
         return new ItemPurchased([extractType(T)], fields);
       },
@@ -181,11 +169,7 @@ export class ItemPurchased<T extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -223,9 +207,7 @@ export class ItemPurchased<T extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isItemPurchased(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ItemPurchased object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ItemPurchased object`);
     }
     return ItemPurchased.fromFieldsWithTypes(typeArg, content);
   }
@@ -235,11 +217,8 @@ export class ItemPurchased<T extends PhantomTypeArgument>
     data: SuiObjectData,
   ): ItemPurchased<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isItemPurchased(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ItemPurchased object`);
+      if (data.bcs.dataType !== "moveObject" || !isItemPurchased(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ItemPurchased object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -274,14 +253,9 @@ export class ItemPurchased<T extends PhantomTypeArgument>
   ): Promise<ItemPurchased<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ItemPurchased object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ItemPurchased object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isItemPurchased(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isItemPurchased(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ItemPurchased object`);
     }
 

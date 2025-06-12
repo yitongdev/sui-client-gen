@@ -29,17 +29,17 @@ import { fromBase64 } from "@mysten/sui/utils";
 
 export function isTransferPolicyDestroyed(type: string): boolean {
   type = compressSuiType(type);
-  return type.startsWith(
-    `${PKG_V31}::transfer_policy::TransferPolicyDestroyed` + "<",
-  );
+  return type.startsWith(`${PKG_V31}::transfer_policy::TransferPolicyDestroyed` + "<");
 }
 
 export interface TransferPolicyDestroyedFields<T0 extends PhantomTypeArgument> {
   id: ToField<ID>;
 }
 
-export type TransferPolicyDestroyedReified<T0 extends PhantomTypeArgument> =
-  Reified<TransferPolicyDestroyed<T0>, TransferPolicyDestroyedFields<T0>>;
+export type TransferPolicyDestroyedReified<T0 extends PhantomTypeArgument> = Reified<
+  TransferPolicyDestroyed<T0>,
+  TransferPolicyDestroyedFields<T0>
+>;
 
 /**
  * Move struct: `TransferPolicyDestroyed`
@@ -47,9 +47,7 @@ export type TransferPolicyDestroyedReified<T0 extends PhantomTypeArgument> =
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class TransferPolicyDestroyed<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class TransferPolicyDestroyed<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::transfer_policy::TransferPolicyDestroyed`;
@@ -63,10 +61,7 @@ export class TransferPolicyDestroyed<T0 extends PhantomTypeArgument>
 
   readonly id: ToField<ID>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: TransferPolicyDestroyedFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: TransferPolicyDestroyedFields<T0>) {
     this.$fullTypeName = composeSuiType(
       TransferPolicyDestroyed.$typeName,
       ...typeArgs,
@@ -85,30 +80,22 @@ export class TransferPolicyDestroyed<T0 extends PhantomTypeArgument>
         TransferPolicyDestroyed.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V31}::transfer_policy::TransferPolicyDestroyed<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: TransferPolicyDestroyed.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        TransferPolicyDestroyed.fromFields(T0, fields),
+      fromFields: (fields: Record<string, any>) => TransferPolicyDestroyed.fromFields(T0, fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         TransferPolicyDestroyed.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => TransferPolicyDestroyed.fromBcs(T0, data),
       bcs: TransferPolicyDestroyed.bcs,
-      fromJSONField: (field: any) =>
-        TransferPolicyDestroyed.fromJSONField(T0, field),
-      fromJSON: (json: Record<string, any>) =>
-        TransferPolicyDestroyed.fromJSON(T0, json),
+      fromJSONField: (field: any) => TransferPolicyDestroyed.fromJSONField(T0, field),
+      fromJSON: (json: Record<string, any>) => TransferPolicyDestroyed.fromJSON(T0, json),
       fromSuiParsedData: (content: SuiParsedData) =>
         TransferPolicyDestroyed.fromSuiParsedData(T0, content),
       fromSuiObjectData: (content: SuiObjectData) =>
         TransferPolicyDestroyed.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        TransferPolicyDestroyed.fetch(client, T0, id),
-      new: (
-        fields: TransferPolicyDestroyedFields<ToPhantomTypeArgument<T0>>,
-      ) => {
+      fetch: async (client: SuiClient, id: string) => TransferPolicyDestroyed.fetch(client, T0, id),
+      new: (fields: TransferPolicyDestroyedFields<ToPhantomTypeArgument<T0>>) => {
         return new TransferPolicyDestroyed([extractType(T0)], fields);
       },
       kind: "StructClassReified",
@@ -121,9 +108,7 @@ export class TransferPolicyDestroyed<T0 extends PhantomTypeArgument>
 
   static phantom<T0 extends PhantomReified<PhantomTypeArgument>>(
     T0: T0,
-  ): PhantomReified<
-    ToTypeStr<TransferPolicyDestroyed<ToPhantomTypeArgument<T0>>>
-  > {
+  ): PhantomReified<ToTypeStr<TransferPolicyDestroyed<ToPhantomTypeArgument<T0>>>> {
     return phantom(TransferPolicyDestroyed.reified(T0));
   }
   static get p() {
@@ -163,10 +148,7 @@ export class TransferPolicyDestroyed<T0 extends PhantomTypeArgument>
     typeArg: T0,
     data: Uint8Array,
   ): TransferPolicyDestroyed<ToPhantomTypeArgument<T0>> {
-    return TransferPolicyDestroyed.fromFields(
-      typeArg,
-      TransferPolicyDestroyed.bcs.parse(data),
-    );
+    return TransferPolicyDestroyed.fromFields(typeArg, TransferPolicyDestroyed.bcs.parse(data));
   }
 
   toJSONField() {
@@ -176,11 +158,7 @@ export class TransferPolicyDestroyed<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -228,11 +206,8 @@ export class TransferPolicyDestroyed<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): TransferPolicyDestroyed<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isTransferPolicyDestroyed(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a TransferPolicyDestroyed object`);
+      if (data.bcs.dataType !== "moveObject" || !isTransferPolicyDestroyed(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a TransferPolicyDestroyed object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -250,10 +225,7 @@ export class TransferPolicyDestroyed<T0 extends PhantomTypeArgument>
         );
       }
 
-      return TransferPolicyDestroyed.fromBcs(
-        typeArg,
-        fromBase64(data.bcs.bcsBytes),
-      );
+      return TransferPolicyDestroyed.fromBcs(typeArg, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return TransferPolicyDestroyed.fromSuiParsedData(typeArg, data.content);
@@ -274,13 +246,8 @@ export class TransferPolicyDestroyed<T0 extends PhantomTypeArgument>
         `error fetching TransferPolicyDestroyed object at id ${id}: ${res.error.code}`,
       );
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTransferPolicyDestroyed(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a TransferPolicyDestroyed object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTransferPolicyDestroyed(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a TransferPolicyDestroyed object`);
     }
 
     return TransferPolicyDestroyed.fromSuiObjectData(typeArg, res.data);

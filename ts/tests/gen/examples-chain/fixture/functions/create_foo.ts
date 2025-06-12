@@ -1,10 +1,4 @@
-import {
-  GenericArg,
-  generic,
-  obj,
-  pure,
-  vector,
-} from "../../../_framework/util.js";
+import { GenericArg, generic, obj, pure, vector } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
 import { Bar, WithTwoGenerics } from "../index.js";
 import {
@@ -63,11 +57,7 @@ export function createFoo(
       pure(tx, args.vecU64, `vector<u64>`),
       vector(tx, `${Bar.$typeName}`, args.vecBar),
       vector(tx, `${typeArgs[0]}`, args.vecT0),
-      vector(
-        tx,
-        `${WithTwoGenerics.$typeName}<${typeArgs[0]}, u8>`,
-        args.vecWithTwoGenerics1,
-      ),
+      vector(tx, `${WithTwoGenerics.$typeName}<${typeArgs[0]}, u8>`, args.vecWithTwoGenerics1),
       obj(tx, args.withTwoGenerics1),
       obj(tx, args.withTwoGenerics2),
       obj(tx, args.withTwoGenerics3),

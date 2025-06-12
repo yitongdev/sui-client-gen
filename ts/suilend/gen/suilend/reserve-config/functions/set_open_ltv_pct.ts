@@ -20,10 +20,7 @@ export interface SetOpenLtvPctArgs {
  * @param reserveConfigBuilder - Function parameter
  * @param u8 - Function parameter
  */
-export function setOpenLtvPct(
-  tx: Transaction,
-  args: SetOpenLtvPctArgs,
-): TransactionResult {
+export function setOpenLtvPct(tx: Transaction, args: SetOpenLtvPctArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve_config::set_open_ltv_pct`,
     arguments: [obj(tx, args.reserveConfigBuilder), pure(tx, args.u8, `u8`)],

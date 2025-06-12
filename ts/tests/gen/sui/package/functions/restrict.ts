@@ -20,10 +20,7 @@ export interface RestrictArgs {
  * @param cap - Function parameter
  * @param policy - Function parameter
  */
-export function restrict(
-  tx: Transaction,
-  args: RestrictArgs,
-): TransactionResult {
+export function restrict(tx: Transaction, args: RestrictArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::package::restrict`,
     arguments: [obj(tx, args.cap), pure(tx, args.policy, `u8`)],

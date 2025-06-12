@@ -29,10 +29,6 @@ export function generateU64InRange(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::random::generate_u64_in_range`,
-    arguments: [
-      obj(tx, args.g),
-      pure(tx, args.min, `u64`),
-      pure(tx, args.max, `u64`),
-    ],
+    arguments: [obj(tx, args.g), pure(tx, args.min, `u64`), pure(tx, args.max, `u64`)],
   });
 }

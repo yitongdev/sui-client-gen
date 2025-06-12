@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -38,10 +34,7 @@ export interface LiquidateEventFields {
   liquidatorBonusAmount: ToField<"u64">;
 }
 
-export type LiquidateEventReified = Reified<
-  LiquidateEvent,
-  LiquidateEventFields
->;
+export type LiquidateEventReified = Reified<LiquidateEvent, LiquidateEventFields>;
 
 /**
  * Move struct: `LiquidateEvent`
@@ -99,20 +92,15 @@ export class LiquidateEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: LiquidateEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        LiquidateEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        LiquidateEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => LiquidateEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => LiquidateEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => LiquidateEvent.fromBcs(data),
       bcs: LiquidateEvent.bcs,
       fromJSONField: (field: any) => LiquidateEvent.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => LiquidateEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        LiquidateEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        LiquidateEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        LiquidateEvent.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => LiquidateEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => LiquidateEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => LiquidateEvent.fetch(client, id),
       new: (fields: LiquidateEventFields) => {
         return new LiquidateEvent([], fields);
       },
@@ -162,26 +150,14 @@ export class LiquidateEvent implements StructClass {
     return LiquidateEvent.reified().new({
       lendingMarketId: decodeFromFields("address", fields.lending_market_id),
       repayReserveId: decodeFromFields("address", fields.repay_reserve_id),
-      withdrawReserveId: decodeFromFields(
-        "address",
-        fields.withdraw_reserve_id,
-      ),
+      withdrawReserveId: decodeFromFields("address", fields.withdraw_reserve_id),
       obligationId: decodeFromFields("address", fields.obligation_id),
-      repayCoinType: decodeFromFields(
-        TypeName.reified(),
-        fields.repay_coin_type,
-      ),
-      withdrawCoinType: decodeFromFields(
-        TypeName.reified(),
-        fields.withdraw_coin_type,
-      ),
+      repayCoinType: decodeFromFields(TypeName.reified(), fields.repay_coin_type),
+      withdrawCoinType: decodeFromFields(TypeName.reified(), fields.withdraw_coin_type),
       repayAmount: decodeFromFields("u64", fields.repay_amount),
       withdrawAmount: decodeFromFields("u64", fields.withdraw_amount),
       protocolFeeAmount: decodeFromFields("u64", fields.protocol_fee_amount),
-      liquidatorBonusAmount: decodeFromFields(
-        "u64",
-        fields.liquidator_bonus_amount,
-      ),
+      liquidatorBonusAmount: decodeFromFields("u64", fields.liquidator_bonus_amount),
     });
   }
 
@@ -191,43 +167,19 @@ export class LiquidateEvent implements StructClass {
     }
 
     return LiquidateEvent.reified().new({
-      lendingMarketId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.lending_market_id,
-      ),
-      repayReserveId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.repay_reserve_id,
-      ),
-      withdrawReserveId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.withdraw_reserve_id,
-      ),
-      obligationId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.obligation_id,
-      ),
-      repayCoinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.repay_coin_type,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes("address", item.fields.lending_market_id),
+      repayReserveId: decodeFromFieldsWithTypes("address", item.fields.repay_reserve_id),
+      withdrawReserveId: decodeFromFieldsWithTypes("address", item.fields.withdraw_reserve_id),
+      obligationId: decodeFromFieldsWithTypes("address", item.fields.obligation_id),
+      repayCoinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.repay_coin_type),
       withdrawCoinType: decodeFromFieldsWithTypes(
         TypeName.reified(),
         item.fields.withdraw_coin_type,
       ),
       repayAmount: decodeFromFieldsWithTypes("u64", item.fields.repay_amount),
-      withdrawAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.withdraw_amount,
-      ),
-      protocolFeeAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.protocol_fee_amount,
-      ),
-      liquidatorBonusAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.liquidator_bonus_amount,
-      ),
+      withdrawAmount: decodeFromFieldsWithTypes("u64", item.fields.withdraw_amount),
+      protocolFeeAmount: decodeFromFieldsWithTypes("u64", item.fields.protocol_fee_amount),
+      liquidatorBonusAmount: decodeFromFieldsWithTypes("u64", item.fields.liquidator_bonus_amount),
     });
   }
 
@@ -251,37 +203,21 @@ export class LiquidateEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): LiquidateEvent {
     return LiquidateEvent.reified().new({
       lendingMarketId: decodeFromJSONField("address", field.lendingMarketId),
       repayReserveId: decodeFromJSONField("address", field.repayReserveId),
-      withdrawReserveId: decodeFromJSONField(
-        "address",
-        field.withdrawReserveId,
-      ),
+      withdrawReserveId: decodeFromJSONField("address", field.withdrawReserveId),
       obligationId: decodeFromJSONField("address", field.obligationId),
-      repayCoinType: decodeFromJSONField(
-        TypeName.reified(),
-        field.repayCoinType,
-      ),
-      withdrawCoinType: decodeFromJSONField(
-        TypeName.reified(),
-        field.withdrawCoinType,
-      ),
+      repayCoinType: decodeFromJSONField(TypeName.reified(), field.repayCoinType),
+      withdrawCoinType: decodeFromJSONField(TypeName.reified(), field.withdrawCoinType),
       repayAmount: decodeFromJSONField("u64", field.repayAmount),
       withdrawAmount: decodeFromJSONField("u64", field.withdrawAmount),
       protocolFeeAmount: decodeFromJSONField("u64", field.protocolFeeAmount),
-      liquidatorBonusAmount: decodeFromJSONField(
-        "u64",
-        field.liquidatorBonusAmount,
-      ),
+      liquidatorBonusAmount: decodeFromJSONField("u64", field.liquidatorBonusAmount),
     });
   }
 
@@ -298,20 +234,15 @@ export class LiquidateEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isLiquidateEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a LiquidateEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a LiquidateEvent object`);
     }
     return LiquidateEvent.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): LiquidateEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isLiquidateEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a LiquidateEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isLiquidateEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a LiquidateEvent object`);
       }
 
       return LiquidateEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -327,14 +258,9 @@ export class LiquidateEvent implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<LiquidateEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching LiquidateEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching LiquidateEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isLiquidateEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isLiquidateEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a LiquidateEvent object`);
     }
 

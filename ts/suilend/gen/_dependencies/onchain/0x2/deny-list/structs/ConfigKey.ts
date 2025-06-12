@@ -75,18 +75,14 @@ export class ConfigKey implements StructClass {
       isPhantom: ConfigKey.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => ConfigKey.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ConfigKey.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ConfigKey.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ConfigKey.fromBcs(data),
       bcs: ConfigKey.bcs,
       fromJSONField: (field: any) => ConfigKey.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ConfigKey.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ConfigKey.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ConfigKey.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ConfigKey.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ConfigKey.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ConfigKey.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ConfigKey.fetch(client, id),
       new: (fields: ConfigKeyFields) => {
         return new ConfigKey([], fields);
       },
@@ -125,14 +121,8 @@ export class ConfigKey implements StructClass {
     }
 
     return ConfigKey.reified().new({
-      perTypeIndex: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.per_type_index,
-      ),
-      perTypeKey: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.per_type_key,
-      ),
+      perTypeIndex: decodeFromFieldsWithTypes("u64", item.fields.per_type_index),
+      perTypeKey: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.per_type_key),
     });
   }
 
@@ -148,11 +138,7 @@ export class ConfigKey implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ConfigKey {
@@ -175,9 +161,7 @@ export class ConfigKey implements StructClass {
       throw new Error("not an object");
     }
     if (!isConfigKey(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ConfigKey object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ConfigKey object`);
     }
     return ConfigKey.fromFieldsWithTypes(content);
   }
@@ -185,7 +169,7 @@ export class ConfigKey implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): ConfigKey {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isConfigKey(data.bcs.type)) {
-        throw new Error(`object at is not a ConfigKey object`);
+        throw new Error(`object at ${data.objectId} is not a ConfigKey object`);
       }
 
       return ConfigKey.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -201,14 +185,9 @@ export class ConfigKey implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ConfigKey> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ConfigKey object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ConfigKey object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isConfigKey(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isConfigKey(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ConfigKey object`);
     }
 

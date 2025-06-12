@@ -24,18 +24,10 @@ export interface SubArgs {
  * @param element2 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function sub(
-  tx: Transaction,
-  typeArg: string,
-  args: SubArgs,
-): TransactionResult {
+export function sub(tx: Transaction, typeArg: string, args: SubArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::group_ops::sub`,
     typeArguments: [typeArg],
-    arguments: [
-      pure(tx, args.u8, `u8`),
-      obj(tx, args.element1),
-      obj(tx, args.element2),
-    ],
+    arguments: [pure(tx, args.u8, `u8`), obj(tx, args.element1), obj(tx, args.element2)],
   });
 }

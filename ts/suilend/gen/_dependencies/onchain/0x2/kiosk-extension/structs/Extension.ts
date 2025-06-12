@@ -76,18 +76,14 @@ export class Extension implements StructClass {
       isPhantom: Extension.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Extension.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Extension.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Extension.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Extension.fromBcs(data),
       bcs: Extension.bcs,
       fromJSONField: (field: any) => Extension.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Extension.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Extension.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Extension.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        Extension.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => Extension.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Extension.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => Extension.fetch(client, id),
       new: (fields: ExtensionFields) => {
         return new Extension([], fields);
       },
@@ -147,11 +143,7 @@ export class Extension implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Extension {
@@ -175,9 +167,7 @@ export class Extension implements StructClass {
       throw new Error("not an object");
     }
     if (!isExtension(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Extension object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Extension object`);
     }
     return Extension.fromFieldsWithTypes(content);
   }
@@ -185,7 +175,7 @@ export class Extension implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Extension {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isExtension(data.bcs.type)) {
-        throw new Error(`object at is not a Extension object`);
+        throw new Error(`object at ${data.objectId} is not a Extension object`);
       }
 
       return Extension.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -201,14 +191,9 @@ export class Extension implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Extension> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Extension object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Extension object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isExtension(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isExtension(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Extension object`);
     }
 

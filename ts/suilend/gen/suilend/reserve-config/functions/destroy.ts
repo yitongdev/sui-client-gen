@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `destroy`
@@ -13,10 +9,7 @@ import {
  * @param tx - The transaction object
  * @param reserveConfig - Function parameter
  */
-export function destroy(
-  tx: Transaction,
-  reserveConfig: TransactionObjectInput,
-): TransactionResult {
+export function destroy(tx: Transaction, reserveConfig: TransactionObjectInput): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve_config::destroy`,
     arguments: [obj(tx, reserveConfig)],

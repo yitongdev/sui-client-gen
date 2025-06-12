@@ -22,10 +22,7 @@ export interface IsLockedArgs {
  * @param id - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function isLocked(
-  tx: Transaction,
-  args: IsLockedArgs,
-): TransactionResult {
+export function isLocked(tx: Transaction, args: IsLockedArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::is_locked`,
     arguments: [obj(tx, args.self), pure(tx, args.id, `${ID.$typeName}`)],

@@ -21,10 +21,7 @@ export interface ExpireJwksArgs {
  * @param u64 - Function parameter
  * @param txContext - Function parameter
  */
-export function expireJwks(
-  tx: Transaction,
-  args: ExpireJwksArgs,
-): TransactionResult {
+export function expireJwks(tx: Transaction, args: ExpireJwksArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::authenticator_state::expire_jwks`,
     arguments: [obj(tx, args.authenticatorState), pure(tx, args.u64, `u64`)],

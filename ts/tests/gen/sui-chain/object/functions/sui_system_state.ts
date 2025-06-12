@@ -10,8 +10,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @returns TransactionResult - The transaction result
  */
 export function suiSystemState(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::object::sui_system_state`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::object::sui_system_state`, arguments: [] });
 }

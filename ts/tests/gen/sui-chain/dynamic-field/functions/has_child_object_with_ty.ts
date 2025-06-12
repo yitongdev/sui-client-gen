@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface HasChildObjectWithTyArgs {
   address1: string | TransactionArgument;
@@ -29,9 +25,6 @@ export function hasChildObjectWithTy(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::dynamic_field::has_child_object_with_ty`,
     typeArguments: [typeArg],
-    arguments: [
-      pure(tx, args.address1, `address`),
-      pure(tx, args.address2, `address`),
-    ],
+    arguments: [pure(tx, args.address1, `address`), pure(tx, args.address2, `address`)],
   });
 }

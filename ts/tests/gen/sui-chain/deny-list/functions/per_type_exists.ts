@@ -23,10 +23,7 @@ export interface PerTypeExistsArgs {
  * @param vecU8 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function perTypeExists(
-  tx: Transaction,
-  args: PerTypeExistsArgs,
-): TransactionResult {
+export function perTypeExists(tx: Transaction, args: PerTypeExistsArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::per_type_exists`,
     arguments: [

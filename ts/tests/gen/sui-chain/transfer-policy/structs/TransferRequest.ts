@@ -52,9 +52,7 @@ export type TransferRequestReified<T0 extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class TransferRequest<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class TransferRequest<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::transfer_policy::TransferRequest`;
@@ -71,10 +69,7 @@ export class TransferRequest<T0 extends PhantomTypeArgument>
   readonly from: ToField<ID>;
   readonly receipts: ToField<VecSet<TypeName>>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: TransferRequestFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: TransferRequestFields<T0>) {
     this.$fullTypeName = composeSuiType(
       TransferRequest.$typeName,
       ...typeArgs,
@@ -96,26 +91,18 @@ export class TransferRequest<T0 extends PhantomTypeArgument>
         TransferRequest.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V31}::transfer_policy::TransferRequest<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: TransferRequest.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        TransferRequest.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        TransferRequest.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => TransferRequest.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => TransferRequest.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => TransferRequest.fromBcs(T0, data),
       bcs: TransferRequest.bcs,
       fromJSONField: (field: any) => TransferRequest.fromJSONField(T0, field),
-      fromJSON: (json: Record<string, any>) =>
-        TransferRequest.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        TransferRequest.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        TransferRequest.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        TransferRequest.fetch(client, T0, id),
+      fromJSON: (json: Record<string, any>) => TransferRequest.fromJSON(T0, json),
+      fromSuiParsedData: (content: SuiParsedData) => TransferRequest.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => TransferRequest.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => TransferRequest.fetch(client, T0, id),
       new: (fields: TransferRequestFields<ToPhantomTypeArgument<T0>>) => {
         return new TransferRequest([extractType(T0)], fields);
       },
@@ -153,10 +140,7 @@ export class TransferRequest<T0 extends PhantomTypeArgument>
       item: decodeFromFields(ID.reified(), fields.item),
       paid: decodeFromFields("u64", fields.paid),
       from: decodeFromFields(ID.reified(), fields.from),
-      receipts: decodeFromFields(
-        VecSet.reified(TypeName.reified()),
-        fields.receipts,
-      ),
+      receipts: decodeFromFields(VecSet.reified(TypeName.reified()), fields.receipts),
     });
   }
 
@@ -173,10 +157,7 @@ export class TransferRequest<T0 extends PhantomTypeArgument>
       item: decodeFromFieldsWithTypes(ID.reified(), item.fields.item),
       paid: decodeFromFieldsWithTypes("u64", item.fields.paid),
       from: decodeFromFieldsWithTypes(ID.reified(), item.fields.from),
-      receipts: decodeFromFieldsWithTypes(
-        VecSet.reified(TypeName.reified()),
-        item.fields.receipts,
-      ),
+      receipts: decodeFromFieldsWithTypes(VecSet.reified(TypeName.reified()), item.fields.receipts),
     });
   }
 
@@ -197,11 +178,7 @@ export class TransferRequest<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -212,10 +189,7 @@ export class TransferRequest<T0 extends PhantomTypeArgument>
       item: decodeFromJSONField(ID.reified(), field.item),
       paid: decodeFromJSONField("u64", field.paid),
       from: decodeFromJSONField(ID.reified(), field.from),
-      receipts: decodeFromJSONField(
-        VecSet.reified(TypeName.reified()),
-        field.receipts,
-      ),
+      receipts: decodeFromJSONField(VecSet.reified(TypeName.reified()), field.receipts),
     });
   }
 
@@ -243,9 +217,7 @@ export class TransferRequest<T0 extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isTransferRequest(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a TransferRequest object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a TransferRequest object`);
     }
     return TransferRequest.fromFieldsWithTypes(typeArg, content);
   }
@@ -255,11 +227,8 @@ export class TransferRequest<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): TransferRequest<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isTransferRequest(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a TransferRequest object`);
+      if (data.bcs.dataType !== "moveObject" || !isTransferRequest(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a TransferRequest object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -294,14 +263,9 @@ export class TransferRequest<T0 extends PhantomTypeArgument>
   ): Promise<TransferRequest<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TransferRequest object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TransferRequest object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTransferRequest(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTransferRequest(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a TransferRequest object`);
     }
 

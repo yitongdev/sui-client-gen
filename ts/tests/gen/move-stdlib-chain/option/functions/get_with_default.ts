@@ -1,10 +1,6 @@
 import { GenericArg, generic, option } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface GetWithDefaultArgs {
   option: GenericArg | TransactionArgument | null;
@@ -29,9 +25,6 @@ export function getWithDefault(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::option::get_with_default`,
     typeArguments: [typeArg],
-    arguments: [
-      option(tx, `${typeArg}`, args.option),
-      generic(tx, `${typeArg}`, args.t0),
-    ],
+    arguments: [option(tx, `${typeArg}`, args.option), generic(tx, `${typeArg}`, args.t0)],
   });
 }

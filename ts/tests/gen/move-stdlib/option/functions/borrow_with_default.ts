@@ -1,10 +1,6 @@
 import { GenericArg, generic, option } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface BorrowWithDefaultArgs {
   t: GenericArg | TransactionArgument | null;
@@ -29,9 +25,6 @@ export function borrowWithDefault(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::option::borrow_with_default`,
     typeArguments: [typeArg],
-    arguments: [
-      option(tx, `${typeArg}`, args.t),
-      generic(tx, `${typeArg}`, args.defaultRef),
-    ],
+    arguments: [option(tx, `${typeArg}`, args.t), generic(tx, `${typeArg}`, args.defaultRef)],
   });
 }

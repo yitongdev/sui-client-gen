@@ -26,11 +26,7 @@ export interface ListArgs {
  * @param id - Function parameter
  * @param u64 - Function parameter
  */
-export function list(
-  tx: Transaction,
-  typeArg: string,
-  args: ListArgs,
-): TransactionResult {
+export function list(tx: Transaction, typeArg: string, args: ListArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::list`,
     typeArguments: [typeArg],

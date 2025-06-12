@@ -39,10 +39,10 @@ export interface FieldFields<T0 extends TypeArgument, T1 extends TypeArgument> {
   value: ToField<T1>;
 }
 
-export type FieldReified<
-  T0 extends TypeArgument,
-  T1 extends TypeArgument,
-> = Reified<Field<T0, T1>, FieldFields<T0, T1>>;
+export type FieldReified<T0 extends TypeArgument, T1 extends TypeArgument> = Reified<
+  Field<T0, T1>,
+  FieldFields<T0, T1>
+>;
 
 /**
  * Move struct: `Field`
@@ -51,9 +51,7 @@ export type FieldReified<
  * @typeParam T0 - Type parameter 0
  * @typeParam T1 - Type parameter 1
  */
-export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
-  implements StructClass
-{
+export class Field<T0 extends TypeArgument, T1 extends TypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::dynamic_field::Field`;
@@ -69,10 +67,7 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
   readonly name: ToField<T0>;
   readonly value: ToField<T1>;
 
-  private constructor(
-    typeArgs: [ToTypeStr<T0>, ToTypeStr<T1>],
-    fields: FieldFields<T0, T1>,
-  ) {
+  private constructor(typeArgs: [ToTypeStr<T0>, ToTypeStr<T1>], fields: FieldFields<T0, T1>) {
     this.$fullTypeName = composeSuiType(
       Field.$typeName,
       ...typeArgs,
@@ -84,10 +79,10 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
     this.value = fields.value;
   }
 
-  static reified<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(T0: T0, T1: T1): FieldReified<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+  static reified<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
+    T0: T0,
+    T1: T1,
+  ): FieldReified<ToTypeArgument<T0>, ToTypeArgument<T1>> {
     return {
       typeName: Field.$typeName,
       fullTypeName: composeSuiType(
@@ -100,20 +95,15 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
       ],
       isPhantom: Field.$isPhantom,
       reifiedTypeArgs: [T0, T1],
-      fromFields: (fields: Record<string, any>) =>
-        Field.fromFields([T0, T1], fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Field.fromFieldsWithTypes([T0, T1], item),
+      fromFields: (fields: Record<string, any>) => Field.fromFields([T0, T1], fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Field.fromFieldsWithTypes([T0, T1], item),
       fromBcs: (data: Uint8Array) => Field.fromBcs([T0, T1], data),
       bcs: Field.bcs(toBcs(T0), toBcs(T1)),
       fromJSONField: (field: any) => Field.fromJSONField([T0, T1], field),
       fromJSON: (json: Record<string, any>) => Field.fromJSON([T0, T1], json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Field.fromSuiParsedData([T0, T1], content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Field.fromSuiObjectData([T0, T1], content),
-      fetch: async (client: SuiClient, id: string) =>
-        Field.fetch(client, [T0, T1], id),
+      fromSuiParsedData: (content: SuiParsedData) => Field.fromSuiParsedData([T0, T1], content),
+      fromSuiObjectData: (content: SuiObjectData) => Field.fromSuiObjectData([T0, T1], content),
+      fetch: async (client: SuiClient, id: string) => Field.fetch(client, [T0, T1], id),
       new: (fields: FieldFields<ToTypeArgument<T0>, ToTypeArgument<T1>>) => {
         return new Field([extractType(T0), extractType(T1)], fields);
       },
@@ -125,10 +115,7 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
     return Field.reified;
   }
 
-  static phantom<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static phantom<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     T0: T0,
     T1: T1,
   ): PhantomReified<ToTypeStr<Field<ToTypeArgument<T0>, ToTypeArgument<T1>>>> {
@@ -147,10 +134,7 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
       });
   }
 
-  static fromFields<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static fromFields<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     typeArgs: [T0, T1],
     fields: Record<string, any>,
   ): Field<ToTypeArgument<T0>, ToTypeArgument<T1>> {
@@ -165,10 +149,7 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
   static fromFieldsWithTypes<
     T0 extends Reified<TypeArgument, any>,
     T1 extends Reified<TypeArgument, any>,
-  >(
-    typeArgs: [T0, T1],
-    item: FieldsWithTypes,
-  ): Field<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+  >(typeArgs: [T0, T1], item: FieldsWithTypes): Field<ToTypeArgument<T0>, ToTypeArgument<T1>> {
     if (!isField(item.type)) {
       throw new Error("not a Field type");
     }
@@ -182,10 +163,7 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
     });
   }
 
-  static fromBcs<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static fromBcs<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     typeArgs: [T0, T1],
     data: Uint8Array,
   ): Field<ToTypeArgument<T0>, ToTypeArgument<T1>> {
@@ -206,20 +184,13 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
     T0 extends Reified<TypeArgument, any>,
     T1 extends Reified<TypeArgument, any>,
-  >(
-    typeArgs: [T0, T1],
-    field: any,
-  ): Field<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+  >(typeArgs: [T0, T1], field: any): Field<ToTypeArgument<T0>, ToTypeArgument<T1>> {
     const [typeArg0, typeArg1] = typeArgs;
     return Field.reified(typeArg0, typeArg1).new({
       id: decodeFromJSONField(UID.reified(), field.id),
@@ -228,10 +199,7 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
     });
   }
 
-  static fromJSON<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static fromJSON<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     typeArgs: [T0, T1],
     json: Record<string, any>,
   ): Field<ToTypeArgument<T0>, ToTypeArgument<T1>> {
@@ -251,17 +219,12 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
   static fromSuiParsedData<
     T0 extends Reified<TypeArgument, any>,
     T1 extends Reified<TypeArgument, any>,
-  >(
-    typeArgs: [T0, T1],
-    content: SuiParsedData,
-  ): Field<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+  >(typeArgs: [T0, T1], content: SuiParsedData): Field<ToTypeArgument<T0>, ToTypeArgument<T1>> {
     if (content.dataType !== "moveObject") {
       throw new Error("not an object");
     }
     if (!isField(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Field object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Field object`);
     }
     return Field.fromFieldsWithTypes(typeArgs, content);
   }
@@ -269,13 +232,10 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
   static fromSuiObjectData<
     T0 extends Reified<TypeArgument, any>,
     T1 extends Reified<TypeArgument, any>,
-  >(
-    typeArgs: [T0, T1],
-    data: SuiObjectData,
-  ): Field<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+  >(typeArgs: [T0, T1], data: SuiObjectData): Field<ToTypeArgument<T0>, ToTypeArgument<T1>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isField(data.bcs.type)) {
-        throw new Error(`object at is not a Field object`);
+        throw new Error(`object at ${data.objectId} is not a Field object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -308,24 +268,16 @@ export class Field<T0 extends TypeArgument, T1 extends TypeArgument>
     );
   }
 
-  static async fetch<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static async fetch<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     client: SuiClient,
     typeArgs: [T0, T1],
     id: string,
   ): Promise<Field<ToTypeArgument<T0>, ToTypeArgument<T1>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Field object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Field object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isField(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isField(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Field object`);
     }
 

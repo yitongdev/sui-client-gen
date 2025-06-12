@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -61,24 +57,18 @@ export class Bar implements StructClass {
   static reified(): BarReified {
     return {
       typeName: Bar.$typeName,
-      fullTypeName: composeSuiType(
-        Bar.$typeName,
-        ...[],
-      ) as `${typeof PKG_V1}::fixture::Bar`,
+      fullTypeName: composeSuiType(Bar.$typeName, ...[]) as `${typeof PKG_V1}::fixture::Bar`,
       typeArgs: [] as [],
       isPhantom: Bar.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Bar.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Bar.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Bar.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Bar.fromBcs(data),
       bcs: Bar.bcs,
       fromJSONField: (field: any) => Bar.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Bar.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Bar.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Bar.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Bar.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Bar.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Bar.fetch(client, id),
       new: (fields: BarFields) => {
         return new Bar([], fields);
@@ -113,9 +103,7 @@ export class Bar implements StructClass {
       throw new Error("not a Bar type");
     }
 
-    return Bar.reified().new({
-      value: decodeFromFieldsWithTypes("u64", item.fields.value),
-    });
+    return Bar.reified().new({ value: decodeFromFieldsWithTypes("u64", item.fields.value) });
   }
 
   static fromBcs(data: Uint8Array): Bar {
@@ -129,17 +117,11 @@ export class Bar implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Bar {
-    return Bar.reified().new({
-      value: decodeFromJSONField("u64", field.value),
-    });
+    return Bar.reified().new({ value: decodeFromJSONField("u64", field.value) });
   }
 
   static fromJSON(json: Record<string, any>): Bar {
@@ -155,9 +137,7 @@ export class Bar implements StructClass {
       throw new Error("not an object");
     }
     if (!isBar(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Bar object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Bar object`);
     }
     return Bar.fromFieldsWithTypes(content);
   }
@@ -165,7 +145,7 @@ export class Bar implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Bar {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isBar(data.bcs.type)) {
-        throw new Error(`object at is not a Bar object`);
+        throw new Error(`object at ${data.objectId} is not a Bar object`);
       }
 
       return Bar.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -181,9 +161,7 @@ export class Bar implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Bar> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Bar object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Bar object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isBar(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Bar object`);

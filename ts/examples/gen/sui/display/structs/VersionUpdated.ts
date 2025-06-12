@@ -51,9 +51,7 @@ export type VersionUpdatedReified<T extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T - Type parameter 0 (phantom)
  */
-export class VersionUpdated<T extends PhantomTypeArgument>
-  implements StructClass
-{
+export class VersionUpdated<T extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::display::VersionUpdated`;
@@ -69,10 +67,7 @@ export class VersionUpdated<T extends PhantomTypeArgument>
   readonly version: ToField<"u16">;
   readonly fields: ToField<VecMap<String, String>>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: VersionUpdatedFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: VersionUpdatedFields<T>) {
     this.$fullTypeName = composeSuiType(
       VersionUpdated.$typeName,
       ...typeArgs,
@@ -93,25 +88,18 @@ export class VersionUpdated<T extends PhantomTypeArgument>
         VersionUpdated.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::display::VersionUpdated<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: VersionUpdated.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        VersionUpdated.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        VersionUpdated.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => VersionUpdated.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => VersionUpdated.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => VersionUpdated.fromBcs(T, data),
       bcs: VersionUpdated.bcs,
       fromJSONField: (field: any) => VersionUpdated.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => VersionUpdated.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        VersionUpdated.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        VersionUpdated.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        VersionUpdated.fetch(client, T, id),
+      fromSuiParsedData: (content: SuiParsedData) => VersionUpdated.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => VersionUpdated.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => VersionUpdated.fetch(client, T, id),
       new: (fields: VersionUpdatedFields<ToPhantomTypeArgument<T>>) => {
         return new VersionUpdated([extractType(T)], fields);
       },
@@ -147,10 +135,7 @@ export class VersionUpdated<T extends PhantomTypeArgument>
     return VersionUpdated.reified(typeArg).new({
       id: decodeFromFields(ID.reified(), fields.id),
       version: decodeFromFields("u16", fields.version),
-      fields: decodeFromFields(
-        VecMap.reified(String.reified(), String.reified()),
-        fields.fields,
-      ),
+      fields: decodeFromFields(VecMap.reified(String.reified(), String.reified()), fields.fields),
     });
   }
 
@@ -189,11 +174,7 @@ export class VersionUpdated<T extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -203,10 +184,7 @@ export class VersionUpdated<T extends PhantomTypeArgument>
     return VersionUpdated.reified(typeArg).new({
       id: decodeFromJSONField(ID.reified(), field.id),
       version: decodeFromJSONField("u16", field.version),
-      fields: decodeFromJSONField(
-        VecMap.reified(String.reified(), String.reified()),
-        field.fields,
-      ),
+      fields: decodeFromJSONField(VecMap.reified(String.reified(), String.reified()), field.fields),
     });
   }
 
@@ -234,9 +212,7 @@ export class VersionUpdated<T extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isVersionUpdated(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a VersionUpdated object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a VersionUpdated object`);
     }
     return VersionUpdated.fromFieldsWithTypes(typeArg, content);
   }
@@ -246,11 +222,8 @@ export class VersionUpdated<T extends PhantomTypeArgument>
     data: SuiObjectData,
   ): VersionUpdated<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isVersionUpdated(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a VersionUpdated object`);
+      if (data.bcs.dataType !== "moveObject" || !isVersionUpdated(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a VersionUpdated object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -285,14 +258,9 @@ export class VersionUpdated<T extends PhantomTypeArgument>
   ): Promise<VersionUpdated<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching VersionUpdated object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching VersionUpdated object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isVersionUpdated(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isVersionUpdated(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a VersionUpdated object`);
     }
 

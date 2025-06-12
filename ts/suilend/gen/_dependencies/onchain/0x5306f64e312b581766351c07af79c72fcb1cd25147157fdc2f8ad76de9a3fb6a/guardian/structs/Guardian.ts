@@ -70,18 +70,14 @@ export class Guardian implements StructClass {
       isPhantom: Guardian.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Guardian.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Guardian.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Guardian.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Guardian.fromBcs(data),
       bcs: Guardian.bcs,
       fromJSONField: (field: any) => Guardian.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Guardian.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Guardian.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Guardian.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        Guardian.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => Guardian.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Guardian.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => Guardian.fetch(client, id),
       new: (fields: GuardianFields) => {
         return new Guardian([], fields);
       },
@@ -107,9 +103,7 @@ export class Guardian implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): Guardian {
-    return Guardian.reified().new({
-      pubkey: decodeFromFields(Bytes20.reified(), fields.pubkey),
-    });
+    return Guardian.reified().new({ pubkey: decodeFromFields(Bytes20.reified(), fields.pubkey) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): Guardian {
@@ -133,17 +127,11 @@ export class Guardian implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Guardian {
-    return Guardian.reified().new({
-      pubkey: decodeFromJSONField(Bytes20.reified(), field.pubkey),
-    });
+    return Guardian.reified().new({ pubkey: decodeFromJSONField(Bytes20.reified(), field.pubkey) });
   }
 
   static fromJSON(json: Record<string, any>): Guardian {
@@ -159,9 +147,7 @@ export class Guardian implements StructClass {
       throw new Error("not an object");
     }
     if (!isGuardian(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Guardian object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Guardian object`);
     }
     return Guardian.fromFieldsWithTypes(content);
   }
@@ -169,7 +155,7 @@ export class Guardian implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Guardian {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isGuardian(data.bcs.type)) {
-        throw new Error(`object at is not a Guardian object`);
+        throw new Error(`object at ${data.objectId} is not a Guardian object`);
       }
 
       return Guardian.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -185,14 +171,9 @@ export class Guardian implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Guardian> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Guardian object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Guardian object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isGuardian(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isGuardian(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Guardian object`);
     }
 

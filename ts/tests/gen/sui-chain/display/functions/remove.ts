@@ -22,17 +22,10 @@ export interface RemoveArgs {
  * @param display - Function parameter
  * @param string - Function parameter
  */
-export function remove(
-  tx: Transaction,
-  typeArg: string,
-  args: RemoveArgs,
-): TransactionResult {
+export function remove(tx: Transaction, typeArg: string, args: RemoveArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::display::remove`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.display),
-      pure(tx, args.string, `${String.$typeName}`),
-    ],
+    arguments: [obj(tx, args.display), pure(tx, args.string, `${String.$typeName}`)],
   });
 }

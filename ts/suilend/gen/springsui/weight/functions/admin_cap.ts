@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface AdminCapArgs {
   weightHook: TransactionObjectInput;
@@ -21,11 +17,7 @@ export interface AdminCapArgs {
  * @param weightHookAdminCap - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function adminCap(
-  tx: Transaction,
-  typeArg: string,
-  args: AdminCapArgs,
-): TransactionResult {
+export function adminCap(tx: Transaction, typeArg: string, args: AdminCapArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::weight::admin_cap`,
     typeArguments: [typeArg],

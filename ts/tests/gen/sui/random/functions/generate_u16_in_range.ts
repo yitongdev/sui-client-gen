@@ -29,10 +29,6 @@ export function generateU16InRange(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::random::generate_u16_in_range`,
-    arguments: [
-      obj(tx, args.g),
-      pure(tx, args.min, `u16`),
-      pure(tx, args.max, `u16`),
-    ],
+    arguments: [obj(tx, args.g), pure(tx, args.min, `u16`), pure(tx, args.max, `u16`)],
   });
 }

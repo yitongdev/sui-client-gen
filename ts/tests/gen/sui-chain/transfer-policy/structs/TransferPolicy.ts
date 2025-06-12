@@ -55,9 +55,7 @@ export type TransferPolicyReified<T0 extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class TransferPolicy<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class TransferPolicy<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::transfer_policy::TransferPolicy`;
@@ -73,10 +71,7 @@ export class TransferPolicy<T0 extends PhantomTypeArgument>
   readonly balance: ToField<Balance<ToPhantom<SUI>>>;
   readonly rules: ToField<VecSet<TypeName>>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: TransferPolicyFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: TransferPolicyFields<T0>) {
     this.$fullTypeName = composeSuiType(
       TransferPolicy.$typeName,
       ...typeArgs,
@@ -97,26 +92,18 @@ export class TransferPolicy<T0 extends PhantomTypeArgument>
         TransferPolicy.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V31}::transfer_policy::TransferPolicy<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: TransferPolicy.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        TransferPolicy.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        TransferPolicy.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => TransferPolicy.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => TransferPolicy.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => TransferPolicy.fromBcs(T0, data),
       bcs: TransferPolicy.bcs,
       fromJSONField: (field: any) => TransferPolicy.fromJSONField(T0, field),
-      fromJSON: (json: Record<string, any>) =>
-        TransferPolicy.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        TransferPolicy.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        TransferPolicy.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        TransferPolicy.fetch(client, T0, id),
+      fromJSON: (json: Record<string, any>) => TransferPolicy.fromJSON(T0, json),
+      fromSuiParsedData: (content: SuiParsedData) => TransferPolicy.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => TransferPolicy.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => TransferPolicy.fetch(client, T0, id),
       new: (fields: TransferPolicyFields<ToPhantomTypeArgument<T0>>) => {
         return new TransferPolicy([extractType(T0)], fields);
       },
@@ -151,10 +138,7 @@ export class TransferPolicy<T0 extends PhantomTypeArgument>
   ): TransferPolicy<ToPhantomTypeArgument<T0>> {
     return TransferPolicy.reified(typeArg).new({
       id: decodeFromFields(UID.reified(), fields.id),
-      balance: decodeFromFields(
-        Balance.reified(reified.phantom(SUI.reified())),
-        fields.balance,
-      ),
+      balance: decodeFromFields(Balance.reified(reified.phantom(SUI.reified())), fields.balance),
       rules: decodeFromFields(VecSet.reified(TypeName.reified()), fields.rules),
     });
   }
@@ -174,10 +158,7 @@ export class TransferPolicy<T0 extends PhantomTypeArgument>
         Balance.reified(reified.phantom(SUI.reified())),
         item.fields.balance,
       ),
-      rules: decodeFromFieldsWithTypes(
-        VecSet.reified(TypeName.reified()),
-        item.fields.rules,
-      ),
+      rules: decodeFromFieldsWithTypes(VecSet.reified(TypeName.reified()), item.fields.rules),
     });
   }
 
@@ -197,11 +178,7 @@ export class TransferPolicy<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -210,14 +187,8 @@ export class TransferPolicy<T0 extends PhantomTypeArgument>
   ): TransferPolicy<ToPhantomTypeArgument<T0>> {
     return TransferPolicy.reified(typeArg).new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      balance: decodeFromJSONField(
-        Balance.reified(reified.phantom(SUI.reified())),
-        field.balance,
-      ),
-      rules: decodeFromJSONField(
-        VecSet.reified(TypeName.reified()),
-        field.rules,
-      ),
+      balance: decodeFromJSONField(Balance.reified(reified.phantom(SUI.reified())), field.balance),
+      rules: decodeFromJSONField(VecSet.reified(TypeName.reified()), field.rules),
     });
   }
 
@@ -245,9 +216,7 @@ export class TransferPolicy<T0 extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isTransferPolicy(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a TransferPolicy object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a TransferPolicy object`);
     }
     return TransferPolicy.fromFieldsWithTypes(typeArg, content);
   }
@@ -257,11 +226,8 @@ export class TransferPolicy<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): TransferPolicy<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isTransferPolicy(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a TransferPolicy object`);
+      if (data.bcs.dataType !== "moveObject" || !isTransferPolicy(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a TransferPolicy object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -296,14 +262,9 @@ export class TransferPolicy<T0 extends PhantomTypeArgument>
   ): Promise<TransferPolicy<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TransferPolicy object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TransferPolicy object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTransferPolicy(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTransferPolicy(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a TransferPolicy object`);
     }
 

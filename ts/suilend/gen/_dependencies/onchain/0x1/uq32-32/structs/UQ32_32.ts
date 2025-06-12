@@ -69,16 +69,13 @@ export class UQ32_32 implements StructClass {
       isPhantom: UQ32_32.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => UQ32_32.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        UQ32_32.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => UQ32_32.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => UQ32_32.fromBcs(data),
       bcs: UQ32_32.bcs,
       fromJSONField: (field: any) => UQ32_32.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => UQ32_32.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        UQ32_32.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        UQ32_32.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => UQ32_32.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => UQ32_32.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => UQ32_32.fetch(client, id),
       new: (fields: UQ32_32Fields) => {
         return new UQ32_32([], fields);
@@ -105,9 +102,7 @@ export class UQ32_32 implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): UQ32_32 {
-    return UQ32_32.reified().new({
-      pos0: decodeFromFields("u64", fields.pos0),
-    });
+    return UQ32_32.reified().new({ pos0: decodeFromFields("u64", fields.pos0) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): UQ32_32 {
@@ -115,9 +110,7 @@ export class UQ32_32 implements StructClass {
       throw new Error("not a UQ32_32 type");
     }
 
-    return UQ32_32.reified().new({
-      pos0: decodeFromFieldsWithTypes("u64", item.fields.pos0),
-    });
+    return UQ32_32.reified().new({ pos0: decodeFromFieldsWithTypes("u64", item.fields.pos0) });
   }
 
   static fromBcs(data: Uint8Array): UQ32_32 {
@@ -131,17 +124,11 @@ export class UQ32_32 implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UQ32_32 {
-    return UQ32_32.reified().new({
-      pos0: decodeFromJSONField("u64", field.pos0),
-    });
+    return UQ32_32.reified().new({ pos0: decodeFromJSONField("u64", field.pos0) });
   }
 
   static fromJSON(json: Record<string, any>): UQ32_32 {
@@ -157,9 +144,7 @@ export class UQ32_32 implements StructClass {
       throw new Error("not an object");
     }
     if (!isUQ32_32(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a UQ32_32 object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a UQ32_32 object`);
     }
     return UQ32_32.fromFieldsWithTypes(content);
   }
@@ -167,7 +152,7 @@ export class UQ32_32 implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): UQ32_32 {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isUQ32_32(data.bcs.type)) {
-        throw new Error(`object at is not a UQ32_32 object`);
+        throw new Error(`object at ${data.objectId} is not a UQ32_32 object`);
       }
 
       return UQ32_32.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,14 +168,9 @@ export class UQ32_32 implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<UQ32_32> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching UQ32_32 object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching UQ32_32 object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isUQ32_32(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isUQ32_32(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a UQ32_32 object`);
     }
 

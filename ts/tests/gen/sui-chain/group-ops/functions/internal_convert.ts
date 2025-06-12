@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface InternalConvertArgs {
   u81: number | TransactionArgument;
@@ -22,10 +18,7 @@ export interface InternalConvertArgs {
  * @param vecU8 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function internalConvert(
-  tx: Transaction,
-  args: InternalConvertArgs,
-): TransactionResult {
+export function internalConvert(tx: Transaction, args: InternalConvertArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::group_ops::internal_convert`,
     arguments: [

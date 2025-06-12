@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -30,10 +26,7 @@ export interface PoolRegistryItemFields {
   b: ToField<TypeName>;
 }
 
-export type PoolRegistryItemReified = Reified<
-  PoolRegistryItem,
-  PoolRegistryItemFields
->;
+export type PoolRegistryItemReified = Reified<PoolRegistryItem, PoolRegistryItemFields>;
 
 /**
  * Move struct: `PoolRegistryItem`
@@ -75,20 +68,15 @@ export class PoolRegistryItem implements StructClass {
       typeArgs: [] as [],
       isPhantom: PoolRegistryItem.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PoolRegistryItem.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PoolRegistryItem.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => PoolRegistryItem.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PoolRegistryItem.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PoolRegistryItem.fromBcs(data),
       bcs: PoolRegistryItem.bcs,
       fromJSONField: (field: any) => PoolRegistryItem.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PoolRegistryItem.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PoolRegistryItem.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PoolRegistryItem.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PoolRegistryItem.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PoolRegistryItem.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PoolRegistryItem.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PoolRegistryItem.fetch(client, id),
       new: (fields: PoolRegistryItemFields) => {
         return new PoolRegistryItem([], fields);
       },
@@ -144,11 +132,7 @@ export class PoolRegistryItem implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PoolRegistryItem {
@@ -171,20 +155,15 @@ export class PoolRegistryItem implements StructClass {
       throw new Error("not an object");
     }
     if (!isPoolRegistryItem(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PoolRegistryItem object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PoolRegistryItem object`);
     }
     return PoolRegistryItem.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): PoolRegistryItem {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPoolRegistryItem(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PoolRegistryItem object`);
+      if (data.bcs.dataType !== "moveObject" || !isPoolRegistryItem(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PoolRegistryItem object`);
       }
 
       return PoolRegistryItem.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -200,14 +179,9 @@ export class PoolRegistryItem implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<PoolRegistryItem> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PoolRegistryItem object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PoolRegistryItem object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPoolRegistryItem(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPoolRegistryItem(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PoolRegistryItem object`);
     }
 

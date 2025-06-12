@@ -9,8 +9,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @returns TransactionResult - The transaction result
  */
 export function empty(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::party::empty`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::party::empty`, arguments: [] });
 }

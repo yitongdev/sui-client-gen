@@ -24,10 +24,7 @@ export interface V1RemoveArgs {
  * @param vecU8 - Function parameter
  * @param address - Function parameter
  */
-export function v1Remove(
-  tx: Transaction,
-  args: V1RemoveArgs,
-): TransactionResult {
+export function v1Remove(tx: Transaction, args: V1RemoveArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::v1_remove`,
     arguments: [

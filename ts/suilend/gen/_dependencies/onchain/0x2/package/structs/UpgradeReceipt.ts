@@ -30,10 +30,7 @@ export interface UpgradeReceiptFields {
   package: ToField<ID>;
 }
 
-export type UpgradeReceiptReified = Reified<
-  UpgradeReceipt,
-  UpgradeReceiptFields
->;
+export type UpgradeReceiptReified = Reified<UpgradeReceipt, UpgradeReceiptFields>;
 
 /**
  * Move struct: `UpgradeReceipt`
@@ -75,20 +72,15 @@ export class UpgradeReceipt implements StructClass {
       typeArgs: [] as [],
       isPhantom: UpgradeReceipt.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        UpgradeReceipt.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        UpgradeReceipt.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => UpgradeReceipt.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => UpgradeReceipt.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => UpgradeReceipt.fromBcs(data),
       bcs: UpgradeReceipt.bcs,
       fromJSONField: (field: any) => UpgradeReceipt.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => UpgradeReceipt.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        UpgradeReceipt.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        UpgradeReceipt.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        UpgradeReceipt.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => UpgradeReceipt.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => UpgradeReceipt.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => UpgradeReceipt.fetch(client, id),
       new: (fields: UpgradeReceiptFields) => {
         return new UpgradeReceipt([], fields);
       },
@@ -144,11 +136,7 @@ export class UpgradeReceipt implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UpgradeReceipt {
@@ -171,20 +159,15 @@ export class UpgradeReceipt implements StructClass {
       throw new Error("not an object");
     }
     if (!isUpgradeReceipt(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a UpgradeReceipt object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a UpgradeReceipt object`);
     }
     return UpgradeReceipt.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): UpgradeReceipt {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isUpgradeReceipt(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a UpgradeReceipt object`);
+      if (data.bcs.dataType !== "moveObject" || !isUpgradeReceipt(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a UpgradeReceipt object`);
       }
 
       return UpgradeReceipt.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -200,14 +183,9 @@ export class UpgradeReceipt implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<UpgradeReceipt> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching UpgradeReceipt object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching UpgradeReceipt object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isUpgradeReceipt(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isUpgradeReceipt(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a UpgradeReceipt object`);
     }
 

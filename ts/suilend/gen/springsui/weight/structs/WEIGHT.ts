@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -61,24 +57,18 @@ export class WEIGHT implements StructClass {
   static reified(): WEIGHTReified {
     return {
       typeName: WEIGHT.$typeName,
-      fullTypeName: composeSuiType(
-        WEIGHT.$typeName,
-        ...[],
-      ) as `${typeof PKG_V1}::weight::WEIGHT`,
+      fullTypeName: composeSuiType(WEIGHT.$typeName, ...[]) as `${typeof PKG_V1}::weight::WEIGHT`,
       typeArgs: [] as [],
       isPhantom: WEIGHT.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => WEIGHT.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        WEIGHT.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => WEIGHT.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => WEIGHT.fromBcs(data),
       bcs: WEIGHT.bcs,
       fromJSONField: (field: any) => WEIGHT.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => WEIGHT.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        WEIGHT.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        WEIGHT.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => WEIGHT.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => WEIGHT.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => WEIGHT.fetch(client, id),
       new: (fields: WEIGHTFields) => {
         return new WEIGHT([], fields);
@@ -105,9 +95,7 @@ export class WEIGHT implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): WEIGHT {
-    return WEIGHT.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return WEIGHT.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): WEIGHT {
@@ -131,17 +119,11 @@ export class WEIGHT implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): WEIGHT {
-    return WEIGHT.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return WEIGHT.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): WEIGHT {
@@ -157,9 +139,7 @@ export class WEIGHT implements StructClass {
       throw new Error("not an object");
     }
     if (!isWEIGHT(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a WEIGHT object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a WEIGHT object`);
     }
     return WEIGHT.fromFieldsWithTypes(content);
   }
@@ -167,7 +147,7 @@ export class WEIGHT implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): WEIGHT {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isWEIGHT(data.bcs.type)) {
-        throw new Error(`object at is not a WEIGHT object`);
+        throw new Error(`object at ${data.objectId} is not a WEIGHT object`);
       }
 
       return WEIGHT.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,14 +163,9 @@ export class WEIGHT implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<WEIGHT> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching WEIGHT object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching WEIGHT object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isWEIGHT(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isWEIGHT(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a WEIGHT object`);
     }
 

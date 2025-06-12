@@ -34,10 +34,6 @@ export function swapACoin(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::util::swap_a_coin`,
     typeArguments: typeArgs,
-    arguments: [
-      obj(tx, args.pool),
-      obj(tx, args.input),
-      pure(tx, args.minOut, `u64`),
-    ],
+    arguments: [obj(tx, args.pool), obj(tx, args.input), pure(tx, args.minOut, `u64`)],
   });
 }

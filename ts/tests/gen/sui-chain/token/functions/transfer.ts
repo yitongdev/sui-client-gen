@@ -23,11 +23,7 @@ export interface TransferArgs {
  * @param txContext - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function transfer(
-  tx: Transaction,
-  typeArg: string,
-  args: TransferArgs,
-): TransactionResult {
+export function transfer(tx: Transaction, typeArg: string, args: TransferArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::token::transfer`,
     typeArguments: [typeArg],

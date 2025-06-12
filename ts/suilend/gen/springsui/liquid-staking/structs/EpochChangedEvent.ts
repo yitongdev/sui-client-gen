@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -33,10 +29,7 @@ export interface EpochChangedEventFields {
   spreadFee: ToField<"u64">;
 }
 
-export type EpochChangedEventReified = Reified<
-  EpochChangedEvent,
-  EpochChangedEventFields
->;
+export type EpochChangedEventReified = Reified<EpochChangedEvent, EpochChangedEventFields>;
 
 /**
  * Move struct: `EpochChangedEvent`
@@ -84,20 +77,15 @@ export class EpochChangedEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: EpochChangedEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        EpochChangedEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        EpochChangedEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => EpochChangedEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => EpochChangedEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => EpochChangedEvent.fromBcs(data),
       bcs: EpochChangedEvent.bcs,
       fromJSONField: (field: any) => EpochChangedEvent.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => EpochChangedEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        EpochChangedEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        EpochChangedEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        EpochChangedEvent.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => EpochChangedEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => EpochChangedEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => EpochChangedEvent.fetch(client, id),
       new: (fields: EpochChangedEventFields) => {
         return new EpochChangedEvent([], fields);
       },
@@ -142,18 +130,9 @@ export class EpochChangedEvent implements StructClass {
     }
 
     return EpochChangedEvent.reified().new({
-      typename: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.typename,
-      ),
-      oldSuiSupply: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.old_sui_supply,
-      ),
-      newSuiSupply: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.new_sui_supply,
-      ),
+      typename: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.typename),
+      oldSuiSupply: decodeFromFieldsWithTypes("u64", item.fields.old_sui_supply),
+      newSuiSupply: decodeFromFieldsWithTypes("u64", item.fields.new_sui_supply),
       lstSupply: decodeFromFieldsWithTypes("u64", item.fields.lst_supply),
       spreadFee: decodeFromFieldsWithTypes("u64", item.fields.spread_fee),
     });
@@ -174,11 +153,7 @@ export class EpochChangedEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): EpochChangedEvent {
@@ -204,20 +179,15 @@ export class EpochChangedEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isEpochChangedEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a EpochChangedEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a EpochChangedEvent object`);
     }
     return EpochChangedEvent.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): EpochChangedEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isEpochChangedEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a EpochChangedEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isEpochChangedEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a EpochChangedEvent object`);
       }
 
       return EpochChangedEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -230,20 +200,12 @@ export class EpochChangedEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<EpochChangedEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<EpochChangedEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching EpochChangedEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching EpochChangedEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isEpochChangedEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isEpochChangedEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a EpochChangedEvent object`);
     }
 

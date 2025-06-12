@@ -22,11 +22,7 @@ export interface SplitVecArgs {
  * @param vecU64 - Function parameter
  * @param txContext - Function parameter
  */
-export function splitVec(
-  tx: Transaction,
-  typeArg: string,
-  args: SplitVecArgs,
-): TransactionResult {
+export function splitVec(tx: Transaction, typeArg: string, args: SplitVecArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pay::split_vec`,
     typeArguments: [typeArg],

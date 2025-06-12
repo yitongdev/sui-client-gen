@@ -37,10 +37,7 @@ export interface SystemParametersV2Fields {
   extraFields: ToField<Bag>;
 }
 
-export type SystemParametersV2Reified = Reified<
-  SystemParametersV2,
-  SystemParametersV2Fields
->;
+export type SystemParametersV2Reified = Reified<SystemParametersV2, SystemParametersV2Fields>;
 
 /**
  * Move struct: `SystemParametersV2`
@@ -96,21 +93,15 @@ export class SystemParametersV2 implements StructClass {
       typeArgs: [] as [],
       isPhantom: SystemParametersV2.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        SystemParametersV2.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        SystemParametersV2.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => SystemParametersV2.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => SystemParametersV2.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => SystemParametersV2.fromBcs(data),
       bcs: SystemParametersV2.bcs,
       fromJSONField: (field: any) => SystemParametersV2.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        SystemParametersV2.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        SystemParametersV2.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        SystemParametersV2.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        SystemParametersV2.fetch(client, id),
+      fromJSON: (json: Record<string, any>) => SystemParametersV2.fromJSON(json),
+      fromSuiParsedData: (content: SuiParsedData) => SystemParametersV2.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => SystemParametersV2.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => SystemParametersV2.fetch(client, id),
       new: (fields: SystemParametersV2Fields) => {
         return new SystemParametersV2([], fields);
       },
@@ -146,20 +137,11 @@ export class SystemParametersV2 implements StructClass {
   static fromFields(fields: Record<string, any>): SystemParametersV2 {
     return SystemParametersV2.reified().new({
       epochDurationMs: decodeFromFields("u64", fields.epoch_duration_ms),
-      stakeSubsidyStartEpoch: decodeFromFields(
-        "u64",
-        fields.stake_subsidy_start_epoch,
-      ),
+      stakeSubsidyStartEpoch: decodeFromFields("u64", fields.stake_subsidy_start_epoch),
       minValidatorCount: decodeFromFields("u64", fields.min_validator_count),
       maxValidatorCount: decodeFromFields("u64", fields.max_validator_count),
-      minValidatorJoiningStake: decodeFromFields(
-        "u64",
-        fields.min_validator_joining_stake,
-      ),
-      validatorLowStakeThreshold: decodeFromFields(
-        "u64",
-        fields.validator_low_stake_threshold,
-      ),
+      minValidatorJoiningStake: decodeFromFields("u64", fields.min_validator_joining_stake),
+      validatorLowStakeThreshold: decodeFromFields("u64", fields.validator_low_stake_threshold),
       validatorVeryLowStakeThreshold: decodeFromFields(
         "u64",
         fields.validator_very_low_stake_threshold,
@@ -178,22 +160,13 @@ export class SystemParametersV2 implements StructClass {
     }
 
     return SystemParametersV2.reified().new({
-      epochDurationMs: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.epoch_duration_ms,
-      ),
+      epochDurationMs: decodeFromFieldsWithTypes("u64", item.fields.epoch_duration_ms),
       stakeSubsidyStartEpoch: decodeFromFieldsWithTypes(
         "u64",
         item.fields.stake_subsidy_start_epoch,
       ),
-      minValidatorCount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.min_validator_count,
-      ),
-      maxValidatorCount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.max_validator_count,
-      ),
+      minValidatorCount: decodeFromFieldsWithTypes("u64", item.fields.min_validator_count),
+      maxValidatorCount: decodeFromFieldsWithTypes("u64", item.fields.max_validator_count),
       minValidatorJoiningStake: decodeFromFieldsWithTypes(
         "u64",
         item.fields.min_validator_joining_stake,
@@ -210,10 +183,7 @@ export class SystemParametersV2 implements StructClass {
         "u64",
         item.fields.validator_low_stake_grace_period,
       ),
-      extraFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.extra_fields,
-      ),
+      extraFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.extra_fields),
     });
   }
 
@@ -229,47 +199,29 @@ export class SystemParametersV2 implements StructClass {
       maxValidatorCount: this.maxValidatorCount.toString(),
       minValidatorJoiningStake: this.minValidatorJoiningStake.toString(),
       validatorLowStakeThreshold: this.validatorLowStakeThreshold.toString(),
-      validatorVeryLowStakeThreshold:
-        this.validatorVeryLowStakeThreshold.toString(),
-      validatorLowStakeGracePeriod:
-        this.validatorLowStakeGracePeriod.toString(),
+      validatorVeryLowStakeThreshold: this.validatorVeryLowStakeThreshold.toString(),
+      validatorLowStakeGracePeriod: this.validatorLowStakeGracePeriod.toString(),
       extraFields: this.extraFields.toJSONField(),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): SystemParametersV2 {
     return SystemParametersV2.reified().new({
       epochDurationMs: decodeFromJSONField("u64", field.epochDurationMs),
-      stakeSubsidyStartEpoch: decodeFromJSONField(
-        "u64",
-        field.stakeSubsidyStartEpoch,
-      ),
+      stakeSubsidyStartEpoch: decodeFromJSONField("u64", field.stakeSubsidyStartEpoch),
       minValidatorCount: decodeFromJSONField("u64", field.minValidatorCount),
       maxValidatorCount: decodeFromJSONField("u64", field.maxValidatorCount),
-      minValidatorJoiningStake: decodeFromJSONField(
-        "u64",
-        field.minValidatorJoiningStake,
-      ),
-      validatorLowStakeThreshold: decodeFromJSONField(
-        "u64",
-        field.validatorLowStakeThreshold,
-      ),
+      minValidatorJoiningStake: decodeFromJSONField("u64", field.minValidatorJoiningStake),
+      validatorLowStakeThreshold: decodeFromJSONField("u64", field.validatorLowStakeThreshold),
       validatorVeryLowStakeThreshold: decodeFromJSONField(
         "u64",
         field.validatorVeryLowStakeThreshold,
       ),
-      validatorLowStakeGracePeriod: decodeFromJSONField(
-        "u64",
-        field.validatorLowStakeGracePeriod,
-      ),
+      validatorLowStakeGracePeriod: decodeFromJSONField("u64", field.validatorLowStakeGracePeriod),
       extraFields: decodeFromJSONField(Bag.reified(), field.extraFields),
     });
   }
@@ -287,20 +239,15 @@ export class SystemParametersV2 implements StructClass {
       throw new Error("not an object");
     }
     if (!isSystemParametersV2(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a SystemParametersV2 object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a SystemParametersV2 object`);
     }
     return SystemParametersV2.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): SystemParametersV2 {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isSystemParametersV2(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a SystemParametersV2 object`);
+      if (data.bcs.dataType !== "moveObject" || !isSystemParametersV2(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a SystemParametersV2 object`);
       }
 
       return SystemParametersV2.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -313,20 +260,12 @@ export class SystemParametersV2 implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<SystemParametersV2> {
+  static async fetch(client: SuiClient, id: string): Promise<SystemParametersV2> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching SystemParametersV2 object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching SystemParametersV2 object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isSystemParametersV2(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isSystemParametersV2(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a SystemParametersV2 object`);
     }
 

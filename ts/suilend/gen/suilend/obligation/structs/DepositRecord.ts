@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { Decimal } from "../../decimal/structs/index.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -85,20 +81,15 @@ export class DepositRecord implements StructClass {
       typeArgs: [] as [],
       isPhantom: DepositRecord.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        DepositRecord.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        DepositRecord.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => DepositRecord.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => DepositRecord.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => DepositRecord.fromBcs(data),
       bcs: DepositRecord.bcs,
       fromJSONField: (field: any) => DepositRecord.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => DepositRecord.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        DepositRecord.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        DepositRecord.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        DepositRecord.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => DepositRecord.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => DepositRecord.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => DepositRecord.fetch(client, id),
       new: (fields: DepositRecordFields) => {
         return new DepositRecord([], fields);
       },
@@ -132,19 +123,10 @@ export class DepositRecord implements StructClass {
     return DepositRecord.reified().new({
       coinType: decodeFromFields(TypeName.reified(), fields.coin_type),
       reserveArrayIndex: decodeFromFields("u64", fields.reserve_array_index),
-      depositedCtokenAmount: decodeFromFields(
-        "u64",
-        fields.deposited_ctoken_amount,
-      ),
+      depositedCtokenAmount: decodeFromFields("u64", fields.deposited_ctoken_amount),
       marketValue: decodeFromFields(Decimal.reified(), fields.market_value),
-      userRewardManagerIndex: decodeFromFields(
-        "u64",
-        fields.user_reward_manager_index,
-      ),
-      attributedBorrowValue: decodeFromFields(
-        Decimal.reified(),
-        fields.attributed_borrow_value,
-      ),
+      userRewardManagerIndex: decodeFromFields("u64", fields.user_reward_manager_index),
+      attributedBorrowValue: decodeFromFields(Decimal.reified(), fields.attributed_borrow_value),
     });
   }
 
@@ -154,22 +136,10 @@ export class DepositRecord implements StructClass {
     }
 
     return DepositRecord.reified().new({
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
-      reserveArrayIndex: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.reserve_array_index,
-      ),
-      depositedCtokenAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.deposited_ctoken_amount,
-      ),
-      marketValue: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.market_value,
-      ),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
+      reserveArrayIndex: decodeFromFieldsWithTypes("u64", item.fields.reserve_array_index),
+      depositedCtokenAmount: decodeFromFieldsWithTypes("u64", item.fields.deposited_ctoken_amount),
+      marketValue: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.market_value),
       userRewardManagerIndex: decodeFromFieldsWithTypes(
         "u64",
         item.fields.user_reward_manager_index,
@@ -197,30 +167,17 @@ export class DepositRecord implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): DepositRecord {
     return DepositRecord.reified().new({
       coinType: decodeFromJSONField(TypeName.reified(), field.coinType),
       reserveArrayIndex: decodeFromJSONField("u64", field.reserveArrayIndex),
-      depositedCtokenAmount: decodeFromJSONField(
-        "u64",
-        field.depositedCtokenAmount,
-      ),
+      depositedCtokenAmount: decodeFromJSONField("u64", field.depositedCtokenAmount),
       marketValue: decodeFromJSONField(Decimal.reified(), field.marketValue),
-      userRewardManagerIndex: decodeFromJSONField(
-        "u64",
-        field.userRewardManagerIndex,
-      ),
-      attributedBorrowValue: decodeFromJSONField(
-        Decimal.reified(),
-        field.attributedBorrowValue,
-      ),
+      userRewardManagerIndex: decodeFromJSONField("u64", field.userRewardManagerIndex),
+      attributedBorrowValue: decodeFromJSONField(Decimal.reified(), field.attributedBorrowValue),
     });
   }
 
@@ -237,20 +194,15 @@ export class DepositRecord implements StructClass {
       throw new Error("not an object");
     }
     if (!isDepositRecord(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a DepositRecord object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a DepositRecord object`);
     }
     return DepositRecord.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): DepositRecord {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isDepositRecord(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a DepositRecord object`);
+      if (data.bcs.dataType !== "moveObject" || !isDepositRecord(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a DepositRecord object`);
       }
 
       return DepositRecord.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -266,14 +218,9 @@ export class DepositRecord implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<DepositRecord> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching DepositRecord object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching DepositRecord object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDepositRecord(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDepositRecord(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a DepositRecord object`);
     }
 

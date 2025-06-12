@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface Ed25519VerifyArgs {
   signature: Array<number | TransactionArgument> | TransactionArgument;
@@ -22,10 +18,7 @@ export interface Ed25519VerifyArgs {
  * @param msg - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function ed25519Verify(
-  tx: Transaction,
-  args: Ed25519VerifyArgs,
-): TransactionResult {
+export function ed25519Verify(tx: Transaction, args: Ed25519VerifyArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::ed25519::ed25519_verify`,
     arguments: [

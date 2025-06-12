@@ -20,10 +20,7 @@ export interface SetCloseLtvPctArgs {
  * @param reserveConfigBuilder - Function parameter
  * @param u8 - Function parameter
  */
-export function setCloseLtvPct(
-  tx: Transaction,
-  args: SetCloseLtvPctArgs,
-): TransactionResult {
+export function setCloseLtvPct(tx: Transaction, args: SetCloseLtvPctArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve_config::set_close_ltv_pct`,
     arguments: [obj(tx, args.reserveConfigBuilder), pure(tx, args.u8, `u8`)],

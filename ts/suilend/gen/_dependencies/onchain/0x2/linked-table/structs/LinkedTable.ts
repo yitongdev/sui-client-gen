@@ -37,20 +37,17 @@ export function isLinkedTable(type: string): boolean {
   return type.startsWith(`${PKG_V35}::linked_table::LinkedTable` + "<");
 }
 
-export interface LinkedTableFields<
-  T0 extends TypeArgument,
-  T1 extends PhantomTypeArgument,
-> {
+export interface LinkedTableFields<T0 extends TypeArgument, T1 extends PhantomTypeArgument> {
   id: ToField<UID>;
   size: ToField<"u64">;
   head: ToField<Option<T0>>;
   tail: ToField<Option<T0>>;
 }
 
-export type LinkedTableReified<
-  T0 extends TypeArgument,
-  T1 extends PhantomTypeArgument,
-> = Reified<LinkedTable<T0, T1>, LinkedTableFields<T0, T1>>;
+export type LinkedTableReified<T0 extends TypeArgument, T1 extends PhantomTypeArgument> = Reified<
+  LinkedTable<T0, T1>,
+  LinkedTableFields<T0, T1>
+>;
 
 /**
  * Move struct: `LinkedTable`
@@ -59,10 +56,8 @@ export type LinkedTableReified<
  * @typeParam T0 - Type parameter 0
  * @typeParam T1 - Type parameter 1 (phantom)
  */
-export class LinkedTable<
-  T0 extends TypeArgument,
-  T1 extends PhantomTypeArgument,
-> implements StructClass
+export class LinkedTable<T0 extends TypeArgument, T1 extends PhantomTypeArgument>
+  implements StructClass
 {
   __StructClass = true as const;
 
@@ -99,10 +94,7 @@ export class LinkedTable<
   static reified<
     T0 extends Reified<TypeArgument, any>,
     T1 extends PhantomReified<PhantomTypeArgument>,
-  >(
-    T0: T0,
-    T1: T1,
-  ): LinkedTableReified<ToTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
+  >(T0: T0, T1: T1): LinkedTableReified<ToTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     return {
       typeName: LinkedTable.$typeName,
       fullTypeName: composeSuiType(
@@ -115,27 +107,19 @@ export class LinkedTable<
       ],
       isPhantom: LinkedTable.$isPhantom,
       reifiedTypeArgs: [T0, T1],
-      fromFields: (fields: Record<string, any>) =>
-        LinkedTable.fromFields([T0, T1], fields),
+      fromFields: (fields: Record<string, any>) => LinkedTable.fromFields([T0, T1], fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         LinkedTable.fromFieldsWithTypes([T0, T1], item),
       fromBcs: (data: Uint8Array) => LinkedTable.fromBcs([T0, T1], data),
       bcs: LinkedTable.bcs(toBcs(T0)),
       fromJSONField: (field: any) => LinkedTable.fromJSONField([T0, T1], field),
-      fromJSON: (json: Record<string, any>) =>
-        LinkedTable.fromJSON([T0, T1], json),
+      fromJSON: (json: Record<string, any>) => LinkedTable.fromJSON([T0, T1], json),
       fromSuiParsedData: (content: SuiParsedData) =>
         LinkedTable.fromSuiParsedData([T0, T1], content),
       fromSuiObjectData: (content: SuiObjectData) =>
         LinkedTable.fromSuiObjectData([T0, T1], content),
-      fetch: async (client: SuiClient, id: string) =>
-        LinkedTable.fetch(client, [T0, T1], id),
-      new: (
-        fields: LinkedTableFields<
-          ToTypeArgument<T0>,
-          ToPhantomTypeArgument<T1>
-        >,
-      ) => {
+      fetch: async (client: SuiClient, id: string) => LinkedTable.fetch(client, [T0, T1], id),
+      new: (fields: LinkedTableFields<ToTypeArgument<T0>, ToPhantomTypeArgument<T1>>) => {
         return new LinkedTable([extractType(T0), extractType(T1)], fields);
       },
       kind: "StructClassReified",
@@ -152,9 +136,7 @@ export class LinkedTable<
   >(
     T0: T0,
     T1: T1,
-  ): PhantomReified<
-    ToTypeStr<LinkedTable<ToTypeArgument<T0>, ToPhantomTypeArgument<T1>>>
-  > {
+  ): PhantomReified<ToTypeStr<LinkedTable<ToTypeArgument<T0>, ToPhantomTypeArgument<T1>>>> {
     return phantom(LinkedTable.reified(T0, T1));
   }
   static get p() {
@@ -203,14 +185,8 @@ export class LinkedTable<
     return LinkedTable.reified(typeArg0, typeArg1).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
       size: decodeFromFieldsWithTypes("u64", item.fields.size),
-      head: decodeFromFieldsWithTypes(
-        Option.reified(typeArg0),
-        item.fields.head,
-      ),
-      tail: decodeFromFieldsWithTypes(
-        Option.reified(typeArg0),
-        item.fields.tail,
-      ),
+      head: decodeFromFieldsWithTypes(Option.reified(typeArg0), item.fields.head),
+      tail: decodeFromFieldsWithTypes(Option.reified(typeArg0), item.fields.tail),
     });
   }
 
@@ -233,32 +209,19 @@ export class LinkedTable<
     return {
       id: this.id,
       size: this.size.toString(),
-      head: fieldToJSON<Option<T0>>(
-        `${Option.$typeName}<${typeArg0}>`,
-        this.head,
-      ),
-      tail: fieldToJSON<Option<T0>>(
-        `${Option.$typeName}<${typeArg0}>`,
-        this.tail,
-      ),
+      head: fieldToJSON<Option<T0>>(`${Option.$typeName}<${typeArg0}>`, this.head),
+      tail: fieldToJSON<Option<T0>>(`${Option.$typeName}<${typeArg0}>`, this.tail),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
     T0 extends Reified<TypeArgument, any>,
     T1 extends PhantomReified<PhantomTypeArgument>,
-  >(
-    typeArgs: [T0, T1],
-    field: any,
-  ): LinkedTable<ToTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
+  >(typeArgs: [T0, T1], field: any): LinkedTable<ToTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     const [typeArg0, typeArg1] = typeArgs;
     return LinkedTable.reified(typeArg0, typeArg1).new({
       id: decodeFromJSONField(UID.reified(), field.id),
@@ -280,10 +243,7 @@ export class LinkedTable<
     }
     const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(
-        LinkedTable.$typeName,
-        ...[typeArg0, typeArg1].map(extractType),
-      ),
+      composeSuiType(LinkedTable.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
       [typeArg0, typeArg1],
     );
@@ -302,9 +262,7 @@ export class LinkedTable<
       throw new Error("not an object");
     }
     if (!isLinkedTable(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a LinkedTable object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a LinkedTable object`);
     }
     return LinkedTable.fromFieldsWithTypes(typeArgs, content);
   }
@@ -318,7 +276,7 @@ export class LinkedTable<
   ): LinkedTable<ToTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isLinkedTable(data.bcs.type)) {
-        throw new Error(`object at is not a LinkedTable object`);
+        throw new Error(`object at ${data.objectId} is not a LinkedTable object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -361,14 +319,9 @@ export class LinkedTable<
   ): Promise<LinkedTable<ToTypeArgument<T0>, ToPhantomTypeArgument<T1>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching LinkedTable object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching LinkedTable object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isLinkedTable(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isLinkedTable(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a LinkedTable object`);
     }
 

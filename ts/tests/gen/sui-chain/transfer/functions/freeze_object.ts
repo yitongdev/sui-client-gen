@@ -10,11 +10,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param tx - The transaction object
  * @param t0 - Function parameter
  */
-export function freezeObject(
-  tx: Transaction,
-  typeArg: string,
-  t0: GenericArg,
-): TransactionResult {
+export function freezeObject(tx: Transaction, typeArg: string, t0: GenericArg): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::transfer::freeze_object`,
     typeArguments: [typeArg],

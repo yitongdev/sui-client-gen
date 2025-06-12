@@ -11,6 +11,7 @@ use move_model_2::{compiled_model, model, source_model};
 use move_package::source_package::parsed_manifest::PackageName;
 use move_symbol_pool::Symbol;
 use std::io::Write;
+use sui_client_gen::formatter::format_typescript;
 use sui_client_gen::framework_sources;
 use sui_client_gen::gen::{
     gen_init_loader_ts, gen_package_init_ts, module_import_name, package_import_name,
@@ -228,11 +229,18 @@ fn write_tokens_to_file(tokens: &Tokens<JavaScript>, path: &Path) -> Result<()> 
         return Ok(());
     }
 
-    let file = std::fs::File::create(path)?;
-    let mut w = fmt::IoWriter::new(file);
+    // First, generate the code using genco
+    let mut buffer = String::new();
+    let mut w = fmt::FmtWriter::new(&mut buffer);
     let fmt = fmt::Config::from_lang::<JavaScript>();
     let config = js::Config::default();
     tokens.format_file(&mut w.as_formatter(&fmt), &config)?;
+    
+    // Then format it with biome
+    let formatted = format_typescript(&buffer)?;
+    
+    // Write the formatted code to file
+    std::fs::write(path, formatted)?;
     Ok(())
 }
 
@@ -241,9 +249,14 @@ fn write_str_to_file(s: &str, path: &Path) -> Result<()> {
         return Ok(());
     }
 
-    let file = std::fs::File::create(path)?;
-    let mut w = fmt::IoWriter::new(file);
-    std::fmt::Write::write_str(&mut w, s)?;
+    // Format TypeScript files with biome, leave other files as-is
+    let content = if path.extension().and_then(|s| s.to_str()) == Some("ts") {
+        format_typescript(s)?
+    } else {
+        s.to_string()
+    };
+
+    std::fs::write(path, content)?;
     Ok(())
 }
 

@@ -22,17 +22,10 @@ export interface JoinVecArgs {
  * @param self - Function parameter
  * @param coins - Function parameter
  */
-export function joinVec(
-  tx: Transaction,
-  typeArg: string,
-  args: JoinVecArgs,
-): TransactionResult {
+export function joinVec(tx: Transaction, typeArg: string, args: JoinVecArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pay::join_vec`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.self),
-      vector(tx, `${Coin.$typeName}<${typeArg}>`, args.coins),
-    ],
+    arguments: [obj(tx, args.self), vector(tx, `${Coin.$typeName}<${typeArg}>`, args.coins)],
   });
 }

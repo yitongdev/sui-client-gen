@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface PlaceArgs {
   kiosk: TransactionObjectInput;
@@ -22,11 +18,7 @@ export interface PlaceArgs {
  * @param kioskOwnerCap - Function parameter
  * @param t0 - Function parameter
  */
-export function place(
-  tx: Transaction,
-  typeArg: string,
-  args: PlaceArgs,
-): TransactionResult {
+export function place(tx: Transaction, typeArg: string, args: PlaceArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::place`,
     typeArguments: [typeArg],

@@ -37,10 +37,7 @@ export interface WormholeMessageFields {
   timestamp: ToField<"u64">;
 }
 
-export type WormholeMessageReified = Reified<
-  WormholeMessage,
-  WormholeMessageFields
->;
+export type WormholeMessageReified = Reified<WormholeMessage, WormholeMessageFields>;
 
 /**
  * Move struct: `WormholeMessage`
@@ -90,20 +87,15 @@ export class WormholeMessage implements StructClass {
       typeArgs: [] as [],
       isPhantom: WormholeMessage.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        WormholeMessage.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        WormholeMessage.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => WormholeMessage.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => WormholeMessage.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => WormholeMessage.fromBcs(data),
       bcs: WormholeMessage.bcs,
       fromJSONField: (field: any) => WormholeMessage.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => WormholeMessage.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        WormholeMessage.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        WormholeMessage.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        WormholeMessage.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => WormholeMessage.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => WormholeMessage.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => WormholeMessage.fetch(client, id),
       new: (fields: WormholeMessageFields) => {
         return new WormholeMessage([], fields);
       },
@@ -153,14 +145,8 @@ export class WormholeMessage implements StructClass {
       sender: decodeFromFieldsWithTypes(ID.reified(), item.fields.sender),
       sequence: decodeFromFieldsWithTypes("u64", item.fields.sequence),
       nonce: decodeFromFieldsWithTypes("u32", item.fields.nonce),
-      payload: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.payload,
-      ),
-      consistencyLevel: decodeFromFieldsWithTypes(
-        "u8",
-        item.fields.consistency_level,
-      ),
+      payload: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.payload),
+      consistencyLevel: decodeFromFieldsWithTypes("u8", item.fields.consistency_level),
       timestamp: decodeFromFieldsWithTypes("u64", item.fields.timestamp),
     });
   }
@@ -181,11 +167,7 @@ export class WormholeMessage implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): WormholeMessage {
@@ -212,20 +194,15 @@ export class WormholeMessage implements StructClass {
       throw new Error("not an object");
     }
     if (!isWormholeMessage(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a WormholeMessage object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a WormholeMessage object`);
     }
     return WormholeMessage.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): WormholeMessage {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isWormholeMessage(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a WormholeMessage object`);
+      if (data.bcs.dataType !== "moveObject" || !isWormholeMessage(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a WormholeMessage object`);
       }
 
       return WormholeMessage.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -241,14 +218,9 @@ export class WormholeMessage implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<WormholeMessage> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching WormholeMessage object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching WormholeMessage object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isWormholeMessage(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isWormholeMessage(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a WormholeMessage object`);
     }
 

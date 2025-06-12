@@ -23,11 +23,7 @@ export interface SplitArgs {
  * @param txContext - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function split(
-  tx: Transaction,
-  typeArg: string,
-  args: SplitArgs,
-): TransactionResult {
+export function split(tx: Transaction, typeArg: string, args: SplitArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::token::split`,
     typeArguments: [typeArg],

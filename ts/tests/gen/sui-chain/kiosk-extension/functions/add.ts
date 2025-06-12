@@ -26,11 +26,7 @@ export interface AddArgs {
  * @param u128 - Function parameter
  * @param txContext - Function parameter
  */
-export function add(
-  tx: Transaction,
-  typeArg: string,
-  args: AddArgs,
-): TransactionResult {
+export function add(tx: Transaction, typeArg: string, args: AddArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk_extension::add`,
     typeArguments: [typeArg],

@@ -33,10 +33,6 @@ export function borrowMut(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::borrow_mut`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.self),
-      obj(tx, args.cap),
-      pure(tx, args.id, `${ID.$typeName}`),
-    ],
+    arguments: [obj(tx, args.self), obj(tx, args.cap), pure(tx, args.id, `${ID.$typeName}`)],
   });
 }

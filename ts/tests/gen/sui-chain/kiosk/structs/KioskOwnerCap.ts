@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { ID, UID } from "../../object/structs/index.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -72,20 +68,15 @@ export class KioskOwnerCap implements StructClass {
       typeArgs: [] as [],
       isPhantom: KioskOwnerCap.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        KioskOwnerCap.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        KioskOwnerCap.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => KioskOwnerCap.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => KioskOwnerCap.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => KioskOwnerCap.fromBcs(data),
       bcs: KioskOwnerCap.bcs,
       fromJSONField: (field: any) => KioskOwnerCap.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => KioskOwnerCap.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        KioskOwnerCap.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        KioskOwnerCap.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        KioskOwnerCap.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => KioskOwnerCap.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => KioskOwnerCap.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => KioskOwnerCap.fetch(client, id),
       new: (fields: KioskOwnerCapFields) => {
         return new KioskOwnerCap([], fields);
       },
@@ -141,11 +132,7 @@ export class KioskOwnerCap implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): KioskOwnerCap {
@@ -168,20 +155,15 @@ export class KioskOwnerCap implements StructClass {
       throw new Error("not an object");
     }
     if (!isKioskOwnerCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a KioskOwnerCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a KioskOwnerCap object`);
     }
     return KioskOwnerCap.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): KioskOwnerCap {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isKioskOwnerCap(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a KioskOwnerCap object`);
+      if (data.bcs.dataType !== "moveObject" || !isKioskOwnerCap(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a KioskOwnerCap object`);
       }
 
       return KioskOwnerCap.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -197,14 +179,9 @@ export class KioskOwnerCap implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<KioskOwnerCap> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching KioskOwnerCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching KioskOwnerCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isKioskOwnerCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isKioskOwnerCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a KioskOwnerCap object`);
     }
 

@@ -10,10 +10,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param tx - The transaction object
  * @returns TransactionResult - The transaction result
  */
-export function empty(
-  tx: Transaction,
-  typeArgs: [string, string],
-): TransactionResult {
+export function empty(tx: Transaction, typeArgs: [string, string]): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::vec_map::empty`,
     typeArguments: typeArgs,

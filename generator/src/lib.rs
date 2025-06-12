@@ -1,3 +1,4 @@
+pub mod formatter;
 pub mod framework_sources;
 pub mod gen;
 pub mod manifest;

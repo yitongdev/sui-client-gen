@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface ChangePriceFeedArgs {
   reserve: TransactionObjectInput;
@@ -30,10 +26,6 @@ export function changePriceFeed(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve::change_price_feed`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.reserve),
-      obj(tx, args.priceInfoObject),
-      obj(tx, args.clock),
-    ],
+    arguments: [obj(tx, args.reserve), obj(tx, args.priceInfoObject), obj(tx, args.clock)],
   });
 }

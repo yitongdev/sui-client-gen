@@ -50,12 +50,8 @@ export interface FooFields<T extends TypeArgument> {
   twoGenericsReifiedPrimitive: ToField<WithTwoGenerics1<"u16", "u64">>;
   twoGenericsReifiedObject: ToField<WithTwoGenerics1<Bar1, Bar1>>;
   twoGenericsNested: ToField<WithTwoGenerics1<T, WithTwoGenerics1<"u8", "u8">>>;
-  twoGenericsReifiedNested: ToField<
-    WithTwoGenerics1<Bar1, WithTwoGenerics1<"u8", "u8">>
-  >;
-  twoGenericsNestedVec: ToField<
-    Vector<WithTwoGenerics1<Bar1, Vector<WithTwoGenerics1<T, "u8">>>>
-  >;
+  twoGenericsReifiedNested: ToField<WithTwoGenerics1<Bar1, WithTwoGenerics1<"u8", "u8">>>;
+  twoGenericsNestedVec: ToField<Vector<WithTwoGenerics1<Bar1, Vector<WithTwoGenerics1<T, "u8">>>>>;
   dummy: ToField<Dummy1>;
   other: ToField<StructFromOtherModule>;
 }
@@ -89,12 +85,8 @@ export class Foo<T extends TypeArgument> implements StructClass {
   readonly twoGenerics: ToField<WithTwoGenerics1<T, Bar1>>;
   readonly twoGenericsReifiedPrimitive: ToField<WithTwoGenerics1<"u16", "u64">>;
   readonly twoGenericsReifiedObject: ToField<WithTwoGenerics1<Bar1, Bar1>>;
-  readonly twoGenericsNested: ToField<
-    WithTwoGenerics1<T, WithTwoGenerics1<"u8", "u8">>
-  >;
-  readonly twoGenericsReifiedNested: ToField<
-    WithTwoGenerics1<Bar1, WithTwoGenerics1<"u8", "u8">>
-  >;
+  readonly twoGenericsNested: ToField<WithTwoGenerics1<T, WithTwoGenerics1<"u8", "u8">>>;
+  readonly twoGenericsReifiedNested: ToField<WithTwoGenerics1<Bar1, WithTwoGenerics1<"u8", "u8">>>;
   readonly twoGenericsNestedVec: ToField<
     Vector<WithTwoGenerics1<Bar1, Vector<WithTwoGenerics1<T, "u8">>>>
   >;
@@ -124,9 +116,7 @@ export class Foo<T extends TypeArgument> implements StructClass {
     this.other = fields.other;
   }
 
-  static reified<T extends Reified<TypeArgument, any>>(
-    T: T,
-  ): FooReified<ToTypeArgument<T>> {
+  static reified<T extends Reified<TypeArgument, any>>(T: T): FooReified<ToTypeArgument<T>> {
     return {
       typeName: Foo.$typeName,
       fullTypeName: composeSuiType(
@@ -137,16 +127,13 @@ export class Foo<T extends TypeArgument> implements StructClass {
       isPhantom: Foo.$isPhantom,
       reifiedTypeArgs: [T],
       fromFields: (fields: Record<string, any>) => Foo.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Foo.fromFieldsWithTypes(T, item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Foo.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => Foo.fromBcs(T, data),
       bcs: Foo.bcs(toBcs(T)),
       fromJSONField: (field: any) => Foo.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => Foo.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Foo.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Foo.fromSuiObjectData(T, content),
+      fromSuiParsedData: (content: SuiParsedData) => Foo.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => Foo.fromSuiObjectData(T, content),
       fetch: async (client: SuiClient, id: string) => Foo.fetch(client, T, id),
       new: (fields: FooFields<ToTypeArgument<T>>) => {
         return new Foo([extractType(T)], fields);
@@ -178,24 +165,15 @@ export class Foo<T extends TypeArgument> implements StructClass {
         generic_vec: bcs.vector(T),
         generic_vec_nested: bcs.vector(WithTwoGenerics1.bcs(T, bcs.u8())),
         two_generics: WithTwoGenerics1.bcs(T, Bar1.bcs),
-        two_generics_reified_primitive: WithTwoGenerics1.bcs(
-          bcs.u16(),
-          bcs.u64(),
-        ),
+        two_generics_reified_primitive: WithTwoGenerics1.bcs(bcs.u16(), bcs.u64()),
         two_generics_reified_object: WithTwoGenerics1.bcs(Bar1.bcs, Bar1.bcs),
-        two_generics_nested: WithTwoGenerics1.bcs(
-          T,
-          WithTwoGenerics1.bcs(bcs.u8(), bcs.u8()),
-        ),
+        two_generics_nested: WithTwoGenerics1.bcs(T, WithTwoGenerics1.bcs(bcs.u8(), bcs.u8())),
         two_generics_reified_nested: WithTwoGenerics1.bcs(
           Bar1.bcs,
           WithTwoGenerics1.bcs(bcs.u8(), bcs.u8()),
         ),
         two_generics_nested_vec: bcs.vector(
-          WithTwoGenerics1.bcs(
-            Bar1.bcs,
-            bcs.vector(WithTwoGenerics1.bcs(T, bcs.u8())),
-          ),
+          WithTwoGenerics1.bcs(Bar1.bcs, bcs.vector(WithTwoGenerics1.bcs(T, bcs.u8()))),
         ),
         dummy: Dummy1.bcs,
         other: StructFromOtherModule.bcs,
@@ -209,14 +187,8 @@ export class Foo<T extends TypeArgument> implements StructClass {
     return Foo.reified(typeArg).new({
       id: decodeFromFields(UID.reified(), fields.id),
       generic: decodeFromFields(typeArg, fields.generic),
-      reifiedPrimitiveVec: decodeFromFields(
-        reified.vector("u64"),
-        fields.reified_primitive_vec,
-      ),
-      reifiedObjectVec: decodeFromFields(
-        reified.vector(Bar1.reified()),
-        fields.reified_object_vec,
-      ),
+      reifiedPrimitiveVec: decodeFromFields(reified.vector("u64"), fields.reified_primitive_vec),
+      reifiedObjectVec: decodeFromFields(reified.vector(Bar1.reified()), fields.reified_object_vec),
       genericVec: decodeFromFields(reified.vector(typeArg), fields.generic_vec),
       genericVecNested: decodeFromFields(
         reified.vector(WithTwoGenerics1.reified(typeArg, "u8")),
@@ -239,10 +211,7 @@ export class Foo<T extends TypeArgument> implements StructClass {
         fields.two_generics_nested,
       ),
       twoGenericsReifiedNested: decodeFromFields(
-        WithTwoGenerics1.reified(
-          Bar1.reified(),
-          WithTwoGenerics1.reified("u8", "u8"),
-        ),
+        WithTwoGenerics1.reified(Bar1.reified(), WithTwoGenerics1.reified("u8", "u8")),
         fields.two_generics_reified_nested,
       ),
       twoGenericsNestedVec: decodeFromFields(
@@ -279,10 +248,7 @@ export class Foo<T extends TypeArgument> implements StructClass {
         reified.vector(Bar1.reified()),
         item.fields.reified_object_vec,
       ),
-      genericVec: decodeFromFieldsWithTypes(
-        reified.vector(typeArg),
-        item.fields.generic_vec,
-      ),
+      genericVec: decodeFromFieldsWithTypes(reified.vector(typeArg), item.fields.generic_vec),
       genericVecNested: decodeFromFieldsWithTypes(
         reified.vector(WithTwoGenerics1.reified(typeArg, "u8")),
         item.fields.generic_vec_nested,
@@ -304,10 +270,7 @@ export class Foo<T extends TypeArgument> implements StructClass {
         item.fields.two_generics_nested,
       ),
       twoGenericsReifiedNested: decodeFromFieldsWithTypes(
-        WithTwoGenerics1.reified(
-          Bar1.reified(),
-          WithTwoGenerics1.reified("u8", "u8"),
-        ),
+        WithTwoGenerics1.reified(Bar1.reified(), WithTwoGenerics1.reified("u8", "u8")),
         item.fields.two_generics_reified_nested,
       ),
       twoGenericsNestedVec: decodeFromFieldsWithTypes(
@@ -320,10 +283,7 @@ export class Foo<T extends TypeArgument> implements StructClass {
         item.fields.two_generics_nested_vec,
       ),
       dummy: decodeFromFieldsWithTypes(Dummy1.reified(), item.fields.dummy),
-      other: decodeFromFieldsWithTypes(
-        StructFromOtherModule.reified(),
-        item.fields.other,
-      ),
+      other: decodeFromFieldsWithTypes(StructFromOtherModule.reified(), item.fields.other),
     });
   }
 
@@ -338,25 +298,18 @@ export class Foo<T extends TypeArgument> implements StructClass {
     return {
       id: this.id,
       generic: fieldToJSON<T>(this.$typeArgs?.[0], this.generic),
-      reifiedPrimitiveVec: fieldToJSON<Vector<"u64">>(
-        `vector<u64>`,
-        this.reifiedPrimitiveVec,
-      ),
+      reifiedPrimitiveVec: fieldToJSON<Vector<"u64">>(`vector<u64>`, this.reifiedPrimitiveVec),
       reifiedObjectVec: fieldToJSON<Vector<Bar1>>(
         `vector<${Bar1.$typeName}>`,
         this.reifiedObjectVec,
       ),
-      genericVec: fieldToJSON<Vector<T>>(
-        `vector<${this.$typeArgs?.[0]}>`,
-        this.genericVec,
-      ),
+      genericVec: fieldToJSON<Vector<T>>(`vector<${this.$typeArgs?.[0]}>`, this.genericVec),
       genericVecNested: fieldToJSON<Vector<WithTwoGenerics1<T, "u8">>>(
         `vector<${WithTwoGenerics1.$typeName}<${this.$typeArgs?.[0]}, u8>>`,
         this.genericVecNested,
       ),
       twoGenerics: this.twoGenerics.toJSONField(),
-      twoGenericsReifiedPrimitive:
-        this.twoGenericsReifiedPrimitive.toJSONField(),
+      twoGenericsReifiedPrimitive: this.twoGenericsReifiedPrimitive.toJSONField(),
       twoGenericsReifiedObject: this.twoGenericsReifiedObject.toJSONField(),
       twoGenericsNested: this.twoGenericsNested.toJSONField(),
       twoGenericsReifiedNested: this.twoGenericsReifiedNested.toJSONField(),
@@ -372,11 +325,7 @@ export class Foo<T extends TypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends Reified<TypeArgument, any>>(
@@ -386,18 +335,9 @@ export class Foo<T extends TypeArgument> implements StructClass {
     return Foo.reified(typeArg).new({
       id: decodeFromJSONField(UID.reified(), field.id),
       generic: decodeFromJSONField(typeArg, field.generic),
-      reifiedPrimitiveVec: decodeFromJSONField(
-        reified.vector("u64"),
-        field.reifiedPrimitiveVec,
-      ),
-      reifiedObjectVec: decodeFromJSONField(
-        reified.vector(Bar1.reified()),
-        field.reifiedObjectVec,
-      ),
-      genericVec: decodeFromJSONField(
-        reified.vector(typeArg),
-        field.genericVec,
-      ),
+      reifiedPrimitiveVec: decodeFromJSONField(reified.vector("u64"), field.reifiedPrimitiveVec),
+      reifiedObjectVec: decodeFromJSONField(reified.vector(Bar1.reified()), field.reifiedObjectVec),
+      genericVec: decodeFromJSONField(reified.vector(typeArg), field.genericVec),
       genericVecNested: decodeFromJSONField(
         reified.vector(WithTwoGenerics1.reified(typeArg, "u8")),
         field.genericVecNested,
@@ -419,10 +359,7 @@ export class Foo<T extends TypeArgument> implements StructClass {
         field.twoGenericsNested,
       ),
       twoGenericsReifiedNested: decodeFromJSONField(
-        WithTwoGenerics1.reified(
-          Bar1.reified(),
-          WithTwoGenerics1.reified("u8", "u8"),
-        ),
+        WithTwoGenerics1.reified(Bar1.reified(), WithTwoGenerics1.reified("u8", "u8")),
         field.twoGenericsReifiedNested,
       ),
       twoGenericsNestedVec: decodeFromJSONField(
@@ -463,9 +400,7 @@ export class Foo<T extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isFoo(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Foo object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Foo object`);
     }
     return Foo.fromFieldsWithTypes(typeArg, content);
   }
@@ -476,7 +411,7 @@ export class Foo<T extends TypeArgument> implements StructClass {
   ): Foo<ToTypeArgument<T>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isFoo(data.bcs.type)) {
-        throw new Error(`object at is not a Foo object`);
+        throw new Error(`object at ${data.objectId} is not a Foo object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -511,9 +446,7 @@ export class Foo<T extends TypeArgument> implements StructClass {
   ): Promise<Foo<ToTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Foo object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Foo object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isFoo(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Foo object`);

@@ -11,11 +11,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V31 } from "../../constants.js";
 import { ID } from "../../object/structs/index.js";
@@ -81,20 +77,15 @@ export class UpgradeTicket implements StructClass {
       typeArgs: [] as [],
       isPhantom: UpgradeTicket.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        UpgradeTicket.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        UpgradeTicket.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => UpgradeTicket.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => UpgradeTicket.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => UpgradeTicket.fromBcs(data),
       bcs: UpgradeTicket.bcs,
       fromJSONField: (field: any) => UpgradeTicket.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => UpgradeTicket.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        UpgradeTicket.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        UpgradeTicket.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        UpgradeTicket.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => UpgradeTicket.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => UpgradeTicket.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => UpgradeTicket.fetch(client, id),
       new: (fields: UpgradeTicketFields) => {
         return new UpgradeTicket([], fields);
       },
@@ -140,10 +131,7 @@ export class UpgradeTicket implements StructClass {
       cap: decodeFromFieldsWithTypes(ID.reified(), item.fields.cap),
       package: decodeFromFieldsWithTypes(ID.reified(), item.fields.package),
       policy: decodeFromFieldsWithTypes("u8", item.fields.policy),
-      digest: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.digest,
-      ),
+      digest: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.digest),
     });
   }
 
@@ -161,11 +149,7 @@ export class UpgradeTicket implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UpgradeTicket {
@@ -190,20 +174,15 @@ export class UpgradeTicket implements StructClass {
       throw new Error("not an object");
     }
     if (!isUpgradeTicket(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a UpgradeTicket object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a UpgradeTicket object`);
     }
     return UpgradeTicket.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): UpgradeTicket {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isUpgradeTicket(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a UpgradeTicket object`);
+      if (data.bcs.dataType !== "moveObject" || !isUpgradeTicket(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a UpgradeTicket object`);
       }
 
       return UpgradeTicket.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -219,14 +198,9 @@ export class UpgradeTicket implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<UpgradeTicket> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching UpgradeTicket object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching UpgradeTicket object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isUpgradeTicket(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isUpgradeTicket(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a UpgradeTicket object`);
     }
 

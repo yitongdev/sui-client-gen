@@ -36,10 +36,7 @@ export interface SystemParametersFields {
   extraFields: ToField<Bag>;
 }
 
-export type SystemParametersReified = Reified<
-  SystemParameters,
-  SystemParametersFields
->;
+export type SystemParametersReified = Reified<SystemParameters, SystemParametersFields>;
 
 /**
  * Move struct: `SystemParameters`
@@ -93,20 +90,15 @@ export class SystemParameters implements StructClass {
       typeArgs: [] as [],
       isPhantom: SystemParameters.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        SystemParameters.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        SystemParameters.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => SystemParameters.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => SystemParameters.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => SystemParameters.fromBcs(data),
       bcs: SystemParameters.bcs,
       fromJSONField: (field: any) => SystemParameters.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => SystemParameters.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        SystemParameters.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        SystemParameters.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        SystemParameters.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => SystemParameters.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => SystemParameters.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => SystemParameters.fetch(client, id),
       new: (fields: SystemParametersFields) => {
         return new SystemParameters([], fields);
       },
@@ -141,19 +133,10 @@ export class SystemParameters implements StructClass {
   static fromFields(fields: Record<string, any>): SystemParameters {
     return SystemParameters.reified().new({
       epochDurationMs: decodeFromFields("u64", fields.epoch_duration_ms),
-      stakeSubsidyStartEpoch: decodeFromFields(
-        "u64",
-        fields.stake_subsidy_start_epoch,
-      ),
+      stakeSubsidyStartEpoch: decodeFromFields("u64", fields.stake_subsidy_start_epoch),
       maxValidatorCount: decodeFromFields("u64", fields.max_validator_count),
-      minValidatorJoiningStake: decodeFromFields(
-        "u64",
-        fields.min_validator_joining_stake,
-      ),
-      validatorLowStakeThreshold: decodeFromFields(
-        "u64",
-        fields.validator_low_stake_threshold,
-      ),
+      minValidatorJoiningStake: decodeFromFields("u64", fields.min_validator_joining_stake),
+      validatorLowStakeThreshold: decodeFromFields("u64", fields.validator_low_stake_threshold),
       validatorVeryLowStakeThreshold: decodeFromFields(
         "u64",
         fields.validator_very_low_stake_threshold,
@@ -172,18 +155,12 @@ export class SystemParameters implements StructClass {
     }
 
     return SystemParameters.reified().new({
-      epochDurationMs: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.epoch_duration_ms,
-      ),
+      epochDurationMs: decodeFromFieldsWithTypes("u64", item.fields.epoch_duration_ms),
       stakeSubsidyStartEpoch: decodeFromFieldsWithTypes(
         "u64",
         item.fields.stake_subsidy_start_epoch,
       ),
-      maxValidatorCount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.max_validator_count,
-      ),
+      maxValidatorCount: decodeFromFieldsWithTypes("u64", item.fields.max_validator_count),
       minValidatorJoiningStake: decodeFromFieldsWithTypes(
         "u64",
         item.fields.min_validator_joining_stake,
@@ -200,10 +177,7 @@ export class SystemParameters implements StructClass {
         "u64",
         item.fields.validator_low_stake_grace_period,
       ),
-      extraFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.extra_fields,
-      ),
+      extraFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.extra_fields),
     });
   }
 
@@ -218,46 +192,28 @@ export class SystemParameters implements StructClass {
       maxValidatorCount: this.maxValidatorCount.toString(),
       minValidatorJoiningStake: this.minValidatorJoiningStake.toString(),
       validatorLowStakeThreshold: this.validatorLowStakeThreshold.toString(),
-      validatorVeryLowStakeThreshold:
-        this.validatorVeryLowStakeThreshold.toString(),
-      validatorLowStakeGracePeriod:
-        this.validatorLowStakeGracePeriod.toString(),
+      validatorVeryLowStakeThreshold: this.validatorVeryLowStakeThreshold.toString(),
+      validatorLowStakeGracePeriod: this.validatorLowStakeGracePeriod.toString(),
       extraFields: this.extraFields.toJSONField(),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): SystemParameters {
     return SystemParameters.reified().new({
       epochDurationMs: decodeFromJSONField("u64", field.epochDurationMs),
-      stakeSubsidyStartEpoch: decodeFromJSONField(
-        "u64",
-        field.stakeSubsidyStartEpoch,
-      ),
+      stakeSubsidyStartEpoch: decodeFromJSONField("u64", field.stakeSubsidyStartEpoch),
       maxValidatorCount: decodeFromJSONField("u64", field.maxValidatorCount),
-      minValidatorJoiningStake: decodeFromJSONField(
-        "u64",
-        field.minValidatorJoiningStake,
-      ),
-      validatorLowStakeThreshold: decodeFromJSONField(
-        "u64",
-        field.validatorLowStakeThreshold,
-      ),
+      minValidatorJoiningStake: decodeFromJSONField("u64", field.minValidatorJoiningStake),
+      validatorLowStakeThreshold: decodeFromJSONField("u64", field.validatorLowStakeThreshold),
       validatorVeryLowStakeThreshold: decodeFromJSONField(
         "u64",
         field.validatorVeryLowStakeThreshold,
       ),
-      validatorLowStakeGracePeriod: decodeFromJSONField(
-        "u64",
-        field.validatorLowStakeGracePeriod,
-      ),
+      validatorLowStakeGracePeriod: decodeFromJSONField("u64", field.validatorLowStakeGracePeriod),
       extraFields: decodeFromJSONField(Bag.reified(), field.extraFields),
     });
   }
@@ -275,20 +231,15 @@ export class SystemParameters implements StructClass {
       throw new Error("not an object");
     }
     if (!isSystemParameters(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a SystemParameters object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a SystemParameters object`);
     }
     return SystemParameters.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): SystemParameters {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isSystemParameters(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a SystemParameters object`);
+      if (data.bcs.dataType !== "moveObject" || !isSystemParameters(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a SystemParameters object`);
       }
 
       return SystemParameters.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -304,14 +255,9 @@ export class SystemParameters implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<SystemParameters> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching SystemParameters object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching SystemParameters object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isSystemParameters(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isSystemParameters(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a SystemParameters object`);
     }
 

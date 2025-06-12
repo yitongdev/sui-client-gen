@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface GetRuleArgs {
   t1: GenericArg;
@@ -31,9 +27,6 @@ export function getRule(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::transfer_policy::get_rule`,
     typeArguments: typeArgs,
-    arguments: [
-      generic(tx, `${typeArgs[1]}`, args.t1),
-      obj(tx, args.transferPolicy),
-    ],
+    arguments: [generic(tx, `${typeArgs[1]}`, args.t1), obj(tx, args.transferPolicy)],
   });
 }

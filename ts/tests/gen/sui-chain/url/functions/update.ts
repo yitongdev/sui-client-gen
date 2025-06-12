@@ -24,9 +24,6 @@ export interface UpdateArgs {
 export function update(tx: Transaction, args: UpdateArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::url::update`,
-    arguments: [
-      obj(tx, args.url),
-      pure(tx, args.string, `${String.$typeName}`),
-    ],
+    arguments: [obj(tx, args.url), pure(tx, args.string, `${String.$typeName}`)],
   });
 }

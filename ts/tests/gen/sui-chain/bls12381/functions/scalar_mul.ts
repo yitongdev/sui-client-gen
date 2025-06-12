@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface ScalarMulArgs {
   element1: TransactionObjectInput;
@@ -20,10 +16,7 @@ export interface ScalarMulArgs {
  * @param element2 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function scalarMul(
-  tx: Transaction,
-  args: ScalarMulArgs,
-): TransactionResult {
+export function scalarMul(tx: Transaction, args: ScalarMulArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::bls12381::scalar_mul`,
     arguments: [obj(tx, args.element1), obj(tx, args.element2)],

@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface UpdateFeesArgs {
   liquidStakingInfo: TransactionObjectInput;
@@ -30,10 +26,6 @@ export function updateFees(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::liquid_staking::update_fees`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.liquidStakingInfo),
-      obj(tx, args.adminCap),
-      obj(tx, args.feeConfig),
-    ],
+    arguments: [obj(tx, args.liquidStakingInfo), obj(tx, args.adminCap), obj(tx, args.feeConfig)],
   });
 }

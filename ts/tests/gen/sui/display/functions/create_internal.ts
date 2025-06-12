@@ -10,10 +10,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param ctx - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function createInternal(
-  tx: Transaction,
-  typeArg: string,
-): TransactionResult {
+export function createInternal(tx: Transaction, typeArg: string): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::display::create_internal`,
     typeArguments: [typeArg],

@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -81,20 +77,15 @@ export class WithdrawEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: WithdrawEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        WithdrawEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        WithdrawEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => WithdrawEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => WithdrawEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => WithdrawEvent.fromBcs(data),
       bcs: WithdrawEvent.bcs,
       fromJSONField: (field: any) => WithdrawEvent.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => WithdrawEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        WithdrawEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        WithdrawEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        WithdrawEvent.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => WithdrawEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => WithdrawEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => WithdrawEvent.fetch(client, id),
       new: (fields: WithdrawEventFields) => {
         return new WithdrawEvent([], fields);
       },
@@ -148,19 +139,10 @@ export class WithdrawEvent implements StructClass {
     }
 
     return WithdrawEvent.reified().new({
-      lendingMarketId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.lending_market_id,
-      ),
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes("address", item.fields.lending_market_id),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
       reserveId: decodeFromFieldsWithTypes("address", item.fields.reserve_id),
-      obligationId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.obligation_id,
-      ),
+      obligationId: decodeFromFieldsWithTypes("address", item.fields.obligation_id),
       ctokenAmount: decodeFromFieldsWithTypes("u64", item.fields.ctoken_amount),
     });
   }
@@ -180,11 +162,7 @@ export class WithdrawEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): WithdrawEvent {
@@ -210,20 +188,15 @@ export class WithdrawEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isWithdrawEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a WithdrawEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a WithdrawEvent object`);
     }
     return WithdrawEvent.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): WithdrawEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isWithdrawEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a WithdrawEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isWithdrawEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a WithdrawEvent object`);
       }
 
       return WithdrawEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -239,14 +212,9 @@ export class WithdrawEvent implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<WithdrawEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching WithdrawEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching WithdrawEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isWithdrawEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isWithdrawEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a WithdrawEvent object`);
     }
 

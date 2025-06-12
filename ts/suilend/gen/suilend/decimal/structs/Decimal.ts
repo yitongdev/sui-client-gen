@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -69,16 +65,13 @@ export class Decimal implements StructClass {
       isPhantom: Decimal.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Decimal.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Decimal.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Decimal.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Decimal.fromBcs(data),
       bcs: Decimal.bcs,
       fromJSONField: (field: any) => Decimal.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Decimal.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Decimal.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Decimal.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Decimal.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Decimal.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Decimal.fetch(client, id),
       new: (fields: DecimalFields) => {
         return new Decimal([], fields);
@@ -105,9 +98,7 @@ export class Decimal implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): Decimal {
-    return Decimal.reified().new({
-      value: decodeFromFields("u256", fields.value),
-    });
+    return Decimal.reified().new({ value: decodeFromFields("u256", fields.value) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): Decimal {
@@ -115,9 +106,7 @@ export class Decimal implements StructClass {
       throw new Error("not a Decimal type");
     }
 
-    return Decimal.reified().new({
-      value: decodeFromFieldsWithTypes("u256", item.fields.value),
-    });
+    return Decimal.reified().new({ value: decodeFromFieldsWithTypes("u256", item.fields.value) });
   }
 
   static fromBcs(data: Uint8Array): Decimal {
@@ -131,17 +120,11 @@ export class Decimal implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Decimal {
-    return Decimal.reified().new({
-      value: decodeFromJSONField("u256", field.value),
-    });
+    return Decimal.reified().new({ value: decodeFromJSONField("u256", field.value) });
   }
 
   static fromJSON(json: Record<string, any>): Decimal {
@@ -157,9 +140,7 @@ export class Decimal implements StructClass {
       throw new Error("not an object");
     }
     if (!isDecimal(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Decimal object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Decimal object`);
     }
     return Decimal.fromFieldsWithTypes(content);
   }
@@ -167,7 +148,7 @@ export class Decimal implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Decimal {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isDecimal(data.bcs.type)) {
-        throw new Error(`object at is not a Decimal object`);
+        throw new Error(`object at ${data.objectId} is not a Decimal object`);
       }
 
       return Decimal.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,14 +164,9 @@ export class Decimal implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Decimal> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Decimal object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Decimal object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDecimal(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDecimal(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Decimal object`);
     }
 

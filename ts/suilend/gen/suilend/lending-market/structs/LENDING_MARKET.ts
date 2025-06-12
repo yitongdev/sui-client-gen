@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -28,10 +24,7 @@ export interface LENDING_MARKETFields {
   dummyField: ToField<"bool">;
 }
 
-export type LENDING_MARKETReified = Reified<
-  LENDING_MARKET,
-  LENDING_MARKETFields
->;
+export type LENDING_MARKETReified = Reified<LENDING_MARKET, LENDING_MARKETFields>;
 
 /**
  * Move struct: `LENDING_MARKET`
@@ -71,20 +64,15 @@ export class LENDING_MARKET implements StructClass {
       typeArgs: [] as [],
       isPhantom: LENDING_MARKET.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        LENDING_MARKET.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        LENDING_MARKET.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => LENDING_MARKET.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => LENDING_MARKET.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => LENDING_MARKET.fromBcs(data),
       bcs: LENDING_MARKET.bcs,
       fromJSONField: (field: any) => LENDING_MARKET.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => LENDING_MARKET.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        LENDING_MARKET.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        LENDING_MARKET.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        LENDING_MARKET.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => LENDING_MARKET.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => LENDING_MARKET.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => LENDING_MARKET.fetch(client, id),
       new: (fields: LENDING_MARKETFields) => {
         return new LENDING_MARKET([], fields);
       },
@@ -136,11 +124,7 @@ export class LENDING_MARKET implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): LENDING_MARKET {
@@ -162,20 +146,15 @@ export class LENDING_MARKET implements StructClass {
       throw new Error("not an object");
     }
     if (!isLENDING_MARKET(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a LENDING_MARKET object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a LENDING_MARKET object`);
     }
     return LENDING_MARKET.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): LENDING_MARKET {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isLENDING_MARKET(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a LENDING_MARKET object`);
+      if (data.bcs.dataType !== "moveObject" || !isLENDING_MARKET(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a LENDING_MARKET object`);
       }
 
       return LENDING_MARKET.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,14 +170,9 @@ export class LENDING_MARKET implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<LENDING_MARKET> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching LENDING_MARKET object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching LENDING_MARKET object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isLENDING_MARKET(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isLENDING_MARKET(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a LENDING_MARKET object`);
     }
 

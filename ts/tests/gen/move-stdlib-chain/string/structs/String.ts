@@ -11,11 +11,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V16 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -64,24 +60,18 @@ export class String implements StructClass {
   static reified(): StringReified {
     return {
       typeName: String.$typeName,
-      fullTypeName: composeSuiType(
-        String.$typeName,
-        ...[],
-      ) as `${typeof PKG_V16}::string::String`,
+      fullTypeName: composeSuiType(String.$typeName, ...[]) as `${typeof PKG_V16}::string::String`,
       typeArgs: [] as [],
       isPhantom: String.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => String.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        String.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => String.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => String.fromBcs(data),
       bcs: String.bcs,
       fromJSONField: (field: any) => String.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => String.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        String.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        String.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => String.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => String.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => String.fetch(client, id),
       new: (fields: StringFields) => {
         return new String([], fields);
@@ -108,9 +98,7 @@ export class String implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): String {
-    return String.reified().new({
-      bytes: decodeFromFields(reified.vector("u8"), fields.bytes),
-    });
+    return String.reified().new({ bytes: decodeFromFields(reified.vector("u8"), fields.bytes) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): String {
@@ -134,17 +122,11 @@ export class String implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): String {
-    return String.reified().new({
-      bytes: decodeFromJSONField(reified.vector("u8"), field.bytes),
-    });
+    return String.reified().new({ bytes: decodeFromJSONField(reified.vector("u8"), field.bytes) });
   }
 
   static fromJSON(json: Record<string, any>): String {
@@ -160,9 +142,7 @@ export class String implements StructClass {
       throw new Error("not an object");
     }
     if (!isString(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a String object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a String object`);
     }
     return String.fromFieldsWithTypes(content);
   }
@@ -170,7 +150,7 @@ export class String implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): String {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isString(data.bcs.type)) {
-        throw new Error(`object at is not a String object`);
+        throw new Error(`object at ${data.objectId} is not a String object`);
       }
 
       return String.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -186,14 +166,9 @@ export class String implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<String> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching String object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching String object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isString(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isString(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a String object`);
     }
 

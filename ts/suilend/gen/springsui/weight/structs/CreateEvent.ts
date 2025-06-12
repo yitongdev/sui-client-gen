@@ -11,11 +11,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V5 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -76,20 +72,15 @@ export class CreateEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: CreateEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        CreateEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        CreateEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => CreateEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => CreateEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => CreateEvent.fromBcs(data),
       bcs: CreateEvent.bcs,
       fromJSONField: (field: any) => CreateEvent.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => CreateEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        CreateEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        CreateEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        CreateEvent.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => CreateEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => CreateEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => CreateEvent.fetch(client, id),
       new: (fields: CreateEventFields) => {
         return new CreateEvent([], fields);
       },
@@ -120,10 +111,7 @@ export class CreateEvent implements StructClass {
     return CreateEvent.reified().new({
       typename: decodeFromFields(TypeName.reified(), fields.typename),
       weightHookId: decodeFromFields(ID.reified(), fields.weight_hook_id),
-      weightHookAdminCapId: decodeFromFields(
-        ID.reified(),
-        fields.weight_hook_admin_cap_id,
-      ),
+      weightHookAdminCapId: decodeFromFields(ID.reified(), fields.weight_hook_admin_cap_id),
     });
   }
 
@@ -133,14 +121,8 @@ export class CreateEvent implements StructClass {
     }
 
     return CreateEvent.reified().new({
-      typename: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.typename,
-      ),
-      weightHookId: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.weight_hook_id,
-      ),
+      typename: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.typename),
+      weightHookId: decodeFromFieldsWithTypes(ID.reified(), item.fields.weight_hook_id),
       weightHookAdminCapId: decodeFromFieldsWithTypes(
         ID.reified(),
         item.fields.weight_hook_admin_cap_id,
@@ -161,21 +143,14 @@ export class CreateEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): CreateEvent {
     return CreateEvent.reified().new({
       typename: decodeFromJSONField(TypeName.reified(), field.typename),
       weightHookId: decodeFromJSONField(ID.reified(), field.weightHookId),
-      weightHookAdminCapId: decodeFromJSONField(
-        ID.reified(),
-        field.weightHookAdminCapId,
-      ),
+      weightHookAdminCapId: decodeFromJSONField(ID.reified(), field.weightHookAdminCapId),
     });
   }
 
@@ -192,9 +167,7 @@ export class CreateEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isCreateEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a CreateEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a CreateEvent object`);
     }
     return CreateEvent.fromFieldsWithTypes(content);
   }
@@ -202,7 +175,7 @@ export class CreateEvent implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): CreateEvent {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isCreateEvent(data.bcs.type)) {
-        throw new Error(`object at is not a CreateEvent object`);
+        throw new Error(`object at ${data.objectId} is not a CreateEvent object`);
       }
 
       return CreateEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -218,14 +191,9 @@ export class CreateEvent implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<CreateEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching CreateEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching CreateEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isCreateEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isCreateEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a CreateEvent object`);
     }
 

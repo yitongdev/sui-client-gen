@@ -71,21 +71,18 @@ export class ValidatorOperationCap implements StructClass {
       typeArgs: [] as [],
       isPhantom: ValidatorOperationCap.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ValidatorOperationCap.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => ValidatorOperationCap.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         ValidatorOperationCap.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ValidatorOperationCap.fromBcs(data),
       bcs: ValidatorOperationCap.bcs,
       fromJSONField: (field: any) => ValidatorOperationCap.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        ValidatorOperationCap.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => ValidatorOperationCap.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         ValidatorOperationCap.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         ValidatorOperationCap.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ValidatorOperationCap.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => ValidatorOperationCap.fetch(client, id),
       new: (fields: ValidatorOperationCapFields) => {
         return new ValidatorOperationCap([], fields);
       },
@@ -115,10 +112,7 @@ export class ValidatorOperationCap implements StructClass {
 
   static fromFields(fields: Record<string, any>): ValidatorOperationCap {
     return ValidatorOperationCap.reified().new({
-      authorizerValidatorAddress: decodeFromFields(
-        "address",
-        fields.authorizer_validator_address,
-      ),
+      authorizerValidatorAddress: decodeFromFields("address", fields.authorizer_validator_address),
     });
   }
 
@@ -136,9 +130,7 @@ export class ValidatorOperationCap implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): ValidatorOperationCap {
-    return ValidatorOperationCap.fromFields(
-      ValidatorOperationCap.bcs.parse(data),
-    );
+    return ValidatorOperationCap.fromFields(ValidatorOperationCap.bcs.parse(data));
   }
 
   toJSONField() {
@@ -148,19 +140,12 @@ export class ValidatorOperationCap implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ValidatorOperationCap {
     return ValidatorOperationCap.reified().new({
-      authorizerValidatorAddress: decodeFromJSONField(
-        "address",
-        field.authorizerValidatorAddress,
-      ),
+      authorizerValidatorAddress: decodeFromJSONField("address", field.authorizerValidatorAddress),
     });
   }
 
@@ -186,11 +171,8 @@ export class ValidatorOperationCap implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): ValidatorOperationCap {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isValidatorOperationCap(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ValidatorOperationCap object`);
+      if (data.bcs.dataType !== "moveObject" || !isValidatorOperationCap(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ValidatorOperationCap object`);
       }
 
       return ValidatorOperationCap.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -203,23 +185,13 @@ export class ValidatorOperationCap implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<ValidatorOperationCap> {
+  static async fetch(client: SuiClient, id: string): Promise<ValidatorOperationCap> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ValidatorOperationCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ValidatorOperationCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isValidatorOperationCap(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a ValidatorOperationCap object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isValidatorOperationCap(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a ValidatorOperationCap object`);
     }
 
     return ValidatorOperationCap.fromSuiObjectData(res.data);

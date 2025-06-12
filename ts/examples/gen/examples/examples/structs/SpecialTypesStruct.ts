@@ -14,11 +14,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { ID, UID } from "../../../sui/object/structs/index.js";
 import { PKG_V1 } from "../../constants.js";
@@ -44,10 +40,7 @@ export interface SpecialTypesStructFields {
   optionNone: ToField<Option<"u64">>;
 }
 
-export type SpecialTypesStructReified = Reified<
-  SpecialTypesStruct,
-  SpecialTypesStructFields
->;
+export type SpecialTypesStructReified = Reified<SpecialTypesStruct, SpecialTypesStructFields>;
 
 /**
  * Move struct: `SpecialTypesStruct`
@@ -103,21 +96,15 @@ export class SpecialTypesStruct implements StructClass {
       typeArgs: [] as [],
       isPhantom: SpecialTypesStruct.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        SpecialTypesStruct.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        SpecialTypesStruct.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => SpecialTypesStruct.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => SpecialTypesStruct.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => SpecialTypesStruct.fromBcs(data),
       bcs: SpecialTypesStruct.bcs,
       fromJSONField: (field: any) => SpecialTypesStruct.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        SpecialTypesStruct.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        SpecialTypesStruct.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        SpecialTypesStruct.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        SpecialTypesStruct.fetch(client, id),
+      fromJSON: (json: Record<string, any>) => SpecialTypesStruct.fromJSON(json),
+      fromSuiParsedData: (content: SuiParsedData) => SpecialTypesStruct.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => SpecialTypesStruct.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => SpecialTypesStruct.fetch(client, id),
       new: (fields: SpecialTypesStructFields) => {
         return new SpecialTypesStruct([], fields);
       },
@@ -158,10 +145,7 @@ export class SpecialTypesStruct implements StructClass {
       id: decodeFromFields(UID.reified(), fields.id),
       asciiString: decodeFromFields(String.reified(), fields.ascii_string),
       utf8String: decodeFromFields(String1.reified(), fields.utf8_string),
-      vectorOfU64: decodeFromFields(
-        reified.vector("u64"),
-        fields.vector_of_u64,
-      ),
+      vectorOfU64: decodeFromFields(reified.vector("u64"), fields.vector_of_u64),
       vectorOfObjects: decodeFromFields(
         reified.vector(ExampleStruct1.reified()),
         fields.vector_of_objects,
@@ -180,32 +164,17 @@ export class SpecialTypesStruct implements StructClass {
 
     return SpecialTypesStruct.reified().new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      asciiString: decodeFromFieldsWithTypes(
-        String.reified(),
-        item.fields.ascii_string,
-      ),
-      utf8String: decodeFromFieldsWithTypes(
-        String1.reified(),
-        item.fields.utf8_string,
-      ),
-      vectorOfU64: decodeFromFieldsWithTypes(
-        reified.vector("u64"),
-        item.fields.vector_of_u64,
-      ),
+      asciiString: decodeFromFieldsWithTypes(String.reified(), item.fields.ascii_string),
+      utf8String: decodeFromFieldsWithTypes(String1.reified(), item.fields.utf8_string),
+      vectorOfU64: decodeFromFieldsWithTypes(reified.vector("u64"), item.fields.vector_of_u64),
       vectorOfObjects: decodeFromFieldsWithTypes(
         reified.vector(ExampleStruct1.reified()),
         item.fields.vector_of_objects,
       ),
       idField: decodeFromFieldsWithTypes(ID.reified(), item.fields.id_field),
       address: decodeFromFieldsWithTypes("address", item.fields.address),
-      optionSome: decodeFromFieldsWithTypes(
-        Option.reified("u64"),
-        item.fields.option_some,
-      ),
-      optionNone: decodeFromFieldsWithTypes(
-        Option.reified("u64"),
-        item.fields.option_none,
-      ),
+      optionSome: decodeFromFieldsWithTypes(Option.reified("u64"), item.fields.option_some),
+      optionNone: decodeFromFieldsWithTypes(Option.reified("u64"), item.fields.option_none),
     });
   }
 
@@ -225,23 +194,13 @@ export class SpecialTypesStruct implements StructClass {
       ),
       idField: this.idField,
       address: this.address,
-      optionSome: fieldToJSON<Option<"u64">>(
-        `${Option.$typeName}<u64>`,
-        this.optionSome,
-      ),
-      optionNone: fieldToJSON<Option<"u64">>(
-        `${Option.$typeName}<u64>`,
-        this.optionNone,
-      ),
+      optionSome: fieldToJSON<Option<"u64">>(`${Option.$typeName}<u64>`, this.optionSome),
+      optionNone: fieldToJSON<Option<"u64">>(`${Option.$typeName}<u64>`, this.optionNone),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): SpecialTypesStruct {
@@ -249,10 +208,7 @@ export class SpecialTypesStruct implements StructClass {
       id: decodeFromJSONField(UID.reified(), field.id),
       asciiString: decodeFromJSONField(String.reified(), field.asciiString),
       utf8String: decodeFromJSONField(String1.reified(), field.utf8String),
-      vectorOfU64: decodeFromJSONField(
-        reified.vector("u64"),
-        field.vectorOfU64,
-      ),
+      vectorOfU64: decodeFromJSONField(reified.vector("u64"), field.vectorOfU64),
       vectorOfObjects: decodeFromJSONField(
         reified.vector(ExampleStruct1.reified()),
         field.vectorOfObjects,
@@ -277,20 +233,15 @@ export class SpecialTypesStruct implements StructClass {
       throw new Error("not an object");
     }
     if (!isSpecialTypesStruct(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a SpecialTypesStruct object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a SpecialTypesStruct object`);
     }
     return SpecialTypesStruct.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): SpecialTypesStruct {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isSpecialTypesStruct(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a SpecialTypesStruct object`);
+      if (data.bcs.dataType !== "moveObject" || !isSpecialTypesStruct(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a SpecialTypesStruct object`);
       }
 
       return SpecialTypesStruct.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -303,20 +254,12 @@ export class SpecialTypesStruct implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<SpecialTypesStruct> {
+  static async fetch(client: SuiClient, id: string): Promise<SpecialTypesStruct> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching SpecialTypesStruct object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching SpecialTypesStruct object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isSpecialTypesStruct(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isSpecialTypesStruct(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a SpecialTypesStruct object`);
     }
 

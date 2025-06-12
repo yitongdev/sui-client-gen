@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface AddReceiptArgs {
   t1: GenericArg;
@@ -29,9 +25,6 @@ export function addReceipt(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::transfer_policy::add_receipt`,
     typeArguments: typeArgs,
-    arguments: [
-      generic(tx, `${typeArgs[1]}`, args.t1),
-      obj(tx, args.transferRequest),
-    ],
+    arguments: [generic(tx, `${typeArgs[1]}`, args.t1), obj(tx, args.transferRequest)],
   });
 }

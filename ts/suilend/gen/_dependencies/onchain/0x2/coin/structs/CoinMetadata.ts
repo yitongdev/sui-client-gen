@@ -57,9 +57,7 @@ export type CoinMetadataReified<T0 extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class CoinMetadata<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class CoinMetadata<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V35}::coin::CoinMetadata`;
@@ -78,10 +76,7 @@ export class CoinMetadata<T0 extends PhantomTypeArgument>
   readonly description: ToField<String>;
   readonly iconUrl: ToField<Option<Url>>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: CoinMetadataFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: CoinMetadataFields<T0>) {
     this.$fullTypeName = composeSuiType(
       CoinMetadata.$typeName,
       ...typeArgs,
@@ -105,25 +100,18 @@ export class CoinMetadata<T0 extends PhantomTypeArgument>
         CoinMetadata.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V35}::coin::CoinMetadata<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: CoinMetadata.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        CoinMetadata.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        CoinMetadata.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => CoinMetadata.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => CoinMetadata.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => CoinMetadata.fromBcs(T0, data),
       bcs: CoinMetadata.bcs,
       fromJSONField: (field: any) => CoinMetadata.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => CoinMetadata.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        CoinMetadata.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        CoinMetadata.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        CoinMetadata.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => CoinMetadata.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => CoinMetadata.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => CoinMetadata.fetch(client, T0, id),
       new: (fields: CoinMetadataFields<ToPhantomTypeArgument<T0>>) => {
         return new CoinMetadata([extractType(T0)], fields);
       },
@@ -183,14 +171,8 @@ export class CoinMetadata<T0 extends PhantomTypeArgument>
       decimals: decodeFromFieldsWithTypes("u8", item.fields.decimals),
       name: decodeFromFieldsWithTypes(String.reified(), item.fields.name),
       symbol: decodeFromFieldsWithTypes(String1.reified(), item.fields.symbol),
-      description: decodeFromFieldsWithTypes(
-        String.reified(),
-        item.fields.description,
-      ),
-      iconUrl: decodeFromFieldsWithTypes(
-        Option.reified(Url.reified()),
-        item.fields.icon_url,
-      ),
+      description: decodeFromFieldsWithTypes(String.reified(), item.fields.description),
+      iconUrl: decodeFromFieldsWithTypes(Option.reified(Url.reified()), item.fields.icon_url),
     });
   }
 
@@ -208,19 +190,12 @@ export class CoinMetadata<T0 extends PhantomTypeArgument>
       name: this.name,
       symbol: this.symbol,
       description: this.description,
-      iconUrl: fieldToJSON<Option<Url>>(
-        `${Option.$typeName}<${Url.$typeName}>`,
-        this.iconUrl,
-      ),
+      iconUrl: fieldToJSON<Option<Url>>(`${Option.$typeName}<${Url.$typeName}>`, this.iconUrl),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -233,10 +208,7 @@ export class CoinMetadata<T0 extends PhantomTypeArgument>
       name: decodeFromJSONField(String.reified(), field.name),
       symbol: decodeFromJSONField(String1.reified(), field.symbol),
       description: decodeFromJSONField(String.reified(), field.description),
-      iconUrl: decodeFromJSONField(
-        Option.reified(Url.reified()),
-        field.iconUrl,
-      ),
+      iconUrl: decodeFromJSONField(Option.reified(Url.reified()), field.iconUrl),
     });
   }
 
@@ -264,9 +236,7 @@ export class CoinMetadata<T0 extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isCoinMetadata(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a CoinMetadata object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a CoinMetadata object`);
     }
     return CoinMetadata.fromFieldsWithTypes(typeArg, content);
   }
@@ -276,11 +246,8 @@ export class CoinMetadata<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): CoinMetadata<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isCoinMetadata(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a CoinMetadata object`);
+      if (data.bcs.dataType !== "moveObject" || !isCoinMetadata(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a CoinMetadata object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -315,14 +282,9 @@ export class CoinMetadata<T0 extends PhantomTypeArgument>
   ): Promise<CoinMetadata<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching CoinMetadata object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching CoinMetadata object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isCoinMetadata(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isCoinMetadata(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a CoinMetadata object`);
     }
 

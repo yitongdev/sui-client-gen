@@ -25,10 +25,7 @@ export interface V2RemoveArgs {
  * @param address - Function parameter
  * @param txContext - Function parameter
  */
-export function v2Remove(
-  tx: Transaction,
-  args: V2RemoveArgs,
-): TransactionResult {
+export function v2Remove(tx: Transaction, args: V2RemoveArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::v2_remove`,
     arguments: [

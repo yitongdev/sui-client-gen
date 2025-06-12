@@ -11,11 +11,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V1 } from "../../constants.js";
 import { Decimal } from "../../decimal/structs/index.js";
@@ -47,10 +43,7 @@ export interface ObligationDataEventFields {
   closable: ToField<"bool">;
 }
 
-export type ObligationDataEventReified = Reified<
-  ObligationDataEvent,
-  ObligationDataEventFields
->;
+export type ObligationDataEventReified = Reified<ObligationDataEvent, ObligationDataEventFields>;
 
 /**
  * Move struct: `ObligationDataEvent`
@@ -100,8 +93,7 @@ export class ObligationDataEvent implements StructClass {
     this.superUnhealthyBorrowValueUsd = fields.superUnhealthyBorrowValueUsd;
     this.unweightedBorrowedValueUsd = fields.unweightedBorrowedValueUsd;
     this.weightedBorrowedValueUsd = fields.weightedBorrowedValueUsd;
-    this.weightedBorrowedValueUpperBoundUsd =
-      fields.weightedBorrowedValueUpperBoundUsd;
+    this.weightedBorrowedValueUpperBoundUsd = fields.weightedBorrowedValueUpperBoundUsd;
     this.borrowingIsolatedAsset = fields.borrowingIsolatedAsset;
     this.badDebtUsd = fields.badDebtUsd;
     this.closable = fields.closable;
@@ -117,21 +109,15 @@ export class ObligationDataEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: ObligationDataEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ObligationDataEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ObligationDataEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ObligationDataEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ObligationDataEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ObligationDataEvent.fromBcs(data),
       bcs: ObligationDataEvent.bcs,
       fromJSONField: (field: any) => ObligationDataEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        ObligationDataEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ObligationDataEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ObligationDataEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ObligationDataEvent.fetch(client, id),
+      fromJSON: (json: Record<string, any>) => ObligationDataEvent.fromJSON(json),
+      fromSuiParsedData: (content: SuiParsedData) => ObligationDataEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ObligationDataEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ObligationDataEvent.fetch(client, id),
       new: (fields: ObligationDataEventFields) => {
         return new ObligationDataEvent([], fields);
       },
@@ -179,22 +165,10 @@ export class ObligationDataEvent implements StructClass {
     return ObligationDataEvent.reified().new({
       lendingMarketId: decodeFromFields("address", fields.lending_market_id),
       obligationId: decodeFromFields("address", fields.obligation_id),
-      deposits: decodeFromFields(
-        reified.vector(DepositRecord1.reified()),
-        fields.deposits,
-      ),
-      borrows: decodeFromFields(
-        reified.vector(BorrowRecord1.reified()),
-        fields.borrows,
-      ),
-      depositedValueUsd: decodeFromFields(
-        Decimal.reified(),
-        fields.deposited_value_usd,
-      ),
-      allowedBorrowValueUsd: decodeFromFields(
-        Decimal.reified(),
-        fields.allowed_borrow_value_usd,
-      ),
+      deposits: decodeFromFields(reified.vector(DepositRecord1.reified()), fields.deposits),
+      borrows: decodeFromFields(reified.vector(BorrowRecord1.reified()), fields.borrows),
+      depositedValueUsd: decodeFromFields(Decimal.reified(), fields.deposited_value_usd),
+      allowedBorrowValueUsd: decodeFromFields(Decimal.reified(), fields.allowed_borrow_value_usd),
       unhealthyBorrowValueUsd: decodeFromFields(
         Decimal.reified(),
         fields.unhealthy_borrow_value_usd,
@@ -215,10 +189,7 @@ export class ObligationDataEvent implements StructClass {
         Decimal.reified(),
         fields.weighted_borrowed_value_upper_bound_usd,
       ),
-      borrowingIsolatedAsset: decodeFromFields(
-        "bool",
-        fields.borrowing_isolated_asset,
-      ),
+      borrowingIsolatedAsset: decodeFromFields("bool", fields.borrowing_isolated_asset),
       badDebtUsd: decodeFromFields(Decimal.reified(), fields.bad_debt_usd),
       closable: decodeFromFields("bool", fields.closable),
     });
@@ -230,14 +201,8 @@ export class ObligationDataEvent implements StructClass {
     }
 
     return ObligationDataEvent.reified().new({
-      lendingMarketId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.lending_market_id,
-      ),
-      obligationId: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.obligation_id,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes("address", item.fields.lending_market_id),
+      obligationId: decodeFromFieldsWithTypes("address", item.fields.obligation_id),
       deposits: decodeFromFieldsWithTypes(
         reified.vector(DepositRecord1.reified()),
         item.fields.deposits,
@@ -278,10 +243,7 @@ export class ObligationDataEvent implements StructClass {
         "bool",
         item.fields.borrowing_isolated_asset,
       ),
-      badDebtUsd: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.bad_debt_usd,
-      ),
+      badDebtUsd: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.bad_debt_usd),
       closable: decodeFromFieldsWithTypes("bool", item.fields.closable),
     });
   }
@@ -305,12 +267,10 @@ export class ObligationDataEvent implements StructClass {
       depositedValueUsd: this.depositedValueUsd.toJSONField(),
       allowedBorrowValueUsd: this.allowedBorrowValueUsd.toJSONField(),
       unhealthyBorrowValueUsd: this.unhealthyBorrowValueUsd.toJSONField(),
-      superUnhealthyBorrowValueUsd:
-        this.superUnhealthyBorrowValueUsd.toJSONField(),
+      superUnhealthyBorrowValueUsd: this.superUnhealthyBorrowValueUsd.toJSONField(),
       unweightedBorrowedValueUsd: this.unweightedBorrowedValueUsd.toJSONField(),
       weightedBorrowedValueUsd: this.weightedBorrowedValueUsd.toJSONField(),
-      weightedBorrowedValueUpperBoundUsd:
-        this.weightedBorrowedValueUpperBoundUsd.toJSONField(),
+      weightedBorrowedValueUpperBoundUsd: this.weightedBorrowedValueUpperBoundUsd.toJSONField(),
       borrowingIsolatedAsset: this.borrowingIsolatedAsset,
       badDebtUsd: this.badDebtUsd.toJSONField(),
       closable: this.closable,
@@ -318,33 +278,17 @@ export class ObligationDataEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ObligationDataEvent {
     return ObligationDataEvent.reified().new({
       lendingMarketId: decodeFromJSONField("address", field.lendingMarketId),
       obligationId: decodeFromJSONField("address", field.obligationId),
-      deposits: decodeFromJSONField(
-        reified.vector(DepositRecord1.reified()),
-        field.deposits,
-      ),
-      borrows: decodeFromJSONField(
-        reified.vector(BorrowRecord1.reified()),
-        field.borrows,
-      ),
-      depositedValueUsd: decodeFromJSONField(
-        Decimal.reified(),
-        field.depositedValueUsd,
-      ),
-      allowedBorrowValueUsd: decodeFromJSONField(
-        Decimal.reified(),
-        field.allowedBorrowValueUsd,
-      ),
+      deposits: decodeFromJSONField(reified.vector(DepositRecord1.reified()), field.deposits),
+      borrows: decodeFromJSONField(reified.vector(BorrowRecord1.reified()), field.borrows),
+      depositedValueUsd: decodeFromJSONField(Decimal.reified(), field.depositedValueUsd),
+      allowedBorrowValueUsd: decodeFromJSONField(Decimal.reified(), field.allowedBorrowValueUsd),
       unhealthyBorrowValueUsd: decodeFromJSONField(
         Decimal.reified(),
         field.unhealthyBorrowValueUsd,
@@ -365,10 +309,7 @@ export class ObligationDataEvent implements StructClass {
         Decimal.reified(),
         field.weightedBorrowedValueUpperBoundUsd,
       ),
-      borrowingIsolatedAsset: decodeFromJSONField(
-        "bool",
-        field.borrowingIsolatedAsset,
-      ),
+      borrowingIsolatedAsset: decodeFromJSONField("bool", field.borrowingIsolatedAsset),
       badDebtUsd: decodeFromJSONField(Decimal.reified(), field.badDebtUsd),
       closable: decodeFromJSONField("bool", field.closable),
     });
@@ -396,11 +337,8 @@ export class ObligationDataEvent implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): ObligationDataEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isObligationDataEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ObligationDataEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isObligationDataEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ObligationDataEvent object`);
       }
 
       return ObligationDataEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -413,20 +351,12 @@ export class ObligationDataEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<ObligationDataEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<ObligationDataEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ObligationDataEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ObligationDataEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isObligationDataEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isObligationDataEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ObligationDataEvent object`);
     }
 

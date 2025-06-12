@@ -38,18 +38,13 @@ export class Vector<T extends TypeArgument> implements VectorClass {
   readonly elements: Array<ToField<T>>;
 
   constructor(typeArgs: [ToTypeStr<T>], elements: VectorElements<T>) {
-    this.$fullTypeName = composeSuiType(
-      this.$typeName,
-      ...typeArgs,
-    ) as `vector<${ToTypeStr<T>}>`;
+    this.$fullTypeName = composeSuiType(this.$typeName, ...typeArgs) as `vector<${ToTypeStr<T>}>`;
     this.$typeArgs = typeArgs;
 
     this.elements = elements;
   }
 
-  static reified<T extends Reified<TypeArgument, any>>(
-    T: T,
-  ): VectorReified<ToTypeArgument<T>> {
+  static reified<T extends Reified<TypeArgument, any>>(T: T): VectorReified<ToTypeArgument<T>> {
     return {
       typeName: Vector.$typeName,
       fullTypeName: composeSuiType(
@@ -60,8 +55,7 @@ export class Vector<T extends TypeArgument> implements VectorClass {
       isPhantom: Vector.$isPhantom,
       reifiedTypeArgs: [T],
       fromFields: (elements: any[]) => Vector.fromFields(T, elements),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Vector.fromFieldsWithTypes(T, item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Vector.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => Vector.fromBcs(T, data),
       bcs: Vector.bcs(toBcs(T)),
       fromJSONField: (field: any) => Vector.fromJSONField(T, field),
@@ -95,9 +89,7 @@ export class Vector<T extends TypeArgument> implements VectorClass {
     item: FieldsWithTypes,
   ): Vector<ToTypeArgument<T>> {
     return Vector.reified(typeArg).new(
-      (item as unknown as any[]).map((field: any) =>
-        decodeFromFieldsWithTypes(typeArg, field),
-      ),
+      (item as unknown as any[]).map((field: any) => decodeFromFieldsWithTypes(typeArg, field)),
     );
   }
 
@@ -109,9 +101,7 @@ export class Vector<T extends TypeArgument> implements VectorClass {
   }
 
   toJSONField() {
-    return this.elements.map((element) =>
-      fieldToJSON(this.$typeArgs[0] as string, element),
-    );
+    return this.elements.map((element) => fieldToJSON(this.$typeArgs[0] as string, element));
   }
 
   toJSON() {
@@ -126,9 +116,7 @@ export class Vector<T extends TypeArgument> implements VectorClass {
     typeArg: T,
     field: any[],
   ): Vector<ToTypeArgument<T>> {
-    return Vector.reified(typeArg).new(
-      field.map((field) => decodeFromJSONField(typeArg, field)),
-    );
+    return Vector.reified(typeArg).new(field.map((field) => decodeFromJSONField(typeArg, field)));
   }
 
   static fromJSON<T extends Reified<TypeArgument, any>>(
@@ -145,9 +133,6 @@ export class Vector<T extends TypeArgument> implements VectorClass {
 
 export function vector<T extends Reified<TypeArgument, any>>(
   T: T,
-): VectorClassReified<
-  Vector<ToTypeArgument<T>>,
-  VectorElements<ToTypeArgument<T>>
-> {
+): VectorClassReified<Vector<ToTypeArgument<T>>, VectorElements<ToTypeArgument<T>>> {
   return Vector.r(T);
 }

@@ -25,10 +25,7 @@ import {
   compressSuiType,
   parseTypeName,
 } from "../../../_framework/util.js";
-import {
-  AdminCap,
-  LiquidStakingInfo,
-} from "../../../springsui/liquid-staking/structs/index.js";
+import { AdminCap, LiquidStakingInfo } from "../../../springsui/liquid-staking/structs/index.js";
 import { PKG_V8 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -47,10 +44,7 @@ export interface StakerFields<T0 extends PhantomTypeArgument> {
   liabilities: ToField<"u64">;
 }
 
-export type StakerReified<T0 extends PhantomTypeArgument> = Reified<
-  Staker<T0>,
-  StakerFields<T0>
->;
+export type StakerReified<T0 extends PhantomTypeArgument> = Reified<Staker<T0>, StakerFields<T0>>;
 
 /**
  * Move struct: `Staker`
@@ -76,10 +70,7 @@ export class Staker<T0 extends PhantomTypeArgument> implements StructClass {
   readonly suiBalance: ToField<Balance<ToPhantom<SUI>>>;
   readonly liabilities: ToField<"u64">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: StakerFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: StakerFields<T0>) {
     this.$fullTypeName = composeSuiType(
       Staker.$typeName,
       ...typeArgs,
@@ -102,25 +93,18 @@ export class Staker<T0 extends PhantomTypeArgument> implements StructClass {
         Staker.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V8}::staker::Staker<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: Staker.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        Staker.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Staker.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => Staker.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Staker.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Staker.fromBcs(T0, data),
       bcs: Staker.bcs,
       fromJSONField: (field: any) => Staker.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Staker.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Staker.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Staker.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Staker.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Staker.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Staker.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Staker.fetch(client, T0, id),
       new: (fields: StakerFields<ToPhantomTypeArgument<T0>>) => {
         return new Staker([extractType(T0)], fields);
       },
@@ -161,10 +145,7 @@ export class Staker<T0 extends PhantomTypeArgument> implements StructClass {
         LiquidStakingInfo.reified(typeArg),
         fields.liquid_staking_info,
       ),
-      lstBalance: decodeFromFields(
-        Balance.reified(typeArg),
-        fields.lst_balance,
-      ),
+      lstBalance: decodeFromFields(Balance.reified(typeArg), fields.lst_balance),
       suiBalance: decodeFromFields(
         Balance.reified(reified.phantom(SUI.reified())),
         fields.sui_balance,
@@ -183,18 +164,12 @@ export class Staker<T0 extends PhantomTypeArgument> implements StructClass {
     assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
     return Staker.reified(typeArg).new({
-      admin: decodeFromFieldsWithTypes(
-        AdminCap.reified(typeArg),
-        item.fields.admin,
-      ),
+      admin: decodeFromFieldsWithTypes(AdminCap.reified(typeArg), item.fields.admin),
       liquidStakingInfo: decodeFromFieldsWithTypes(
         LiquidStakingInfo.reified(typeArg),
         item.fields.liquid_staking_info,
       ),
-      lstBalance: decodeFromFieldsWithTypes(
-        Balance.reified(typeArg),
-        item.fields.lst_balance,
-      ),
+      lstBalance: decodeFromFieldsWithTypes(Balance.reified(typeArg), item.fields.lst_balance),
       suiBalance: decodeFromFieldsWithTypes(
         Balance.reified(reified.phantom(SUI.reified())),
         item.fields.sui_balance,
@@ -221,11 +196,7 @@ export class Staker<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -238,10 +209,7 @@ export class Staker<T0 extends PhantomTypeArgument> implements StructClass {
         LiquidStakingInfo.reified(typeArg),
         field.liquidStakingInfo,
       ),
-      lstBalance: decodeFromJSONField(
-        Balance.reified(typeArg),
-        field.lstBalance,
-      ),
+      lstBalance: decodeFromJSONField(Balance.reified(typeArg), field.lstBalance),
       suiBalance: decodeFromJSONField(
         Balance.reified(reified.phantom(SUI.reified())),
         field.suiBalance,
@@ -274,9 +242,7 @@ export class Staker<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isStaker(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Staker object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Staker object`);
     }
     return Staker.fromFieldsWithTypes(typeArg, content);
   }
@@ -287,7 +253,7 @@ export class Staker<T0 extends PhantomTypeArgument> implements StructClass {
   ): Staker<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isStaker(data.bcs.type)) {
-        throw new Error(`object at is not a Staker object`);
+        throw new Error(`object at ${data.objectId} is not a Staker object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -322,14 +288,9 @@ export class Staker<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<Staker<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Staker object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Staker object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isStaker(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isStaker(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Staker object`);
     }
 

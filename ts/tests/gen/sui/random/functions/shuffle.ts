@@ -21,11 +21,7 @@ export interface ShuffleArgs {
  * @param g - Function parameter
  * @param v - Function parameter
  */
-export function shuffle(
-  tx: Transaction,
-  typeArg: string,
-  args: ShuffleArgs,
-): TransactionResult {
+export function shuffle(tx: Transaction, typeArg: string, args: ShuffleArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::random::shuffle`,
     typeArguments: [typeArg],

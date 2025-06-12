@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface EcvrfVerifyArgs {
   hash: Array<number | TransactionArgument> | TransactionArgument;
@@ -24,10 +20,7 @@ export interface EcvrfVerifyArgs {
  * @param proof - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function ecvrfVerify(
-  tx: Transaction,
-  args: EcvrfVerifyArgs,
-): TransactionResult {
+export function ecvrfVerify(tx: Transaction, args: EcvrfVerifyArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::ecvrf::ecvrf_verify`,
     arguments: [

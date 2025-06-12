@@ -21,11 +21,7 @@ export interface TransferArgs {
  * @param config - Function parameter
  * @param address - Function parameter
  */
-export function transfer(
-  tx: Transaction,
-  typeArg: string,
-  args: TransferArgs,
-): TransactionResult {
+export function transfer(tx: Transaction, typeArg: string, args: TransferArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::config::transfer`,
     typeArguments: [typeArg],

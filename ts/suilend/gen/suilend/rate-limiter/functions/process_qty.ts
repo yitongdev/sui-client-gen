@@ -22,16 +22,9 @@ export interface ProcessQtyArgs {
  * @param u64 - Function parameter
  * @param decimal - Function parameter
  */
-export function processQty(
-  tx: Transaction,
-  args: ProcessQtyArgs,
-): TransactionResult {
+export function processQty(tx: Transaction, args: ProcessQtyArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::rate_limiter::process_qty`,
-    arguments: [
-      obj(tx, args.rateLimiter),
-      pure(tx, args.u64, `u64`),
-      obj(tx, args.decimal),
-    ],
+    arguments: [obj(tx, args.rateLimiter), pure(tx, args.u64, `u64`), obj(tx, args.decimal)],
   });
 }

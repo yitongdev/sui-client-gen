@@ -29,10 +29,7 @@ export interface EmitterDestroyedFields {
   emitterCap: ToField<ID>;
 }
 
-export type EmitterDestroyedReified = Reified<
-  EmitterDestroyed,
-  EmitterDestroyedFields
->;
+export type EmitterDestroyedReified = Reified<EmitterDestroyed, EmitterDestroyedFields>;
 
 /**
  * Move struct: `EmitterDestroyed`
@@ -72,20 +69,15 @@ export class EmitterDestroyed implements StructClass {
       typeArgs: [] as [],
       isPhantom: EmitterDestroyed.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        EmitterDestroyed.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        EmitterDestroyed.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => EmitterDestroyed.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => EmitterDestroyed.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => EmitterDestroyed.fromBcs(data),
       bcs: EmitterDestroyed.bcs,
       fromJSONField: (field: any) => EmitterDestroyed.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => EmitterDestroyed.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        EmitterDestroyed.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        EmitterDestroyed.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        EmitterDestroyed.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => EmitterDestroyed.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => EmitterDestroyed.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => EmitterDestroyed.fetch(client, id),
       new: (fields: EmitterDestroyedFields) => {
         return new EmitterDestroyed([], fields);
       },
@@ -122,10 +114,7 @@ export class EmitterDestroyed implements StructClass {
     }
 
     return EmitterDestroyed.reified().new({
-      emitterCap: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.emitter_cap,
-      ),
+      emitterCap: decodeFromFieldsWithTypes(ID.reified(), item.fields.emitter_cap),
     });
   }
 
@@ -140,11 +129,7 @@ export class EmitterDestroyed implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): EmitterDestroyed {
@@ -166,20 +151,15 @@ export class EmitterDestroyed implements StructClass {
       throw new Error("not an object");
     }
     if (!isEmitterDestroyed(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a EmitterDestroyed object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a EmitterDestroyed object`);
     }
     return EmitterDestroyed.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): EmitterDestroyed {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isEmitterDestroyed(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a EmitterDestroyed object`);
+      if (data.bcs.dataType !== "moveObject" || !isEmitterDestroyed(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a EmitterDestroyed object`);
       }
 
       return EmitterDestroyed.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -195,14 +175,9 @@ export class EmitterDestroyed implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<EmitterDestroyed> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching EmitterDestroyed object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching EmitterDestroyed object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isEmitterDestroyed(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isEmitterDestroyed(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a EmitterDestroyed object`);
     }
 

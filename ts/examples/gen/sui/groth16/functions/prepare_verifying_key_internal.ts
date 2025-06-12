@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface PrepareVerifyingKeyInternalArgs {
   curve: number | TransactionArgument;
@@ -26,9 +22,6 @@ export function prepareVerifyingKeyInternal(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::groth16::prepare_verifying_key_internal`,
-    arguments: [
-      pure(tx, args.curve, `u8`),
-      pure(tx, args.verifyingKey, `vector<u8>`),
-    ],
+    arguments: [pure(tx, args.curve, `u8`), pure(tx, args.verifyingKey, `vector<u8>`)],
   });
 }

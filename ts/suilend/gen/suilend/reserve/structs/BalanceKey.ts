@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -68,20 +64,15 @@ export class BalanceKey implements StructClass {
       typeArgs: [] as [],
       isPhantom: BalanceKey.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        BalanceKey.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        BalanceKey.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => BalanceKey.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => BalanceKey.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => BalanceKey.fromBcs(data),
       bcs: BalanceKey.bcs,
       fromJSONField: (field: any) => BalanceKey.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => BalanceKey.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        BalanceKey.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        BalanceKey.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        BalanceKey.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => BalanceKey.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => BalanceKey.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => BalanceKey.fetch(client, id),
       new: (fields: BalanceKeyFields) => {
         return new BalanceKey([], fields);
       },
@@ -107,9 +98,7 @@ export class BalanceKey implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): BalanceKey {
-    return BalanceKey.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return BalanceKey.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): BalanceKey {
@@ -133,17 +122,11 @@ export class BalanceKey implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): BalanceKey {
-    return BalanceKey.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return BalanceKey.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): BalanceKey {
@@ -159,9 +142,7 @@ export class BalanceKey implements StructClass {
       throw new Error("not an object");
     }
     if (!isBalanceKey(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a BalanceKey object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a BalanceKey object`);
     }
     return BalanceKey.fromFieldsWithTypes(content);
   }
@@ -169,7 +150,7 @@ export class BalanceKey implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): BalanceKey {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isBalanceKey(data.bcs.type)) {
-        throw new Error(`object at is not a BalanceKey object`);
+        throw new Error(`object at ${data.objectId} is not a BalanceKey object`);
       }
 
       return BalanceKey.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -185,14 +166,9 @@ export class BalanceKey implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<BalanceKey> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching BalanceKey object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching BalanceKey object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isBalanceKey(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isBalanceKey(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a BalanceKey object`);
     }
 

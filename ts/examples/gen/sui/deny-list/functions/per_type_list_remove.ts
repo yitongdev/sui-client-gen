@@ -22,10 +22,7 @@ export interface PerTypeListRemoveArgs {
  * @param type - Function parameter
  * @param addr - Function parameter
  */
-export function perTypeListRemove(
-  tx: Transaction,
-  args: PerTypeListRemoveArgs,
-): TransactionResult {
+export function perTypeListRemove(tx: Transaction, args: PerTypeListRemoveArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::per_type_list_remove`,
     arguments: [

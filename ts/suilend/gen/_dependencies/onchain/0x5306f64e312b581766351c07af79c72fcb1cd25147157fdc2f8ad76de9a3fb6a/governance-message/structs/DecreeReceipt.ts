@@ -52,9 +52,7 @@ export type DecreeReceiptReified<T0 extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class DecreeReceipt<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class DecreeReceipt<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V1}::governance_message::DecreeReceipt`;
@@ -70,10 +68,7 @@ export class DecreeReceipt<T0 extends PhantomTypeArgument>
   readonly digest: ToField<Bytes32>;
   readonly sequence: ToField<"u64">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: DecreeReceiptFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: DecreeReceiptFields<T0>) {
     this.$fullTypeName = composeSuiType(
       DecreeReceipt.$typeName,
       ...typeArgs,
@@ -94,25 +89,18 @@ export class DecreeReceipt<T0 extends PhantomTypeArgument>
         DecreeReceipt.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V1}::governance_message::DecreeReceipt<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: DecreeReceipt.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        DecreeReceipt.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        DecreeReceipt.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => DecreeReceipt.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => DecreeReceipt.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => DecreeReceipt.fromBcs(T0, data),
       bcs: DecreeReceipt.bcs,
       fromJSONField: (field: any) => DecreeReceipt.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => DecreeReceipt.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        DecreeReceipt.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        DecreeReceipt.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        DecreeReceipt.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => DecreeReceipt.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => DecreeReceipt.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => DecreeReceipt.fetch(client, T0, id),
       new: (fields: DecreeReceiptFields<ToPhantomTypeArgument<T0>>) => {
         return new DecreeReceipt([extractType(T0)], fields);
       },
@@ -162,10 +150,7 @@ export class DecreeReceipt<T0 extends PhantomTypeArgument>
     assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
     return DecreeReceipt.reified(typeArg).new({
-      payload: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.payload,
-      ),
+      payload: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.payload),
       digest: decodeFromFieldsWithTypes(Bytes32.reified(), item.fields.digest),
       sequence: decodeFromFieldsWithTypes("u64", item.fields.sequence),
     });
@@ -187,11 +172,7 @@ export class DecreeReceipt<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -229,9 +210,7 @@ export class DecreeReceipt<T0 extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isDecreeReceipt(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a DecreeReceipt object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a DecreeReceipt object`);
     }
     return DecreeReceipt.fromFieldsWithTypes(typeArg, content);
   }
@@ -241,11 +220,8 @@ export class DecreeReceipt<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): DecreeReceipt<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isDecreeReceipt(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a DecreeReceipt object`);
+      if (data.bcs.dataType !== "moveObject" || !isDecreeReceipt(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a DecreeReceipt object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -280,14 +256,9 @@ export class DecreeReceipt<T0 extends PhantomTypeArgument>
   ): Promise<DecreeReceipt<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching DecreeReceipt object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching DecreeReceipt object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDecreeReceipt(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDecreeReceipt(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a DecreeReceipt object`);
     }
 

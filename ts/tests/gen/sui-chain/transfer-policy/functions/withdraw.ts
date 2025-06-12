@@ -26,11 +26,7 @@ export interface WithdrawArgs {
  * @param txContext - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function withdraw(
-  tx: Transaction,
-  typeArg: string,
-  args: WithdrawArgs,
-): TransactionResult {
+export function withdraw(tx: Transaction, typeArg: string, args: WithdrawArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::transfer_policy::withdraw`,
     typeArguments: [typeArg],

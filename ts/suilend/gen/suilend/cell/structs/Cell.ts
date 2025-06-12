@@ -37,10 +37,7 @@ export interface CellFields<T0 extends TypeArgument> {
   element: ToField<Option<T0>>;
 }
 
-export type CellReified<T0 extends TypeArgument> = Reified<
-  Cell<T0>,
-  CellFields<T0>
->;
+export type CellReified<T0 extends TypeArgument> = Reified<Cell<T0>, CellFields<T0>>;
 
 /**
  * Move struct: `Cell`
@@ -72,9 +69,7 @@ export class Cell<T0 extends TypeArgument> implements StructClass {
     this.element = fields.element;
   }
 
-  static reified<T0 extends Reified<TypeArgument, any>>(
-    T0: T0,
-  ): CellReified<ToTypeArgument<T0>> {
+  static reified<T0 extends Reified<TypeArgument, any>>(T0: T0): CellReified<ToTypeArgument<T0>> {
     return {
       typeName: Cell.$typeName,
       fullTypeName: composeSuiType(
@@ -85,18 +80,14 @@ export class Cell<T0 extends TypeArgument> implements StructClass {
       isPhantom: Cell.$isPhantom,
       reifiedTypeArgs: [T0],
       fromFields: (fields: Record<string, any>) => Cell.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Cell.fromFieldsWithTypes(T0, item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Cell.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Cell.fromBcs(T0, data),
       bcs: Cell.bcs(toBcs(T0)),
       fromJSONField: (field: any) => Cell.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Cell.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Cell.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Cell.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Cell.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Cell.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Cell.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Cell.fetch(client, T0, id),
       new: (fields: CellFields<ToTypeArgument<T0>>) => {
         return new Cell([extractType(T0)], fields);
       },
@@ -143,10 +134,7 @@ export class Cell<T0 extends TypeArgument> implements StructClass {
     assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
     return Cell.reified(typeArg).new({
-      element: decodeFromFieldsWithTypes(
-        Option.reified(typeArg),
-        item.fields.element,
-      ),
+      element: decodeFromFieldsWithTypes(Option.reified(typeArg), item.fields.element),
     });
   }
 
@@ -159,19 +147,12 @@ export class Cell<T0 extends TypeArgument> implements StructClass {
 
   toJSONField() {
     return {
-      element: fieldToJSON<Option<T0>>(
-        `${Option.$typeName}<${this.$typeArgs?.[0]}>`,
-        this.element,
-      ),
+      element: fieldToJSON<Option<T0>>(`${Option.$typeName}<${this.$typeArgs?.[0]}>`, this.element),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
@@ -207,9 +188,7 @@ export class Cell<T0 extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isCell(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Cell object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Cell object`);
     }
     return Cell.fromFieldsWithTypes(typeArg, content);
   }
@@ -220,7 +199,7 @@ export class Cell<T0 extends TypeArgument> implements StructClass {
   ): Cell<ToTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isCell(data.bcs.type)) {
-        throw new Error(`object at is not a Cell object`);
+        throw new Error(`object at ${data.objectId} is not a Cell object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -255,14 +234,9 @@ export class Cell<T0 extends TypeArgument> implements StructClass {
   ): Promise<Cell<ToTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Cell object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Cell object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isCell(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isCell(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Cell object`);
     }
 

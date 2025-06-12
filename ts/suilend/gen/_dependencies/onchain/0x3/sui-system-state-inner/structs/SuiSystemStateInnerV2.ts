@@ -82,9 +82,7 @@ export class SuiSystemStateInnerV2 implements StructClass {
   readonly storageFund: ToField<StorageFund>;
   readonly parameters: ToField<SystemParametersV21>;
   readonly referenceGasPrice: ToField<"u64">;
-  readonly validatorReportRecords: ToField<
-    VecMap<"address", VecSet<"address">>
-  >;
+  readonly validatorReportRecords: ToField<VecMap<"address", VecSet<"address">>>;
   readonly stakeSubsidy: ToField<StakeSubsidy>;
   readonly safeMode: ToField<"bool">;
   readonly safeModeStorageRewards: ToField<Balance<ToPhantom<SUI>>>;
@@ -114,8 +112,7 @@ export class SuiSystemStateInnerV2 implements StructClass {
     this.safeModeStorageRewards = fields.safeModeStorageRewards;
     this.safeModeComputationRewards = fields.safeModeComputationRewards;
     this.safeModeStorageRebates = fields.safeModeStorageRebates;
-    this.safeModeNonRefundableStorageFee =
-      fields.safeModeNonRefundableStorageFee;
+    this.safeModeNonRefundableStorageFee = fields.safeModeNonRefundableStorageFee;
     this.epochStartTimestampMs = fields.epochStartTimestampMs;
     this.extraFields = fields.extraFields;
   }
@@ -130,21 +127,18 @@ export class SuiSystemStateInnerV2 implements StructClass {
       typeArgs: [] as [],
       isPhantom: SuiSystemStateInnerV2.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        SuiSystemStateInnerV2.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => SuiSystemStateInnerV2.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         SuiSystemStateInnerV2.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => SuiSystemStateInnerV2.fromBcs(data),
       bcs: SuiSystemStateInnerV2.bcs,
       fromJSONField: (field: any) => SuiSystemStateInnerV2.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        SuiSystemStateInnerV2.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => SuiSystemStateInnerV2.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         SuiSystemStateInnerV2.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         SuiSystemStateInnerV2.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        SuiSystemStateInnerV2.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => SuiSystemStateInnerV2.fetch(client, id),
       new: (fields: SuiSystemStateInnerV2Fields) => {
         return new SuiSystemStateInnerV2([], fields);
       },
@@ -202,19 +196,13 @@ export class SuiSystemStateInnerV2 implements StructClass {
       systemStateVersion: decodeFromFields("u64", fields.system_state_version),
       validators: decodeFromFields(ValidatorSet.reified(), fields.validators),
       storageFund: decodeFromFields(StorageFund.reified(), fields.storage_fund),
-      parameters: decodeFromFields(
-        SystemParametersV21.reified(),
-        fields.parameters,
-      ),
+      parameters: decodeFromFields(SystemParametersV21.reified(), fields.parameters),
       referenceGasPrice: decodeFromFields("u64", fields.reference_gas_price),
       validatorReportRecords: decodeFromFields(
         VecMap.reified("address", VecSet.reified("address")),
         fields.validator_report_records,
       ),
-      stakeSubsidy: decodeFromFields(
-        StakeSubsidy.reified(),
-        fields.stake_subsidy,
-      ),
+      stakeSubsidy: decodeFromFields(StakeSubsidy.reified(), fields.stake_subsidy),
       safeMode: decodeFromFields("bool", fields.safe_mode),
       safeModeStorageRewards: decodeFromFields(
         Balance.reified(reified.phantom(SUI.reified())),
@@ -224,18 +212,12 @@ export class SuiSystemStateInnerV2 implements StructClass {
         Balance.reified(reified.phantom(SUI.reified())),
         fields.safe_mode_computation_rewards,
       ),
-      safeModeStorageRebates: decodeFromFields(
-        "u64",
-        fields.safe_mode_storage_rebates,
-      ),
+      safeModeStorageRebates: decodeFromFields("u64", fields.safe_mode_storage_rebates),
       safeModeNonRefundableStorageFee: decodeFromFields(
         "u64",
         fields.safe_mode_non_refundable_storage_fee,
       ),
-      epochStartTimestampMs: decodeFromFields(
-        "u64",
-        fields.epoch_start_timestamp_ms,
-      ),
+      epochStartTimestampMs: decodeFromFields("u64", fields.epoch_start_timestamp_ms),
       extraFields: decodeFromFields(Bag.reified(), fields.extra_fields),
     });
   }
@@ -247,38 +229,17 @@ export class SuiSystemStateInnerV2 implements StructClass {
 
     return SuiSystemStateInnerV2.reified().new({
       epoch: decodeFromFieldsWithTypes("u64", item.fields.epoch),
-      protocolVersion: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.protocol_version,
-      ),
-      systemStateVersion: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.system_state_version,
-      ),
-      validators: decodeFromFieldsWithTypes(
-        ValidatorSet.reified(),
-        item.fields.validators,
-      ),
-      storageFund: decodeFromFieldsWithTypes(
-        StorageFund.reified(),
-        item.fields.storage_fund,
-      ),
-      parameters: decodeFromFieldsWithTypes(
-        SystemParametersV21.reified(),
-        item.fields.parameters,
-      ),
-      referenceGasPrice: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.reference_gas_price,
-      ),
+      protocolVersion: decodeFromFieldsWithTypes("u64", item.fields.protocol_version),
+      systemStateVersion: decodeFromFieldsWithTypes("u64", item.fields.system_state_version),
+      validators: decodeFromFieldsWithTypes(ValidatorSet.reified(), item.fields.validators),
+      storageFund: decodeFromFieldsWithTypes(StorageFund.reified(), item.fields.storage_fund),
+      parameters: decodeFromFieldsWithTypes(SystemParametersV21.reified(), item.fields.parameters),
+      referenceGasPrice: decodeFromFieldsWithTypes("u64", item.fields.reference_gas_price),
       validatorReportRecords: decodeFromFieldsWithTypes(
         VecMap.reified("address", VecSet.reified("address")),
         item.fields.validator_report_records,
       ),
-      stakeSubsidy: decodeFromFieldsWithTypes(
-        StakeSubsidy.reified(),
-        item.fields.stake_subsidy,
-      ),
+      stakeSubsidy: decodeFromFieldsWithTypes(StakeSubsidy.reified(), item.fields.stake_subsidy),
       safeMode: decodeFromFieldsWithTypes("bool", item.fields.safe_mode),
       safeModeStorageRewards: decodeFromFieldsWithTypes(
         Balance.reified(reified.phantom(SUI.reified())),
@@ -296,21 +257,13 @@ export class SuiSystemStateInnerV2 implements StructClass {
         "u64",
         item.fields.safe_mode_non_refundable_storage_fee,
       ),
-      epochStartTimestampMs: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.epoch_start_timestamp_ms,
-      ),
-      extraFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.extra_fields,
-      ),
+      epochStartTimestampMs: decodeFromFieldsWithTypes("u64", item.fields.epoch_start_timestamp_ms),
+      extraFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.extra_fields),
     });
   }
 
   static fromBcs(data: Uint8Array): SuiSystemStateInnerV2 {
-    return SuiSystemStateInnerV2.fromFields(
-      SuiSystemStateInnerV2.bcs.parse(data),
-    );
+    return SuiSystemStateInnerV2.fromFields(SuiSystemStateInnerV2.bcs.parse(data));
   }
 
   toJSONField() {
@@ -328,19 +281,14 @@ export class SuiSystemStateInnerV2 implements StructClass {
       safeModeStorageRewards: this.safeModeStorageRewards.toJSONField(),
       safeModeComputationRewards: this.safeModeComputationRewards.toJSONField(),
       safeModeStorageRebates: this.safeModeStorageRebates.toString(),
-      safeModeNonRefundableStorageFee:
-        this.safeModeNonRefundableStorageFee.toString(),
+      safeModeNonRefundableStorageFee: this.safeModeNonRefundableStorageFee.toString(),
       epochStartTimestampMs: this.epochStartTimestampMs.toString(),
       extraFields: this.extraFields.toJSONField(),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): SuiSystemStateInnerV2 {
@@ -349,23 +297,14 @@ export class SuiSystemStateInnerV2 implements StructClass {
       protocolVersion: decodeFromJSONField("u64", field.protocolVersion),
       systemStateVersion: decodeFromJSONField("u64", field.systemStateVersion),
       validators: decodeFromJSONField(ValidatorSet.reified(), field.validators),
-      storageFund: decodeFromJSONField(
-        StorageFund.reified(),
-        field.storageFund,
-      ),
-      parameters: decodeFromJSONField(
-        SystemParametersV21.reified(),
-        field.parameters,
-      ),
+      storageFund: decodeFromJSONField(StorageFund.reified(), field.storageFund),
+      parameters: decodeFromJSONField(SystemParametersV21.reified(), field.parameters),
       referenceGasPrice: decodeFromJSONField("u64", field.referenceGasPrice),
       validatorReportRecords: decodeFromJSONField(
         VecMap.reified("address", VecSet.reified("address")),
         field.validatorReportRecords,
       ),
-      stakeSubsidy: decodeFromJSONField(
-        StakeSubsidy.reified(),
-        field.stakeSubsidy,
-      ),
+      stakeSubsidy: decodeFromJSONField(StakeSubsidy.reified(), field.stakeSubsidy),
       safeMode: decodeFromJSONField("bool", field.safeMode),
       safeModeStorageRewards: decodeFromJSONField(
         Balance.reified(reified.phantom(SUI.reified())),
@@ -375,18 +314,12 @@ export class SuiSystemStateInnerV2 implements StructClass {
         Balance.reified(reified.phantom(SUI.reified())),
         field.safeModeComputationRewards,
       ),
-      safeModeStorageRebates: decodeFromJSONField(
-        "u64",
-        field.safeModeStorageRebates,
-      ),
+      safeModeStorageRebates: decodeFromJSONField("u64", field.safeModeStorageRebates),
       safeModeNonRefundableStorageFee: decodeFromJSONField(
         "u64",
         field.safeModeNonRefundableStorageFee,
       ),
-      epochStartTimestampMs: decodeFromJSONField(
-        "u64",
-        field.epochStartTimestampMs,
-      ),
+      epochStartTimestampMs: decodeFromJSONField("u64", field.epochStartTimestampMs),
       extraFields: decodeFromJSONField(Bag.reified(), field.extraFields),
     });
   }
@@ -413,11 +346,8 @@ export class SuiSystemStateInnerV2 implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): SuiSystemStateInnerV2 {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isSuiSystemStateInnerV2(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a SuiSystemStateInnerV2 object`);
+      if (data.bcs.dataType !== "moveObject" || !isSuiSystemStateInnerV2(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a SuiSystemStateInnerV2 object`);
       }
 
       return SuiSystemStateInnerV2.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -430,23 +360,13 @@ export class SuiSystemStateInnerV2 implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<SuiSystemStateInnerV2> {
+  static async fetch(client: SuiClient, id: string): Promise<SuiSystemStateInnerV2> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching SuiSystemStateInnerV2 object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching SuiSystemStateInnerV2 object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isSuiSystemStateInnerV2(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a SuiSystemStateInnerV2 object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isSuiSystemStateInnerV2(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a SuiSystemStateInnerV2 object`);
     }
 
     return SuiSystemStateInnerV2.fromSuiObjectData(res.data);

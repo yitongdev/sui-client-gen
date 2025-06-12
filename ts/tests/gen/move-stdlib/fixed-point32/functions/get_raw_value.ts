@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `get_raw_value`
@@ -14,10 +10,7 @@ import {
  * @param num - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function getRawValue(
-  tx: Transaction,
-  num: TransactionObjectInput,
-): TransactionResult {
+export function getRawValue(tx: Transaction, num: TransactionObjectInput): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::fixed_point32::get_raw_value`,
     arguments: [obj(tx, num)],

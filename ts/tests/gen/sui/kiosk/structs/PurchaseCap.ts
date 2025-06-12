@@ -67,10 +67,7 @@ export class PurchaseCap<T extends PhantomTypeArgument> implements StructClass {
   readonly itemId: ToField<ID>;
   readonly minPrice: ToField<"u64">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: PurchaseCapFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: PurchaseCapFields<T>) {
     this.$fullTypeName = composeSuiType(
       PurchaseCap.$typeName,
       ...typeArgs,
@@ -92,25 +89,18 @@ export class PurchaseCap<T extends PhantomTypeArgument> implements StructClass {
         PurchaseCap.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::kiosk::PurchaseCap<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: PurchaseCap.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        PurchaseCap.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PurchaseCap.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => PurchaseCap.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PurchaseCap.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => PurchaseCap.fromBcs(T, data),
       bcs: PurchaseCap.bcs,
       fromJSONField: (field: any) => PurchaseCap.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => PurchaseCap.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PurchaseCap.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PurchaseCap.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        PurchaseCap.fetch(client, T, id),
+      fromSuiParsedData: (content: SuiParsedData) => PurchaseCap.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => PurchaseCap.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => PurchaseCap.fetch(client, T, id),
       new: (fields: PurchaseCapFields<ToPhantomTypeArgument<T>>) => {
         return new PurchaseCap([extractType(T)], fields);
       },
@@ -186,11 +176,7 @@ export class PurchaseCap<T extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -229,9 +215,7 @@ export class PurchaseCap<T extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isPurchaseCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PurchaseCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PurchaseCap object`);
     }
     return PurchaseCap.fromFieldsWithTypes(typeArg, content);
   }
@@ -242,7 +226,7 @@ export class PurchaseCap<T extends PhantomTypeArgument> implements StructClass {
   ): PurchaseCap<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isPurchaseCap(data.bcs.type)) {
-        throw new Error(`object at is not a PurchaseCap object`);
+        throw new Error(`object at ${data.objectId} is not a PurchaseCap object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -277,14 +261,9 @@ export class PurchaseCap<T extends PhantomTypeArgument> implements StructClass {
   ): Promise<PurchaseCap<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PurchaseCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PurchaseCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPurchaseCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPurchaseCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PurchaseCap object`);
     }
 

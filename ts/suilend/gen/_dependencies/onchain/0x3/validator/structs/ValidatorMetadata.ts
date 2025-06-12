@@ -56,10 +56,7 @@ export interface ValidatorMetadataFields {
   extraFields: ToField<Bag>;
 }
 
-export type ValidatorMetadataReified = Reified<
-  ValidatorMetadata,
-  ValidatorMetadataFields
->;
+export type ValidatorMetadataReified = Reified<ValidatorMetadata, ValidatorMetadataFields>;
 
 /**
  * Move struct: `ValidatorMetadata`
@@ -141,20 +138,15 @@ export class ValidatorMetadata implements StructClass {
       typeArgs: [] as [],
       isPhantom: ValidatorMetadata.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ValidatorMetadata.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ValidatorMetadata.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ValidatorMetadata.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ValidatorMetadata.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ValidatorMetadata.fromBcs(data),
       bcs: ValidatorMetadata.bcs,
       fromJSONField: (field: any) => ValidatorMetadata.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ValidatorMetadata.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ValidatorMetadata.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ValidatorMetadata.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ValidatorMetadata.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ValidatorMetadata.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ValidatorMetadata.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ValidatorMetadata.fetch(client, id),
       new: (fields: ValidatorMetadataFields) => {
         return new ValidatorMetadata([], fields);
       },
@@ -206,32 +198,17 @@ export class ValidatorMetadata implements StructClass {
   static fromFields(fields: Record<string, any>): ValidatorMetadata {
     return ValidatorMetadata.reified().new({
       suiAddress: decodeFromFields("address", fields.sui_address),
-      protocolPubkeyBytes: decodeFromFields(
-        reified.vector("u8"),
-        fields.protocol_pubkey_bytes,
-      ),
-      networkPubkeyBytes: decodeFromFields(
-        reified.vector("u8"),
-        fields.network_pubkey_bytes,
-      ),
-      workerPubkeyBytes: decodeFromFields(
-        reified.vector("u8"),
-        fields.worker_pubkey_bytes,
-      ),
-      proofOfPossession: decodeFromFields(
-        reified.vector("u8"),
-        fields.proof_of_possession,
-      ),
+      protocolPubkeyBytes: decodeFromFields(reified.vector("u8"), fields.protocol_pubkey_bytes),
+      networkPubkeyBytes: decodeFromFields(reified.vector("u8"), fields.network_pubkey_bytes),
+      workerPubkeyBytes: decodeFromFields(reified.vector("u8"), fields.worker_pubkey_bytes),
+      proofOfPossession: decodeFromFields(reified.vector("u8"), fields.proof_of_possession),
       name: decodeFromFields(String.reified(), fields.name),
       description: decodeFromFields(String.reified(), fields.description),
       imageUrl: decodeFromFields(Url.reified(), fields.image_url),
       projectUrl: decodeFromFields(Url.reified(), fields.project_url),
       netAddress: decodeFromFields(String.reified(), fields.net_address),
       p2PAddress: decodeFromFields(String.reified(), fields.p2p_address),
-      primaryAddress: decodeFromFields(
-        String.reified(),
-        fields.primary_address,
-      ),
+      primaryAddress: decodeFromFields(String.reified(), fields.primary_address),
       workerAddress: decodeFromFields(String.reified(), fields.worker_address),
       nextEpochProtocolPubkeyBytes: decodeFromFields(
         Option.reified(reified.vector("u8")),
@@ -293,31 +270,13 @@ export class ValidatorMetadata implements StructClass {
         item.fields.proof_of_possession,
       ),
       name: decodeFromFieldsWithTypes(String.reified(), item.fields.name),
-      description: decodeFromFieldsWithTypes(
-        String.reified(),
-        item.fields.description,
-      ),
+      description: decodeFromFieldsWithTypes(String.reified(), item.fields.description),
       imageUrl: decodeFromFieldsWithTypes(Url.reified(), item.fields.image_url),
-      projectUrl: decodeFromFieldsWithTypes(
-        Url.reified(),
-        item.fields.project_url,
-      ),
-      netAddress: decodeFromFieldsWithTypes(
-        String.reified(),
-        item.fields.net_address,
-      ),
-      p2PAddress: decodeFromFieldsWithTypes(
-        String.reified(),
-        item.fields.p2p_address,
-      ),
-      primaryAddress: decodeFromFieldsWithTypes(
-        String.reified(),
-        item.fields.primary_address,
-      ),
-      workerAddress: decodeFromFieldsWithTypes(
-        String.reified(),
-        item.fields.worker_address,
-      ),
+      projectUrl: decodeFromFieldsWithTypes(Url.reified(), item.fields.project_url),
+      netAddress: decodeFromFieldsWithTypes(String.reified(), item.fields.net_address),
+      p2PAddress: decodeFromFieldsWithTypes(String.reified(), item.fields.p2p_address),
+      primaryAddress: decodeFromFieldsWithTypes(String.reified(), item.fields.primary_address),
+      workerAddress: decodeFromFieldsWithTypes(String.reified(), item.fields.worker_address),
       nextEpochProtocolPubkeyBytes: decodeFromFieldsWithTypes(
         Option.reified(reified.vector("u8")),
         item.fields.next_epoch_protocol_pubkey_bytes,
@@ -350,10 +309,7 @@ export class ValidatorMetadata implements StructClass {
         Option.reified(String.reified()),
         item.fields.next_epoch_worker_address,
       ),
-      extraFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.extra_fields,
-      ),
+      extraFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.extra_fields),
     });
   }
 
@@ -364,22 +320,10 @@ export class ValidatorMetadata implements StructClass {
   toJSONField() {
     return {
       suiAddress: this.suiAddress,
-      protocolPubkeyBytes: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.protocolPubkeyBytes,
-      ),
-      networkPubkeyBytes: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.networkPubkeyBytes,
-      ),
-      workerPubkeyBytes: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.workerPubkeyBytes,
-      ),
-      proofOfPossession: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.proofOfPossession,
-      ),
+      protocolPubkeyBytes: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.protocolPubkeyBytes),
+      networkPubkeyBytes: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.networkPubkeyBytes),
+      workerPubkeyBytes: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.workerPubkeyBytes),
+      proofOfPossession: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.proofOfPossession),
       name: this.name,
       description: this.description,
       imageUrl: this.imageUrl,
@@ -425,42 +369,23 @@ export class ValidatorMetadata implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ValidatorMetadata {
     return ValidatorMetadata.reified().new({
       suiAddress: decodeFromJSONField("address", field.suiAddress),
-      protocolPubkeyBytes: decodeFromJSONField(
-        reified.vector("u8"),
-        field.protocolPubkeyBytes,
-      ),
-      networkPubkeyBytes: decodeFromJSONField(
-        reified.vector("u8"),
-        field.networkPubkeyBytes,
-      ),
-      workerPubkeyBytes: decodeFromJSONField(
-        reified.vector("u8"),
-        field.workerPubkeyBytes,
-      ),
-      proofOfPossession: decodeFromJSONField(
-        reified.vector("u8"),
-        field.proofOfPossession,
-      ),
+      protocolPubkeyBytes: decodeFromJSONField(reified.vector("u8"), field.protocolPubkeyBytes),
+      networkPubkeyBytes: decodeFromJSONField(reified.vector("u8"), field.networkPubkeyBytes),
+      workerPubkeyBytes: decodeFromJSONField(reified.vector("u8"), field.workerPubkeyBytes),
+      proofOfPossession: decodeFromJSONField(reified.vector("u8"), field.proofOfPossession),
       name: decodeFromJSONField(String.reified(), field.name),
       description: decodeFromJSONField(String.reified(), field.description),
       imageUrl: decodeFromJSONField(Url.reified(), field.imageUrl),
       projectUrl: decodeFromJSONField(Url.reified(), field.projectUrl),
       netAddress: decodeFromJSONField(String.reified(), field.netAddress),
       p2PAddress: decodeFromJSONField(String.reified(), field.p2PAddress),
-      primaryAddress: decodeFromJSONField(
-        String.reified(),
-        field.primaryAddress,
-      ),
+      primaryAddress: decodeFromJSONField(String.reified(), field.primaryAddress),
       workerAddress: decodeFromJSONField(String.reified(), field.workerAddress),
       nextEpochProtocolPubkeyBytes: decodeFromJSONField(
         Option.reified(reified.vector("u8")),
@@ -511,20 +436,15 @@ export class ValidatorMetadata implements StructClass {
       throw new Error("not an object");
     }
     if (!isValidatorMetadata(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ValidatorMetadata object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ValidatorMetadata object`);
     }
     return ValidatorMetadata.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ValidatorMetadata {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isValidatorMetadata(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ValidatorMetadata object`);
+      if (data.bcs.dataType !== "moveObject" || !isValidatorMetadata(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ValidatorMetadata object`);
       }
 
       return ValidatorMetadata.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -537,20 +457,12 @@ export class ValidatorMetadata implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<ValidatorMetadata> {
+  static async fetch(client: SuiClient, id: string): Promise<ValidatorMetadata> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ValidatorMetadata object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ValidatorMetadata object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isValidatorMetadata(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isValidatorMetadata(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ValidatorMetadata object`);
     }
 

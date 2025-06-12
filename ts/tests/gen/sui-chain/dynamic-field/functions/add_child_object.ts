@@ -1,10 +1,6 @@
 import { GenericArg, generic, pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface AddChildObjectArgs {
   address: string | TransactionArgument;
@@ -28,9 +24,6 @@ export function addChildObject(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::dynamic_field::add_child_object`,
     typeArguments: [typeArg],
-    arguments: [
-      pure(tx, args.address, `address`),
-      generic(tx, `${typeArg}`, args.t0),
-    ],
+    arguments: [pure(tx, args.address, `address`), generic(tx, `${typeArg}`, args.t0)],
   });
 }

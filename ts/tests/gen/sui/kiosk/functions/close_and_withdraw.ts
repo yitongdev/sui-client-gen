@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface CloseAndWithdrawArgs {
   self: TransactionObjectInput;
@@ -21,10 +17,7 @@ export interface CloseAndWithdrawArgs {
  * @param ctx - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function closeAndWithdraw(
-  tx: Transaction,
-  args: CloseAndWithdrawArgs,
-): TransactionResult {
+export function closeAndWithdraw(tx: Transaction, args: CloseAndWithdrawArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::close_and_withdraw`,
     arguments: [obj(tx, args.self), obj(tx, args.cap)],

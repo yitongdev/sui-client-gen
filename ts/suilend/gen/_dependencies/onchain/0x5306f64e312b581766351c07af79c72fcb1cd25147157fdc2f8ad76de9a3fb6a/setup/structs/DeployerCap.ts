@@ -69,20 +69,15 @@ export class DeployerCap implements StructClass {
       typeArgs: [] as [],
       isPhantom: DeployerCap.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        DeployerCap.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        DeployerCap.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => DeployerCap.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => DeployerCap.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => DeployerCap.fromBcs(data),
       bcs: DeployerCap.bcs,
       fromJSONField: (field: any) => DeployerCap.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => DeployerCap.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        DeployerCap.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        DeployerCap.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        DeployerCap.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => DeployerCap.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => DeployerCap.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => DeployerCap.fetch(client, id),
       new: (fields: DeployerCapFields) => {
         return new DeployerCap([], fields);
       },
@@ -108,9 +103,7 @@ export class DeployerCap implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): DeployerCap {
-    return DeployerCap.reified().new({
-      id: decodeFromFields(UID.reified(), fields.id),
-    });
+    return DeployerCap.reified().new({ id: decodeFromFields(UID.reified(), fields.id) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): DeployerCap {
@@ -134,17 +127,11 @@ export class DeployerCap implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): DeployerCap {
-    return DeployerCap.reified().new({
-      id: decodeFromJSONField(UID.reified(), field.id),
-    });
+    return DeployerCap.reified().new({ id: decodeFromJSONField(UID.reified(), field.id) });
   }
 
   static fromJSON(json: Record<string, any>): DeployerCap {
@@ -160,9 +147,7 @@ export class DeployerCap implements StructClass {
       throw new Error("not an object");
     }
     if (!isDeployerCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a DeployerCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a DeployerCap object`);
     }
     return DeployerCap.fromFieldsWithTypes(content);
   }
@@ -170,7 +155,7 @@ export class DeployerCap implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): DeployerCap {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isDeployerCap(data.bcs.type)) {
-        throw new Error(`object at is not a DeployerCap object`);
+        throw new Error(`object at ${data.objectId} is not a DeployerCap object`);
       }
 
       return DeployerCap.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -186,14 +171,9 @@ export class DeployerCap implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<DeployerCap> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching DeployerCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching DeployerCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDeployerCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDeployerCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a DeployerCap object`);
     }
 

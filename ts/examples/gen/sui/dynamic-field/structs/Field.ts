@@ -33,19 +33,16 @@ export function isField(type: string): boolean {
   return type.startsWith(`${PKG_V31}::dynamic_field::Field` + "<");
 }
 
-export interface FieldFields<
-  Name extends TypeArgument,
-  Value extends TypeArgument,
-> {
+export interface FieldFields<Name extends TypeArgument, Value extends TypeArgument> {
   id: ToField<UID>;
   name: ToField<Name>;
   value: ToField<Value>;
 }
 
-export type FieldReified<
-  Name extends TypeArgument,
-  Value extends TypeArgument,
-> = Reified<Field<Name, Value>, FieldFields<Name, Value>>;
+export type FieldReified<Name extends TypeArgument, Value extends TypeArgument> = Reified<
+  Field<Name, Value>,
+  FieldFields<Name, Value>
+>;
 
 /**
  * Move struct: `Field`
@@ -54,9 +51,7 @@ export type FieldReified<
  * @typeParam Name - Type parameter 0
  * @typeParam Value - Type parameter 1
  */
-export class Field<Name extends TypeArgument, Value extends TypeArgument>
-  implements StructClass
-{
+export class Field<Name extends TypeArgument, Value extends TypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V31}::dynamic_field::Field`;
@@ -87,10 +82,7 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
     this.value = fields.value;
   }
 
-  static reified<
-    Name extends Reified<TypeArgument, any>,
-    Value extends Reified<TypeArgument, any>,
-  >(
+  static reified<Name extends Reified<TypeArgument, any>, Value extends Reified<TypeArgument, any>>(
     Name: Name,
     Value: Value,
   ): FieldReified<ToTypeArgument<Name>, ToTypeArgument<Value>> {
@@ -106,24 +98,19 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
       ],
       isPhantom: Field.$isPhantom,
       reifiedTypeArgs: [Name, Value],
-      fromFields: (fields: Record<string, any>) =>
-        Field.fromFields([Name, Value], fields),
+      fromFields: (fields: Record<string, any>) => Field.fromFields([Name, Value], fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         Field.fromFieldsWithTypes([Name, Value], item),
       fromBcs: (data: Uint8Array) => Field.fromBcs([Name, Value], data),
       bcs: Field.bcs(toBcs(Name), toBcs(Value)),
       fromJSONField: (field: any) => Field.fromJSONField([Name, Value], field),
-      fromJSON: (json: Record<string, any>) =>
-        Field.fromJSON([Name, Value], json),
+      fromJSON: (json: Record<string, any>) => Field.fromJSON([Name, Value], json),
       fromSuiParsedData: (content: SuiParsedData) =>
         Field.fromSuiParsedData([Name, Value], content),
       fromSuiObjectData: (content: SuiObjectData) =>
         Field.fromSuiObjectData([Name, Value], content),
-      fetch: async (client: SuiClient, id: string) =>
-        Field.fetch(client, [Name, Value], id),
-      new: (
-        fields: FieldFields<ToTypeArgument<Name>, ToTypeArgument<Value>>,
-      ) => {
+      fetch: async (client: SuiClient, id: string) => Field.fetch(client, [Name, Value], id),
+      new: (fields: FieldFields<ToTypeArgument<Name>, ToTypeArgument<Value>>) => {
         return new Field([extractType(Name), extractType(Value)], fields);
       },
       kind: "StructClassReified",
@@ -134,15 +121,10 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
     return Field.reified;
   }
 
-  static phantom<
-    Name extends Reified<TypeArgument, any>,
-    Value extends Reified<TypeArgument, any>,
-  >(
+  static phantom<Name extends Reified<TypeArgument, any>, Value extends Reified<TypeArgument, any>>(
     Name: Name,
     Value: Value,
-  ): PhantomReified<
-    ToTypeStr<Field<ToTypeArgument<Name>, ToTypeArgument<Value>>>
-  > {
+  ): PhantomReified<ToTypeStr<Field<ToTypeArgument<Name>, ToTypeArgument<Value>>>> {
     return phantom(Field.reified(Name, Value));
   }
   static get p() {
@@ -150,10 +132,7 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
   }
 
   static get bcs() {
-    return <Name extends BcsType<any>, Value extends BcsType<any>>(
-      Name: Name,
-      Value: Value,
-    ) =>
+    return <Name extends BcsType<any>, Value extends BcsType<any>>(Name: Name, Value: Value) =>
       bcs.struct(`Field<${Name.name}, ${Value.name}>`, {
         id: UID.bcs,
         name: Name,
@@ -196,10 +175,7 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
     });
   }
 
-  static fromBcs<
-    Name extends Reified<TypeArgument, any>,
-    Value extends Reified<TypeArgument, any>,
-  >(
+  static fromBcs<Name extends Reified<TypeArgument, any>, Value extends Reified<TypeArgument, any>>(
     typeArgs: [Name, Value],
     data: Uint8Array,
   ): Field<ToTypeArgument<Name>, ToTypeArgument<Value>> {
@@ -220,20 +196,13 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
     Name extends Reified<TypeArgument, any>,
     Value extends Reified<TypeArgument, any>,
-  >(
-    typeArgs: [Name, Value],
-    field: any,
-  ): Field<ToTypeArgument<Name>, ToTypeArgument<Value>> {
+  >(typeArgs: [Name, Value], field: any): Field<ToTypeArgument<Name>, ToTypeArgument<Value>> {
     const [typeArg0, typeArg1] = typeArgs;
     return Field.reified(typeArg0, typeArg1).new({
       id: decodeFromJSONField(UID.reified(), field.id),
@@ -273,9 +242,7 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
       throw new Error("not an object");
     }
     if (!isField(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Field object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Field object`);
     }
     return Field.fromFieldsWithTypes(typeArgs, content);
   }
@@ -289,7 +256,7 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
   ): Field<ToTypeArgument<Name>, ToTypeArgument<Value>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isField(data.bcs.type)) {
-        throw new Error(`object at is not a Field object`);
+        throw new Error(`object at ${data.objectId} is not a Field object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -332,14 +299,9 @@ export class Field<Name extends TypeArgument, Value extends TypeArgument>
   ): Promise<Field<ToTypeArgument<Name>, ToTypeArgument<Value>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Field object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Field object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isField(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isField(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Field object`);
     }
 

@@ -21,10 +21,7 @@ export interface GenerateBytesArgs {
  * @param numOfBytes - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function generateBytes(
-  tx: Transaction,
-  args: GenerateBytesArgs,
-): TransactionResult {
+export function generateBytes(tx: Transaction, args: GenerateBytesArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::random::generate_bytes`,
     arguments: [obj(tx, args.g), pure(tx, args.numOfBytes, `u16`)],

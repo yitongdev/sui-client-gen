@@ -23,11 +23,7 @@ export interface MintArgs {
  * @param ctx - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function mint(
-  tx: Transaction,
-  typeArg: string,
-  args: MintArgs,
-): TransactionResult {
+export function mint(tx: Transaction, typeArg: string, args: MintArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::coin::mint`,
     typeArguments: [typeArg],

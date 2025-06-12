@@ -20,10 +20,7 @@ export interface SetMaxCloseLtvPctArgs {
  * @param reserveConfigBuilder - Function parameter
  * @param u8 - Function parameter
  */
-export function setMaxCloseLtvPct(
-  tx: Transaction,
-  args: SetMaxCloseLtvPctArgs,
-): TransactionResult {
+export function setMaxCloseLtvPct(tx: Transaction, args: SetMaxCloseLtvPctArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve_config::set_max_close_ltv_pct`,
     arguments: [obj(tx, args.reserveConfigBuilder), pure(tx, args.u8, `u8`)],

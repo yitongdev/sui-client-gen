@@ -78,20 +78,15 @@ export class GuardianSet implements StructClass {
       typeArgs: [] as [],
       isPhantom: GuardianSet.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        GuardianSet.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        GuardianSet.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => GuardianSet.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => GuardianSet.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => GuardianSet.fromBcs(data),
       bcs: GuardianSet.bcs,
       fromJSONField: (field: any) => GuardianSet.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => GuardianSet.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        GuardianSet.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        GuardianSet.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        GuardianSet.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => GuardianSet.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => GuardianSet.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => GuardianSet.fetch(client, id),
       new: (fields: GuardianSetFields) => {
         return new GuardianSet([], fields);
       },
@@ -121,14 +116,8 @@ export class GuardianSet implements StructClass {
   static fromFields(fields: Record<string, any>): GuardianSet {
     return GuardianSet.reified().new({
       index: decodeFromFields("u32", fields.index),
-      guardians: decodeFromFields(
-        reified.vector(Guardian.reified()),
-        fields.guardians,
-      ),
-      expirationTimestampMs: decodeFromFields(
-        "u64",
-        fields.expiration_timestamp_ms,
-      ),
+      guardians: decodeFromFields(reified.vector(Guardian.reified()), fields.guardians),
+      expirationTimestampMs: decodeFromFields("u64", fields.expiration_timestamp_ms),
     });
   }
 
@@ -143,10 +132,7 @@ export class GuardianSet implements StructClass {
         reified.vector(Guardian.reified()),
         item.fields.guardians,
       ),
-      expirationTimestampMs: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.expiration_timestamp_ms,
-      ),
+      expirationTimestampMs: decodeFromFieldsWithTypes("u64", item.fields.expiration_timestamp_ms),
     });
   }
 
@@ -157,33 +143,20 @@ export class GuardianSet implements StructClass {
   toJSONField() {
     return {
       index: this.index,
-      guardians: fieldToJSON<Vector<Guardian>>(
-        `vector<${Guardian.$typeName}>`,
-        this.guardians,
-      ),
+      guardians: fieldToJSON<Vector<Guardian>>(`vector<${Guardian.$typeName}>`, this.guardians),
       expirationTimestampMs: this.expirationTimestampMs.toString(),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): GuardianSet {
     return GuardianSet.reified().new({
       index: decodeFromJSONField("u32", field.index),
-      guardians: decodeFromJSONField(
-        reified.vector(Guardian.reified()),
-        field.guardians,
-      ),
-      expirationTimestampMs: decodeFromJSONField(
-        "u64",
-        field.expirationTimestampMs,
-      ),
+      guardians: decodeFromJSONField(reified.vector(Guardian.reified()), field.guardians),
+      expirationTimestampMs: decodeFromJSONField("u64", field.expirationTimestampMs),
     });
   }
 
@@ -200,9 +173,7 @@ export class GuardianSet implements StructClass {
       throw new Error("not an object");
     }
     if (!isGuardianSet(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a GuardianSet object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a GuardianSet object`);
     }
     return GuardianSet.fromFieldsWithTypes(content);
   }
@@ -210,7 +181,7 @@ export class GuardianSet implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): GuardianSet {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isGuardianSet(data.bcs.type)) {
-        throw new Error(`object at is not a GuardianSet object`);
+        throw new Error(`object at ${data.objectId} is not a GuardianSet object`);
       }
 
       return GuardianSet.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -226,14 +197,9 @@ export class GuardianSet implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<GuardianSet> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching GuardianSet object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching GuardianSet object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isGuardianSet(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isGuardianSet(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a GuardianSet object`);
     }
 

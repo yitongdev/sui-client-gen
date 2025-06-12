@@ -32,10 +32,6 @@ export function denyListV2Remove(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::coin::deny_list_v2_remove`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.denyList),
-      obj(tx, args.denyCapV2),
-      pure(tx, args.address, `address`),
-    ],
+    arguments: [obj(tx, args.denyList), obj(tx, args.denyCapV2), pure(tx, args.address, `address`)],
   });
 }

@@ -69,18 +69,14 @@ export class SPRUNGSUI implements StructClass {
       isPhantom: SPRUNGSUI.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => SPRUNGSUI.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        SPRUNGSUI.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => SPRUNGSUI.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => SPRUNGSUI.fromBcs(data),
       bcs: SPRUNGSUI.bcs,
       fromJSONField: (field: any) => SPRUNGSUI.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => SPRUNGSUI.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        SPRUNGSUI.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        SPRUNGSUI.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        SPRUNGSUI.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => SPRUNGSUI.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => SPRUNGSUI.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => SPRUNGSUI.fetch(client, id),
       new: (fields: SPRUNGSUIFields) => {
         return new SPRUNGSUI([], fields);
       },
@@ -106,9 +102,7 @@ export class SPRUNGSUI implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): SPRUNGSUI {
-    return SPRUNGSUI.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return SPRUNGSUI.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): SPRUNGSUI {
@@ -132,17 +126,11 @@ export class SPRUNGSUI implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): SPRUNGSUI {
-    return SPRUNGSUI.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return SPRUNGSUI.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): SPRUNGSUI {
@@ -158,9 +146,7 @@ export class SPRUNGSUI implements StructClass {
       throw new Error("not an object");
     }
     if (!isSPRUNGSUI(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a SPRUNGSUI object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a SPRUNGSUI object`);
     }
     return SPRUNGSUI.fromFieldsWithTypes(content);
   }
@@ -168,7 +154,7 @@ export class SPRUNGSUI implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): SPRUNGSUI {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isSPRUNGSUI(data.bcs.type)) {
-        throw new Error(`object at is not a SPRUNGSUI object`);
+        throw new Error(`object at ${data.objectId} is not a SPRUNGSUI object`);
       }
 
       return SPRUNGSUI.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -184,14 +170,9 @@ export class SPRUNGSUI implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<SPRUNGSUI> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching SPRUNGSUI object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching SPRUNGSUI object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isSPRUNGSUI(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isSPRUNGSUI(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a SPRUNGSUI object`);
     }
 

@@ -1,11 +1,7 @@
 import { pure } from "../../../_framework/util.js";
 import { String } from "../../../move-stdlib-chain/string/structs/index.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface VerifyZkloginIdArgs {
   string1: string | TransactionArgument;
@@ -27,10 +23,7 @@ export interface VerifyZkloginIdArgs {
  * @param u256 - Function parameter
  * @param txContext - Function parameter
  */
-export function verifyZkloginId(
-  tx: Transaction,
-  args: VerifyZkloginIdArgs,
-): TransactionResult {
+export function verifyZkloginId(tx: Transaction, args: VerifyZkloginIdArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::zklogin_verified_id::verify_zklogin_id`,
     arguments: [

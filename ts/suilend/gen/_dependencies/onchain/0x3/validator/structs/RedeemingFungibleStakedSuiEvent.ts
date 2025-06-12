@@ -56,10 +56,7 @@ export class RedeemingFungibleStakedSuiEvent implements StructClass {
   readonly fungibleStakedSuiAmount: ToField<"u64">;
   readonly suiAmount: ToField<"u64">;
 
-  private constructor(
-    typeArgs: [],
-    fields: RedeemingFungibleStakedSuiEventFields,
-  ) {
+  private constructor(typeArgs: [], fields: RedeemingFungibleStakedSuiEventFields) {
     this.$fullTypeName = composeSuiType(
       RedeemingFungibleStakedSuiEvent.$typeName,
       ...typeArgs,
@@ -85,13 +82,10 @@ export class RedeemingFungibleStakedSuiEvent implements StructClass {
         RedeemingFungibleStakedSuiEvent.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         RedeemingFungibleStakedSuiEvent.fromFieldsWithTypes(item),
-      fromBcs: (data: Uint8Array) =>
-        RedeemingFungibleStakedSuiEvent.fromBcs(data),
+      fromBcs: (data: Uint8Array) => RedeemingFungibleStakedSuiEvent.fromBcs(data),
       bcs: RedeemingFungibleStakedSuiEvent.bcs,
-      fromJSONField: (field: any) =>
-        RedeemingFungibleStakedSuiEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        RedeemingFungibleStakedSuiEvent.fromJSON(json),
+      fromJSONField: (field: any) => RedeemingFungibleStakedSuiEvent.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => RedeemingFungibleStakedSuiEvent.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         RedeemingFungibleStakedSuiEvent.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
@@ -124,22 +118,15 @@ export class RedeemingFungibleStakedSuiEvent implements StructClass {
     });
   }
 
-  static fromFields(
-    fields: Record<string, any>,
-  ): RedeemingFungibleStakedSuiEvent {
+  static fromFields(fields: Record<string, any>): RedeemingFungibleStakedSuiEvent {
     return RedeemingFungibleStakedSuiEvent.reified().new({
       poolId: decodeFromFields(ID.reified(), fields.pool_id),
-      fungibleStakedSuiAmount: decodeFromFields(
-        "u64",
-        fields.fungible_staked_sui_amount,
-      ),
+      fungibleStakedSuiAmount: decodeFromFields("u64", fields.fungible_staked_sui_amount),
       suiAmount: decodeFromFields("u64", fields.sui_amount),
     });
   }
 
-  static fromFieldsWithTypes(
-    item: FieldsWithTypes,
-  ): RedeemingFungibleStakedSuiEvent {
+  static fromFieldsWithTypes(item: FieldsWithTypes): RedeemingFungibleStakedSuiEvent {
     if (!isRedeemingFungibleStakedSuiEvent(item.type)) {
       throw new Error("not a RedeemingFungibleStakedSuiEvent type");
     }
@@ -169,20 +156,13 @@ export class RedeemingFungibleStakedSuiEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): RedeemingFungibleStakedSuiEvent {
     return RedeemingFungibleStakedSuiEvent.reified().new({
       poolId: decodeFromJSONField(ID.reified(), field.poolId),
-      fungibleStakedSuiAmount: decodeFromJSONField(
-        "u64",
-        field.fungibleStakedSuiAmount,
-      ),
+      fungibleStakedSuiAmount: decodeFromJSONField("u64", field.fungibleStakedSuiAmount),
       suiAmount: decodeFromJSONField("u64", field.suiAmount),
     });
   }
@@ -195,9 +175,7 @@ export class RedeemingFungibleStakedSuiEvent implements StructClass {
     return RedeemingFungibleStakedSuiEvent.fromJSONField(json);
   }
 
-  static fromSuiParsedData(
-    content: SuiParsedData,
-  ): RedeemingFungibleStakedSuiEvent {
+  static fromSuiParsedData(content: SuiParsedData): RedeemingFungibleStakedSuiEvent {
     if (content.dataType !== "moveObject") {
       throw new Error("not an object");
     }
@@ -209,22 +187,15 @@ export class RedeemingFungibleStakedSuiEvent implements StructClass {
     return RedeemingFungibleStakedSuiEvent.fromFieldsWithTypes(content);
   }
 
-  static fromSuiObjectData(
-    data: SuiObjectData,
-  ): RedeemingFungibleStakedSuiEvent {
+  static fromSuiObjectData(data: SuiObjectData): RedeemingFungibleStakedSuiEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isRedeemingFungibleStakedSuiEvent(data.bcs.type)
-      ) {
+      if (data.bcs.dataType !== "moveObject" || !isRedeemingFungibleStakedSuiEvent(data.bcs.type)) {
         throw new Error(
-          `object at is not a RedeemingFungibleStakedSuiEvent object`,
+          `object at ${data.objectId} is not a RedeemingFungibleStakedSuiEvent object`,
         );
       }
 
-      return RedeemingFungibleStakedSuiEvent.fromBcs(
-        fromBase64(data.bcs.bcsBytes),
-      );
+      return RedeemingFungibleStakedSuiEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return RedeemingFungibleStakedSuiEvent.fromSuiParsedData(data.content);
@@ -234,10 +205,7 @@ export class RedeemingFungibleStakedSuiEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<RedeemingFungibleStakedSuiEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<RedeemingFungibleStakedSuiEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
@@ -248,9 +216,7 @@ export class RedeemingFungibleStakedSuiEvent implements StructClass {
       res.data?.bcs?.dataType !== "moveObject" ||
       !isRedeemingFungibleStakedSuiEvent(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a RedeemingFungibleStakedSuiEvent object`,
-      );
+      throw new Error(`object at id ${id} is not a RedeemingFungibleStakedSuiEvent object`);
     }
 
     return RedeemingFungibleStakedSuiEvent.fromSuiObjectData(res.data);

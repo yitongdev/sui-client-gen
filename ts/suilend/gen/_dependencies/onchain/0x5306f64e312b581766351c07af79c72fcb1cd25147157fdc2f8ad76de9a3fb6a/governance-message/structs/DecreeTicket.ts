@@ -52,9 +52,7 @@ export type DecreeTicketReified<T0 extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class DecreeTicket<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class DecreeTicket<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V1}::governance_message::DecreeTicket`;
@@ -72,10 +70,7 @@ export class DecreeTicket<T0 extends PhantomTypeArgument>
   readonly action: ToField<"u8">;
   readonly global: ToField<"bool">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: DecreeTicketFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: DecreeTicketFields<T0>) {
     this.$fullTypeName = composeSuiType(
       DecreeTicket.$typeName,
       ...typeArgs,
@@ -98,25 +93,18 @@ export class DecreeTicket<T0 extends PhantomTypeArgument>
         DecreeTicket.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V1}::governance_message::DecreeTicket<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: DecreeTicket.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        DecreeTicket.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        DecreeTicket.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => DecreeTicket.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => DecreeTicket.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => DecreeTicket.fromBcs(T0, data),
       bcs: DecreeTicket.bcs,
       fromJSONField: (field: any) => DecreeTicket.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => DecreeTicket.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        DecreeTicket.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        DecreeTicket.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        DecreeTicket.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => DecreeTicket.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => DecreeTicket.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => DecreeTicket.fetch(client, T0, id),
       new: (fields: DecreeTicketFields<ToPhantomTypeArgument<T0>>) => {
         return new DecreeTicket([extractType(T0)], fields);
       },
@@ -153,10 +141,7 @@ export class DecreeTicket<T0 extends PhantomTypeArgument>
   ): DecreeTicket<ToPhantomTypeArgument<T0>> {
     return DecreeTicket.reified(typeArg).new({
       governanceChain: decodeFromFields("u16", fields.governance_chain),
-      governanceContract: decodeFromFields(
-        ExternalAddress.reified(),
-        fields.governance_contract,
-      ),
+      governanceContract: decodeFromFields(ExternalAddress.reified(), fields.governance_contract),
       moduleName: decodeFromFields(Bytes32.reified(), fields.module_name),
       action: decodeFromFields("u8", fields.action),
       global: decodeFromFields("bool", fields.global),
@@ -173,18 +158,12 @@ export class DecreeTicket<T0 extends PhantomTypeArgument>
     assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
     return DecreeTicket.reified(typeArg).new({
-      governanceChain: decodeFromFieldsWithTypes(
-        "u16",
-        item.fields.governance_chain,
-      ),
+      governanceChain: decodeFromFieldsWithTypes("u16", item.fields.governance_chain),
       governanceContract: decodeFromFieldsWithTypes(
         ExternalAddress.reified(),
         item.fields.governance_contract,
       ),
-      moduleName: decodeFromFieldsWithTypes(
-        Bytes32.reified(),
-        item.fields.module_name,
-      ),
+      moduleName: decodeFromFieldsWithTypes(Bytes32.reified(), item.fields.module_name),
       action: decodeFromFieldsWithTypes("u8", item.fields.action),
       global: decodeFromFieldsWithTypes("bool", item.fields.global),
     });
@@ -208,11 +187,7 @@ export class DecreeTicket<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -221,10 +196,7 @@ export class DecreeTicket<T0 extends PhantomTypeArgument>
   ): DecreeTicket<ToPhantomTypeArgument<T0>> {
     return DecreeTicket.reified(typeArg).new({
       governanceChain: decodeFromJSONField("u16", field.governanceChain),
-      governanceContract: decodeFromJSONField(
-        ExternalAddress.reified(),
-        field.governanceContract,
-      ),
+      governanceContract: decodeFromJSONField(ExternalAddress.reified(), field.governanceContract),
       moduleName: decodeFromJSONField(Bytes32.reified(), field.moduleName),
       action: decodeFromJSONField("u8", field.action),
       global: decodeFromJSONField("bool", field.global),
@@ -255,9 +227,7 @@ export class DecreeTicket<T0 extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isDecreeTicket(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a DecreeTicket object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a DecreeTicket object`);
     }
     return DecreeTicket.fromFieldsWithTypes(typeArg, content);
   }
@@ -267,11 +237,8 @@ export class DecreeTicket<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): DecreeTicket<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isDecreeTicket(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a DecreeTicket object`);
+      if (data.bcs.dataType !== "moveObject" || !isDecreeTicket(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a DecreeTicket object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -306,14 +273,9 @@ export class DecreeTicket<T0 extends PhantomTypeArgument>
   ): Promise<DecreeTicket<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching DecreeTicket object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching DecreeTicket object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDecreeTicket(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDecreeTicket(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a DecreeTicket object`);
     }
 

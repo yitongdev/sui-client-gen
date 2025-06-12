@@ -1,8 +1,5 @@
 import * as reified from "../../../_framework/reified.js";
-import {
-  ID,
-  UID,
-} from "../../../_dependencies/onchain/0x2/object/structs/index.js";
+import { ID, UID } from "../../../_dependencies/onchain/0x2/object/structs/index.js";
 import {
   PhantomReified,
   PhantomToTypeStr,
@@ -99,10 +96,7 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
   readonly badDebtUsd: ToField<Decimal>;
   readonly closable: ToField<"bool">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: ObligationFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: ObligationFields<T0>) {
     this.$fullTypeName = composeSuiType(
       Obligation.$typeName,
       ...typeArgs,
@@ -119,8 +113,7 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
     this.superUnhealthyBorrowValueUsd = fields.superUnhealthyBorrowValueUsd;
     this.unweightedBorrowedValueUsd = fields.unweightedBorrowedValueUsd;
     this.weightedBorrowedValueUsd = fields.weightedBorrowedValueUsd;
-    this.weightedBorrowedValueUpperBoundUsd =
-      fields.weightedBorrowedValueUpperBoundUsd;
+    this.weightedBorrowedValueUpperBoundUsd = fields.weightedBorrowedValueUpperBoundUsd;
     this.borrowingIsolatedAsset = fields.borrowingIsolatedAsset;
     this.userRewardManagers = fields.userRewardManagers;
     this.badDebtUsd = fields.badDebtUsd;
@@ -136,25 +129,18 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
         Obligation.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V1}::obligation::Obligation<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: Obligation.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        Obligation.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Obligation.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => Obligation.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Obligation.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Obligation.fromBcs(T0, data),
       bcs: Obligation.bcs,
       fromJSONField: (field: any) => Obligation.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Obligation.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Obligation.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Obligation.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Obligation.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Obligation.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Obligation.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Obligation.fetch(client, T0, id),
       new: (fields: ObligationFields<ToPhantomTypeArgument<T0>>) => {
         return new Obligation([extractType(T0)], fields);
       },
@@ -202,22 +188,10 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
     return Obligation.reified(typeArg).new({
       id: decodeFromFields(UID.reified(), fields.id),
       lendingMarketId: decodeFromFields(ID.reified(), fields.lending_market_id),
-      deposits: decodeFromFields(
-        reified.vector(Deposit1.reified()),
-        fields.deposits,
-      ),
-      borrows: decodeFromFields(
-        reified.vector(Borrow1.reified()),
-        fields.borrows,
-      ),
-      depositedValueUsd: decodeFromFields(
-        Decimal.reified(),
-        fields.deposited_value_usd,
-      ),
-      allowedBorrowValueUsd: decodeFromFields(
-        Decimal.reified(),
-        fields.allowed_borrow_value_usd,
-      ),
+      deposits: decodeFromFields(reified.vector(Deposit1.reified()), fields.deposits),
+      borrows: decodeFromFields(reified.vector(Borrow1.reified()), fields.borrows),
+      depositedValueUsd: decodeFromFields(Decimal.reified(), fields.deposited_value_usd),
+      allowedBorrowValueUsd: decodeFromFields(Decimal.reified(), fields.allowed_borrow_value_usd),
       unhealthyBorrowValueUsd: decodeFromFields(
         Decimal.reified(),
         fields.unhealthy_borrow_value_usd,
@@ -238,10 +212,7 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
         Decimal.reified(),
         fields.weighted_borrowed_value_upper_bound_usd,
       ),
-      borrowingIsolatedAsset: decodeFromFields(
-        "bool",
-        fields.borrowing_isolated_asset,
-      ),
+      borrowingIsolatedAsset: decodeFromFields("bool", fields.borrowing_isolated_asset),
       userRewardManagers: decodeFromFields(
         reified.vector(UserRewardManager.reified()),
         fields.user_reward_managers,
@@ -262,18 +233,9 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
 
     return Obligation.reified(typeArg).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      lendingMarketId: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.lending_market_id,
-      ),
-      deposits: decodeFromFieldsWithTypes(
-        reified.vector(Deposit1.reified()),
-        item.fields.deposits,
-      ),
-      borrows: decodeFromFieldsWithTypes(
-        reified.vector(Borrow1.reified()),
-        item.fields.borrows,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes(ID.reified(), item.fields.lending_market_id),
+      deposits: decodeFromFieldsWithTypes(reified.vector(Deposit1.reified()), item.fields.deposits),
+      borrows: decodeFromFieldsWithTypes(reified.vector(Borrow1.reified()), item.fields.borrows),
       depositedValueUsd: decodeFromFieldsWithTypes(
         Decimal.reified(),
         item.fields.deposited_value_usd,
@@ -310,10 +272,7 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
         reified.vector(UserRewardManager.reified()),
         item.fields.user_reward_managers,
       ),
-      badDebtUsd: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.bad_debt_usd,
-      ),
+      badDebtUsd: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.bad_debt_usd),
       closable: decodeFromFieldsWithTypes("bool", item.fields.closable),
     });
   }
@@ -329,23 +288,15 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
     return {
       id: this.id,
       lendingMarketId: this.lendingMarketId,
-      deposits: fieldToJSON<Vector<Deposit1>>(
-        `vector<${Deposit1.$typeName}>`,
-        this.deposits,
-      ),
-      borrows: fieldToJSON<Vector<Borrow1>>(
-        `vector<${Borrow1.$typeName}>`,
-        this.borrows,
-      ),
+      deposits: fieldToJSON<Vector<Deposit1>>(`vector<${Deposit1.$typeName}>`, this.deposits),
+      borrows: fieldToJSON<Vector<Borrow1>>(`vector<${Borrow1.$typeName}>`, this.borrows),
       depositedValueUsd: this.depositedValueUsd.toJSONField(),
       allowedBorrowValueUsd: this.allowedBorrowValueUsd.toJSONField(),
       unhealthyBorrowValueUsd: this.unhealthyBorrowValueUsd.toJSONField(),
-      superUnhealthyBorrowValueUsd:
-        this.superUnhealthyBorrowValueUsd.toJSONField(),
+      superUnhealthyBorrowValueUsd: this.superUnhealthyBorrowValueUsd.toJSONField(),
       unweightedBorrowedValueUsd: this.unweightedBorrowedValueUsd.toJSONField(),
       weightedBorrowedValueUsd: this.weightedBorrowedValueUsd.toJSONField(),
-      weightedBorrowedValueUpperBoundUsd:
-        this.weightedBorrowedValueUpperBoundUsd.toJSONField(),
+      weightedBorrowedValueUpperBoundUsd: this.weightedBorrowedValueUpperBoundUsd.toJSONField(),
       borrowingIsolatedAsset: this.borrowingIsolatedAsset,
       userRewardManagers: fieldToJSON<Vector<UserRewardManager>>(
         `vector<${UserRewardManager.$typeName}>`,
@@ -357,11 +308,7 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -371,22 +318,10 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
     return Obligation.reified(typeArg).new({
       id: decodeFromJSONField(UID.reified(), field.id),
       lendingMarketId: decodeFromJSONField(ID.reified(), field.lendingMarketId),
-      deposits: decodeFromJSONField(
-        reified.vector(Deposit1.reified()),
-        field.deposits,
-      ),
-      borrows: decodeFromJSONField(
-        reified.vector(Borrow1.reified()),
-        field.borrows,
-      ),
-      depositedValueUsd: decodeFromJSONField(
-        Decimal.reified(),
-        field.depositedValueUsd,
-      ),
-      allowedBorrowValueUsd: decodeFromJSONField(
-        Decimal.reified(),
-        field.allowedBorrowValueUsd,
-      ),
+      deposits: decodeFromJSONField(reified.vector(Deposit1.reified()), field.deposits),
+      borrows: decodeFromJSONField(reified.vector(Borrow1.reified()), field.borrows),
+      depositedValueUsd: decodeFromJSONField(Decimal.reified(), field.depositedValueUsd),
+      allowedBorrowValueUsd: decodeFromJSONField(Decimal.reified(), field.allowedBorrowValueUsd),
       unhealthyBorrowValueUsd: decodeFromJSONField(
         Decimal.reified(),
         field.unhealthyBorrowValueUsd,
@@ -407,10 +342,7 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
         Decimal.reified(),
         field.weightedBorrowedValueUpperBoundUsd,
       ),
-      borrowingIsolatedAsset: decodeFromJSONField(
-        "bool",
-        field.borrowingIsolatedAsset,
-      ),
+      borrowingIsolatedAsset: decodeFromJSONField("bool", field.borrowingIsolatedAsset),
       userRewardManagers: decodeFromJSONField(
         reified.vector(UserRewardManager.reified()),
         field.userRewardManagers,
@@ -444,9 +376,7 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isObligation(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Obligation object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Obligation object`);
     }
     return Obligation.fromFieldsWithTypes(typeArg, content);
   }
@@ -457,7 +387,7 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
   ): Obligation<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isObligation(data.bcs.type)) {
-        throw new Error(`object at is not a Obligation object`);
+        throw new Error(`object at ${data.objectId} is not a Obligation object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -492,14 +422,9 @@ export class Obligation<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<Obligation<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Obligation object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Obligation object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isObligation(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isObligation(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Obligation object`);
     }
 

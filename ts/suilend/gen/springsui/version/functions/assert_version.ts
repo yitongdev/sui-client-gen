@@ -20,10 +20,7 @@ export interface AssertVersionArgs {
  * @param version - Function parameter
  * @param u16 - Function parameter
  */
-export function assertVersion(
-  tx: Transaction,
-  args: AssertVersionArgs,
-): TransactionResult {
+export function assertVersion(tx: Transaction, args: AssertVersionArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::version::assert_version`,
     arguments: [obj(tx, args.version), pure(tx, args.u16, `u16`)],

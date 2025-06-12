@@ -9,8 +9,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @returns TransactionResult - The transaction result
  */
 export function createExampleStruct(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::examples::create_example_struct`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::examples::create_example_struct`, arguments: [] });
 }

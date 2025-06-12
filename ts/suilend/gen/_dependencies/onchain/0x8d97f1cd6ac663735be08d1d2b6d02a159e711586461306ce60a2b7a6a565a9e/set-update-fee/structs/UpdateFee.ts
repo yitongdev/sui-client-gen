@@ -72,18 +72,14 @@ export class UpdateFee implements StructClass {
       isPhantom: UpdateFee.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => UpdateFee.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        UpdateFee.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => UpdateFee.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => UpdateFee.fromBcs(data),
       bcs: UpdateFee.bcs,
       fromJSONField: (field: any) => UpdateFee.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => UpdateFee.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        UpdateFee.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        UpdateFee.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        UpdateFee.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => UpdateFee.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => UpdateFee.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => UpdateFee.fetch(client, id),
       new: (fields: UpdateFeeFields) => {
         return new UpdateFee([], fields);
       },
@@ -139,11 +135,7 @@ export class UpdateFee implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UpdateFee {
@@ -166,9 +158,7 @@ export class UpdateFee implements StructClass {
       throw new Error("not an object");
     }
     if (!isUpdateFee(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a UpdateFee object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a UpdateFee object`);
     }
     return UpdateFee.fromFieldsWithTypes(content);
   }
@@ -176,7 +166,7 @@ export class UpdateFee implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): UpdateFee {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isUpdateFee(data.bcs.type)) {
-        throw new Error(`object at is not a UpdateFee object`);
+        throw new Error(`object at ${data.objectId} is not a UpdateFee object`);
       }
 
       return UpdateFee.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -192,14 +182,9 @@ export class UpdateFee implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<UpdateFee> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching UpdateFee object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching UpdateFee object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isUpdateFee(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isUpdateFee(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a UpdateFee object`);
     }
 

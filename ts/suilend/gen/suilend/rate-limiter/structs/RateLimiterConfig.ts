@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -29,10 +25,7 @@ export interface RateLimiterConfigFields {
   maxOutflow: ToField<"u64">;
 }
 
-export type RateLimiterConfigReified = Reified<
-  RateLimiterConfig,
-  RateLimiterConfigFields
->;
+export type RateLimiterConfigReified = Reified<RateLimiterConfig, RateLimiterConfigFields>;
 
 /**
  * Move struct: `RateLimiterConfig`
@@ -74,20 +67,15 @@ export class RateLimiterConfig implements StructClass {
       typeArgs: [] as [],
       isPhantom: RateLimiterConfig.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        RateLimiterConfig.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        RateLimiterConfig.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => RateLimiterConfig.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => RateLimiterConfig.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => RateLimiterConfig.fromBcs(data),
       bcs: RateLimiterConfig.bcs,
       fromJSONField: (field: any) => RateLimiterConfig.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => RateLimiterConfig.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        RateLimiterConfig.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        RateLimiterConfig.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        RateLimiterConfig.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => RateLimiterConfig.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => RateLimiterConfig.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => RateLimiterConfig.fetch(client, id),
       new: (fields: RateLimiterConfigFields) => {
         return new RateLimiterConfig([], fields);
       },
@@ -126,10 +114,7 @@ export class RateLimiterConfig implements StructClass {
     }
 
     return RateLimiterConfig.reified().new({
-      windowDuration: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.window_duration,
-      ),
+      windowDuration: decodeFromFieldsWithTypes("u64", item.fields.window_duration),
       maxOutflow: decodeFromFieldsWithTypes("u64", item.fields.max_outflow),
     });
   }
@@ -146,11 +131,7 @@ export class RateLimiterConfig implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): RateLimiterConfig {
@@ -173,20 +154,15 @@ export class RateLimiterConfig implements StructClass {
       throw new Error("not an object");
     }
     if (!isRateLimiterConfig(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a RateLimiterConfig object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a RateLimiterConfig object`);
     }
     return RateLimiterConfig.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): RateLimiterConfig {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isRateLimiterConfig(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a RateLimiterConfig object`);
+      if (data.bcs.dataType !== "moveObject" || !isRateLimiterConfig(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a RateLimiterConfig object`);
       }
 
       return RateLimiterConfig.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -199,20 +175,12 @@ export class RateLimiterConfig implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<RateLimiterConfig> {
+  static async fetch(client: SuiClient, id: string): Promise<RateLimiterConfig> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching RateLimiterConfig object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching RateLimiterConfig object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isRateLimiterConfig(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isRateLimiterConfig(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a RateLimiterConfig object`);
     }
 

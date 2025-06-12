@@ -68,20 +68,15 @@ export class Permissions implements StructClass {
       typeArgs: [] as [],
       isPhantom: Permissions.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        Permissions.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Permissions.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => Permissions.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Permissions.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Permissions.fromBcs(data),
       bcs: Permissions.bcs,
       fromJSONField: (field: any) => Permissions.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Permissions.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Permissions.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Permissions.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        Permissions.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => Permissions.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Permissions.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => Permissions.fetch(client, id),
       new: (fields: PermissionsFields) => {
         return new Permissions([], fields);
       },
@@ -107,9 +102,7 @@ export class Permissions implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): Permissions {
-    return Permissions.reified().new({
-      pos0: decodeFromFields("u64", fields.pos0),
-    });
+    return Permissions.reified().new({ pos0: decodeFromFields("u64", fields.pos0) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): Permissions {
@@ -117,9 +110,7 @@ export class Permissions implements StructClass {
       throw new Error("not a Permissions type");
     }
 
-    return Permissions.reified().new({
-      pos0: decodeFromFieldsWithTypes("u64", item.fields.pos0),
-    });
+    return Permissions.reified().new({ pos0: decodeFromFieldsWithTypes("u64", item.fields.pos0) });
   }
 
   static fromBcs(data: Uint8Array): Permissions {
@@ -133,17 +124,11 @@ export class Permissions implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Permissions {
-    return Permissions.reified().new({
-      pos0: decodeFromJSONField("u64", field.pos0),
-    });
+    return Permissions.reified().new({ pos0: decodeFromJSONField("u64", field.pos0) });
   }
 
   static fromJSON(json: Record<string, any>): Permissions {
@@ -159,9 +144,7 @@ export class Permissions implements StructClass {
       throw new Error("not an object");
     }
     if (!isPermissions(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Permissions object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Permissions object`);
     }
     return Permissions.fromFieldsWithTypes(content);
   }
@@ -169,7 +152,7 @@ export class Permissions implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Permissions {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isPermissions(data.bcs.type)) {
-        throw new Error(`object at is not a Permissions object`);
+        throw new Error(`object at ${data.objectId} is not a Permissions object`);
       }
 
       return Permissions.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -185,14 +168,9 @@ export class Permissions implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Permissions> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Permissions object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Permissions object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPermissions(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPermissions(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Permissions object`);
     }
 

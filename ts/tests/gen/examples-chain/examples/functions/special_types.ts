@@ -38,10 +38,7 @@ export interface SpecialTypesArgs {
  * @param option2 - Function parameter
  * @param txContext - Function parameter
  */
-export function specialTypes(
-  tx: Transaction,
-  args: SpecialTypesArgs,
-): TransactionResult {
+export function specialTypes(tx: Transaction, args: SpecialTypesArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::examples::special_types`,
     arguments: [

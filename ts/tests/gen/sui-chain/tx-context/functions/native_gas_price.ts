@@ -9,8 +9,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @returns TransactionResult - The transaction result
  */
 export function nativeGasPrice(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::tx_context::native_gas_price`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::tx_context::native_gas_price`, arguments: [] });
 }

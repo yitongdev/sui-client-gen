@@ -15,11 +15,7 @@ import {
   phantom,
   ToTypeStr as ToPhantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V1 } from "../../constants.js";
 import { ValidatorInfo as ValidatorInfo1 } from "./ValidatorInfo.js";
@@ -89,16 +85,13 @@ export class Storage implements StructClass {
       isPhantom: Storage.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Storage.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Storage.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Storage.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Storage.fromBcs(data),
       bcs: Storage.bcs,
       fromJSONField: (field: any) => Storage.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Storage.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Storage.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Storage.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Storage.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Storage.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Storage.fetch(client, id),
       new: (fields: StorageFields) => {
         return new Storage([], fields);
@@ -130,10 +123,7 @@ export class Storage implements StructClass {
 
   static fromFields(fields: Record<string, any>): Storage {
     return Storage.reified().new({
-      suiPool: decodeFromFields(
-        Balance.reified(reified.phantom(SUI.reified())),
-        fields.sui_pool,
-      ),
+      suiPool: decodeFromFields(Balance.reified(reified.phantom(SUI.reified())), fields.sui_pool),
       validatorInfos: decodeFromFields(
         reified.vector(ValidatorInfo1.reified()),
         fields.validator_infos,
@@ -158,18 +148,9 @@ export class Storage implements StructClass {
         reified.vector(ValidatorInfo1.reified()),
         item.fields.validator_infos,
       ),
-      totalSuiSupply: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.total_sui_supply,
-      ),
-      lastRefreshEpoch: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.last_refresh_epoch,
-      ),
-      extraFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.extra_fields,
-      ),
+      totalSuiSupply: decodeFromFieldsWithTypes("u64", item.fields.total_sui_supply),
+      lastRefreshEpoch: decodeFromFieldsWithTypes("u64", item.fields.last_refresh_epoch),
+      extraFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.extra_fields),
     });
   }
 
@@ -191,19 +172,12 @@ export class Storage implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Storage {
     return Storage.reified().new({
-      suiPool: decodeFromJSONField(
-        Balance.reified(reified.phantom(SUI.reified())),
-        field.suiPool,
-      ),
+      suiPool: decodeFromJSONField(Balance.reified(reified.phantom(SUI.reified())), field.suiPool),
       validatorInfos: decodeFromJSONField(
         reified.vector(ValidatorInfo1.reified()),
         field.validatorInfos,
@@ -227,9 +201,7 @@ export class Storage implements StructClass {
       throw new Error("not an object");
     }
     if (!isStorage(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Storage object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Storage object`);
     }
     return Storage.fromFieldsWithTypes(content);
   }
@@ -237,7 +209,7 @@ export class Storage implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Storage {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isStorage(data.bcs.type)) {
-        throw new Error(`object at is not a Storage object`);
+        throw new Error(`object at ${data.objectId} is not a Storage object`);
       }
 
       return Storage.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -253,14 +225,9 @@ export class Storage implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Storage> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Storage object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Storage object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isStorage(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isStorage(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Storage object`);
     }
 

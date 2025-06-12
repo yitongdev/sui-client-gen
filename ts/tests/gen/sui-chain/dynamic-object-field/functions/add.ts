@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface AddArgs {
   uid: TransactionObjectInput;
@@ -23,11 +19,7 @@ export interface AddArgs {
  * @param t0 - Function parameter
  * @param t1 - Function parameter
  */
-export function add(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: AddArgs,
-): TransactionResult {
+export function add(tx: Transaction, typeArgs: [string, string], args: AddArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::dynamic_object_field::add`,
     typeArguments: typeArgs,

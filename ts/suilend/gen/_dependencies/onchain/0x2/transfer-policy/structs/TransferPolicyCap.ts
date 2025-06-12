@@ -29,9 +29,7 @@ import { fromBase64 } from "@mysten/sui/utils";
 
 export function isTransferPolicyCap(type: string): boolean {
   type = compressSuiType(type);
-  return type.startsWith(
-    `${PKG_V35}::transfer_policy::TransferPolicyCap` + "<",
-  );
+  return type.startsWith(`${PKG_V35}::transfer_policy::TransferPolicyCap` + "<");
 }
 
 export interface TransferPolicyCapFields<T0 extends PhantomTypeArgument> {
@@ -50,9 +48,7 @@ export type TransferPolicyCapReified<T0 extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class TransferPolicyCap<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class TransferPolicyCap<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V35}::transfer_policy::TransferPolicyCap`;
@@ -67,10 +63,7 @@ export class TransferPolicyCap<T0 extends PhantomTypeArgument>
   readonly id: ToField<UID>;
   readonly policyId: ToField<ID>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: TransferPolicyCapFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: TransferPolicyCapFields<T0>) {
     this.$fullTypeName = composeSuiType(
       TransferPolicyCap.$typeName,
       ...typeArgs,
@@ -90,26 +83,21 @@ export class TransferPolicyCap<T0 extends PhantomTypeArgument>
         TransferPolicyCap.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V35}::transfer_policy::TransferPolicyCap<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: TransferPolicyCap.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        TransferPolicyCap.fromFields(T0, fields),
+      fromFields: (fields: Record<string, any>) => TransferPolicyCap.fromFields(T0, fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         TransferPolicyCap.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => TransferPolicyCap.fromBcs(T0, data),
       bcs: TransferPolicyCap.bcs,
       fromJSONField: (field: any) => TransferPolicyCap.fromJSONField(T0, field),
-      fromJSON: (json: Record<string, any>) =>
-        TransferPolicyCap.fromJSON(T0, json),
+      fromJSON: (json: Record<string, any>) => TransferPolicyCap.fromJSON(T0, json),
       fromSuiParsedData: (content: SuiParsedData) =>
         TransferPolicyCap.fromSuiParsedData(T0, content),
       fromSuiObjectData: (content: SuiObjectData) =>
         TransferPolicyCap.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        TransferPolicyCap.fetch(client, T0, id),
+      fetch: async (client: SuiClient, id: string) => TransferPolicyCap.fetch(client, T0, id),
       new: (fields: TransferPolicyCapFields<ToPhantomTypeArgument<T0>>) => {
         return new TransferPolicyCap([extractType(T0)], fields);
       },
@@ -166,10 +154,7 @@ export class TransferPolicyCap<T0 extends PhantomTypeArgument>
     typeArg: T0,
     data: Uint8Array,
   ): TransferPolicyCap<ToPhantomTypeArgument<T0>> {
-    return TransferPolicyCap.fromFields(
-      typeArg,
-      TransferPolicyCap.bcs.parse(data),
-    );
+    return TransferPolicyCap.fromFields(typeArg, TransferPolicyCap.bcs.parse(data));
   }
 
   toJSONField() {
@@ -180,11 +165,7 @@ export class TransferPolicyCap<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -221,9 +202,7 @@ export class TransferPolicyCap<T0 extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isTransferPolicyCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a TransferPolicyCap object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a TransferPolicyCap object`);
     }
     return TransferPolicyCap.fromFieldsWithTypes(typeArg, content);
   }
@@ -233,11 +212,8 @@ export class TransferPolicyCap<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): TransferPolicyCap<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isTransferPolicyCap(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a TransferPolicyCap object`);
+      if (data.bcs.dataType !== "moveObject" || !isTransferPolicyCap(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a TransferPolicyCap object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -272,14 +248,9 @@ export class TransferPolicyCap<T0 extends PhantomTypeArgument>
   ): Promise<TransferPolicyCap<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching TransferPolicyCap object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching TransferPolicyCap object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isTransferPolicyCap(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isTransferPolicyCap(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a TransferPolicyCap object`);
     }
 

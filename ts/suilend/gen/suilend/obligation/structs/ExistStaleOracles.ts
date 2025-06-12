@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V11 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -28,10 +24,7 @@ export interface ExistStaleOraclesFields {
   dummyField: ToField<"bool">;
 }
 
-export type ExistStaleOraclesReified = Reified<
-  ExistStaleOracles,
-  ExistStaleOraclesFields
->;
+export type ExistStaleOraclesReified = Reified<ExistStaleOracles, ExistStaleOraclesFields>;
 
 /**
  * Move struct: `ExistStaleOracles`
@@ -71,20 +64,15 @@ export class ExistStaleOracles implements StructClass {
       typeArgs: [] as [],
       isPhantom: ExistStaleOracles.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ExistStaleOracles.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ExistStaleOracles.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ExistStaleOracles.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ExistStaleOracles.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ExistStaleOracles.fromBcs(data),
       bcs: ExistStaleOracles.bcs,
       fromJSONField: (field: any) => ExistStaleOracles.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ExistStaleOracles.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ExistStaleOracles.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ExistStaleOracles.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ExistStaleOracles.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ExistStaleOracles.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ExistStaleOracles.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ExistStaleOracles.fetch(client, id),
       new: (fields: ExistStaleOraclesFields) => {
         return new ExistStaleOracles([], fields);
       },
@@ -136,11 +124,7 @@ export class ExistStaleOracles implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ExistStaleOracles {
@@ -162,20 +146,15 @@ export class ExistStaleOracles implements StructClass {
       throw new Error("not an object");
     }
     if (!isExistStaleOracles(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ExistStaleOracles object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ExistStaleOracles object`);
     }
     return ExistStaleOracles.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ExistStaleOracles {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isExistStaleOracles(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ExistStaleOracles object`);
+      if (data.bcs.dataType !== "moveObject" || !isExistStaleOracles(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ExistStaleOracles object`);
       }
 
       return ExistStaleOracles.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -188,20 +167,12 @@ export class ExistStaleOracles implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<ExistStaleOracles> {
+  static async fetch(client: SuiClient, id: string): Promise<ExistStaleOracles> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ExistStaleOracles object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ExistStaleOracles object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isExistStaleOracles(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isExistStaleOracles(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ExistStaleOracles object`);
     }
 

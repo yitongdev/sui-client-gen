@@ -21,10 +21,7 @@ export interface IsIndexSetArgs {
  * @param u64 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function isIndexSet(
-  tx: Transaction,
-  args: IsIndexSetArgs,
-): TransactionResult {
+export function isIndexSet(tx: Transaction, args: IsIndexSetArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::bit_vector::is_index_set`,
     arguments: [obj(tx, args.bitVector), pure(tx, args.u64, `u64`)],

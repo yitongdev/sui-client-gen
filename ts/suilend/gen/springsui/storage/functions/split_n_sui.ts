@@ -24,16 +24,9 @@ export interface SplitNSuiArgs {
  * @param txContext - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function splitNSui(
-  tx: Transaction,
-  args: SplitNSuiArgs,
-): TransactionResult {
+export function splitNSui(tx: Transaction, args: SplitNSuiArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::storage::split_n_sui`,
-    arguments: [
-      obj(tx, args.storage),
-      obj(tx, args.suiSystemState),
-      pure(tx, args.u64, `u64`),
-    ],
+    arguments: [obj(tx, args.storage), obj(tx, args.suiSystemState), pure(tx, args.u64, `u64`)],
   });
 }

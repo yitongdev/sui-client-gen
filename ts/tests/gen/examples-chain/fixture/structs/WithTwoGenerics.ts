@@ -32,18 +32,15 @@ export function isWithTwoGenerics(type: string): boolean {
   return type.startsWith(`${PKG_V1}::fixture::WithTwoGenerics` + "<");
 }
 
-export interface WithTwoGenericsFields<
-  T0 extends TypeArgument,
-  T1 extends TypeArgument,
-> {
+export interface WithTwoGenericsFields<T0 extends TypeArgument, T1 extends TypeArgument> {
   genericField1: ToField<T0>;
   genericField2: ToField<T1>;
 }
 
-export type WithTwoGenericsReified<
-  T0 extends TypeArgument,
-  T1 extends TypeArgument,
-> = Reified<WithTwoGenerics<T0, T1>, WithTwoGenericsFields<T0, T1>>;
+export type WithTwoGenericsReified<T0 extends TypeArgument, T1 extends TypeArgument> = Reified<
+  WithTwoGenerics<T0, T1>,
+  WithTwoGenericsFields<T0, T1>
+>;
 
 /**
  * Move struct: `WithTwoGenerics`
@@ -83,10 +80,7 @@ export class WithTwoGenerics<T0 extends TypeArgument, T1 extends TypeArgument>
     this.genericField2 = fields.genericField2;
   }
 
-  static reified<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static reified<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     T0: T0,
     T1: T1,
   ): WithTwoGenericsReified<ToTypeArgument<T0>, ToTypeArgument<T1>> {
@@ -102,25 +96,19 @@ export class WithTwoGenerics<T0 extends TypeArgument, T1 extends TypeArgument>
       ],
       isPhantom: WithTwoGenerics.$isPhantom,
       reifiedTypeArgs: [T0, T1],
-      fromFields: (fields: Record<string, any>) =>
-        WithTwoGenerics.fromFields([T0, T1], fields),
+      fromFields: (fields: Record<string, any>) => WithTwoGenerics.fromFields([T0, T1], fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         WithTwoGenerics.fromFieldsWithTypes([T0, T1], item),
       fromBcs: (data: Uint8Array) => WithTwoGenerics.fromBcs([T0, T1], data),
       bcs: WithTwoGenerics.bcs(toBcs(T0), toBcs(T1)),
-      fromJSONField: (field: any) =>
-        WithTwoGenerics.fromJSONField([T0, T1], field),
-      fromJSON: (json: Record<string, any>) =>
-        WithTwoGenerics.fromJSON([T0, T1], json),
+      fromJSONField: (field: any) => WithTwoGenerics.fromJSONField([T0, T1], field),
+      fromJSON: (json: Record<string, any>) => WithTwoGenerics.fromJSON([T0, T1], json),
       fromSuiParsedData: (content: SuiParsedData) =>
         WithTwoGenerics.fromSuiParsedData([T0, T1], content),
       fromSuiObjectData: (content: SuiObjectData) =>
         WithTwoGenerics.fromSuiObjectData([T0, T1], content),
-      fetch: async (client: SuiClient, id: string) =>
-        WithTwoGenerics.fetch(client, [T0, T1], id),
-      new: (
-        fields: WithTwoGenericsFields<ToTypeArgument<T0>, ToTypeArgument<T1>>,
-      ) => {
+      fetch: async (client: SuiClient, id: string) => WithTwoGenerics.fetch(client, [T0, T1], id),
+      new: (fields: WithTwoGenericsFields<ToTypeArgument<T0>, ToTypeArgument<T1>>) => {
         return new WithTwoGenerics([extractType(T0), extractType(T1)], fields);
       },
       kind: "StructClassReified",
@@ -131,15 +119,10 @@ export class WithTwoGenerics<T0 extends TypeArgument, T1 extends TypeArgument>
     return WithTwoGenerics.reified;
   }
 
-  static phantom<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static phantom<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     T0: T0,
     T1: T1,
-  ): PhantomReified<
-    ToTypeStr<WithTwoGenerics<ToTypeArgument<T0>, ToTypeArgument<T1>>>
-  > {
+  ): PhantomReified<ToTypeStr<WithTwoGenerics<ToTypeArgument<T0>, ToTypeArgument<T1>>>> {
     return phantom(WithTwoGenerics.reified(T0, T1));
   }
   static get p() {
@@ -154,10 +137,7 @@ export class WithTwoGenerics<T0 extends TypeArgument, T1 extends TypeArgument>
       });
   }
 
-  static fromFields<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static fromFields<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     typeArgs: [T0, T1],
     fields: Record<string, any>,
   ): WithTwoGenerics<ToTypeArgument<T0>, ToTypeArgument<T1>> {
@@ -182,21 +162,12 @@ export class WithTwoGenerics<T0 extends TypeArgument, T1 extends TypeArgument>
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
     return WithTwoGenerics.reified(typeArg0, typeArg1).new({
-      genericField1: decodeFromFieldsWithTypes(
-        typeArg0,
-        item.fields.generic_field_1,
-      ),
-      genericField2: decodeFromFieldsWithTypes(
-        typeArg1,
-        item.fields.generic_field_2,
-      ),
+      genericField1: decodeFromFieldsWithTypes(typeArg0, item.fields.generic_field_1),
+      genericField2: decodeFromFieldsWithTypes(typeArg1, item.fields.generic_field_2),
     });
   }
 
-  static fromBcs<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static fromBcs<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     typeArgs: [T0, T1],
     data: Uint8Array,
   ): WithTwoGenerics<ToTypeArgument<T0>, ToTypeArgument<T1>> {
@@ -216,20 +187,13 @@ export class WithTwoGenerics<T0 extends TypeArgument, T1 extends TypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
     T0 extends Reified<TypeArgument, any>,
     T1 extends Reified<TypeArgument, any>,
-  >(
-    typeArgs: [T0, T1],
-    field: any,
-  ): WithTwoGenerics<ToTypeArgument<T0>, ToTypeArgument<T1>> {
+  >(typeArgs: [T0, T1], field: any): WithTwoGenerics<ToTypeArgument<T0>, ToTypeArgument<T1>> {
     const [typeArg0, typeArg1] = typeArgs;
     return WithTwoGenerics.reified(typeArg0, typeArg1).new({
       genericField1: decodeFromJSONField(typeArg0, field.genericField1),
@@ -237,10 +201,7 @@ export class WithTwoGenerics<T0 extends TypeArgument, T1 extends TypeArgument>
     });
   }
 
-  static fromJSON<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static fromJSON<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     typeArgs: [T0, T1],
     json: Record<string, any>,
   ): WithTwoGenerics<ToTypeArgument<T0>, ToTypeArgument<T1>> {
@@ -249,10 +210,7 @@ export class WithTwoGenerics<T0 extends TypeArgument, T1 extends TypeArgument>
     }
     const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(
-        WithTwoGenerics.$typeName,
-        ...[typeArg0, typeArg1].map(extractType),
-      ),
+      composeSuiType(WithTwoGenerics.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
       [typeArg0, typeArg1],
     );
@@ -271,9 +229,7 @@ export class WithTwoGenerics<T0 extends TypeArgument, T1 extends TypeArgument>
       throw new Error("not an object");
     }
     if (!isWithTwoGenerics(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a WithTwoGenerics object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a WithTwoGenerics object`);
     }
     return WithTwoGenerics.fromFieldsWithTypes(typeArgs, content);
   }
@@ -286,11 +242,8 @@ export class WithTwoGenerics<T0 extends TypeArgument, T1 extends TypeArgument>
     data: SuiObjectData,
   ): WithTwoGenerics<ToTypeArgument<T0>, ToTypeArgument<T1>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isWithTwoGenerics(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a WithTwoGenerics object`);
+      if (data.bcs.dataType !== "moveObject" || !isWithTwoGenerics(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a WithTwoGenerics object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -323,24 +276,16 @@ export class WithTwoGenerics<T0 extends TypeArgument, T1 extends TypeArgument>
     );
   }
 
-  static async fetch<
-    T0 extends Reified<TypeArgument, any>,
-    T1 extends Reified<TypeArgument, any>,
-  >(
+  static async fetch<T0 extends Reified<TypeArgument, any>, T1 extends Reified<TypeArgument, any>>(
     client: SuiClient,
     typeArgs: [T0, T1],
     id: string,
   ): Promise<WithTwoGenerics<ToTypeArgument<T0>, ToTypeArgument<T1>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching WithTwoGenerics object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching WithTwoGenerics object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isWithTwoGenerics(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isWithTwoGenerics(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a WithTwoGenerics object`);
     }
 

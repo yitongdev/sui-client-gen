@@ -26,9 +26,6 @@ export function createWithTwoGenerics(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::fixture::create_with_two_generics`,
     typeArguments: typeArgs,
-    arguments: [
-      generic(tx, `${typeArgs[0]}`, args.t0),
-      generic(tx, `${typeArgs[1]}`, args.t1),
-    ],
+    arguments: [generic(tx, `${typeArgs[0]}`, args.t0), generic(tx, `${typeArgs[1]}`, args.t1)],
   });
 }

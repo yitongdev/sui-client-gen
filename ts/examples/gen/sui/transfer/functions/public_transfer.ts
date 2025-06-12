@@ -1,10 +1,6 @@
 import { GenericArg, generic, pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface PublicTransferArgs {
   obj: GenericArg;
@@ -28,9 +24,6 @@ export function publicTransfer(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::transfer::public_transfer`,
     typeArguments: [typeArg],
-    arguments: [
-      generic(tx, `${typeArg}`, args.obj),
-      pure(tx, args.recipient, `address`),
-    ],
+    arguments: [generic(tx, `${typeArg}`, args.obj), pure(tx, args.recipient, `address`)],
   });
 }

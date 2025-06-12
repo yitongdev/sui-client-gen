@@ -37,10 +37,7 @@ export interface EntryFields<T0 extends TypeArgument> {
   value: ToField<T0>;
 }
 
-export type EntryReified<T0 extends TypeArgument> = Reified<
-  Entry<T0>,
-  EntryFields<T0>
->;
+export type EntryReified<T0 extends TypeArgument> = Reified<Entry<T0>, EntryFields<T0>>;
 
 /**
  * Move struct: `Entry`
@@ -74,9 +71,7 @@ export class Entry<T0 extends TypeArgument> implements StructClass {
     this.value = fields.value;
   }
 
-  static reified<T0 extends Reified<TypeArgument, any>>(
-    T0: T0,
-  ): EntryReified<ToTypeArgument<T0>> {
+  static reified<T0 extends Reified<TypeArgument, any>>(T0: T0): EntryReified<ToTypeArgument<T0>> {
     return {
       typeName: Entry.$typeName,
       fullTypeName: composeSuiType(
@@ -87,18 +82,14 @@ export class Entry<T0 extends TypeArgument> implements StructClass {
       isPhantom: Entry.$isPhantom,
       reifiedTypeArgs: [T0],
       fromFields: (fields: Record<string, any>) => Entry.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Entry.fromFieldsWithTypes(T0, item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Entry.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Entry.fromBcs(T0, data),
       bcs: Entry.bcs(toBcs(T0)),
       fromJSONField: (field: any) => Entry.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Entry.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Entry.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Entry.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Entry.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Entry.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Entry.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Entry.fetch(client, T0, id),
       new: (fields: EntryFields<ToTypeArgument<T0>>) => {
         return new Entry([extractType(T0)], fields);
       },
@@ -167,11 +158,7 @@ export class Entry<T0 extends TypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
@@ -208,9 +195,7 @@ export class Entry<T0 extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isEntry(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Entry object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Entry object`);
     }
     return Entry.fromFieldsWithTypes(typeArg, content);
   }
@@ -221,7 +206,7 @@ export class Entry<T0 extends TypeArgument> implements StructClass {
   ): Entry<ToTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isEntry(data.bcs.type)) {
-        throw new Error(`object at is not a Entry object`);
+        throw new Error(`object at ${data.objectId} is not a Entry object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -256,14 +241,9 @@ export class Entry<T0 extends TypeArgument> implements StructClass {
   ): Promise<Entry<ToTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Entry object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Entry object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isEntry(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isEntry(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Entry object`);
     }
 

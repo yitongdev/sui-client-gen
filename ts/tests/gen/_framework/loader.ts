@@ -21,9 +21,7 @@ interface _StructClass {
   $numTypeParams: number;
   $isPhantom: readonly boolean[];
   reified(
-    ...Ts: Array<
-      Reified<TypeArgument, any> | PhantomReified<PhantomTypeArgument>
-    >
+    ...Ts: Array<Reified<TypeArgument, any> | PhantomReified<PhantomTypeArgument>>
   ): StructClassReified<StructClass, any>;
 }
 
@@ -41,10 +39,7 @@ export class StructClassLoader {
   reified(type: string): StructClassReified<StructClass, any>;
   reified(
     type: string,
-  ):
-    | StructClassReified<StructClass, any>
-    | VectorClassReified<VectorClass, any>
-    | string {
+  ): StructClassReified<StructClass, any> | VectorClassReified<VectorClass, any> | string {
     const { typeName, typeArgs } = parseTypeName(compressSuiType(type));
     switch (typeName) {
       case "bool":
@@ -58,9 +53,7 @@ export class StructClassLoader {
         return typeName;
       case "vector": {
         if (typeArgs.length !== 1) {
-          throw new Error(
-            `Vector expects 1 type argument, but got ${typeArgs.length}`,
-          );
+          throw new Error(`Vector expects 1 type argument, but got ${typeArgs.length}`);
         }
         return vector(this.reified(typeArgs[0] as string));
       }
@@ -77,16 +70,13 @@ export class StructClassLoader {
       );
     }
 
-    const reifiedTypeArgs: Array<
-      Reified<TypeArgument, any> | PhantomReified<PhantomTypeArgument>
-    > = [];
+    const reifiedTypeArgs: Array<Reified<TypeArgument, any> | PhantomReified<PhantomTypeArgument>> =
+      [];
     for (let i = 0; i < typeArgs.length; i++) {
       const isPhantom = cls.$isPhantom[i];
       const typeArg = typeArgs[i];
       if (isPhantom === undefined) {
-        throw new Error(
-          `Missing phantom type information for type parameter ${i} of ${typeName}`,
-        );
+        throw new Error(`Missing phantom type information for type parameter ${i} of ${typeName}`);
       }
       if (typeArg === undefined) {
         throw new Error(`Missing type argument at index ${i} for ${typeName}`);

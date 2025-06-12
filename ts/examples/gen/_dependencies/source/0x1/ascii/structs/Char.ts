@@ -61,24 +61,18 @@ export class Char implements StructClass {
   static reified(): CharReified {
     return {
       typeName: Char.$typeName,
-      fullTypeName: composeSuiType(
-        Char.$typeName,
-        ...[],
-      ) as `${typeof PKG_V16}::ascii::Char`,
+      fullTypeName: composeSuiType(Char.$typeName, ...[]) as `${typeof PKG_V16}::ascii::Char`,
       typeArgs: [] as [],
       isPhantom: Char.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Char.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Char.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Char.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Char.fromBcs(data),
       bcs: Char.bcs,
       fromJSONField: (field: any) => Char.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Char.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Char.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Char.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Char.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Char.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Char.fetch(client, id),
       new: (fields: CharFields) => {
         return new Char([], fields);
@@ -113,9 +107,7 @@ export class Char implements StructClass {
       throw new Error("not a Char type");
     }
 
-    return Char.reified().new({
-      byte: decodeFromFieldsWithTypes("u8", item.fields.byte),
-    });
+    return Char.reified().new({ byte: decodeFromFieldsWithTypes("u8", item.fields.byte) });
   }
 
   static fromBcs(data: Uint8Array): Char {
@@ -129,11 +121,7 @@ export class Char implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Char {
@@ -153,9 +141,7 @@ export class Char implements StructClass {
       throw new Error("not an object");
     }
     if (!isChar(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Char object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Char object`);
     }
     return Char.fromFieldsWithTypes(content);
   }
@@ -163,7 +149,7 @@ export class Char implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Char {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isChar(data.bcs.type)) {
-        throw new Error(`object at is not a Char object`);
+        throw new Error(`object at ${data.objectId} is not a Char object`);
       }
 
       return Char.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -179,14 +165,9 @@ export class Char implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Char> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Char object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Char object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isChar(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isChar(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Char object`);
     }
 

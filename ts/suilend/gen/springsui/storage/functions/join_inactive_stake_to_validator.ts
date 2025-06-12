@@ -28,10 +28,6 @@ export function joinInactiveStakeToValidator(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::storage::join_inactive_stake_to_validator`,
-    arguments: [
-      obj(tx, args.storage),
-      pure(tx, args.u64, `u64`),
-      obj(tx, args.stakedSui),
-    ],
+    arguments: [obj(tx, args.storage), pure(tx, args.u64, `u64`), obj(tx, args.stakedSui)],
   });
 }

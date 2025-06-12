@@ -84,21 +84,18 @@ export class GovernanceInstruction implements StructClass {
       typeArgs: [] as [],
       isPhantom: GovernanceInstruction.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        GovernanceInstruction.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => GovernanceInstruction.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         GovernanceInstruction.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => GovernanceInstruction.fromBcs(data),
       bcs: GovernanceInstruction.bcs,
       fromJSONField: (field: any) => GovernanceInstruction.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        GovernanceInstruction.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => GovernanceInstruction.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         GovernanceInstruction.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         GovernanceInstruction.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        GovernanceInstruction.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => GovernanceInstruction.fetch(client, id),
       new: (fields: GovernanceInstructionFields) => {
         return new GovernanceInstruction([], fields);
       },
@@ -142,25 +139,14 @@ export class GovernanceInstruction implements StructClass {
 
     return GovernanceInstruction.reified().new({
       module: decodeFromFieldsWithTypes("u8", item.fields.module_),
-      action: decodeFromFieldsWithTypes(
-        GovernanceAction.reified(),
-        item.fields.action,
-      ),
-      targetChainId: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.target_chain_id,
-      ),
-      payload: decodeFromFieldsWithTypes(
-        reified.vector("u8"),
-        item.fields.payload,
-      ),
+      action: decodeFromFieldsWithTypes(GovernanceAction.reified(), item.fields.action),
+      targetChainId: decodeFromFieldsWithTypes("u64", item.fields.target_chain_id),
+      payload: decodeFromFieldsWithTypes(reified.vector("u8"), item.fields.payload),
     });
   }
 
   static fromBcs(data: Uint8Array): GovernanceInstruction {
-    return GovernanceInstruction.fromFields(
-      GovernanceInstruction.bcs.parse(data),
-    );
+    return GovernanceInstruction.fromFields(GovernanceInstruction.bcs.parse(data));
   }
 
   toJSONField() {
@@ -173,11 +159,7 @@ export class GovernanceInstruction implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): GovernanceInstruction {
@@ -211,11 +193,8 @@ export class GovernanceInstruction implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): GovernanceInstruction {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isGovernanceInstruction(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a GovernanceInstruction object`);
+      if (data.bcs.dataType !== "moveObject" || !isGovernanceInstruction(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a GovernanceInstruction object`);
       }
 
       return GovernanceInstruction.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -228,23 +207,13 @@ export class GovernanceInstruction implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<GovernanceInstruction> {
+  static async fetch(client: SuiClient, id: string): Promise<GovernanceInstruction> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching GovernanceInstruction object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching GovernanceInstruction object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isGovernanceInstruction(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a GovernanceInstruction object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isGovernanceInstruction(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a GovernanceInstruction object`);
     }
 
     return GovernanceInstruction.fromSuiObjectData(res.data);

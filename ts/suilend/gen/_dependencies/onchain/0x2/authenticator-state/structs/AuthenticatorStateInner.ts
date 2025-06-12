@@ -78,22 +78,18 @@ export class AuthenticatorStateInner implements StructClass {
       typeArgs: [] as [],
       isPhantom: AuthenticatorStateInner.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        AuthenticatorStateInner.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => AuthenticatorStateInner.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         AuthenticatorStateInner.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => AuthenticatorStateInner.fromBcs(data),
       bcs: AuthenticatorStateInner.bcs,
-      fromJSONField: (field: any) =>
-        AuthenticatorStateInner.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        AuthenticatorStateInner.fromJSON(json),
+      fromJSONField: (field: any) => AuthenticatorStateInner.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => AuthenticatorStateInner.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         AuthenticatorStateInner.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         AuthenticatorStateInner.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        AuthenticatorStateInner.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => AuthenticatorStateInner.fetch(client, id),
       new: (fields: AuthenticatorStateInnerFields) => {
         return new AuthenticatorStateInner([], fields);
       },
@@ -122,10 +118,7 @@ export class AuthenticatorStateInner implements StructClass {
   static fromFields(fields: Record<string, any>): AuthenticatorStateInner {
     return AuthenticatorStateInner.reified().new({
       version: decodeFromFields("u64", fields.version),
-      activeJwks: decodeFromFields(
-        reified.vector(ActiveJwk1.reified()),
-        fields.active_jwks,
-      ),
+      activeJwks: decodeFromFields(reified.vector(ActiveJwk1.reified()), fields.active_jwks),
     });
   }
 
@@ -144,9 +137,7 @@ export class AuthenticatorStateInner implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): AuthenticatorStateInner {
-    return AuthenticatorStateInner.fromFields(
-      AuthenticatorStateInner.bcs.parse(data),
-    );
+    return AuthenticatorStateInner.fromFields(AuthenticatorStateInner.bcs.parse(data));
   }
 
   toJSONField() {
@@ -160,20 +151,13 @@ export class AuthenticatorStateInner implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): AuthenticatorStateInner {
     return AuthenticatorStateInner.reified().new({
       version: decodeFromJSONField("u64", field.version),
-      activeJwks: decodeFromJSONField(
-        reified.vector(ActiveJwk1.reified()),
-        field.activeJwks,
-      ),
+      activeJwks: decodeFromJSONField(reified.vector(ActiveJwk1.reified()), field.activeJwks),
     });
   }
 
@@ -199,11 +183,8 @@ export class AuthenticatorStateInner implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): AuthenticatorStateInner {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isAuthenticatorStateInner(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a AuthenticatorStateInner object`);
+      if (data.bcs.dataType !== "moveObject" || !isAuthenticatorStateInner(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a AuthenticatorStateInner object`);
       }
 
       return AuthenticatorStateInner.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -216,23 +197,15 @@ export class AuthenticatorStateInner implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<AuthenticatorStateInner> {
+  static async fetch(client: SuiClient, id: string): Promise<AuthenticatorStateInner> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
         `error fetching AuthenticatorStateInner object at id ${id}: ${res.error.code}`,
       );
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isAuthenticatorStateInner(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a AuthenticatorStateInner object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isAuthenticatorStateInner(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a AuthenticatorStateInner object`);
     }
 
     return AuthenticatorStateInner.fromSuiObjectData(res.data);

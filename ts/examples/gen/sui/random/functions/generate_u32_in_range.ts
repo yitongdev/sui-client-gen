@@ -29,10 +29,6 @@ export function generateU32InRange(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::random::generate_u32_in_range`,
-    arguments: [
-      obj(tx, args.g),
-      pure(tx, args.min, `u32`),
-      pure(tx, args.max, `u32`),
-    ],
+    arguments: [obj(tx, args.g), pure(tx, args.min, `u32`), pure(tx, args.max, `u32`)],
   });
 }

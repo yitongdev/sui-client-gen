@@ -25,10 +25,7 @@ export interface V1ContainsArgs {
  * @param address - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function v1Contains(
-  tx: Transaction,
-  args: V1ContainsArgs,
-): TransactionResult {
+export function v1Contains(tx: Transaction, args: V1ContainsArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::v1_contains`,
     arguments: [

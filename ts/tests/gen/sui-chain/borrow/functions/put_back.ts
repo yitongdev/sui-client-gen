@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface PutBackArgs {
   referent: TransactionObjectInput;
@@ -22,18 +18,10 @@ export interface PutBackArgs {
  * @param t0 - Function parameter
  * @param borrow - Function parameter
  */
-export function putBack(
-  tx: Transaction,
-  typeArg: string,
-  args: PutBackArgs,
-): TransactionResult {
+export function putBack(tx: Transaction, typeArg: string, args: PutBackArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::borrow::put_back`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.referent),
-      generic(tx, `${typeArg}`, args.t0),
-      obj(tx, args.borrow),
-    ],
+    arguments: [obj(tx, args.referent), generic(tx, `${typeArg}`, args.t0), obj(tx, args.borrow)],
   });
 }

@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface FindOrAddBorrowArgs {
   obligation: TransactionObjectInput;
@@ -31,10 +27,6 @@ export function findOrAddBorrow(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::obligation::find_or_add_borrow`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.obligation),
-      obj(tx, args.reserve),
-      obj(tx, args.clock),
-    ],
+    arguments: [obj(tx, args.obligation), obj(tx, args.reserve), obj(tx, args.clock)],
   });
 }

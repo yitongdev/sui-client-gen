@@ -85,21 +85,18 @@ export class BatchPriceAttestation implements StructClass {
       typeArgs: [] as [],
       isPhantom: BatchPriceAttestation.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        BatchPriceAttestation.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => BatchPriceAttestation.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         BatchPriceAttestation.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => BatchPriceAttestation.fromBcs(data),
       bcs: BatchPriceAttestation.bcs,
       fromJSONField: (field: any) => BatchPriceAttestation.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        BatchPriceAttestation.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => BatchPriceAttestation.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         BatchPriceAttestation.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         BatchPriceAttestation.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        BatchPriceAttestation.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => BatchPriceAttestation.fetch(client, id),
       new: (fields: BatchPriceAttestationFields) => {
         return new BatchPriceAttestation([], fields);
       },
@@ -132,10 +129,7 @@ export class BatchPriceAttestation implements StructClass {
       header: decodeFromFields(Header1.reified(), fields.header),
       attestationSize: decodeFromFields("u64", fields.attestation_size),
       attestationCount: decodeFromFields("u64", fields.attestation_count),
-      priceInfos: decodeFromFields(
-        reified.vector(PriceInfo.reified()),
-        fields.price_infos,
-      ),
+      priceInfos: decodeFromFields(reified.vector(PriceInfo.reified()), fields.price_infos),
     });
   }
 
@@ -146,14 +140,8 @@ export class BatchPriceAttestation implements StructClass {
 
     return BatchPriceAttestation.reified().new({
       header: decodeFromFieldsWithTypes(Header1.reified(), item.fields.header),
-      attestationSize: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.attestation_size,
-      ),
-      attestationCount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.attestation_count,
-      ),
+      attestationSize: decodeFromFieldsWithTypes("u64", item.fields.attestation_size),
+      attestationCount: decodeFromFieldsWithTypes("u64", item.fields.attestation_count),
       priceInfos: decodeFromFieldsWithTypes(
         reified.vector(PriceInfo.reified()),
         item.fields.price_infos,
@@ -162,9 +150,7 @@ export class BatchPriceAttestation implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): BatchPriceAttestation {
-    return BatchPriceAttestation.fromFields(
-      BatchPriceAttestation.bcs.parse(data),
-    );
+    return BatchPriceAttestation.fromFields(BatchPriceAttestation.bcs.parse(data));
   }
 
   toJSONField() {
@@ -172,19 +158,12 @@ export class BatchPriceAttestation implements StructClass {
       header: this.header.toJSONField(),
       attestationSize: this.attestationSize.toString(),
       attestationCount: this.attestationCount.toString(),
-      priceInfos: fieldToJSON<Vector<PriceInfo>>(
-        `vector<${PriceInfo.$typeName}>`,
-        this.priceInfos,
-      ),
+      priceInfos: fieldToJSON<Vector<PriceInfo>>(`vector<${PriceInfo.$typeName}>`, this.priceInfos),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): BatchPriceAttestation {
@@ -192,10 +171,7 @@ export class BatchPriceAttestation implements StructClass {
       header: decodeFromJSONField(Header1.reified(), field.header),
       attestationSize: decodeFromJSONField("u64", field.attestationSize),
       attestationCount: decodeFromJSONField("u64", field.attestationCount),
-      priceInfos: decodeFromJSONField(
-        reified.vector(PriceInfo.reified()),
-        field.priceInfos,
-      ),
+      priceInfos: decodeFromJSONField(reified.vector(PriceInfo.reified()), field.priceInfos),
     });
   }
 
@@ -221,11 +197,8 @@ export class BatchPriceAttestation implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): BatchPriceAttestation {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isBatchPriceAttestation(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a BatchPriceAttestation object`);
+      if (data.bcs.dataType !== "moveObject" || !isBatchPriceAttestation(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a BatchPriceAttestation object`);
       }
 
       return BatchPriceAttestation.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -238,23 +211,13 @@ export class BatchPriceAttestation implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<BatchPriceAttestation> {
+  static async fetch(client: SuiClient, id: string): Promise<BatchPriceAttestation> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching BatchPriceAttestation object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching BatchPriceAttestation object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isBatchPriceAttestation(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a BatchPriceAttestation object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isBatchPriceAttestation(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a BatchPriceAttestation object`);
     }
 
     return BatchPriceAttestation.fromSuiObjectData(res.data);

@@ -22,10 +22,7 @@ export interface V1PerTypeListAddArgs {
  * @param vecU8 - Function parameter
  * @param address - Function parameter
  */
-export function v1PerTypeListAdd(
-  tx: Transaction,
-  args: V1PerTypeListAddArgs,
-): TransactionResult {
+export function v1PerTypeListAdd(tx: Transaction, args: V1PerTypeListAddArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::v1_per_type_list_add`,
     arguments: [

@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface PurchaseWithCapArgs {
   self: TransactionObjectInput;
@@ -31,10 +27,6 @@ export function purchaseWithCap(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::purchase_with_cap`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.self),
-      obj(tx, args.purchaseCap),
-      obj(tx, args.payment),
-    ],
+    arguments: [obj(tx, args.self), obj(tx, args.purchaseCap), obj(tx, args.payment)],
   });
 }

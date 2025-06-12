@@ -54,10 +54,7 @@ export class UnverifiedValidatorOperationCap implements StructClass {
   readonly id: ToField<UID>;
   readonly authorizerValidatorAddress: ToField<"address">;
 
-  private constructor(
-    typeArgs: [],
-    fields: UnverifiedValidatorOperationCapFields,
-  ) {
+  private constructor(typeArgs: [], fields: UnverifiedValidatorOperationCapFields) {
     this.$fullTypeName = composeSuiType(
       UnverifiedValidatorOperationCap.$typeName,
       ...typeArgs,
@@ -82,13 +79,10 @@ export class UnverifiedValidatorOperationCap implements StructClass {
         UnverifiedValidatorOperationCap.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         UnverifiedValidatorOperationCap.fromFieldsWithTypes(item),
-      fromBcs: (data: Uint8Array) =>
-        UnverifiedValidatorOperationCap.fromBcs(data),
+      fromBcs: (data: Uint8Array) => UnverifiedValidatorOperationCap.fromBcs(data),
       bcs: UnverifiedValidatorOperationCap.bcs,
-      fromJSONField: (field: any) =>
-        UnverifiedValidatorOperationCap.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        UnverifiedValidatorOperationCap.fromJSON(json),
+      fromJSONField: (field: any) => UnverifiedValidatorOperationCap.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => UnverifiedValidatorOperationCap.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         UnverifiedValidatorOperationCap.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
@@ -123,21 +117,14 @@ export class UnverifiedValidatorOperationCap implements StructClass {
     });
   }
 
-  static fromFields(
-    fields: Record<string, any>,
-  ): UnverifiedValidatorOperationCap {
+  static fromFields(fields: Record<string, any>): UnverifiedValidatorOperationCap {
     return UnverifiedValidatorOperationCap.reified().new({
       id: decodeFromFields(UID.reified(), fields.id),
-      authorizerValidatorAddress: decodeFromFields(
-        "address",
-        fields.authorizer_validator_address,
-      ),
+      authorizerValidatorAddress: decodeFromFields("address", fields.authorizer_validator_address),
     });
   }
 
-  static fromFieldsWithTypes(
-    item: FieldsWithTypes,
-  ): UnverifiedValidatorOperationCap {
+  static fromFieldsWithTypes(item: FieldsWithTypes): UnverifiedValidatorOperationCap {
     if (!isUnverifiedValidatorOperationCap(item.type)) {
       throw new Error("not a UnverifiedValidatorOperationCap type");
     }
@@ -165,20 +152,13 @@ export class UnverifiedValidatorOperationCap implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UnverifiedValidatorOperationCap {
     return UnverifiedValidatorOperationCap.reified().new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      authorizerValidatorAddress: decodeFromJSONField(
-        "address",
-        field.authorizerValidatorAddress,
-      ),
+      authorizerValidatorAddress: decodeFromJSONField("address", field.authorizerValidatorAddress),
     });
   }
 
@@ -190,9 +170,7 @@ export class UnverifiedValidatorOperationCap implements StructClass {
     return UnverifiedValidatorOperationCap.fromJSONField(json);
   }
 
-  static fromSuiParsedData(
-    content: SuiParsedData,
-  ): UnverifiedValidatorOperationCap {
+  static fromSuiParsedData(content: SuiParsedData): UnverifiedValidatorOperationCap {
     if (content.dataType !== "moveObject") {
       throw new Error("not an object");
     }
@@ -204,22 +182,15 @@ export class UnverifiedValidatorOperationCap implements StructClass {
     return UnverifiedValidatorOperationCap.fromFieldsWithTypes(content);
   }
 
-  static fromSuiObjectData(
-    data: SuiObjectData,
-  ): UnverifiedValidatorOperationCap {
+  static fromSuiObjectData(data: SuiObjectData): UnverifiedValidatorOperationCap {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isUnverifiedValidatorOperationCap(data.bcs.type)
-      ) {
+      if (data.bcs.dataType !== "moveObject" || !isUnverifiedValidatorOperationCap(data.bcs.type)) {
         throw new Error(
-          `object at is not a UnverifiedValidatorOperationCap object`,
+          `object at ${data.objectId} is not a UnverifiedValidatorOperationCap object`,
         );
       }
 
-      return UnverifiedValidatorOperationCap.fromBcs(
-        fromBase64(data.bcs.bcsBytes),
-      );
+      return UnverifiedValidatorOperationCap.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return UnverifiedValidatorOperationCap.fromSuiParsedData(data.content);
@@ -229,10 +200,7 @@ export class UnverifiedValidatorOperationCap implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<UnverifiedValidatorOperationCap> {
+  static async fetch(client: SuiClient, id: string): Promise<UnverifiedValidatorOperationCap> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
@@ -243,9 +211,7 @@ export class UnverifiedValidatorOperationCap implements StructClass {
       res.data?.bcs?.dataType !== "moveObject" ||
       !isUnverifiedValidatorOperationCap(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a UnverifiedValidatorOperationCap object`,
-      );
+      throw new Error(`object at id ${id} is not a UnverifiedValidatorOperationCap object`);
     }
 
     return UnverifiedValidatorOperationCap.fromSuiObjectData(res.data);

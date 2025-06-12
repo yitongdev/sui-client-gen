@@ -21,10 +21,7 @@ export interface CurrentOutflowArgs {
  * @param u64 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function currentOutflow(
-  tx: Transaction,
-  args: CurrentOutflowArgs,
-): TransactionResult {
+export function currentOutflow(tx: Transaction, args: CurrentOutflowArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::rate_limiter::current_outflow`,
     arguments: [obj(tx, args.rateLimiter), pure(tx, args.u64, `u64`)],

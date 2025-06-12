@@ -38,10 +38,7 @@ export interface TokenFields<T0 extends PhantomTypeArgument> {
   balance: ToField<Balance<T0>>;
 }
 
-export type TokenReified<T0 extends PhantomTypeArgument> = Reified<
-  Token<T0>,
-  TokenFields<T0>
->;
+export type TokenReified<T0 extends PhantomTypeArgument> = Reified<Token<T0>, TokenFields<T0>>;
 
 /**
  * Move struct: `Token`
@@ -64,10 +61,7 @@ export class Token<T0 extends PhantomTypeArgument> implements StructClass {
   readonly id: ToField<UID>;
   readonly balance: ToField<Balance<T0>>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: TokenFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: TokenFields<T0>) {
     this.$fullTypeName = composeSuiType(
       Token.$typeName,
       ...typeArgs,
@@ -87,24 +81,18 @@ export class Token<T0 extends PhantomTypeArgument> implements StructClass {
         Token.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V31}::token::Token<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: Token.$isPhantom,
       reifiedTypeArgs: [T0],
       fromFields: (fields: Record<string, any>) => Token.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Token.fromFieldsWithTypes(T0, item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Token.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Token.fromBcs(T0, data),
       bcs: Token.bcs,
       fromJSONField: (field: any) => Token.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Token.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Token.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Token.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Token.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Token.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Token.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Token.fetch(client, T0, id),
       new: (fields: TokenFields<ToPhantomTypeArgument<T0>>) => {
         return new Token([extractType(T0)], fields);
       },
@@ -153,10 +141,7 @@ export class Token<T0 extends PhantomTypeArgument> implements StructClass {
 
     return Token.reified(typeArg).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      balance: decodeFromFieldsWithTypes(
-        Balance.reified(typeArg),
-        item.fields.balance,
-      ),
+      balance: decodeFromFieldsWithTypes(Balance.reified(typeArg), item.fields.balance),
     });
   }
 
@@ -175,11 +160,7 @@ export class Token<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -216,9 +197,7 @@ export class Token<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isToken(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Token object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Token object`);
     }
     return Token.fromFieldsWithTypes(typeArg, content);
   }
@@ -229,7 +208,7 @@ export class Token<T0 extends PhantomTypeArgument> implements StructClass {
   ): Token<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isToken(data.bcs.type)) {
-        throw new Error(`object at is not a Token object`);
+        throw new Error(`object at ${data.objectId} is not a Token object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -264,14 +243,9 @@ export class Token<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<Token<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Token object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Token object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isToken(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isToken(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Token object`);
     }
 

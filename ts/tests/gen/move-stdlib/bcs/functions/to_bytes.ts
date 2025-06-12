@@ -11,11 +11,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param v - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function toBytes(
-  tx: Transaction,
-  typeArg: string,
-  v: GenericArg,
-): TransactionResult {
+export function toBytes(tx: Transaction, typeArg: string, v: GenericArg): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::bcs::to_bytes`,
     typeArguments: [typeArg],

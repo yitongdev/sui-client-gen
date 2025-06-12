@@ -10,10 +10,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param txContext - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function createLendingMarket(
-  tx: Transaction,
-  typeArg: string,
-): TransactionResult {
+export function createLendingMarket(tx: Transaction, typeArg: string): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::lending_market::create_lending_market`,
     typeArguments: [typeArg],

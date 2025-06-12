@@ -11,11 +11,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -31,10 +27,7 @@ export interface PublicProofInputsFields {
   bytes: ToField<Vector<"u8">>;
 }
 
-export type PublicProofInputsReified = Reified<
-  PublicProofInputs,
-  PublicProofInputsFields
->;
+export type PublicProofInputsReified = Reified<PublicProofInputs, PublicProofInputsFields>;
 
 /**
  * Move struct: `PublicProofInputs`
@@ -74,20 +67,15 @@ export class PublicProofInputs implements StructClass {
       typeArgs: [] as [],
       isPhantom: PublicProofInputs.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PublicProofInputs.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PublicProofInputs.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => PublicProofInputs.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PublicProofInputs.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PublicProofInputs.fromBcs(data),
       bcs: PublicProofInputs.bcs,
       fromJSONField: (field: any) => PublicProofInputs.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PublicProofInputs.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PublicProofInputs.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PublicProofInputs.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PublicProofInputs.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PublicProofInputs.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PublicProofInputs.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PublicProofInputs.fetch(client, id),
       new: (fields: PublicProofInputsFields) => {
         return new PublicProofInputs([], fields);
       },
@@ -139,11 +127,7 @@ export class PublicProofInputs implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PublicProofInputs {
@@ -165,20 +149,15 @@ export class PublicProofInputs implements StructClass {
       throw new Error("not an object");
     }
     if (!isPublicProofInputs(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PublicProofInputs object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PublicProofInputs object`);
     }
     return PublicProofInputs.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): PublicProofInputs {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPublicProofInputs(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PublicProofInputs object`);
+      if (data.bcs.dataType !== "moveObject" || !isPublicProofInputs(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PublicProofInputs object`);
       }
 
       return PublicProofInputs.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,20 +170,12 @@ export class PublicProofInputs implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<PublicProofInputs> {
+  static async fetch(client: SuiClient, id: string): Promise<PublicProofInputs> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PublicProofInputs object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PublicProofInputs object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPublicProofInputs(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPublicProofInputs(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PublicProofInputs object`);
     }
 

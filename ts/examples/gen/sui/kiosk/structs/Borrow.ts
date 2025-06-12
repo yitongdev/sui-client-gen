@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { ID } from "../../object/structs/index.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -65,24 +61,18 @@ export class Borrow implements StructClass {
   static reified(): BorrowReified {
     return {
       typeName: Borrow.$typeName,
-      fullTypeName: composeSuiType(
-        Borrow.$typeName,
-        ...[],
-      ) as `${typeof PKG_V31}::kiosk::Borrow`,
+      fullTypeName: composeSuiType(Borrow.$typeName, ...[]) as `${typeof PKG_V31}::kiosk::Borrow`,
       typeArgs: [] as [],
       isPhantom: Borrow.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Borrow.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Borrow.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Borrow.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Borrow.fromBcs(data),
       bcs: Borrow.bcs,
       fromJSONField: (field: any) => Borrow.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Borrow.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Borrow.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Borrow.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Borrow.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Borrow.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Borrow.fetch(client, id),
       new: (fields: BorrowFields) => {
         return new Borrow([], fields);
@@ -139,11 +129,7 @@ export class Borrow implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Borrow {
@@ -166,9 +152,7 @@ export class Borrow implements StructClass {
       throw new Error("not an object");
     }
     if (!isBorrow(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Borrow object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Borrow object`);
     }
     return Borrow.fromFieldsWithTypes(content);
   }
@@ -176,7 +160,7 @@ export class Borrow implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Borrow {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isBorrow(data.bcs.type)) {
-        throw new Error(`object at is not a Borrow object`);
+        throw new Error(`object at ${data.objectId} is not a Borrow object`);
       }
 
       return Borrow.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -192,14 +176,9 @@ export class Borrow implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Borrow> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Borrow object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Borrow object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isBorrow(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isBorrow(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Borrow object`);
     }
 

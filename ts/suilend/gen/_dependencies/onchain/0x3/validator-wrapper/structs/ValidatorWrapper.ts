@@ -29,10 +29,7 @@ export interface ValidatorWrapperFields {
   inner: ToField<Versioned>;
 }
 
-export type ValidatorWrapperReified = Reified<
-  ValidatorWrapper,
-  ValidatorWrapperFields
->;
+export type ValidatorWrapperReified = Reified<ValidatorWrapper, ValidatorWrapperFields>;
 
 /**
  * Move struct: `ValidatorWrapper`
@@ -72,20 +69,15 @@ export class ValidatorWrapper implements StructClass {
       typeArgs: [] as [],
       isPhantom: ValidatorWrapper.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ValidatorWrapper.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ValidatorWrapper.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ValidatorWrapper.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ValidatorWrapper.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ValidatorWrapper.fromBcs(data),
       bcs: ValidatorWrapper.bcs,
       fromJSONField: (field: any) => ValidatorWrapper.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ValidatorWrapper.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ValidatorWrapper.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ValidatorWrapper.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ValidatorWrapper.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ValidatorWrapper.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ValidatorWrapper.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ValidatorWrapper.fetch(client, id),
       new: (fields: ValidatorWrapperFields) => {
         return new ValidatorWrapper([], fields);
       },
@@ -137,11 +129,7 @@ export class ValidatorWrapper implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ValidatorWrapper {
@@ -163,20 +151,15 @@ export class ValidatorWrapper implements StructClass {
       throw new Error("not an object");
     }
     if (!isValidatorWrapper(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ValidatorWrapper object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ValidatorWrapper object`);
     }
     return ValidatorWrapper.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ValidatorWrapper {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isValidatorWrapper(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ValidatorWrapper object`);
+      if (data.bcs.dataType !== "moveObject" || !isValidatorWrapper(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ValidatorWrapper object`);
       }
 
       return ValidatorWrapper.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -192,14 +175,9 @@ export class ValidatorWrapper implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ValidatorWrapper> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ValidatorWrapper object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ValidatorWrapper object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isValidatorWrapper(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isValidatorWrapper(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ValidatorWrapper object`);
     }
 

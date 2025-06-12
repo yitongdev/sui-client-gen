@@ -67,10 +67,7 @@ export class Display<T0 extends PhantomTypeArgument> implements StructClass {
   readonly fields: ToField<VecMap<String, String>>;
   readonly version: ToField<"u16">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: DisplayFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: DisplayFields<T0>) {
     this.$fullTypeName = composeSuiType(
       Display.$typeName,
       ...typeArgs,
@@ -91,25 +88,18 @@ export class Display<T0 extends PhantomTypeArgument> implements StructClass {
         Display.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V31}::display::Display<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: Display.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        Display.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Display.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => Display.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Display.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Display.fromBcs(T0, data),
       bcs: Display.bcs,
       fromJSONField: (field: any) => Display.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Display.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Display.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Display.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Display.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Display.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Display.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Display.fetch(client, T0, id),
       new: (fields: DisplayFields<ToPhantomTypeArgument<T0>>) => {
         return new Display([extractType(T0)], fields);
       },
@@ -144,10 +134,7 @@ export class Display<T0 extends PhantomTypeArgument> implements StructClass {
   ): Display<ToPhantomTypeArgument<T0>> {
     return Display.reified(typeArg).new({
       id: decodeFromFields(UID.reified(), fields.id),
-      fields: decodeFromFields(
-        VecMap.reified(String.reified(), String.reified()),
-        fields.fields,
-      ),
+      fields: decodeFromFields(VecMap.reified(String.reified(), String.reified()), fields.fields),
       version: decodeFromFields("u16", fields.version),
     });
   }
@@ -187,11 +174,7 @@ export class Display<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -200,10 +183,7 @@ export class Display<T0 extends PhantomTypeArgument> implements StructClass {
   ): Display<ToPhantomTypeArgument<T0>> {
     return Display.reified(typeArg).new({
       id: decodeFromJSONField(UID.reified(), field.id),
-      fields: decodeFromJSONField(
-        VecMap.reified(String.reified(), String.reified()),
-        field.fields,
-      ),
+      fields: decodeFromJSONField(VecMap.reified(String.reified(), String.reified()), field.fields),
       version: decodeFromJSONField("u16", field.version),
     });
   }
@@ -232,9 +212,7 @@ export class Display<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isDisplay(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Display object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Display object`);
     }
     return Display.fromFieldsWithTypes(typeArg, content);
   }
@@ -245,7 +223,7 @@ export class Display<T0 extends PhantomTypeArgument> implements StructClass {
   ): Display<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isDisplay(data.bcs.type)) {
-        throw new Error(`object at is not a Display object`);
+        throw new Error(`object at ${data.objectId} is not a Display object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -280,14 +258,9 @@ export class Display<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<Display<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Display object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Display object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDisplay(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDisplay(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Display object`);
     }
 

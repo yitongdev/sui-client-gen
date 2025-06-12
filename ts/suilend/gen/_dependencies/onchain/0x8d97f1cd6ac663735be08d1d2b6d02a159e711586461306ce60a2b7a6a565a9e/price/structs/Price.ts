@@ -71,24 +71,18 @@ export class Price implements StructClass {
   static reified(): PriceReified {
     return {
       typeName: Price.$typeName,
-      fullTypeName: composeSuiType(
-        Price.$typeName,
-        ...[],
-      ) as `${typeof PKG_V1}::price::Price`,
+      fullTypeName: composeSuiType(Price.$typeName, ...[]) as `${typeof PKG_V1}::price::Price`,
       typeArgs: [] as [],
       isPhantom: Price.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Price.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Price.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Price.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Price.fromBcs(data),
       bcs: Price.bcs,
       fromJSONField: (field: any) => Price.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Price.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Price.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Price.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Price.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Price.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Price.fetch(client, id),
       new: (fields: PriceFields) => {
         return new Price([], fields);
@@ -153,11 +147,7 @@ export class Price implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Price {
@@ -182,9 +172,7 @@ export class Price implements StructClass {
       throw new Error("not an object");
     }
     if (!isPrice(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Price object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Price object`);
     }
     return Price.fromFieldsWithTypes(content);
   }
@@ -192,7 +180,7 @@ export class Price implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Price {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isPrice(data.bcs.type)) {
-        throw new Error(`object at is not a Price object`);
+        throw new Error(`object at ${data.objectId} is not a Price object`);
       }
 
       return Price.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -208,14 +196,9 @@ export class Price implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Price> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Price object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Price object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPrice(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPrice(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Price object`);
     }
 

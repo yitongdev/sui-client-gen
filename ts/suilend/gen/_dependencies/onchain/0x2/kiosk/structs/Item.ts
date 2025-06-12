@@ -62,24 +62,18 @@ export class Item implements StructClass {
   static reified(): ItemReified {
     return {
       typeName: Item.$typeName,
-      fullTypeName: composeSuiType(
-        Item.$typeName,
-        ...[],
-      ) as `${typeof PKG_V35}::kiosk::Item`,
+      fullTypeName: composeSuiType(Item.$typeName, ...[]) as `${typeof PKG_V35}::kiosk::Item`,
       typeArgs: [] as [],
       isPhantom: Item.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Item.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Item.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Item.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Item.fromBcs(data),
       bcs: Item.bcs,
       fromJSONField: (field: any) => Item.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Item.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Item.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Item.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Item.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Item.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Item.fetch(client, id),
       new: (fields: ItemFields) => {
         return new Item([], fields);
@@ -106,9 +100,7 @@ export class Item implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): Item {
-    return Item.reified().new({
-      id: decodeFromFields(ID.reified(), fields.id),
-    });
+    return Item.reified().new({ id: decodeFromFields(ID.reified(), fields.id) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): Item {
@@ -116,9 +108,7 @@ export class Item implements StructClass {
       throw new Error("not a Item type");
     }
 
-    return Item.reified().new({
-      id: decodeFromFieldsWithTypes(ID.reified(), item.fields.id),
-    });
+    return Item.reified().new({ id: decodeFromFieldsWithTypes(ID.reified(), item.fields.id) });
   }
 
   static fromBcs(data: Uint8Array): Item {
@@ -132,17 +122,11 @@ export class Item implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Item {
-    return Item.reified().new({
-      id: decodeFromJSONField(ID.reified(), field.id),
-    });
+    return Item.reified().new({ id: decodeFromJSONField(ID.reified(), field.id) });
   }
 
   static fromJSON(json: Record<string, any>): Item {
@@ -158,9 +142,7 @@ export class Item implements StructClass {
       throw new Error("not an object");
     }
     if (!isItem(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Item object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Item object`);
     }
     return Item.fromFieldsWithTypes(content);
   }
@@ -168,7 +150,7 @@ export class Item implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Item {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isItem(data.bcs.type)) {
-        throw new Error(`object at is not a Item object`);
+        throw new Error(`object at ${data.objectId} is not a Item object`);
       }
 
       return Item.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -184,14 +166,9 @@ export class Item implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Item> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Item object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Item object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isItem(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isItem(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Item object`);
     }
 

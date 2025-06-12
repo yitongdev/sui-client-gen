@@ -38,10 +38,7 @@ export interface ElementFields<T extends PhantomTypeArgument> {
   bytes: ToField<Vector<"u8">>;
 }
 
-export type ElementReified<T extends PhantomTypeArgument> = Reified<
-  Element<T>,
-  ElementFields<T>
->;
+export type ElementReified<T extends PhantomTypeArgument> = Reified<Element<T>, ElementFields<T>>;
 
 /**
  * Move struct: `Element`
@@ -63,10 +60,7 @@ export class Element<T extends PhantomTypeArgument> implements StructClass {
 
   readonly bytes: ToField<Vector<"u8">>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: ElementFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: ElementFields<T>) {
     this.$fullTypeName = composeSuiType(
       Element.$typeName,
       ...typeArgs,
@@ -85,25 +79,18 @@ export class Element<T extends PhantomTypeArgument> implements StructClass {
         Element.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::group_ops::Element<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: Element.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        Element.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Element.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => Element.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Element.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => Element.fromBcs(T, data),
       bcs: Element.bcs,
       fromJSONField: (field: any) => Element.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => Element.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Element.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Element.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Element.fetch(client, T, id),
+      fromSuiParsedData: (content: SuiParsedData) => Element.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => Element.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => Element.fetch(client, T, id),
       new: (fields: ElementFields<ToPhantomTypeArgument<T>>) => {
         return new Element([extractType(T)], fields);
       },
@@ -167,11 +154,7 @@ export class Element<T extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -207,9 +190,7 @@ export class Element<T extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isElement(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Element object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Element object`);
     }
     return Element.fromFieldsWithTypes(typeArg, content);
   }
@@ -220,7 +201,7 @@ export class Element<T extends PhantomTypeArgument> implements StructClass {
   ): Element<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isElement(data.bcs.type)) {
-        throw new Error(`object at is not a Element object`);
+        throw new Error(`object at ${data.objectId} is not a Element object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -255,14 +236,9 @@ export class Element<T extends PhantomTypeArgument> implements StructClass {
   ): Promise<Element<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Element object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Element object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isElement(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isElement(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Element object`);
     }
 

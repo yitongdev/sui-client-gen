@@ -22,10 +22,7 @@ export interface IsListedArgs {
  * @param id - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function isListed(
-  tx: Transaction,
-  args: IsListedArgs,
-): TransactionResult {
+export function isListed(tx: Transaction, args: IsListedArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::is_listed`,
     arguments: [obj(tx, args.kiosk), pure(tx, args.id, `${ID.$typeName}`)],

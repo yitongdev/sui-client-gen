@@ -34,10 +34,7 @@ export interface PreparedVerifyingKeyFields {
   deltaG2NegPcBytes: ToField<Vector<"u8">>;
 }
 
-export type PreparedVerifyingKeyReified = Reified<
-  PreparedVerifyingKey,
-  PreparedVerifyingKeyFields
->;
+export type PreparedVerifyingKeyReified = Reified<PreparedVerifyingKey, PreparedVerifyingKeyFields>;
 
 /**
  * Move struct: `PreparedVerifyingKey`
@@ -83,21 +80,18 @@ export class PreparedVerifyingKey implements StructClass {
       typeArgs: [] as [],
       isPhantom: PreparedVerifyingKey.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PreparedVerifyingKey.fromFields(fields),
+      fromFields: (fields: Record<string, any>) => PreparedVerifyingKey.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         PreparedVerifyingKey.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PreparedVerifyingKey.fromBcs(data),
       bcs: PreparedVerifyingKey.bcs,
       fromJSONField: (field: any) => PreparedVerifyingKey.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        PreparedVerifyingKey.fromJSON(json),
+      fromJSON: (json: Record<string, any>) => PreparedVerifyingKey.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         PreparedVerifyingKey.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
         PreparedVerifyingKey.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PreparedVerifyingKey.fetch(client, id),
+      fetch: async (client: SuiClient, id: string) => PreparedVerifyingKey.fetch(client, id),
       new: (fields: PreparedVerifyingKeyFields) => {
         return new PreparedVerifyingKey([], fields);
       },
@@ -127,22 +121,10 @@ export class PreparedVerifyingKey implements StructClass {
 
   static fromFields(fields: Record<string, any>): PreparedVerifyingKey {
     return PreparedVerifyingKey.reified().new({
-      vkGammaAbcG1Bytes: decodeFromFields(
-        reified.vector("u8"),
-        fields.vk_gamma_abc_g1_bytes,
-      ),
-      alphaG1BetaG2Bytes: decodeFromFields(
-        reified.vector("u8"),
-        fields.alpha_g1_beta_g2_bytes,
-      ),
-      gammaG2NegPcBytes: decodeFromFields(
-        reified.vector("u8"),
-        fields.gamma_g2_neg_pc_bytes,
-      ),
-      deltaG2NegPcBytes: decodeFromFields(
-        reified.vector("u8"),
-        fields.delta_g2_neg_pc_bytes,
-      ),
+      vkGammaAbcG1Bytes: decodeFromFields(reified.vector("u8"), fields.vk_gamma_abc_g1_bytes),
+      alphaG1BetaG2Bytes: decodeFromFields(reified.vector("u8"), fields.alpha_g1_beta_g2_bytes),
+      gammaG2NegPcBytes: decodeFromFields(reified.vector("u8"), fields.gamma_g2_neg_pc_bytes),
+      deltaG2NegPcBytes: decodeFromFields(reified.vector("u8"), fields.delta_g2_neg_pc_bytes),
     });
   }
 
@@ -172,58 +154,28 @@ export class PreparedVerifyingKey implements StructClass {
   }
 
   static fromBcs(data: Uint8Array): PreparedVerifyingKey {
-    return PreparedVerifyingKey.fromFields(
-      PreparedVerifyingKey.bcs.parse(data),
-    );
+    return PreparedVerifyingKey.fromFields(PreparedVerifyingKey.bcs.parse(data));
   }
 
   toJSONField() {
     return {
-      vkGammaAbcG1Bytes: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.vkGammaAbcG1Bytes,
-      ),
-      alphaG1BetaG2Bytes: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.alphaG1BetaG2Bytes,
-      ),
-      gammaG2NegPcBytes: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.gammaG2NegPcBytes,
-      ),
-      deltaG2NegPcBytes: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.deltaG2NegPcBytes,
-      ),
+      vkGammaAbcG1Bytes: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.vkGammaAbcG1Bytes),
+      alphaG1BetaG2Bytes: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.alphaG1BetaG2Bytes),
+      gammaG2NegPcBytes: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.gammaG2NegPcBytes),
+      deltaG2NegPcBytes: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.deltaG2NegPcBytes),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PreparedVerifyingKey {
     return PreparedVerifyingKey.reified().new({
-      vkGammaAbcG1Bytes: decodeFromJSONField(
-        reified.vector("u8"),
-        field.vkGammaAbcG1Bytes,
-      ),
-      alphaG1BetaG2Bytes: decodeFromJSONField(
-        reified.vector("u8"),
-        field.alphaG1BetaG2Bytes,
-      ),
-      gammaG2NegPcBytes: decodeFromJSONField(
-        reified.vector("u8"),
-        field.gammaG2NegPcBytes,
-      ),
-      deltaG2NegPcBytes: decodeFromJSONField(
-        reified.vector("u8"),
-        field.deltaG2NegPcBytes,
-      ),
+      vkGammaAbcG1Bytes: decodeFromJSONField(reified.vector("u8"), field.vkGammaAbcG1Bytes),
+      alphaG1BetaG2Bytes: decodeFromJSONField(reified.vector("u8"), field.alphaG1BetaG2Bytes),
+      gammaG2NegPcBytes: decodeFromJSONField(reified.vector("u8"), field.gammaG2NegPcBytes),
+      deltaG2NegPcBytes: decodeFromJSONField(reified.vector("u8"), field.deltaG2NegPcBytes),
     });
   }
 
@@ -249,11 +201,8 @@ export class PreparedVerifyingKey implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): PreparedVerifyingKey {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPreparedVerifyingKey(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PreparedVerifyingKey object`);
+      if (data.bcs.dataType !== "moveObject" || !isPreparedVerifyingKey(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PreparedVerifyingKey object`);
       }
 
       return PreparedVerifyingKey.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -266,23 +215,13 @@ export class PreparedVerifyingKey implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<PreparedVerifyingKey> {
+  static async fetch(client: SuiClient, id: string): Promise<PreparedVerifyingKey> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PreparedVerifyingKey object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PreparedVerifyingKey object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPreparedVerifyingKey(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a PreparedVerifyingKey object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPreparedVerifyingKey(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a PreparedVerifyingKey object`);
     }
 
     return PreparedVerifyingKey.fromSuiObjectData(res.data);

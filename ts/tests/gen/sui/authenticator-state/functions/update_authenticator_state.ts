@@ -28,9 +28,6 @@ export function updateAuthenticatorState(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::authenticator_state::update_authenticator_state`,
-    arguments: [
-      obj(tx, args.self),
-      vector(tx, `${ActiveJwk.$typeName}`, args.newActiveJwks),
-    ],
+    arguments: [obj(tx, args.self), vector(tx, `${ActiveJwk.$typeName}`, args.newActiveJwks)],
   });
 }

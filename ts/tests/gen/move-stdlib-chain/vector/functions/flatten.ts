@@ -1,10 +1,6 @@
 import { GenericArg, vector } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `flatten`
@@ -18,9 +14,7 @@ import {
 export function flatten(
   tx: Transaction,
   typeArg: string,
-  vecVecT0:
-    | Array<Array<GenericArg> | TransactionArgument>
-    | TransactionArgument,
+  vecVecT0: Array<Array<GenericArg> | TransactionArgument> | TransactionArgument,
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::vector::flatten`,

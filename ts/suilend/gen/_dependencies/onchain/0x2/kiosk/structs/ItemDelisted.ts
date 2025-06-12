@@ -48,9 +48,7 @@ export type ItemDelistedReified<T0 extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class ItemDelisted<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class ItemDelisted<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V35}::kiosk::ItemDelisted`;
@@ -65,10 +63,7 @@ export class ItemDelisted<T0 extends PhantomTypeArgument>
   readonly kiosk: ToField<ID>;
   readonly id: ToField<ID>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: ItemDelistedFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: ItemDelistedFields<T0>) {
     this.$fullTypeName = composeSuiType(
       ItemDelisted.$typeName,
       ...typeArgs,
@@ -88,25 +83,18 @@ export class ItemDelisted<T0 extends PhantomTypeArgument>
         ItemDelisted.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V35}::kiosk::ItemDelisted<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: ItemDelisted.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        ItemDelisted.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ItemDelisted.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => ItemDelisted.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ItemDelisted.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => ItemDelisted.fromBcs(T0, data),
       bcs: ItemDelisted.bcs,
       fromJSONField: (field: any) => ItemDelisted.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => ItemDelisted.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ItemDelisted.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ItemDelisted.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        ItemDelisted.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => ItemDelisted.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => ItemDelisted.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => ItemDelisted.fetch(client, T0, id),
       new: (fields: ItemDelistedFields<ToPhantomTypeArgument<T0>>) => {
         return new ItemDelisted([extractType(T0)], fields);
       },
@@ -174,11 +162,7 @@ export class ItemDelisted<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -215,9 +199,7 @@ export class ItemDelisted<T0 extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isItemDelisted(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ItemDelisted object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ItemDelisted object`);
     }
     return ItemDelisted.fromFieldsWithTypes(typeArg, content);
   }
@@ -227,11 +209,8 @@ export class ItemDelisted<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): ItemDelisted<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isItemDelisted(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ItemDelisted object`);
+      if (data.bcs.dataType !== "moveObject" || !isItemDelisted(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ItemDelisted object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -266,14 +245,9 @@ export class ItemDelisted<T0 extends PhantomTypeArgument>
   ): Promise<ItemDelisted<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ItemDelisted object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ItemDelisted object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isItemDelisted(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isItemDelisted(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ItemDelisted object`);
     }
 

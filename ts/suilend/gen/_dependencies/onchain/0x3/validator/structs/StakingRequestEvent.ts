@@ -33,10 +33,7 @@ export interface StakingRequestEventFields {
   amount: ToField<"u64">;
 }
 
-export type StakingRequestEventReified = Reified<
-  StakingRequestEvent,
-  StakingRequestEventFields
->;
+export type StakingRequestEventReified = Reified<StakingRequestEvent, StakingRequestEventFields>;
 
 /**
  * Move struct: `StakingRequestEvent`
@@ -84,21 +81,15 @@ export class StakingRequestEvent implements StructClass {
       typeArgs: [] as [],
       isPhantom: StakingRequestEvent.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        StakingRequestEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        StakingRequestEvent.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => StakingRequestEvent.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => StakingRequestEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => StakingRequestEvent.fromBcs(data),
       bcs: StakingRequestEvent.bcs,
       fromJSONField: (field: any) => StakingRequestEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        StakingRequestEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        StakingRequestEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        StakingRequestEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        StakingRequestEvent.fetch(client, id),
+      fromJSON: (json: Record<string, any>) => StakingRequestEvent.fromJSON(json),
+      fromSuiParsedData: (content: SuiParsedData) => StakingRequestEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => StakingRequestEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => StakingRequestEvent.fetch(client, id),
       new: (fields: StakingRequestEventFields) => {
         return new StakingRequestEvent([], fields);
       },
@@ -150,14 +141,8 @@ export class StakingRequestEvent implements StructClass {
 
     return StakingRequestEvent.reified().new({
       poolId: decodeFromFieldsWithTypes(ID.reified(), item.fields.pool_id),
-      validatorAddress: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.validator_address,
-      ),
-      stakerAddress: decodeFromFieldsWithTypes(
-        "address",
-        item.fields.staker_address,
-      ),
+      validatorAddress: decodeFromFieldsWithTypes("address", item.fields.validator_address),
+      stakerAddress: decodeFromFieldsWithTypes("address", item.fields.staker_address),
       epoch: decodeFromFieldsWithTypes("u64", item.fields.epoch),
       amount: decodeFromFieldsWithTypes("u64", item.fields.amount),
     });
@@ -178,11 +163,7 @@ export class StakingRequestEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): StakingRequestEvent {
@@ -217,11 +198,8 @@ export class StakingRequestEvent implements StructClass {
 
   static fromSuiObjectData(data: SuiObjectData): StakingRequestEvent {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isStakingRequestEvent(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a StakingRequestEvent object`);
+      if (data.bcs.dataType !== "moveObject" || !isStakingRequestEvent(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a StakingRequestEvent object`);
       }
 
       return StakingRequestEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -234,20 +212,12 @@ export class StakingRequestEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<StakingRequestEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<StakingRequestEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching StakingRequestEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching StakingRequestEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isStakingRequestEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isStakingRequestEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a StakingRequestEvent object`);
     }
 

@@ -46,9 +46,7 @@ export type RewardBalanceReified<T0 extends PhantomTypeArgument> = Reified<
  *
  * @typeParam T0 - Type parameter 0 (phantom)
  */
-export class RewardBalance<T0 extends PhantomTypeArgument>
-  implements StructClass
-{
+export class RewardBalance<T0 extends PhantomTypeArgument> implements StructClass {
   __StructClass = true as const;
 
   static readonly $typeName = `${PKG_V1}::liquidity_mining::RewardBalance`;
@@ -62,10 +60,7 @@ export class RewardBalance<T0 extends PhantomTypeArgument>
 
   readonly dummyField: ToField<"bool">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: RewardBalanceFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: RewardBalanceFields<T0>) {
     this.$fullTypeName = composeSuiType(
       RewardBalance.$typeName,
       ...typeArgs,
@@ -84,25 +79,18 @@ export class RewardBalance<T0 extends PhantomTypeArgument>
         RewardBalance.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V1}::liquidity_mining::RewardBalance<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: RewardBalance.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        RewardBalance.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        RewardBalance.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => RewardBalance.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => RewardBalance.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => RewardBalance.fromBcs(T0, data),
       bcs: RewardBalance.bcs,
       fromJSONField: (field: any) => RewardBalance.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => RewardBalance.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        RewardBalance.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        RewardBalance.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        RewardBalance.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => RewardBalance.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => RewardBalance.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => RewardBalance.fetch(client, T0, id),
       new: (fields: RewardBalanceFields<ToPhantomTypeArgument<T0>>) => {
         return new RewardBalance([extractType(T0)], fields);
       },
@@ -166,11 +154,7 @@ export class RewardBalance<T0 extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -206,9 +190,7 @@ export class RewardBalance<T0 extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isRewardBalance(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a RewardBalance object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a RewardBalance object`);
     }
     return RewardBalance.fromFieldsWithTypes(typeArg, content);
   }
@@ -218,11 +200,8 @@ export class RewardBalance<T0 extends PhantomTypeArgument>
     data: SuiObjectData,
   ): RewardBalance<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isRewardBalance(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a RewardBalance object`);
+      if (data.bcs.dataType !== "moveObject" || !isRewardBalance(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a RewardBalance object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -257,14 +236,9 @@ export class RewardBalance<T0 extends PhantomTypeArgument>
   ): Promise<RewardBalance<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching RewardBalance object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching RewardBalance object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isRewardBalance(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isRewardBalance(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a RewardBalance object`);
     }
 

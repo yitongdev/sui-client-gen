@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface CreateFromRationalArgs {
   numerator: bigint | TransactionArgument;
@@ -26,9 +22,6 @@ export function createFromRational(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::fixed_point32::create_from_rational`,
-    arguments: [
-      pure(tx, args.numerator, `u64`),
-      pure(tx, args.denominator, `u64`),
-    ],
+    arguments: [pure(tx, args.numerator, `u64`), pure(tx, args.denominator, `u64`)],
   });
 }

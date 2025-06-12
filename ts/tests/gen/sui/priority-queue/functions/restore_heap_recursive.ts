@@ -30,9 +30,6 @@ export function restoreHeapRecursive(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::priority_queue::restore_heap_recursive`,
     typeArguments: [typeArg],
-    arguments: [
-      vector(tx, `${Entry.$typeName}<${typeArg}>`, args.v),
-      pure(tx, args.i, `u64`),
-    ],
+    arguments: [vector(tx, `${Entry.$typeName}<${typeArg}>`, args.v), pure(tx, args.i, `u64`)],
   });
 }

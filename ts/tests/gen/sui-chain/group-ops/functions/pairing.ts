@@ -34,10 +34,6 @@ export function pairing(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::group_ops::pairing`,
     typeArguments: typeArgs,
-    arguments: [
-      pure(tx, args.u8, `u8`),
-      obj(tx, args.element1),
-      obj(tx, args.element2),
-    ],
+    arguments: [pure(tx, args.u8, `u8`), obj(tx, args.element1), obj(tx, args.element2)],
   });
 }

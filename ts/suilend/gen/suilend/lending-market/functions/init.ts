@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `init`
@@ -14,10 +10,7 @@ import {
  * @param lendingMarket - Function parameter
  * @param txContext - Function parameter
  */
-export function init(
-  tx: Transaction,
-  lendingMarket: TransactionObjectInput,
-): TransactionResult {
+export function init(tx: Transaction, lendingMarket: TransactionObjectInput): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::lending_market::init`,
     arguments: [obj(tx, lendingMarket)],

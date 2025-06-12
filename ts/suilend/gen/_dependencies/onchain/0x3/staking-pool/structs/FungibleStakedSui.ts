@@ -31,10 +31,7 @@ export interface FungibleStakedSuiFields {
   value: ToField<"u64">;
 }
 
-export type FungibleStakedSuiReified = Reified<
-  FungibleStakedSui,
-  FungibleStakedSuiFields
->;
+export type FungibleStakedSuiReified = Reified<FungibleStakedSui, FungibleStakedSuiFields>;
 
 /**
  * Move struct: `FungibleStakedSui`
@@ -78,20 +75,15 @@ export class FungibleStakedSui implements StructClass {
       typeArgs: [] as [],
       isPhantom: FungibleStakedSui.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        FungibleStakedSui.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        FungibleStakedSui.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => FungibleStakedSui.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => FungibleStakedSui.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => FungibleStakedSui.fromBcs(data),
       bcs: FungibleStakedSui.bcs,
       fromJSONField: (field: any) => FungibleStakedSui.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => FungibleStakedSui.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        FungibleStakedSui.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        FungibleStakedSui.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        FungibleStakedSui.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => FungibleStakedSui.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => FungibleStakedSui.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => FungibleStakedSui.fetch(client, id),
       new: (fields: FungibleStakedSuiFields) => {
         return new FungibleStakedSui([], fields);
       },
@@ -151,11 +143,7 @@ export class FungibleStakedSui implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): FungibleStakedSui {
@@ -179,20 +167,15 @@ export class FungibleStakedSui implements StructClass {
       throw new Error("not an object");
     }
     if (!isFungibleStakedSui(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a FungibleStakedSui object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a FungibleStakedSui object`);
     }
     return FungibleStakedSui.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): FungibleStakedSui {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isFungibleStakedSui(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a FungibleStakedSui object`);
+      if (data.bcs.dataType !== "moveObject" || !isFungibleStakedSui(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a FungibleStakedSui object`);
       }
 
       return FungibleStakedSui.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -205,20 +188,12 @@ export class FungibleStakedSui implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<FungibleStakedSui> {
+  static async fetch(client: SuiClient, id: string): Promise<FungibleStakedSui> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching FungibleStakedSui object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching FungibleStakedSui object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isFungibleStakedSui(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isFungibleStakedSui(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a FungibleStakedSui object`);
     }
 

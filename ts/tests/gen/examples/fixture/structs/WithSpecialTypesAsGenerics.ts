@@ -30,9 +30,7 @@ import { fromBase64 } from "@mysten/sui/utils";
 
 export function isWithSpecialTypesAsGenerics(type: string): boolean {
   type = compressSuiType(type);
-  return type.startsWith(
-    `${PKG_V1}::fixture::WithSpecialTypesAsGenerics` + "<",
-  );
+  return type.startsWith(`${PKG_V1}::fixture::WithSpecialTypesAsGenerics` + "<");
 }
 
 export interface WithSpecialTypesAsGenericsFields<
@@ -98,16 +96,7 @@ export class WithSpecialTypesAsGenerics<
 
   static readonly $typeName = `${PKG_V1}::fixture::WithSpecialTypesAsGenerics`;
   static readonly $numTypeParams = 8;
-  static readonly $isPhantom = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ] as const;
+  static readonly $isPhantom = [false, false, false, false, false, false, false, false] as const;
 
   readonly $typeName = WithSpecialTypesAsGenerics.$typeName;
   readonly $fullTypeName: `${typeof PKG_V1}::fixture::WithSpecialTypesAsGenerics<${ToTypeStr<T0>}, ${ToTypeStr<T1>}, ${ToTypeStr<T2>}, ${ToTypeStr<T3>}, ${ToTypeStr<T4>}, ${ToTypeStr<T5>}, ${ToTypeStr<T6>}, ${ToTypeStr<T7>}>`;
@@ -228,20 +217,11 @@ export class WithSpecialTypesAsGenerics<
       isPhantom: WithSpecialTypesAsGenerics.$isPhantom,
       reifiedTypeArgs: [T0, T1, T2, T3, T4, T5, T6, T7],
       fromFields: (fields: Record<string, any>) =>
-        WithSpecialTypesAsGenerics.fromFields(
-          [T0, T1, T2, T3, T4, T5, T6, T7],
-          fields,
-        ),
+        WithSpecialTypesAsGenerics.fromFields([T0, T1, T2, T3, T4, T5, T6, T7], fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        WithSpecialTypesAsGenerics.fromFieldsWithTypes(
-          [T0, T1, T2, T3, T4, T5, T6, T7],
-          item,
-        ),
+        WithSpecialTypesAsGenerics.fromFieldsWithTypes([T0, T1, T2, T3, T4, T5, T6, T7], item),
       fromBcs: (data: Uint8Array) =>
-        WithSpecialTypesAsGenerics.fromBcs(
-          [T0, T1, T2, T3, T4, T5, T6, T7],
-          data,
-        ),
+        WithSpecialTypesAsGenerics.fromBcs([T0, T1, T2, T3, T4, T5, T6, T7], data),
       bcs: WithSpecialTypesAsGenerics.bcs(
         toBcs(T0),
         toBcs(T1),
@@ -253,31 +233,15 @@ export class WithSpecialTypesAsGenerics<
         toBcs(T7),
       ),
       fromJSONField: (field: any) =>
-        WithSpecialTypesAsGenerics.fromJSONField(
-          [T0, T1, T2, T3, T4, T5, T6, T7],
-          field,
-        ),
+        WithSpecialTypesAsGenerics.fromJSONField([T0, T1, T2, T3, T4, T5, T6, T7], field),
       fromJSON: (json: Record<string, any>) =>
-        WithSpecialTypesAsGenerics.fromJSON(
-          [T0, T1, T2, T3, T4, T5, T6, T7],
-          json,
-        ),
+        WithSpecialTypesAsGenerics.fromJSON([T0, T1, T2, T3, T4, T5, T6, T7], json),
       fromSuiParsedData: (content: SuiParsedData) =>
-        WithSpecialTypesAsGenerics.fromSuiParsedData(
-          [T0, T1, T2, T3, T4, T5, T6, T7],
-          content,
-        ),
+        WithSpecialTypesAsGenerics.fromSuiParsedData([T0, T1, T2, T3, T4, T5, T6, T7], content),
       fromSuiObjectData: (content: SuiObjectData) =>
-        WithSpecialTypesAsGenerics.fromSuiObjectData(
-          [T0, T1, T2, T3, T4, T5, T6, T7],
-          content,
-        ),
+        WithSpecialTypesAsGenerics.fromSuiObjectData([T0, T1, T2, T3, T4, T5, T6, T7], content),
       fetch: async (client: SuiClient, id: string) =>
-        WithSpecialTypesAsGenerics.fetch(
-          client,
-          [T0, T1, T2, T3, T4, T5, T6, T7],
-          id,
-        ),
+        WithSpecialTypesAsGenerics.fetch(client, [T0, T1, T2, T3, T4, T5, T6, T7], id),
       new: (
         fields: WithSpecialTypesAsGenericsFields<
           ToTypeArgument<T0>,
@@ -344,9 +308,7 @@ export class WithSpecialTypesAsGenerics<
       >
     >
   > {
-    return phantom(
-      WithSpecialTypesAsGenerics.reified(T0, T1, T2, T3, T4, T5, T6, T7),
-    );
+    return phantom(WithSpecialTypesAsGenerics.reified(T0, T1, T2, T3, T4, T5, T6, T7));
   }
   static get p() {
     return WithSpecialTypesAsGenerics.phantom;
@@ -410,16 +372,8 @@ export class WithSpecialTypesAsGenerics<
     ToTypeArgument<T6>,
     ToTypeArgument<T7>
   > {
-    const [
-      typeArg0,
-      typeArg1,
-      typeArg2,
-      typeArg3,
-      typeArg4,
-      typeArg5,
-      typeArg6,
-      typeArg7,
-    ] = typeArgs;
+    const [typeArg0, typeArg1, typeArg2, typeArg3, typeArg4, typeArg5, typeArg6, typeArg7] =
+      typeArgs;
     return WithSpecialTypesAsGenerics.reified(
       typeArg0,
       typeArg1,
@@ -467,16 +421,8 @@ export class WithSpecialTypesAsGenerics<
     if (!isWithSpecialTypesAsGenerics(item.type)) {
       throw new Error("not a WithSpecialTypesAsGenerics type");
     }
-    const [
-      typeArg0,
-      typeArg1,
-      typeArg2,
-      typeArg3,
-      typeArg4,
-      typeArg5,
-      typeArg6,
-      typeArg7,
-    ] = typeArgs;
+    const [typeArg0, typeArg1, typeArg2, typeArg3, typeArg4, typeArg5, typeArg6, typeArg7] =
+      typeArgs;
     assertFieldsWithTypesArgsMatch(item, typeArgs);
 
     return WithSpecialTypesAsGenerics.reified(
@@ -491,10 +437,7 @@ export class WithSpecialTypesAsGenerics<
     ).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
       string: decodeFromFieldsWithTypes(typeArg0, item.fields.string),
-      asciiString: decodeFromFieldsWithTypes(
-        typeArg1,
-        item.fields.ascii_string,
-      ),
+      asciiString: decodeFromFieldsWithTypes(typeArg1, item.fields.ascii_string),
       url: decodeFromFieldsWithTypes(typeArg2, item.fields.url),
       idField: decodeFromFieldsWithTypes(typeArg3, item.fields.id_field),
       uid: decodeFromFieldsWithTypes(typeArg4, item.fields.uid),
@@ -526,27 +469,10 @@ export class WithSpecialTypesAsGenerics<
     ToTypeArgument<T6>,
     ToTypeArgument<T7>
   > {
-    const [
-      typeArg0,
-      typeArg1,
-      typeArg2,
-      typeArg3,
-      typeArg4,
-      typeArg5,
-      typeArg6,
-      typeArg7,
-    ] = typeArgs;
+    const [typeArg0, typeArg1, typeArg2, typeArg3, typeArg4, typeArg5, typeArg6, typeArg7] =
+      typeArgs;
     return WithSpecialTypesAsGenerics.fromFields(
-      [
-        typeArg0,
-        typeArg1,
-        typeArg2,
-        typeArg3,
-        typeArg4,
-        typeArg5,
-        typeArg6,
-        typeArg7,
-      ],
+      [typeArg0, typeArg1, typeArg2, typeArg3, typeArg4, typeArg5, typeArg6, typeArg7],
       WithSpecialTypesAsGenerics.bcs(
         toBcs(typeArg0),
         toBcs(typeArg1),
@@ -561,16 +487,8 @@ export class WithSpecialTypesAsGenerics<
   }
 
   toJSONField() {
-    const [
-      typeArg0,
-      typeArg1,
-      typeArg2,
-      typeArg3,
-      typeArg4,
-      typeArg5,
-      typeArg6,
-      typeArg7,
-    ] = this.$typeArgs;
+    const [typeArg0, typeArg1, typeArg2, typeArg3, typeArg4, typeArg5, typeArg6, typeArg7] =
+      this.$typeArgs;
     return {
       id: this.id,
       string: fieldToJSON<T0>(typeArg0, this.string),
@@ -585,11 +503,7 @@ export class WithSpecialTypesAsGenerics<
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
@@ -614,16 +528,8 @@ export class WithSpecialTypesAsGenerics<
     ToTypeArgument<T6>,
     ToTypeArgument<T7>
   > {
-    const [
-      typeArg0,
-      typeArg1,
-      typeArg2,
-      typeArg3,
-      typeArg4,
-      typeArg5,
-      typeArg6,
-      typeArg7,
-    ] = typeArgs;
+    const [typeArg0, typeArg1, typeArg2, typeArg3, typeArg4, typeArg5, typeArg6, typeArg7] =
+      typeArgs;
     return WithSpecialTypesAsGenerics.reified(
       typeArg0,
       typeArg1,
@@ -671,54 +577,21 @@ export class WithSpecialTypesAsGenerics<
     if (json.$typeName !== WithSpecialTypesAsGenerics.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
-    const [
-      typeArg0,
-      typeArg1,
-      typeArg2,
-      typeArg3,
-      typeArg4,
-      typeArg5,
-      typeArg6,
-      typeArg7,
-    ] = typeArgs;
+    const [typeArg0, typeArg1, typeArg2, typeArg3, typeArg4, typeArg5, typeArg6, typeArg7] =
+      typeArgs;
     assertReifiedTypeArgsMatch(
       composeSuiType(
         WithSpecialTypesAsGenerics.$typeName,
-        ...[
-          typeArg0,
-          typeArg1,
-          typeArg2,
-          typeArg3,
-          typeArg4,
-          typeArg5,
-          typeArg6,
-          typeArg7,
-        ].map(extractType),
+        ...[typeArg0, typeArg1, typeArg2, typeArg3, typeArg4, typeArg5, typeArg6, typeArg7].map(
+          extractType,
+        ),
       ),
       json.$typeArgs,
-      [
-        typeArg0,
-        typeArg1,
-        typeArg2,
-        typeArg3,
-        typeArg4,
-        typeArg5,
-        typeArg6,
-        typeArg7,
-      ],
+      [typeArg0, typeArg1, typeArg2, typeArg3, typeArg4, typeArg5, typeArg6, typeArg7],
     );
 
     return WithSpecialTypesAsGenerics.fromJSONField(
-      [
-        typeArg0,
-        typeArg1,
-        typeArg2,
-        typeArg3,
-        typeArg4,
-        typeArg5,
-        typeArg6,
-        typeArg7,
-      ],
+      [typeArg0, typeArg1, typeArg2, typeArg3, typeArg4, typeArg5, typeArg6, typeArg7],
       json,
     );
   }
@@ -779,11 +652,8 @@ export class WithSpecialTypesAsGenerics<
     ToTypeArgument<T7>
   > {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isWithSpecialTypesAsGenerics(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a WithSpecialTypesAsGenerics object`);
+      if (data.bcs.dataType !== "moveObject" || !isWithSpecialTypesAsGenerics(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a WithSpecialTypesAsGenerics object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -806,16 +676,10 @@ export class WithSpecialTypesAsGenerics<
         }
       });
 
-      return WithSpecialTypesAsGenerics.fromBcs(
-        typeArgs,
-        fromBase64(data.bcs.bcsBytes),
-      );
+      return WithSpecialTypesAsGenerics.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
-      return WithSpecialTypesAsGenerics.fromSuiParsedData(
-        typeArgs,
-        data.content,
-      );
+      return WithSpecialTypesAsGenerics.fromSuiParsedData(typeArgs, data.content);
     }
     throw new Error(
       "Both `bcs` and `content` fields are missing from the data. Include `showBcs` or `showContent` in the request.",
@@ -857,9 +721,7 @@ export class WithSpecialTypesAsGenerics<
       res.data?.bcs?.dataType !== "moveObject" ||
       !isWithSpecialTypesAsGenerics(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a WithSpecialTypesAsGenerics object`,
-      );
+      throw new Error(`object at id ${id} is not a WithSpecialTypesAsGenerics object`);
     }
 
     return WithSpecialTypesAsGenerics.fromSuiObjectData(typeArgs, res.data);

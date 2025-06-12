@@ -68,20 +68,15 @@ export class LatestOnly implements StructClass {
       typeArgs: [] as [],
       isPhantom: LatestOnly.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        LatestOnly.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        LatestOnly.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => LatestOnly.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => LatestOnly.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => LatestOnly.fromBcs(data),
       bcs: LatestOnly.bcs,
       fromJSONField: (field: any) => LatestOnly.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => LatestOnly.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        LatestOnly.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        LatestOnly.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        LatestOnly.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => LatestOnly.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => LatestOnly.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => LatestOnly.fetch(client, id),
       new: (fields: LatestOnlyFields) => {
         return new LatestOnly([], fields);
       },
@@ -107,9 +102,7 @@ export class LatestOnly implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): LatestOnly {
-    return LatestOnly.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return LatestOnly.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): LatestOnly {
@@ -133,17 +126,11 @@ export class LatestOnly implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): LatestOnly {
-    return LatestOnly.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return LatestOnly.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): LatestOnly {
@@ -159,9 +146,7 @@ export class LatestOnly implements StructClass {
       throw new Error("not an object");
     }
     if (!isLatestOnly(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a LatestOnly object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a LatestOnly object`);
     }
     return LatestOnly.fromFieldsWithTypes(content);
   }
@@ -169,7 +154,7 @@ export class LatestOnly implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): LatestOnly {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isLatestOnly(data.bcs.type)) {
-        throw new Error(`object at is not a LatestOnly object`);
+        throw new Error(`object at ${data.objectId} is not a LatestOnly object`);
       }
 
       return LatestOnly.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -185,14 +170,9 @@ export class LatestOnly implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<LatestOnly> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching LatestOnly object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching LatestOnly object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isLatestOnly(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isLatestOnly(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a LatestOnly object`);
     }
 

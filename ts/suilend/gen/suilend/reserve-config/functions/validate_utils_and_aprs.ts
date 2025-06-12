@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface ValidateUtilsAndAprsArgs {
   vecU8: Array<number | TransactionArgument> | TransactionArgument;
@@ -25,9 +21,6 @@ export function validateUtilsAndAprs(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve_config::validate_utils_and_aprs`,
-    arguments: [
-      pure(tx, args.vecU8, `vector<u8>`),
-      pure(tx, args.vecU64, `vector<u64>`),
-    ],
+    arguments: [pure(tx, args.vecU8, `vector<u8>`), pure(tx, args.vecU64, `vector<u64>`)],
   });
 }

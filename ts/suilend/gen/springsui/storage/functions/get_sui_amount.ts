@@ -21,10 +21,7 @@ export interface GetSuiAmountArgs {
  * @param u64 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function getSuiAmount(
-  tx: Transaction,
-  args: GetSuiAmountArgs,
-): TransactionResult {
+export function getSuiAmount(tx: Transaction, args: GetSuiAmountArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::storage::get_sui_amount`,
     arguments: [obj(tx, args.poolTokenExchangeRate), pure(tx, args.u64, `u64`)],

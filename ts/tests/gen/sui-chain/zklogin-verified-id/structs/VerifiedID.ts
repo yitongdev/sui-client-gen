@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { String } from "../../../move-stdlib-chain/string/structs/index.js";
 import { PKG_V31 } from "../../constants.js";
 import { UID } from "../../object/structs/index.js";
@@ -85,20 +81,15 @@ export class VerifiedID implements StructClass {
       typeArgs: [] as [],
       isPhantom: VerifiedID.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        VerifiedID.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        VerifiedID.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => VerifiedID.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => VerifiedID.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => VerifiedID.fromBcs(data),
       bcs: VerifiedID.bcs,
       fromJSONField: (field: any) => VerifiedID.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => VerifiedID.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        VerifiedID.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        VerifiedID.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        VerifiedID.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => VerifiedID.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => VerifiedID.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => VerifiedID.fetch(client, id),
       new: (fields: VerifiedIDFields) => {
         return new VerifiedID([], fields);
       },
@@ -150,19 +141,10 @@ export class VerifiedID implements StructClass {
     return VerifiedID.reified().new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
       owner: decodeFromFieldsWithTypes("address", item.fields.owner),
-      keyClaimName: decodeFromFieldsWithTypes(
-        String.reified(),
-        item.fields.key_claim_name,
-      ),
-      keyClaimValue: decodeFromFieldsWithTypes(
-        String.reified(),
-        item.fields.key_claim_value,
-      ),
+      keyClaimName: decodeFromFieldsWithTypes(String.reified(), item.fields.key_claim_name),
+      keyClaimValue: decodeFromFieldsWithTypes(String.reified(), item.fields.key_claim_value),
       issuer: decodeFromFieldsWithTypes(String.reified(), item.fields.issuer),
-      audience: decodeFromFieldsWithTypes(
-        String.reified(),
-        item.fields.audience,
-      ),
+      audience: decodeFromFieldsWithTypes(String.reified(), item.fields.audience),
     });
   }
 
@@ -182,11 +164,7 @@ export class VerifiedID implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): VerifiedID {
@@ -213,9 +191,7 @@ export class VerifiedID implements StructClass {
       throw new Error("not an object");
     }
     if (!isVerifiedID(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a VerifiedID object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a VerifiedID object`);
     }
     return VerifiedID.fromFieldsWithTypes(content);
   }
@@ -223,7 +199,7 @@ export class VerifiedID implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): VerifiedID {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isVerifiedID(data.bcs.type)) {
-        throw new Error(`object at is not a VerifiedID object`);
+        throw new Error(`object at ${data.objectId} is not a VerifiedID object`);
       }
 
       return VerifiedID.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -239,14 +215,9 @@ export class VerifiedID implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<VerifiedID> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching VerifiedID object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching VerifiedID object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isVerifiedID(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isVerifiedID(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a VerifiedID object`);
     }
 

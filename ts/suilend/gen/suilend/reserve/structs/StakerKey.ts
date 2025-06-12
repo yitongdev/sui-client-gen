@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V8 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -69,18 +65,14 @@ export class StakerKey implements StructClass {
       isPhantom: StakerKey.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => StakerKey.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        StakerKey.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => StakerKey.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => StakerKey.fromBcs(data),
       bcs: StakerKey.bcs,
       fromJSONField: (field: any) => StakerKey.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => StakerKey.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        StakerKey.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        StakerKey.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        StakerKey.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => StakerKey.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => StakerKey.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => StakerKey.fetch(client, id),
       new: (fields: StakerKeyFields) => {
         return new StakerKey([], fields);
       },
@@ -106,9 +98,7 @@ export class StakerKey implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): StakerKey {
-    return StakerKey.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return StakerKey.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): StakerKey {
@@ -132,17 +122,11 @@ export class StakerKey implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): StakerKey {
-    return StakerKey.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return StakerKey.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): StakerKey {
@@ -158,9 +142,7 @@ export class StakerKey implements StructClass {
       throw new Error("not an object");
     }
     if (!isStakerKey(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a StakerKey object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a StakerKey object`);
     }
     return StakerKey.fromFieldsWithTypes(content);
   }
@@ -168,7 +150,7 @@ export class StakerKey implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): StakerKey {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isStakerKey(data.bcs.type)) {
-        throw new Error(`object at is not a StakerKey object`);
+        throw new Error(`object at ${data.objectId} is not a StakerKey object`);
       }
 
       return StakerKey.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -184,14 +166,9 @@ export class StakerKey implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<StakerKey> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching StakerKey object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching StakerKey object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isStakerKey(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isStakerKey(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a StakerKey object`);
     }
 

@@ -13,11 +13,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V1 } from "../../constants.js";
 import { PoolReward as PoolReward1 } from "./PoolReward.js";
@@ -37,10 +33,7 @@ export interface PoolRewardManagerFields {
   lastUpdateTimeMs: ToField<"u64">;
 }
 
-export type PoolRewardManagerReified = Reified<
-  PoolRewardManager,
-  PoolRewardManagerFields
->;
+export type PoolRewardManagerReified = Reified<PoolRewardManager, PoolRewardManagerFields>;
 
 /**
  * Move struct: `PoolRewardManager`
@@ -86,20 +79,15 @@ export class PoolRewardManager implements StructClass {
       typeArgs: [] as [],
       isPhantom: PoolRewardManager.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        PoolRewardManager.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PoolRewardManager.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => PoolRewardManager.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PoolRewardManager.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PoolRewardManager.fromBcs(data),
       bcs: PoolRewardManager.bcs,
       fromJSONField: (field: any) => PoolRewardManager.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PoolRewardManager.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PoolRewardManager.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PoolRewardManager.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PoolRewardManager.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PoolRewardManager.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PoolRewardManager.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PoolRewardManager.fetch(client, id),
       new: (fields: PoolRewardManagerFields) => {
         return new PoolRewardManager([], fields);
       },
@@ -151,10 +139,7 @@ export class PoolRewardManager implements StructClass {
         reified.vector(Option.reified(PoolReward1.reified())),
         item.fields.pool_rewards,
       ),
-      lastUpdateTimeMs: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.last_update_time_ms,
-      ),
+      lastUpdateTimeMs: decodeFromFieldsWithTypes("u64", item.fields.last_update_time_ms),
     });
   }
 
@@ -175,11 +160,7 @@ export class PoolRewardManager implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PoolRewardManager {
@@ -207,20 +188,15 @@ export class PoolRewardManager implements StructClass {
       throw new Error("not an object");
     }
     if (!isPoolRewardManager(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PoolRewardManager object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PoolRewardManager object`);
     }
     return PoolRewardManager.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): PoolRewardManager {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isPoolRewardManager(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a PoolRewardManager object`);
+      if (data.bcs.dataType !== "moveObject" || !isPoolRewardManager(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a PoolRewardManager object`);
       }
 
       return PoolRewardManager.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -233,20 +209,12 @@ export class PoolRewardManager implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<PoolRewardManager> {
+  static async fetch(client: SuiClient, id: string): Promise<PoolRewardManager> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PoolRewardManager object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PoolRewardManager object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPoolRewardManager(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPoolRewardManager(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PoolRewardManager object`);
     }
 

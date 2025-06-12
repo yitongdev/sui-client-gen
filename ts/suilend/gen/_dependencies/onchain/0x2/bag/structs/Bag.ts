@@ -65,24 +65,18 @@ export class Bag implements StructClass {
   static reified(): BagReified {
     return {
       typeName: Bag.$typeName,
-      fullTypeName: composeSuiType(
-        Bag.$typeName,
-        ...[],
-      ) as `${typeof PKG_V35}::bag::Bag`,
+      fullTypeName: composeSuiType(Bag.$typeName, ...[]) as `${typeof PKG_V35}::bag::Bag`,
       typeArgs: [] as [],
       isPhantom: Bag.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Bag.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Bag.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Bag.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Bag.fromBcs(data),
       bcs: Bag.bcs,
       fromJSONField: (field: any) => Bag.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Bag.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Bag.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Bag.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Bag.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Bag.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Bag.fetch(client, id),
       new: (fields: BagFields) => {
         return new Bag([], fields);
@@ -139,11 +133,7 @@ export class Bag implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Bag {
@@ -166,9 +156,7 @@ export class Bag implements StructClass {
       throw new Error("not an object");
     }
     if (!isBag(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Bag object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Bag object`);
     }
     return Bag.fromFieldsWithTypes(content);
   }
@@ -176,7 +164,7 @@ export class Bag implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Bag {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isBag(data.bcs.type)) {
-        throw new Error(`object at is not a Bag object`);
+        throw new Error(`object at ${data.objectId} is not a Bag object`);
       }
 
       return Bag.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -192,9 +180,7 @@ export class Bag implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Bag> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Bag object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Bag object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isBag(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Bag object`);

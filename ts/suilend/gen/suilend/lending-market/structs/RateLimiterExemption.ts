@@ -28,9 +28,7 @@ import { fromBase64 } from "@mysten/sui/utils";
 
 export function isRateLimiterExemption(type: string): boolean {
   type = compressSuiType(type);
-  return type.startsWith(
-    `${PKG_V1}::lending_market::RateLimiterExemption` + "<",
-  );
+  return type.startsWith(`${PKG_V1}::lending_market::RateLimiterExemption` + "<");
 }
 
 export interface RateLimiterExemptionFields<
@@ -52,10 +50,8 @@ export type RateLimiterExemptionReified<
  * @typeParam T0 - Type parameter 0 (phantom)
  * @typeParam T1 - Type parameter 1 (phantom)
  */
-export class RateLimiterExemption<
-  T0 extends PhantomTypeArgument,
-  T1 extends PhantomTypeArgument,
-> implements StructClass
+export class RateLimiterExemption<T0 extends PhantomTypeArgument, T1 extends PhantomTypeArgument>
+  implements StructClass
 {
   __StructClass = true as const;
 
@@ -89,10 +85,7 @@ export class RateLimiterExemption<
   >(
     T0: T0,
     T1: T1,
-  ): RateLimiterExemptionReified<
-    ToPhantomTypeArgument<T0>,
-    ToPhantomTypeArgument<T1>
-  > {
+  ): RateLimiterExemptionReified<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     return {
       typeName: RateLimiterExemption.$typeName,
       fullTypeName: composeSuiType(
@@ -109,13 +102,10 @@ export class RateLimiterExemption<
         RateLimiterExemption.fromFields([T0, T1], fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         RateLimiterExemption.fromFieldsWithTypes([T0, T1], item),
-      fromBcs: (data: Uint8Array) =>
-        RateLimiterExemption.fromBcs([T0, T1], data),
+      fromBcs: (data: Uint8Array) => RateLimiterExemption.fromBcs([T0, T1], data),
       bcs: RateLimiterExemption.bcs,
-      fromJSONField: (field: any) =>
-        RateLimiterExemption.fromJSONField([T0, T1], field),
-      fromJSON: (json: Record<string, any>) =>
-        RateLimiterExemption.fromJSON([T0, T1], json),
+      fromJSONField: (field: any) => RateLimiterExemption.fromJSONField([T0, T1], field),
+      fromJSON: (json: Record<string, any>) => RateLimiterExemption.fromJSON([T0, T1], json),
       fromSuiParsedData: (content: SuiParsedData) =>
         RateLimiterExemption.fromSuiParsedData([T0, T1], content),
       fromSuiObjectData: (content: SuiObjectData) =>
@@ -123,15 +113,9 @@ export class RateLimiterExemption<
       fetch: async (client: SuiClient, id: string) =>
         RateLimiterExemption.fetch(client, [T0, T1], id),
       new: (
-        fields: RateLimiterExemptionFields<
-          ToPhantomTypeArgument<T0>,
-          ToPhantomTypeArgument<T1>
-        >,
+        fields: RateLimiterExemptionFields<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>,
       ) => {
-        return new RateLimiterExemption(
-          [extractType(T0), extractType(T1)],
-          fields,
-        );
+        return new RateLimiterExemption([extractType(T0), extractType(T1)], fields);
       },
       kind: "StructClassReified",
     };
@@ -148,9 +132,7 @@ export class RateLimiterExemption<
     T0: T0,
     T1: T1,
   ): PhantomReified<
-    ToTypeStr<
-      RateLimiterExemption<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>
-    >
+    ToTypeStr<RateLimiterExemption<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>>
   > {
     return phantom(RateLimiterExemption.reified(T0, T1));
   }
@@ -170,10 +152,7 @@ export class RateLimiterExemption<
   >(
     typeArgs: [T0, T1],
     fields: Record<string, any>,
-  ): RateLimiterExemption<
-    ToPhantomTypeArgument<T0>,
-    ToPhantomTypeArgument<T1>
-  > {
+  ): RateLimiterExemption<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     const [typeArg0, typeArg1] = typeArgs;
     return RateLimiterExemption.reified(typeArg0, typeArg1).new({
       amount: decodeFromFields("u64", fields.amount),
@@ -186,10 +165,7 @@ export class RateLimiterExemption<
   >(
     typeArgs: [T0, T1],
     item: FieldsWithTypes,
-  ): RateLimiterExemption<
-    ToPhantomTypeArgument<T0>,
-    ToPhantomTypeArgument<T1>
-  > {
+  ): RateLimiterExemption<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     if (!isRateLimiterExemption(item.type)) {
       throw new Error("not a RateLimiterExemption type");
     }
@@ -207,10 +183,7 @@ export class RateLimiterExemption<
   >(
     typeArgs: [T0, T1],
     data: Uint8Array,
-  ): RateLimiterExemption<
-    ToPhantomTypeArgument<T0>,
-    ToPhantomTypeArgument<T1>
-  > {
+  ): RateLimiterExemption<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     const [typeArg0, typeArg1] = typeArgs;
     return RateLimiterExemption.fromFields(
       [typeArg0, typeArg1],
@@ -226,11 +199,7 @@ export class RateLimiterExemption<
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
@@ -239,10 +208,7 @@ export class RateLimiterExemption<
   >(
     typeArgs: [T0, T1],
     field: any,
-  ): RateLimiterExemption<
-    ToPhantomTypeArgument<T0>,
-    ToPhantomTypeArgument<T1>
-  > {
+  ): RateLimiterExemption<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     const [typeArg0, typeArg1] = typeArgs;
     return RateLimiterExemption.reified(typeArg0, typeArg1).new({
       amount: decodeFromJSONField("u64", field.amount),
@@ -255,19 +221,13 @@ export class RateLimiterExemption<
   >(
     typeArgs: [T0, T1],
     json: Record<string, any>,
-  ): RateLimiterExemption<
-    ToPhantomTypeArgument<T0>,
-    ToPhantomTypeArgument<T1>
-  > {
+  ): RateLimiterExemption<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     if (json.$typeName !== RateLimiterExemption.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
     const [typeArg0, typeArg1] = typeArgs;
     assertReifiedTypeArgsMatch(
-      composeSuiType(
-        RateLimiterExemption.$typeName,
-        ...[typeArg0, typeArg1].map(extractType),
-      ),
+      composeSuiType(RateLimiterExemption.$typeName, ...[typeArg0, typeArg1].map(extractType)),
       json.$typeArgs,
       [typeArg0, typeArg1],
     );
@@ -281,10 +241,7 @@ export class RateLimiterExemption<
   >(
     typeArgs: [T0, T1],
     content: SuiParsedData,
-  ): RateLimiterExemption<
-    ToPhantomTypeArgument<T0>,
-    ToPhantomTypeArgument<T1>
-  > {
+  ): RateLimiterExemption<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     if (content.dataType !== "moveObject") {
       throw new Error("not an object");
     }
@@ -302,16 +259,10 @@ export class RateLimiterExemption<
   >(
     typeArgs: [T0, T1],
     data: SuiObjectData,
-  ): RateLimiterExemption<
-    ToPhantomTypeArgument<T0>,
-    ToPhantomTypeArgument<T1>
-  > {
+  ): RateLimiterExemption<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isRateLimiterExemption(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a RateLimiterExemption object`);
+      if (data.bcs.dataType !== "moveObject" || !isRateLimiterExemption(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a RateLimiterExemption object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -334,10 +285,7 @@ export class RateLimiterExemption<
         }
       });
 
-      return RateLimiterExemption.fromBcs(
-        typeArgs,
-        fromBase64(data.bcs.bcsBytes),
-      );
+      return RateLimiterExemption.fromBcs(typeArgs, fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return RateLimiterExemption.fromSuiParsedData(typeArgs, data.content);
@@ -354,22 +302,13 @@ export class RateLimiterExemption<
     client: SuiClient,
     typeArgs: [T0, T1],
     id: string,
-  ): Promise<
-    RateLimiterExemption<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>
-  > {
+  ): Promise<RateLimiterExemption<ToPhantomTypeArgument<T0>, ToPhantomTypeArgument<T1>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching RateLimiterExemption object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching RateLimiterExemption object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isRateLimiterExemption(res.data.bcs.type)
-    ) {
-      throw new Error(
-        `object at id ${id} is not a RateLimiterExemption object`,
-      );
+    if (res.data?.bcs?.dataType !== "moveObject" || !isRateLimiterExemption(res.data.bcs.type)) {
+      throw new Error(`object at id ${id} is not a RateLimiterExemption object`);
     }
 
     return RateLimiterExemption.fromSuiObjectData(typeArgs, res.data);

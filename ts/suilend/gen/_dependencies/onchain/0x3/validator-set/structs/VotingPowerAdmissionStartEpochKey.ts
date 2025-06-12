@@ -21,9 +21,7 @@ import { fromBase64 } from "@mysten/sui/utils";
 
 export function isVotingPowerAdmissionStartEpochKey(type: string): boolean {
   type = compressSuiType(type);
-  return (
-    type === `${PKG_V21}::validator_set::VotingPowerAdmissionStartEpochKey`
-  );
+  return type === `${PKG_V21}::validator_set::VotingPowerAdmissionStartEpochKey`;
 }
 
 export interface VotingPowerAdmissionStartEpochKeyFields {
@@ -53,10 +51,7 @@ export class VotingPowerAdmissionStartEpochKey implements StructClass {
 
   readonly dummyField: ToField<"bool">;
 
-  private constructor(
-    typeArgs: [],
-    fields: VotingPowerAdmissionStartEpochKeyFields,
-  ) {
+  private constructor(typeArgs: [], fields: VotingPowerAdmissionStartEpochKeyFields) {
     this.$fullTypeName = composeSuiType(
       VotingPowerAdmissionStartEpochKey.$typeName,
       ...typeArgs,
@@ -80,13 +75,10 @@ export class VotingPowerAdmissionStartEpochKey implements StructClass {
         VotingPowerAdmissionStartEpochKey.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         VotingPowerAdmissionStartEpochKey.fromFieldsWithTypes(item),
-      fromBcs: (data: Uint8Array) =>
-        VotingPowerAdmissionStartEpochKey.fromBcs(data),
+      fromBcs: (data: Uint8Array) => VotingPowerAdmissionStartEpochKey.fromBcs(data),
       bcs: VotingPowerAdmissionStartEpochKey.bcs,
-      fromJSONField: (field: any) =>
-        VotingPowerAdmissionStartEpochKey.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        VotingPowerAdmissionStartEpochKey.fromJSON(json),
+      fromJSONField: (field: any) => VotingPowerAdmissionStartEpochKey.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => VotingPowerAdmissionStartEpochKey.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         VotingPowerAdmissionStartEpochKey.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
@@ -104,9 +96,7 @@ export class VotingPowerAdmissionStartEpochKey implements StructClass {
     return VotingPowerAdmissionStartEpochKey.reified();
   }
 
-  static phantom(): PhantomReified<
-    ToTypeStr<VotingPowerAdmissionStartEpochKey>
-  > {
+  static phantom(): PhantomReified<ToTypeStr<VotingPowerAdmissionStartEpochKey>> {
     return phantom(VotingPowerAdmissionStartEpochKey.reified());
   }
   static get p() {
@@ -119,17 +109,13 @@ export class VotingPowerAdmissionStartEpochKey implements StructClass {
     });
   }
 
-  static fromFields(
-    fields: Record<string, any>,
-  ): VotingPowerAdmissionStartEpochKey {
+  static fromFields(fields: Record<string, any>): VotingPowerAdmissionStartEpochKey {
     return VotingPowerAdmissionStartEpochKey.reified().new({
       dummyField: decodeFromFields("bool", fields.dummy_field),
     });
   }
 
-  static fromFieldsWithTypes(
-    item: FieldsWithTypes,
-  ): VotingPowerAdmissionStartEpochKey {
+  static fromFieldsWithTypes(item: FieldsWithTypes): VotingPowerAdmissionStartEpochKey {
     if (!isVotingPowerAdmissionStartEpochKey(item.type)) {
       throw new Error("not a VotingPowerAdmissionStartEpochKey type");
     }
@@ -152,11 +138,7 @@ export class VotingPowerAdmissionStartEpochKey implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): VotingPowerAdmissionStartEpochKey {
@@ -165,9 +147,7 @@ export class VotingPowerAdmissionStartEpochKey implements StructClass {
     });
   }
 
-  static fromJSON(
-    json: Record<string, any>,
-  ): VotingPowerAdmissionStartEpochKey {
+  static fromJSON(json: Record<string, any>): VotingPowerAdmissionStartEpochKey {
     if (json.$typeName !== VotingPowerAdmissionStartEpochKey.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
@@ -175,9 +155,7 @@ export class VotingPowerAdmissionStartEpochKey implements StructClass {
     return VotingPowerAdmissionStartEpochKey.fromJSONField(json);
   }
 
-  static fromSuiParsedData(
-    content: SuiParsedData,
-  ): VotingPowerAdmissionStartEpochKey {
+  static fromSuiParsedData(content: SuiParsedData): VotingPowerAdmissionStartEpochKey {
     if (content.dataType !== "moveObject") {
       throw new Error("not an object");
     }
@@ -189,22 +167,18 @@ export class VotingPowerAdmissionStartEpochKey implements StructClass {
     return VotingPowerAdmissionStartEpochKey.fromFieldsWithTypes(content);
   }
 
-  static fromSuiObjectData(
-    data: SuiObjectData,
-  ): VotingPowerAdmissionStartEpochKey {
+  static fromSuiObjectData(data: SuiObjectData): VotingPowerAdmissionStartEpochKey {
     if (data.bcs) {
       if (
         data.bcs.dataType !== "moveObject" ||
         !isVotingPowerAdmissionStartEpochKey(data.bcs.type)
       ) {
         throw new Error(
-          `object at is not a VotingPowerAdmissionStartEpochKey object`,
+          `object at ${data.objectId} is not a VotingPowerAdmissionStartEpochKey object`,
         );
       }
 
-      return VotingPowerAdmissionStartEpochKey.fromBcs(
-        fromBase64(data.bcs.bcsBytes),
-      );
+      return VotingPowerAdmissionStartEpochKey.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return VotingPowerAdmissionStartEpochKey.fromSuiParsedData(data.content);
@@ -214,10 +188,7 @@ export class VotingPowerAdmissionStartEpochKey implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<VotingPowerAdmissionStartEpochKey> {
+  static async fetch(client: SuiClient, id: string): Promise<VotingPowerAdmissionStartEpochKey> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
@@ -228,9 +199,7 @@ export class VotingPowerAdmissionStartEpochKey implements StructClass {
       res.data?.bcs?.dataType !== "moveObject" ||
       !isVotingPowerAdmissionStartEpochKey(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a VotingPowerAdmissionStartEpochKey object`,
-      );
+      throw new Error(`object at id ${id} is not a VotingPowerAdmissionStartEpochKey object`);
     }
 
     return VotingPowerAdmissionStartEpochKey.fromSuiObjectData(res.data);

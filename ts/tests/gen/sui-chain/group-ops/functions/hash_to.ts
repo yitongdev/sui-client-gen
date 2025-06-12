@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface HashToArgs {
   u8: number | TransactionArgument;
@@ -21,11 +17,7 @@ export interface HashToArgs {
  * @param vecU8 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function hashTo(
-  tx: Transaction,
-  typeArg: string,
-  args: HashToArgs,
-): TransactionResult {
+export function hashTo(tx: Transaction, typeArg: string, args: HashToArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::group_ops::hash_to`,
     typeArguments: [typeArg],

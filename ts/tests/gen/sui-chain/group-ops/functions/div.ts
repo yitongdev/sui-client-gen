@@ -25,18 +25,10 @@ export interface DivArgs {
  * @param element2 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function div(
-  tx: Transaction,
-  typeArgs: [string, string],
-  args: DivArgs,
-): TransactionResult {
+export function div(tx: Transaction, typeArgs: [string, string], args: DivArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::group_ops::div`,
     typeArguments: typeArgs,
-    arguments: [
-      pure(tx, args.u8, `u8`),
-      obj(tx, args.element1),
-      obj(tx, args.element2),
-    ],
+    arguments: [pure(tx, args.u8, `u8`), obj(tx, args.element1), obj(tx, args.element2)],
   });
 }

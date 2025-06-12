@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface SetValidatorAddressesAndWeightsArgs {
   weightHook: TransactionObjectInput;
@@ -30,10 +26,6 @@ export function setValidatorAddressesAndWeights(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::weight::set_validator_addresses_and_weights`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.weightHook),
-      obj(tx, args.weightHookAdminCap),
-      obj(tx, args.vecMap),
-    ],
+    arguments: [obj(tx, args.weightHook), obj(tx, args.weightHookAdminCap), obj(tx, args.vecMap)],
   });
 }

@@ -31,17 +31,14 @@ export function isLP(type: string): boolean {
   return type.startsWith(`${PKG_V1}::pool::LP` + "<");
 }
 
-export interface LPFields<
-  A extends PhantomTypeArgument,
-  B extends PhantomTypeArgument,
-> {
+export interface LPFields<A extends PhantomTypeArgument, B extends PhantomTypeArgument> {
   dummyField: ToField<"bool">;
 }
 
-export type LPReified<
-  A extends PhantomTypeArgument,
-  B extends PhantomTypeArgument,
-> = Reified<LP<A, B>, LPFields<A, B>>;
+export type LPReified<A extends PhantomTypeArgument, B extends PhantomTypeArgument> = Reified<
+  LP<A, B>,
+  LPFields<A, B>
+>;
 
 /**
  * Move struct: `LP`
@@ -95,23 +92,16 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
       ],
       isPhantom: LP.$isPhantom,
       reifiedTypeArgs: [A, B],
-      fromFields: (fields: Record<string, any>) =>
-        LP.fromFields([A, B], fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        LP.fromFieldsWithTypes([A, B], item),
+      fromFields: (fields: Record<string, any>) => LP.fromFields([A, B], fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => LP.fromFieldsWithTypes([A, B], item),
       fromBcs: (data: Uint8Array) => LP.fromBcs([A, B], data),
       bcs: LP.bcs,
       fromJSONField: (field: any) => LP.fromJSONField([A, B], field),
       fromJSON: (json: Record<string, any>) => LP.fromJSON([A, B], json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        LP.fromSuiParsedData([A, B], content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        LP.fromSuiObjectData([A, B], content),
-      fetch: async (client: SuiClient, id: string) =>
-        LP.fetch(client, [A, B], id),
-      new: (
-        fields: LPFields<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>>,
-      ) => {
+      fromSuiParsedData: (content: SuiParsedData) => LP.fromSuiParsedData([A, B], content),
+      fromSuiObjectData: (content: SuiObjectData) => LP.fromSuiObjectData([A, B], content),
+      fetch: async (client: SuiClient, id: string) => LP.fetch(client, [A, B], id),
+      new: (fields: LPFields<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>>) => {
         return new LP([extractType(A), extractType(B)], fields);
       },
       kind: "StructClassReified",
@@ -125,12 +115,7 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
   static phantom<
     A extends PhantomReified<PhantomTypeArgument>,
     B extends PhantomReified<PhantomTypeArgument>,
-  >(
-    A: A,
-    B: B,
-  ): PhantomReified<
-    ToTypeStr<LP<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>>>
-  > {
+  >(A: A, B: B): PhantomReified<ToTypeStr<LP<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>>>> {
     return phantom(LP.reified(A, B));
   }
   static get p() {
@@ -177,10 +162,7 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
   static fromBcs<
     A extends PhantomReified<PhantomTypeArgument>,
     B extends PhantomReified<PhantomTypeArgument>,
-  >(
-    typeArgs: [A, B],
-    data: Uint8Array,
-  ): LP<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
+  >(typeArgs: [A, B], data: Uint8Array): LP<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
     const [typeArg0, typeArg1] = typeArgs;
     return LP.fromFields([typeArg0, typeArg1], LP.bcs.parse(data));
   }
@@ -193,20 +175,13 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<
     A extends PhantomReified<PhantomTypeArgument>,
     B extends PhantomReified<PhantomTypeArgument>,
-  >(
-    typeArgs: [A, B],
-    field: any,
-  ): LP<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
+  >(typeArgs: [A, B], field: any): LP<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
     const [typeArg0, typeArg1] = typeArgs;
     return LP.reified(typeArg0, typeArg1).new({
       dummyField: decodeFromJSONField("bool", field.dummyField),
@@ -244,9 +219,7 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
       throw new Error("not an object");
     }
     if (!isLP(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a LP object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a LP object`);
     }
     return LP.fromFieldsWithTypes(typeArgs, content);
   }
@@ -254,13 +227,10 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
   static fromSuiObjectData<
     A extends PhantomReified<PhantomTypeArgument>,
     B extends PhantomReified<PhantomTypeArgument>,
-  >(
-    typeArgs: [A, B],
-    data: SuiObjectData,
-  ): LP<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
+  >(typeArgs: [A, B], data: SuiObjectData): LP<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isLP(data.bcs.type)) {
-        throw new Error(`object at is not a LP object`);
+        throw new Error(`object at ${data.objectId} is not a LP object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -303,9 +273,7 @@ export class LP<A extends PhantomTypeArgument, B extends PhantomTypeArgument>
   ): Promise<LP<ToPhantomTypeArgument<A>, ToPhantomTypeArgument<B>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching LP object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching LP object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isLP(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a LP object`);

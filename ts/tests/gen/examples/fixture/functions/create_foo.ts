@@ -1,10 +1,4 @@
-import {
-  GenericArg,
-  generic,
-  obj,
-  pure,
-  vector,
-} from "../../../_framework/util.js";
+import { GenericArg, generic, obj, pure, vector } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
 import { Bar, WithTwoGenerics } from "../index.js";
 import {
@@ -16,9 +10,7 @@ import {
 
 export interface CreateFooArgs {
   generic: GenericArg;
-  reifiedPrimitiveVec:
-    | Array<bigint | TransactionArgument>
-    | TransactionArgument;
+  reifiedPrimitiveVec: Array<bigint | TransactionArgument> | TransactionArgument;
   reifiedObjectVec: Array<TransactionObjectInput> | TransactionArgument;
   genericVec: Array<GenericArg> | TransactionArgument;
   genericVecNested: Array<TransactionObjectInput> | TransactionArgument;
@@ -65,11 +57,7 @@ export function createFoo(
       pure(tx, args.reifiedPrimitiveVec, `vector<u64>`),
       vector(tx, `${Bar.$typeName}`, args.reifiedObjectVec),
       vector(tx, `${typeArgs[0]}`, args.genericVec),
-      vector(
-        tx,
-        `${WithTwoGenerics.$typeName}<${typeArgs[0]}, u8>`,
-        args.genericVecNested,
-      ),
+      vector(tx, `${WithTwoGenerics.$typeName}<${typeArgs[0]}, u8>`, args.genericVecNested),
       obj(tx, args.twoGenerics),
       obj(tx, args.twoGenericsReifiedPrimitive),
       obj(tx, args.twoGenericsReifiedObject),

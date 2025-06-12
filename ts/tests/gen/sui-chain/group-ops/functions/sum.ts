@@ -23,11 +23,7 @@ export interface SumArgs {
  * @param vecElement - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function sum(
-  tx: Transaction,
-  typeArg: string,
-  args: SumArgs,
-): TransactionResult {
+export function sum(tx: Transaction, typeArg: string, args: SumArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::group_ops::sum`,
     typeArguments: [typeArg],

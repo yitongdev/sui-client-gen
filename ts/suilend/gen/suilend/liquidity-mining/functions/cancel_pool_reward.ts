@@ -32,10 +32,6 @@ export function cancelPoolReward(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::liquidity_mining::cancel_pool_reward`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.poolRewardManager),
-      pure(tx, args.u64, `u64`),
-      obj(tx, args.clock),
-    ],
+    arguments: [obj(tx, args.poolRewardManager), pure(tx, args.u64, `u64`), obj(tx, args.clock)],
   });
 }

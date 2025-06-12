@@ -64,10 +64,7 @@ export class WithGenericField<T extends TypeArgument> implements StructClass {
   readonly id: ToField<UID>;
   readonly genericField: ToField<T>;
 
-  private constructor(
-    typeArgs: [ToTypeStr<T>],
-    fields: WithGenericFieldFields<T>,
-  ) {
+  private constructor(typeArgs: [ToTypeStr<T>], fields: WithGenericFieldFields<T>) {
     this.$fullTypeName = composeSuiType(
       WithGenericField.$typeName,
       ...typeArgs,
@@ -90,21 +87,15 @@ export class WithGenericField<T extends TypeArgument> implements StructClass {
       typeArgs: [extractType(T)] as [ToTypeStr<ToTypeArgument<T>>],
       isPhantom: WithGenericField.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        WithGenericField.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        WithGenericField.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => WithGenericField.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => WithGenericField.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => WithGenericField.fromBcs(T, data),
       bcs: WithGenericField.bcs(toBcs(T)),
       fromJSONField: (field: any) => WithGenericField.fromJSONField(T, field),
-      fromJSON: (json: Record<string, any>) =>
-        WithGenericField.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        WithGenericField.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        WithGenericField.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        WithGenericField.fetch(client, T, id),
+      fromJSON: (json: Record<string, any>) => WithGenericField.fromJSON(T, json),
+      fromSuiParsedData: (content: SuiParsedData) => WithGenericField.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => WithGenericField.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => WithGenericField.fetch(client, T, id),
       new: (fields: WithGenericFieldFields<ToTypeArgument<T>>) => {
         return new WithGenericField([extractType(T)], fields);
       },
@@ -154,10 +145,7 @@ export class WithGenericField<T extends TypeArgument> implements StructClass {
 
     return WithGenericField.reified(typeArg).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      genericField: decodeFromFieldsWithTypes(
-        typeArg,
-        item.fields.generic_field,
-      ),
+      genericField: decodeFromFieldsWithTypes(typeArg, item.fields.generic_field),
     });
   }
 
@@ -165,10 +153,7 @@ export class WithGenericField<T extends TypeArgument> implements StructClass {
     typeArg: T,
     data: Uint8Array,
   ): WithGenericField<ToTypeArgument<T>> {
-    return WithGenericField.fromFields(
-      typeArg,
-      WithGenericField.bcs(toBcs(typeArg)).parse(data),
-    );
+    return WithGenericField.fromFields(typeArg, WithGenericField.bcs(toBcs(typeArg)).parse(data));
   }
 
   toJSONField() {
@@ -179,11 +164,7 @@ export class WithGenericField<T extends TypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends Reified<TypeArgument, any>>(
@@ -220,9 +201,7 @@ export class WithGenericField<T extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isWithGenericField(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a WithGenericField object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a WithGenericField object`);
     }
     return WithGenericField.fromFieldsWithTypes(typeArg, content);
   }
@@ -232,11 +211,8 @@ export class WithGenericField<T extends TypeArgument> implements StructClass {
     data: SuiObjectData,
   ): WithGenericField<ToTypeArgument<T>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isWithGenericField(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a WithGenericField object`);
+      if (data.bcs.dataType !== "moveObject" || !isWithGenericField(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a WithGenericField object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -271,14 +247,9 @@ export class WithGenericField<T extends TypeArgument> implements StructClass {
   ): Promise<WithGenericField<ToTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching WithGenericField object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching WithGenericField object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isWithGenericField(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isWithGenericField(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a WithGenericField object`);
     }
 

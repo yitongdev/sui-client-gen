@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V10 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -28,10 +24,7 @@ export interface FeeReceiversKeyFields {
   dummyField: ToField<"bool">;
 }
 
-export type FeeReceiversKeyReified = Reified<
-  FeeReceiversKey,
-  FeeReceiversKeyFields
->;
+export type FeeReceiversKeyReified = Reified<FeeReceiversKey, FeeReceiversKeyFields>;
 
 /**
  * Move struct: `FeeReceiversKey`
@@ -71,20 +64,15 @@ export class FeeReceiversKey implements StructClass {
       typeArgs: [] as [],
       isPhantom: FeeReceiversKey.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        FeeReceiversKey.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        FeeReceiversKey.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => FeeReceiversKey.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => FeeReceiversKey.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => FeeReceiversKey.fromBcs(data),
       bcs: FeeReceiversKey.bcs,
       fromJSONField: (field: any) => FeeReceiversKey.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => FeeReceiversKey.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        FeeReceiversKey.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        FeeReceiversKey.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        FeeReceiversKey.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => FeeReceiversKey.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => FeeReceiversKey.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => FeeReceiversKey.fetch(client, id),
       new: (fields: FeeReceiversKeyFields) => {
         return new FeeReceiversKey([], fields);
       },
@@ -136,11 +124,7 @@ export class FeeReceiversKey implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): FeeReceiversKey {
@@ -162,20 +146,15 @@ export class FeeReceiversKey implements StructClass {
       throw new Error("not an object");
     }
     if (!isFeeReceiversKey(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a FeeReceiversKey object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a FeeReceiversKey object`);
     }
     return FeeReceiversKey.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): FeeReceiversKey {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isFeeReceiversKey(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a FeeReceiversKey object`);
+      if (data.bcs.dataType !== "moveObject" || !isFeeReceiversKey(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a FeeReceiversKey object`);
       }
 
       return FeeReceiversKey.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -191,14 +170,9 @@ export class FeeReceiversKey implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<FeeReceiversKey> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching FeeReceiversKey object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching FeeReceiversKey object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isFeeReceiversKey(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isFeeReceiversKey(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a FeeReceiversKey object`);
     }
 

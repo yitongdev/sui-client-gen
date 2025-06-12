@@ -1,10 +1,6 @@
 import { GenericArg, generic, obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface LockArgs {
   kiosk: TransactionObjectInput;
@@ -24,11 +20,7 @@ export interface LockArgs {
  * @param transferPolicy - Function parameter
  * @param t0 - Function parameter
  */
-export function lock(
-  tx: Transaction,
-  typeArg: string,
-  args: LockArgs,
-): TransactionResult {
+export function lock(tx: Transaction, typeArg: string, args: LockArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::lock`,
     typeArguments: [typeArg],

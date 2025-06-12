@@ -12,11 +12,7 @@ import {
   fieldToJSON,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { Vector } from "../../../_framework/vector.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
@@ -126,20 +122,15 @@ export class ReserveConfig implements StructClass {
       typeArgs: [] as [],
       isPhantom: ReserveConfig.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        ReserveConfig.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ReserveConfig.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => ReserveConfig.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ReserveConfig.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ReserveConfig.fromBcs(data),
       bcs: ReserveConfig.bcs,
       fromJSONField: (field: any) => ReserveConfig.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ReserveConfig.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ReserveConfig.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ReserveConfig.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ReserveConfig.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ReserveConfig.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ReserveConfig.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ReserveConfig.fetch(client, id),
       new: (fields: ReserveConfigFields) => {
         return new ReserveConfig([], fields);
       },
@@ -190,30 +181,15 @@ export class ReserveConfig implements StructClass {
       borrowWeightBps: decodeFromFields("u64", fields.borrow_weight_bps),
       depositLimit: decodeFromFields("u64", fields.deposit_limit),
       borrowLimit: decodeFromFields("u64", fields.borrow_limit),
-      liquidationBonusBps: decodeFromFields(
-        "u64",
-        fields.liquidation_bonus_bps,
-      ),
-      maxLiquidationBonusBps: decodeFromFields(
-        "u64",
-        fields.max_liquidation_bonus_bps,
-      ),
+      liquidationBonusBps: decodeFromFields("u64", fields.liquidation_bonus_bps),
+      maxLiquidationBonusBps: decodeFromFields("u64", fields.max_liquidation_bonus_bps),
       depositLimitUsd: decodeFromFields("u64", fields.deposit_limit_usd),
       borrowLimitUsd: decodeFromFields("u64", fields.borrow_limit_usd),
-      interestRateUtils: decodeFromFields(
-        reified.vector("u8"),
-        fields.interest_rate_utils,
-      ),
-      interestRateAprs: decodeFromFields(
-        reified.vector("u64"),
-        fields.interest_rate_aprs,
-      ),
+      interestRateUtils: decodeFromFields(reified.vector("u8"), fields.interest_rate_utils),
+      interestRateAprs: decodeFromFields(reified.vector("u64"), fields.interest_rate_aprs),
       borrowFeeBps: decodeFromFields("u64", fields.borrow_fee_bps),
       spreadFeeBps: decodeFromFields("u64", fields.spread_fee_bps),
-      protocolLiquidationFeeBps: decodeFromFields(
-        "u64",
-        fields.protocol_liquidation_fee_bps,
-      ),
+      protocolLiquidationFeeBps: decodeFromFields("u64", fields.protocol_liquidation_fee_bps),
       isolated: decodeFromFields("bool", fields.isolated),
       openAttributedBorrowLimitUsd: decodeFromFields(
         "u64",
@@ -223,10 +199,7 @@ export class ReserveConfig implements StructClass {
         "u64",
         fields.close_attributed_borrow_limit_usd,
       ),
-      additionalFields: decodeFromFields(
-        Bag.reified(),
-        fields.additional_fields,
-      ),
+      additionalFields: decodeFromFields(Bag.reified(), fields.additional_fields),
     });
   }
 
@@ -238,32 +211,17 @@ export class ReserveConfig implements StructClass {
     return ReserveConfig.reified().new({
       openLtvPct: decodeFromFieldsWithTypes("u8", item.fields.open_ltv_pct),
       closeLtvPct: decodeFromFieldsWithTypes("u8", item.fields.close_ltv_pct),
-      maxCloseLtvPct: decodeFromFieldsWithTypes(
-        "u8",
-        item.fields.max_close_ltv_pct,
-      ),
-      borrowWeightBps: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.borrow_weight_bps,
-      ),
+      maxCloseLtvPct: decodeFromFieldsWithTypes("u8", item.fields.max_close_ltv_pct),
+      borrowWeightBps: decodeFromFieldsWithTypes("u64", item.fields.borrow_weight_bps),
       depositLimit: decodeFromFieldsWithTypes("u64", item.fields.deposit_limit),
       borrowLimit: decodeFromFieldsWithTypes("u64", item.fields.borrow_limit),
-      liquidationBonusBps: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.liquidation_bonus_bps,
-      ),
+      liquidationBonusBps: decodeFromFieldsWithTypes("u64", item.fields.liquidation_bonus_bps),
       maxLiquidationBonusBps: decodeFromFieldsWithTypes(
         "u64",
         item.fields.max_liquidation_bonus_bps,
       ),
-      depositLimitUsd: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.deposit_limit_usd,
-      ),
-      borrowLimitUsd: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.borrow_limit_usd,
-      ),
+      depositLimitUsd: decodeFromFieldsWithTypes("u64", item.fields.deposit_limit_usd),
+      borrowLimitUsd: decodeFromFieldsWithTypes("u64", item.fields.borrow_limit_usd),
       interestRateUtils: decodeFromFieldsWithTypes(
         reified.vector("u8"),
         item.fields.interest_rate_utils,
@@ -272,14 +230,8 @@ export class ReserveConfig implements StructClass {
         reified.vector("u64"),
         item.fields.interest_rate_aprs,
       ),
-      borrowFeeBps: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.borrow_fee_bps,
-      ),
-      spreadFeeBps: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.spread_fee_bps,
-      ),
+      borrowFeeBps: decodeFromFieldsWithTypes("u64", item.fields.borrow_fee_bps),
+      spreadFeeBps: decodeFromFieldsWithTypes("u64", item.fields.spread_fee_bps),
       protocolLiquidationFeeBps: decodeFromFieldsWithTypes(
         "u64",
         item.fields.protocol_liquidation_fee_bps,
@@ -293,10 +245,7 @@ export class ReserveConfig implements StructClass {
         "u64",
         item.fields.close_attributed_borrow_limit_usd,
       ),
-      additionalFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.additional_fields,
-      ),
+      additionalFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.additional_fields),
     });
   }
 
@@ -316,32 +265,20 @@ export class ReserveConfig implements StructClass {
       maxLiquidationBonusBps: this.maxLiquidationBonusBps.toString(),
       depositLimitUsd: this.depositLimitUsd.toString(),
       borrowLimitUsd: this.borrowLimitUsd.toString(),
-      interestRateUtils: fieldToJSON<Vector<"u8">>(
-        `vector<u8>`,
-        this.interestRateUtils,
-      ),
-      interestRateAprs: fieldToJSON<Vector<"u64">>(
-        `vector<u64>`,
-        this.interestRateAprs,
-      ),
+      interestRateUtils: fieldToJSON<Vector<"u8">>(`vector<u8>`, this.interestRateUtils),
+      interestRateAprs: fieldToJSON<Vector<"u64">>(`vector<u64>`, this.interestRateAprs),
       borrowFeeBps: this.borrowFeeBps.toString(),
       spreadFeeBps: this.spreadFeeBps.toString(),
       protocolLiquidationFeeBps: this.protocolLiquidationFeeBps.toString(),
       isolated: this.isolated,
-      openAttributedBorrowLimitUsd:
-        this.openAttributedBorrowLimitUsd.toString(),
-      closeAttributedBorrowLimitUsd:
-        this.closeAttributedBorrowLimitUsd.toString(),
+      openAttributedBorrowLimitUsd: this.openAttributedBorrowLimitUsd.toString(),
+      closeAttributedBorrowLimitUsd: this.closeAttributedBorrowLimitUsd.toString(),
       additionalFields: this.additionalFields.toJSONField(),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ReserveConfig {
@@ -352,43 +289,22 @@ export class ReserveConfig implements StructClass {
       borrowWeightBps: decodeFromJSONField("u64", field.borrowWeightBps),
       depositLimit: decodeFromJSONField("u64", field.depositLimit),
       borrowLimit: decodeFromJSONField("u64", field.borrowLimit),
-      liquidationBonusBps: decodeFromJSONField(
-        "u64",
-        field.liquidationBonusBps,
-      ),
-      maxLiquidationBonusBps: decodeFromJSONField(
-        "u64",
-        field.maxLiquidationBonusBps,
-      ),
+      liquidationBonusBps: decodeFromJSONField("u64", field.liquidationBonusBps),
+      maxLiquidationBonusBps: decodeFromJSONField("u64", field.maxLiquidationBonusBps),
       depositLimitUsd: decodeFromJSONField("u64", field.depositLimitUsd),
       borrowLimitUsd: decodeFromJSONField("u64", field.borrowLimitUsd),
-      interestRateUtils: decodeFromJSONField(
-        reified.vector("u8"),
-        field.interestRateUtils,
-      ),
-      interestRateAprs: decodeFromJSONField(
-        reified.vector("u64"),
-        field.interestRateAprs,
-      ),
+      interestRateUtils: decodeFromJSONField(reified.vector("u8"), field.interestRateUtils),
+      interestRateAprs: decodeFromJSONField(reified.vector("u64"), field.interestRateAprs),
       borrowFeeBps: decodeFromJSONField("u64", field.borrowFeeBps),
       spreadFeeBps: decodeFromJSONField("u64", field.spreadFeeBps),
-      protocolLiquidationFeeBps: decodeFromJSONField(
-        "u64",
-        field.protocolLiquidationFeeBps,
-      ),
+      protocolLiquidationFeeBps: decodeFromJSONField("u64", field.protocolLiquidationFeeBps),
       isolated: decodeFromJSONField("bool", field.isolated),
-      openAttributedBorrowLimitUsd: decodeFromJSONField(
-        "u64",
-        field.openAttributedBorrowLimitUsd,
-      ),
+      openAttributedBorrowLimitUsd: decodeFromJSONField("u64", field.openAttributedBorrowLimitUsd),
       closeAttributedBorrowLimitUsd: decodeFromJSONField(
         "u64",
         field.closeAttributedBorrowLimitUsd,
       ),
-      additionalFields: decodeFromJSONField(
-        Bag.reified(),
-        field.additionalFields,
-      ),
+      additionalFields: decodeFromJSONField(Bag.reified(), field.additionalFields),
     });
   }
 
@@ -405,20 +321,15 @@ export class ReserveConfig implements StructClass {
       throw new Error("not an object");
     }
     if (!isReserveConfig(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ReserveConfig object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ReserveConfig object`);
     }
     return ReserveConfig.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): ReserveConfig {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isReserveConfig(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a ReserveConfig object`);
+      if (data.bcs.dataType !== "moveObject" || !isReserveConfig(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a ReserveConfig object`);
       }
 
       return ReserveConfig.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -434,14 +345,9 @@ export class ReserveConfig implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ReserveConfig> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ReserveConfig object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ReserveConfig object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isReserveConfig(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isReserveConfig(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ReserveConfig object`);
     }
 

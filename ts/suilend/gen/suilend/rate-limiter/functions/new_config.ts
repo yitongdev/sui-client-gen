@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface NewConfigArgs {
   u641: bigint | TransactionArgument;
@@ -20,10 +16,7 @@ export interface NewConfigArgs {
  * @param u642 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function newConfig(
-  tx: Transaction,
-  args: NewConfigArgs,
-): TransactionResult {
+export function newConfig(tx: Transaction, args: NewConfigArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::rate_limiter::new_config`,
     arguments: [pure(tx, args.u641, `u64`), pure(tx, args.u642, `u64`)],

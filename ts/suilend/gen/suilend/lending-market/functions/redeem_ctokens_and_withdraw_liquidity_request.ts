@@ -44,11 +44,7 @@ export function redeemCtokensAndWithdrawLiquidityRequest(
       pure(tx, args.u64, `u64`),
       obj(tx, args.clock),
       obj(tx, args.coin),
-      option(
-        tx,
-        `${RateLimiterExemption.$typeName}<${typeArgs[0]}, ${typeArgs[1]}>`,
-        args.option,
-      ),
+      option(tx, `${RateLimiterExemption.$typeName}<${typeArgs[0]}, ${typeArgs[1]}>`, args.option),
     ],
   });
 }

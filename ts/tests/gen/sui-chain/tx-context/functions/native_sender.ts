@@ -9,8 +9,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @returns TransactionResult - The transaction result
  */
 export function nativeSender(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::tx_context::native_sender`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::tx_context::native_sender`, arguments: [] });
 }

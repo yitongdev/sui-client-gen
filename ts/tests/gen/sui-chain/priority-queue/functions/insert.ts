@@ -23,11 +23,7 @@ export interface InsertArgs {
  * @param u64 - Function parameter
  * @param t0 - Function parameter
  */
-export function insert(
-  tx: Transaction,
-  typeArg: string,
-  args: InsertArgs,
-): TransactionResult {
+export function insert(tx: Transaction, typeArg: string, args: InsertArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::priority_queue::insert`,
     typeArguments: [typeArg],

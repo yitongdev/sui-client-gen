@@ -25,11 +25,7 @@ export interface BorrowArgs {
  * @param id - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function borrow(
-  tx: Transaction,
-  typeArg: string,
-  args: BorrowArgs,
-): TransactionResult {
+export function borrow(tx: Transaction, typeArg: string, args: BorrowArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::borrow`,
     typeArguments: [typeArg],

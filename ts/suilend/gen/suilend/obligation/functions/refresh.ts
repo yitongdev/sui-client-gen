@@ -25,11 +25,7 @@ export interface RefreshArgs {
  * @param clock - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function refresh(
-  tx: Transaction,
-  typeArg: string,
-  args: RefreshArgs,
-): TransactionResult {
+export function refresh(tx: Transaction, typeArg: string, args: RefreshArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::obligation::refresh`,
     typeArguments: [typeArg],

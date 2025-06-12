@@ -1,11 +1,7 @@
 import { GenericArg, generic, pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
 import { ID } from "../../object/structs/index.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface ReadSettingArgs {
   id: string | TransactionArgument;
@@ -32,9 +28,6 @@ export function readSetting(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::config::read_setting`,
     typeArguments: typeArgs,
-    arguments: [
-      pure(tx, args.id, `${ID.$typeName}`),
-      generic(tx, `${typeArgs[0]}`, args.t0),
-    ],
+    arguments: [pure(tx, args.id, `${ID.$typeName}`), generic(tx, `${typeArgs[0]}`, args.t0)],
   });
 }

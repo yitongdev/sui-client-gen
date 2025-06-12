@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V16 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -69,16 +65,13 @@ export class UQ64_64 implements StructClass {
       isPhantom: UQ64_64.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => UQ64_64.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        UQ64_64.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => UQ64_64.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => UQ64_64.fromBcs(data),
       bcs: UQ64_64.bcs,
       fromJSONField: (field: any) => UQ64_64.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => UQ64_64.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        UQ64_64.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        UQ64_64.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => UQ64_64.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => UQ64_64.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => UQ64_64.fetch(client, id),
       new: (fields: UQ64_64Fields) => {
         return new UQ64_64([], fields);
@@ -105,9 +98,7 @@ export class UQ64_64 implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): UQ64_64 {
-    return UQ64_64.reified().new({
-      pos0: decodeFromFields("u128", fields.pos0),
-    });
+    return UQ64_64.reified().new({ pos0: decodeFromFields("u128", fields.pos0) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): UQ64_64 {
@@ -115,9 +106,7 @@ export class UQ64_64 implements StructClass {
       throw new Error("not a UQ64_64 type");
     }
 
-    return UQ64_64.reified().new({
-      pos0: decodeFromFieldsWithTypes("u128", item.fields.pos0),
-    });
+    return UQ64_64.reified().new({ pos0: decodeFromFieldsWithTypes("u128", item.fields.pos0) });
   }
 
   static fromBcs(data: Uint8Array): UQ64_64 {
@@ -131,17 +120,11 @@ export class UQ64_64 implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): UQ64_64 {
-    return UQ64_64.reified().new({
-      pos0: decodeFromJSONField("u128", field.pos0),
-    });
+    return UQ64_64.reified().new({ pos0: decodeFromJSONField("u128", field.pos0) });
   }
 
   static fromJSON(json: Record<string, any>): UQ64_64 {
@@ -157,9 +140,7 @@ export class UQ64_64 implements StructClass {
       throw new Error("not an object");
     }
     if (!isUQ64_64(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a UQ64_64 object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a UQ64_64 object`);
     }
     return UQ64_64.fromFieldsWithTypes(content);
   }
@@ -167,7 +148,7 @@ export class UQ64_64 implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): UQ64_64 {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isUQ64_64(data.bcs.type)) {
-        throw new Error(`object at is not a UQ64_64 object`);
+        throw new Error(`object at ${data.objectId} is not a UQ64_64 object`);
       }
 
       return UQ64_64.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,14 +164,9 @@ export class UQ64_64 implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<UQ64_64> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching UQ64_64 object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching UQ64_64 object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isUQ64_64(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isUQ64_64(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a UQ64_64 object`);
     }
 

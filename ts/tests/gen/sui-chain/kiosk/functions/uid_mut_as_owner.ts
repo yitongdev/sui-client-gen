@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface UidMutAsOwnerArgs {
   kiosk: TransactionObjectInput;
@@ -20,10 +16,7 @@ export interface UidMutAsOwnerArgs {
  * @param kioskOwnerCap - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function uidMutAsOwner(
-  tx: Transaction,
-  args: UidMutAsOwnerArgs,
-): TransactionResult {
+export function uidMutAsOwner(tx: Transaction, args: UidMutAsOwnerArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::kiosk::uid_mut_as_owner`,
     arguments: [obj(tx, args.kiosk), obj(tx, args.kioskOwnerCap)],

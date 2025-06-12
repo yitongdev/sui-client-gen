@@ -11,11 +11,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param obj - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function borrowUid(
-  tx: Transaction,
-  typeArg: string,
-  obj: GenericArg,
-): TransactionResult {
+export function borrowUid(tx: Transaction, typeArg: string, obj: GenericArg): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::object::borrow_uid`,
     typeArguments: [typeArg],

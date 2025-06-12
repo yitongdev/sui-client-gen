@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { JWK as JWK1 } from "./JWK.js";
 import { JwkId as JwkId1 } from "./JwkId.js";
@@ -77,18 +73,14 @@ export class ActiveJwk implements StructClass {
       isPhantom: ActiveJwk.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => ActiveJwk.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        ActiveJwk.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => ActiveJwk.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => ActiveJwk.fromBcs(data),
       bcs: ActiveJwk.bcs,
       fromJSONField: (field: any) => ActiveJwk.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => ActiveJwk.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        ActiveJwk.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        ActiveJwk.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        ActiveJwk.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => ActiveJwk.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => ActiveJwk.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => ActiveJwk.fetch(client, id),
       new: (fields: ActiveJwkFields) => {
         return new ActiveJwk([], fields);
       },
@@ -148,11 +140,7 @@ export class ActiveJwk implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ActiveJwk {
@@ -176,9 +164,7 @@ export class ActiveJwk implements StructClass {
       throw new Error("not an object");
     }
     if (!isActiveJwk(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ActiveJwk object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a ActiveJwk object`);
     }
     return ActiveJwk.fromFieldsWithTypes(content);
   }
@@ -186,7 +172,7 @@ export class ActiveJwk implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): ActiveJwk {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isActiveJwk(data.bcs.type)) {
-        throw new Error(`object at is not a ActiveJwk object`);
+        throw new Error(`object at ${data.objectId} is not a ActiveJwk object`);
       }
 
       return ActiveJwk.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -202,14 +188,9 @@ export class ActiveJwk implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<ActiveJwk> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching ActiveJwk object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching ActiveJwk object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isActiveJwk(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isActiveJwk(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a ActiveJwk object`);
     }
 

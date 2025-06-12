@@ -58,10 +58,7 @@ export class ConvertingToFungibleStakedSuiEvent implements StructClass {
   readonly stakedSuiPrincipalAmount: ToField<"u64">;
   readonly fungibleStakedSuiAmount: ToField<"u64">;
 
-  private constructor(
-    typeArgs: [],
-    fields: ConvertingToFungibleStakedSuiEventFields,
-  ) {
+  private constructor(typeArgs: [], fields: ConvertingToFungibleStakedSuiEventFields) {
     this.$fullTypeName = composeSuiType(
       ConvertingToFungibleStakedSuiEvent.$typeName,
       ...typeArgs,
@@ -88,13 +85,10 @@ export class ConvertingToFungibleStakedSuiEvent implements StructClass {
         ConvertingToFungibleStakedSuiEvent.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
         ConvertingToFungibleStakedSuiEvent.fromFieldsWithTypes(item),
-      fromBcs: (data: Uint8Array) =>
-        ConvertingToFungibleStakedSuiEvent.fromBcs(data),
+      fromBcs: (data: Uint8Array) => ConvertingToFungibleStakedSuiEvent.fromBcs(data),
       bcs: ConvertingToFungibleStakedSuiEvent.bcs,
-      fromJSONField: (field: any) =>
-        ConvertingToFungibleStakedSuiEvent.fromJSONField(field),
-      fromJSON: (json: Record<string, any>) =>
-        ConvertingToFungibleStakedSuiEvent.fromJSON(json),
+      fromJSONField: (field: any) => ConvertingToFungibleStakedSuiEvent.fromJSONField(field),
+      fromJSON: (json: Record<string, any>) => ConvertingToFungibleStakedSuiEvent.fromJSON(json),
       fromSuiParsedData: (content: SuiParsedData) =>
         ConvertingToFungibleStakedSuiEvent.fromSuiParsedData(content),
       fromSuiObjectData: (content: SuiObjectData) =>
@@ -112,9 +106,7 @@ export class ConvertingToFungibleStakedSuiEvent implements StructClass {
     return ConvertingToFungibleStakedSuiEvent.reified();
   }
 
-  static phantom(): PhantomReified<
-    ToTypeStr<ConvertingToFungibleStakedSuiEvent>
-  > {
+  static phantom(): PhantomReified<ToTypeStr<ConvertingToFungibleStakedSuiEvent>> {
     return phantom(ConvertingToFungibleStakedSuiEvent.reified());
   }
   static get p() {
@@ -130,39 +122,23 @@ export class ConvertingToFungibleStakedSuiEvent implements StructClass {
     });
   }
 
-  static fromFields(
-    fields: Record<string, any>,
-  ): ConvertingToFungibleStakedSuiEvent {
+  static fromFields(fields: Record<string, any>): ConvertingToFungibleStakedSuiEvent {
     return ConvertingToFungibleStakedSuiEvent.reified().new({
       poolId: decodeFromFields(ID.reified(), fields.pool_id),
-      stakeActivationEpoch: decodeFromFields(
-        "u64",
-        fields.stake_activation_epoch,
-      ),
-      stakedSuiPrincipalAmount: decodeFromFields(
-        "u64",
-        fields.staked_sui_principal_amount,
-      ),
-      fungibleStakedSuiAmount: decodeFromFields(
-        "u64",
-        fields.fungible_staked_sui_amount,
-      ),
+      stakeActivationEpoch: decodeFromFields("u64", fields.stake_activation_epoch),
+      stakedSuiPrincipalAmount: decodeFromFields("u64", fields.staked_sui_principal_amount),
+      fungibleStakedSuiAmount: decodeFromFields("u64", fields.fungible_staked_sui_amount),
     });
   }
 
-  static fromFieldsWithTypes(
-    item: FieldsWithTypes,
-  ): ConvertingToFungibleStakedSuiEvent {
+  static fromFieldsWithTypes(item: FieldsWithTypes): ConvertingToFungibleStakedSuiEvent {
     if (!isConvertingToFungibleStakedSuiEvent(item.type)) {
       throw new Error("not a ConvertingToFungibleStakedSuiEvent type");
     }
 
     return ConvertingToFungibleStakedSuiEvent.reified().new({
       poolId: decodeFromFieldsWithTypes(ID.reified(), item.fields.pool_id),
-      stakeActivationEpoch: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.stake_activation_epoch,
-      ),
+      stakeActivationEpoch: decodeFromFieldsWithTypes("u64", item.fields.stake_activation_epoch),
       stakedSuiPrincipalAmount: decodeFromFieldsWithTypes(
         "u64",
         item.fields.staked_sui_principal_amount,
@@ -190,34 +166,19 @@ export class ConvertingToFungibleStakedSuiEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): ConvertingToFungibleStakedSuiEvent {
     return ConvertingToFungibleStakedSuiEvent.reified().new({
       poolId: decodeFromJSONField(ID.reified(), field.poolId),
-      stakeActivationEpoch: decodeFromJSONField(
-        "u64",
-        field.stakeActivationEpoch,
-      ),
-      stakedSuiPrincipalAmount: decodeFromJSONField(
-        "u64",
-        field.stakedSuiPrincipalAmount,
-      ),
-      fungibleStakedSuiAmount: decodeFromJSONField(
-        "u64",
-        field.fungibleStakedSuiAmount,
-      ),
+      stakeActivationEpoch: decodeFromJSONField("u64", field.stakeActivationEpoch),
+      stakedSuiPrincipalAmount: decodeFromJSONField("u64", field.stakedSuiPrincipalAmount),
+      fungibleStakedSuiAmount: decodeFromJSONField("u64", field.fungibleStakedSuiAmount),
     });
   }
 
-  static fromJSON(
-    json: Record<string, any>,
-  ): ConvertingToFungibleStakedSuiEvent {
+  static fromJSON(json: Record<string, any>): ConvertingToFungibleStakedSuiEvent {
     if (json.$typeName !== ConvertingToFungibleStakedSuiEvent.$typeName) {
       throw new Error("not a WithTwoGenerics json object");
     }
@@ -225,9 +186,7 @@ export class ConvertingToFungibleStakedSuiEvent implements StructClass {
     return ConvertingToFungibleStakedSuiEvent.fromJSONField(json);
   }
 
-  static fromSuiParsedData(
-    content: SuiParsedData,
-  ): ConvertingToFungibleStakedSuiEvent {
+  static fromSuiParsedData(content: SuiParsedData): ConvertingToFungibleStakedSuiEvent {
     if (content.dataType !== "moveObject") {
       throw new Error("not an object");
     }
@@ -239,22 +198,18 @@ export class ConvertingToFungibleStakedSuiEvent implements StructClass {
     return ConvertingToFungibleStakedSuiEvent.fromFieldsWithTypes(content);
   }
 
-  static fromSuiObjectData(
-    data: SuiObjectData,
-  ): ConvertingToFungibleStakedSuiEvent {
+  static fromSuiObjectData(data: SuiObjectData): ConvertingToFungibleStakedSuiEvent {
     if (data.bcs) {
       if (
         data.bcs.dataType !== "moveObject" ||
         !isConvertingToFungibleStakedSuiEvent(data.bcs.type)
       ) {
         throw new Error(
-          `object at is not a ConvertingToFungibleStakedSuiEvent object`,
+          `object at ${data.objectId} is not a ConvertingToFungibleStakedSuiEvent object`,
         );
       }
 
-      return ConvertingToFungibleStakedSuiEvent.fromBcs(
-        fromBase64(data.bcs.bcsBytes),
-      );
+      return ConvertingToFungibleStakedSuiEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
     }
     if (data.content) {
       return ConvertingToFungibleStakedSuiEvent.fromSuiParsedData(data.content);
@@ -264,10 +219,7 @@ export class ConvertingToFungibleStakedSuiEvent implements StructClass {
     );
   }
 
-  static async fetch(
-    client: SuiClient,
-    id: string,
-  ): Promise<ConvertingToFungibleStakedSuiEvent> {
+  static async fetch(client: SuiClient, id: string): Promise<ConvertingToFungibleStakedSuiEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
@@ -278,9 +230,7 @@ export class ConvertingToFungibleStakedSuiEvent implements StructClass {
       res.data?.bcs?.dataType !== "moveObject" ||
       !isConvertingToFungibleStakedSuiEvent(res.data.bcs.type)
     ) {
-      throw new Error(
-        `object at id ${id} is not a ConvertingToFungibleStakedSuiEvent object`,
-      );
+      throw new Error(`object at id ${id} is not a ConvertingToFungibleStakedSuiEvent object`);
     }
 
     return ConvertingToFungibleStakedSuiEvent.fromSuiObjectData(res.data);

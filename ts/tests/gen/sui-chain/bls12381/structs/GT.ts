@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -61,24 +57,18 @@ export class GT implements StructClass {
   static reified(): GTReified {
     return {
       typeName: GT.$typeName,
-      fullTypeName: composeSuiType(
-        GT.$typeName,
-        ...[],
-      ) as `${typeof PKG_V31}::bls12381::GT`,
+      fullTypeName: composeSuiType(GT.$typeName, ...[]) as `${typeof PKG_V31}::bls12381::GT`,
       typeArgs: [] as [],
       isPhantom: GT.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => GT.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        GT.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => GT.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => GT.fromBcs(data),
       bcs: GT.bcs,
       fromJSONField: (field: any) => GT.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => GT.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        GT.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        GT.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => GT.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => GT.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => GT.fetch(client, id),
       new: (fields: GTFields) => {
         return new GT([], fields);
@@ -105,9 +95,7 @@ export class GT implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): GT {
-    return GT.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return GT.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): GT {
@@ -131,17 +119,11 @@ export class GT implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): GT {
-    return GT.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return GT.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): GT {
@@ -157,9 +139,7 @@ export class GT implements StructClass {
       throw new Error("not an object");
     }
     if (!isGT(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a GT object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a GT object`);
     }
     return GT.fromFieldsWithTypes(content);
   }
@@ -167,7 +147,7 @@ export class GT implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): GT {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isGT(data.bcs.type)) {
-        throw new Error(`object at is not a GT object`);
+        throw new Error(`object at ${data.objectId} is not a GT object`);
       }
 
       return GT.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,9 +163,7 @@ export class GT implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<GT> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching GT object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching GT object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isGT(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a GT object`);

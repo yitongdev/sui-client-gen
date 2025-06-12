@@ -63,10 +63,7 @@ export class Receiving<T extends PhantomTypeArgument> implements StructClass {
   readonly id: ToField<ID>;
   readonly version: ToField<"u64">;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T>],
-    fields: ReceivingFields<T>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T>], fields: ReceivingFields<T>) {
     this.$fullTypeName = composeSuiType(
       Receiving.$typeName,
       ...typeArgs,
@@ -86,25 +83,18 @@ export class Receiving<T extends PhantomTypeArgument> implements StructClass {
         Receiving.$typeName,
         ...[extractType(T)],
       ) as `${typeof PKG_V31}::transfer::Receiving<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
-      typeArgs: [extractType(T)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T>>,
-      ],
+      typeArgs: [extractType(T)] as [PhantomToTypeStr<ToPhantomTypeArgument<T>>],
       isPhantom: Receiving.$isPhantom,
       reifiedTypeArgs: [T],
-      fromFields: (fields: Record<string, any>) =>
-        Receiving.fromFields(T, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Receiving.fromFieldsWithTypes(T, item),
+      fromFields: (fields: Record<string, any>) => Receiving.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Receiving.fromFieldsWithTypes(T, item),
       fromBcs: (data: Uint8Array) => Receiving.fromBcs(T, data),
       bcs: Receiving.bcs,
       fromJSONField: (field: any) => Receiving.fromJSONField(T, field),
       fromJSON: (json: Record<string, any>) => Receiving.fromJSON(T, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Receiving.fromSuiParsedData(T, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Receiving.fromSuiObjectData(T, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Receiving.fetch(client, T, id),
+      fromSuiParsedData: (content: SuiParsedData) => Receiving.fromSuiParsedData(T, content),
+      fromSuiObjectData: (content: SuiObjectData) => Receiving.fromSuiObjectData(T, content),
+      fetch: async (client: SuiClient, id: string) => Receiving.fetch(client, T, id),
       new: (fields: ReceivingFields<ToPhantomTypeArgument<T>>) => {
         return new Receiving([extractType(T)], fields);
       },
@@ -172,11 +162,7 @@ export class Receiving<T extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
@@ -213,9 +199,7 @@ export class Receiving<T extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isReceiving(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Receiving object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Receiving object`);
     }
     return Receiving.fromFieldsWithTypes(typeArg, content);
   }
@@ -226,7 +210,7 @@ export class Receiving<T extends PhantomTypeArgument> implements StructClass {
   ): Receiving<ToPhantomTypeArgument<T>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isReceiving(data.bcs.type)) {
-        throw new Error(`object at is not a Receiving object`);
+        throw new Error(`object at ${data.objectId} is not a Receiving object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -261,14 +245,9 @@ export class Receiving<T extends PhantomTypeArgument> implements StructClass {
   ): Promise<Receiving<ToPhantomTypeArgument<T>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Receiving object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Receiving object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isReceiving(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isReceiving(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Receiving object`);
     }
 

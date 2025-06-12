@@ -9,10 +9,7 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param tx - The transaction object
  * @returns TransactionResult - The transaction result
  */
-export function getWithOriginalIds(
-  tx: Transaction,
-  typeArg: string,
-): TransactionResult {
+export function getWithOriginalIds(tx: Transaction, typeArg: string): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::type_name::get_with_original_ids`,
     typeArguments: [typeArg],

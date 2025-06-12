@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -79,18 +75,14 @@ export class MintEvent implements StructClass {
       isPhantom: MintEvent.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => MintEvent.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        MintEvent.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => MintEvent.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => MintEvent.fromBcs(data),
       bcs: MintEvent.bcs,
       fromJSONField: (field: any) => MintEvent.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => MintEvent.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        MintEvent.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        MintEvent.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        MintEvent.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => MintEvent.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => MintEvent.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => MintEvent.fetch(client, id),
       new: (fields: MintEventFields) => {
         return new MintEvent([], fields);
       },
@@ -133,15 +125,9 @@ export class MintEvent implements StructClass {
     }
 
     return MintEvent.reified().new({
-      typename: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.typename,
-      ),
+      typename: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.typename),
       suiAmountIn: decodeFromFieldsWithTypes("u64", item.fields.sui_amount_in),
-      lstAmountOut: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.lst_amount_out,
-      ),
+      lstAmountOut: decodeFromFieldsWithTypes("u64", item.fields.lst_amount_out),
       feeAmount: decodeFromFieldsWithTypes("u64", item.fields.fee_amount),
     });
   }
@@ -160,11 +146,7 @@ export class MintEvent implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): MintEvent {
@@ -189,9 +171,7 @@ export class MintEvent implements StructClass {
       throw new Error("not an object");
     }
     if (!isMintEvent(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a MintEvent object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a MintEvent object`);
     }
     return MintEvent.fromFieldsWithTypes(content);
   }
@@ -199,7 +179,7 @@ export class MintEvent implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): MintEvent {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isMintEvent(data.bcs.type)) {
-        throw new Error(`object at is not a MintEvent object`);
+        throw new Error(`object at ${data.objectId} is not a MintEvent object`);
       }
 
       return MintEvent.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -215,14 +195,9 @@ export class MintEvent implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<MintEvent> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching MintEvent object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching MintEvent object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isMintEvent(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isMintEvent(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a MintEvent object`);
     }
 

@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -88,18 +84,14 @@ export class FeeConfig implements StructClass {
       isPhantom: FeeConfig.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => FeeConfig.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        FeeConfig.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => FeeConfig.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => FeeConfig.fromBcs(data),
       bcs: FeeConfig.bcs,
       fromJSONField: (field: any) => FeeConfig.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => FeeConfig.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        FeeConfig.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        FeeConfig.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        FeeConfig.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => FeeConfig.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => FeeConfig.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => FeeConfig.fetch(client, id),
       new: (fields: FeeConfigFields) => {
         return new FeeConfig([], fields);
       },
@@ -133,15 +125,9 @@ export class FeeConfig implements StructClass {
   static fromFields(fields: Record<string, any>): FeeConfig {
     return FeeConfig.reified().new({
       suiMintFeeBps: decodeFromFields("u64", fields.sui_mint_fee_bps),
-      stakedSuiMintFeeBps: decodeFromFields(
-        "u64",
-        fields.staked_sui_mint_fee_bps,
-      ),
+      stakedSuiMintFeeBps: decodeFromFields("u64", fields.staked_sui_mint_fee_bps),
       redeemFeeBps: decodeFromFields("u64", fields.redeem_fee_bps),
-      stakedSuiRedeemFeeBps: decodeFromFields(
-        "u64",
-        fields.staked_sui_redeem_fee_bps,
-      ),
+      stakedSuiRedeemFeeBps: decodeFromFields("u64", fields.staked_sui_redeem_fee_bps),
       spreadFeeBps: decodeFromFields("u64", fields.spread_fee_bps),
       customRedeemFeeBps: decodeFromFields("u64", fields.custom_redeem_fee_bps),
       extraFields: decodeFromFields(Bag.reified(), fields.extra_fields),
@@ -154,34 +140,16 @@ export class FeeConfig implements StructClass {
     }
 
     return FeeConfig.reified().new({
-      suiMintFeeBps: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.sui_mint_fee_bps,
-      ),
-      stakedSuiMintFeeBps: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.staked_sui_mint_fee_bps,
-      ),
-      redeemFeeBps: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.redeem_fee_bps,
-      ),
+      suiMintFeeBps: decodeFromFieldsWithTypes("u64", item.fields.sui_mint_fee_bps),
+      stakedSuiMintFeeBps: decodeFromFieldsWithTypes("u64", item.fields.staked_sui_mint_fee_bps),
+      redeemFeeBps: decodeFromFieldsWithTypes("u64", item.fields.redeem_fee_bps),
       stakedSuiRedeemFeeBps: decodeFromFieldsWithTypes(
         "u64",
         item.fields.staked_sui_redeem_fee_bps,
       ),
-      spreadFeeBps: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.spread_fee_bps,
-      ),
-      customRedeemFeeBps: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.custom_redeem_fee_bps,
-      ),
-      extraFields: decodeFromFieldsWithTypes(
-        Bag.reified(),
-        item.fields.extra_fields,
-      ),
+      spreadFeeBps: decodeFromFieldsWithTypes("u64", item.fields.spread_fee_bps),
+      customRedeemFeeBps: decodeFromFieldsWithTypes("u64", item.fields.custom_redeem_fee_bps),
+      extraFields: decodeFromFieldsWithTypes(Bag.reified(), item.fields.extra_fields),
     });
   }
 
@@ -202,25 +170,15 @@ export class FeeConfig implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): FeeConfig {
     return FeeConfig.reified().new({
       suiMintFeeBps: decodeFromJSONField("u64", field.suiMintFeeBps),
-      stakedSuiMintFeeBps: decodeFromJSONField(
-        "u64",
-        field.stakedSuiMintFeeBps,
-      ),
+      stakedSuiMintFeeBps: decodeFromJSONField("u64", field.stakedSuiMintFeeBps),
       redeemFeeBps: decodeFromJSONField("u64", field.redeemFeeBps),
-      stakedSuiRedeemFeeBps: decodeFromJSONField(
-        "u64",
-        field.stakedSuiRedeemFeeBps,
-      ),
+      stakedSuiRedeemFeeBps: decodeFromJSONField("u64", field.stakedSuiRedeemFeeBps),
       spreadFeeBps: decodeFromJSONField("u64", field.spreadFeeBps),
       customRedeemFeeBps: decodeFromJSONField("u64", field.customRedeemFeeBps),
       extraFields: decodeFromJSONField(Bag.reified(), field.extraFields),
@@ -240,9 +198,7 @@ export class FeeConfig implements StructClass {
       throw new Error("not an object");
     }
     if (!isFeeConfig(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a FeeConfig object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a FeeConfig object`);
     }
     return FeeConfig.fromFieldsWithTypes(content);
   }
@@ -250,7 +206,7 @@ export class FeeConfig implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): FeeConfig {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isFeeConfig(data.bcs.type)) {
-        throw new Error(`object at is not a FeeConfig object`);
+        throw new Error(`object at ${data.objectId} is not a FeeConfig object`);
       }
 
       return FeeConfig.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -266,14 +222,9 @@ export class FeeConfig implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<FeeConfig> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching FeeConfig object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching FeeConfig object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isFeeConfig(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isFeeConfig(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a FeeConfig object`);
     }
 

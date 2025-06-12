@@ -30,10 +30,7 @@ export interface SuiSystemStateFields {
   version: ToField<"u64">;
 }
 
-export type SuiSystemStateReified = Reified<
-  SuiSystemState,
-  SuiSystemStateFields
->;
+export type SuiSystemStateReified = Reified<SuiSystemState, SuiSystemStateFields>;
 
 /**
  * Move struct: `SuiSystemState`
@@ -75,20 +72,15 @@ export class SuiSystemState implements StructClass {
       typeArgs: [] as [],
       isPhantom: SuiSystemState.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        SuiSystemState.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        SuiSystemState.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => SuiSystemState.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => SuiSystemState.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => SuiSystemState.fromBcs(data),
       bcs: SuiSystemState.bcs,
       fromJSONField: (field: any) => SuiSystemState.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => SuiSystemState.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        SuiSystemState.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        SuiSystemState.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        SuiSystemState.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => SuiSystemState.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => SuiSystemState.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => SuiSystemState.fetch(client, id),
       new: (fields: SuiSystemStateFields) => {
         return new SuiSystemState([], fields);
       },
@@ -144,11 +136,7 @@ export class SuiSystemState implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): SuiSystemState {
@@ -171,20 +159,15 @@ export class SuiSystemState implements StructClass {
       throw new Error("not an object");
     }
     if (!isSuiSystemState(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a SuiSystemState object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a SuiSystemState object`);
     }
     return SuiSystemState.fromFieldsWithTypes(content);
   }
 
   static fromSuiObjectData(data: SuiObjectData): SuiSystemState {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isSuiSystemState(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a SuiSystemState object`);
+      if (data.bcs.dataType !== "moveObject" || !isSuiSystemState(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a SuiSystemState object`);
       }
 
       return SuiSystemState.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -200,14 +183,9 @@ export class SuiSystemState implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<SuiSystemState> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching SuiSystemState object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching SuiSystemState object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isSuiSystemState(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isSuiSystemState(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a SuiSystemState object`);
     }
 

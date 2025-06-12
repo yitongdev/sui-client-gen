@@ -1,10 +1,6 @@
 import { GenericArg, pure, vector } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface BorrowMutArgs {
   vecT0: Array<GenericArg> | TransactionArgument;
@@ -29,9 +25,6 @@ export function borrowMut(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::vector::borrow_mut`,
     typeArguments: [typeArg],
-    arguments: [
-      vector(tx, `${typeArg}`, args.vecT0),
-      pure(tx, args.u64, `u64`),
-    ],
+    arguments: [vector(tx, `${typeArg}`, args.vecT0), pure(tx, args.u64, `u64`)],
   });
 }

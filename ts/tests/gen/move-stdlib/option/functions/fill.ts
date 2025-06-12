@@ -1,10 +1,6 @@
 import { GenericArg, generic, option } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface FillArgs {
   t: GenericArg | TransactionArgument | null;
@@ -20,17 +16,10 @@ export interface FillArgs {
  * @param t - Function parameter
  * @param e - Function parameter
  */
-export function fill(
-  tx: Transaction,
-  typeArg: string,
-  args: FillArgs,
-): TransactionResult {
+export function fill(tx: Transaction, typeArg: string, args: FillArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::option::fill`,
     typeArguments: [typeArg],
-    arguments: [
-      option(tx, `${typeArg}`, args.t),
-      generic(tx, `${typeArg}`, args.e),
-    ],
+    arguments: [option(tx, `${typeArg}`, args.t), generic(tx, `${typeArg}`, args.e)],
   });
 }

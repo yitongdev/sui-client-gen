@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `sqrt`
@@ -14,10 +10,7 @@ import {
  * @param u128 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function sqrt(
-  tx: Transaction,
-  u128: bigint | TransactionArgument,
-): TransactionResult {
+export function sqrt(tx: Transaction, u128: bigint | TransactionArgument): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::u128::sqrt`,
     arguments: [pure(tx, u128, `u128`)],

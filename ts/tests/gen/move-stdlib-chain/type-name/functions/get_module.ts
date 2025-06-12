@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 /**
  * Move function: `get_module`
@@ -14,10 +10,7 @@ import {
  * @param typeName - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function getModule(
-  tx: Transaction,
-  typeName: TransactionObjectInput,
-): TransactionResult {
+export function getModule(tx: Transaction, typeName: TransactionObjectInput): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::type_name::get_module`,
     arguments: [obj(tx, typeName)],

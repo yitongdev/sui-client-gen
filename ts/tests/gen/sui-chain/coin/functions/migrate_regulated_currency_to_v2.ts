@@ -33,10 +33,6 @@ export function migrateRegulatedCurrencyToV2(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::coin::migrate_regulated_currency_to_v2`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.denyList),
-      obj(tx, args.denyCap),
-      pure(tx, args.bool, `bool`),
-    ],
+    arguments: [obj(tx, args.denyList), obj(tx, args.denyCap), pure(tx, args.bool, `bool`)],
   });
 }

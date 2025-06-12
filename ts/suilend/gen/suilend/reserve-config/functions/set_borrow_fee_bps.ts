@@ -20,10 +20,7 @@ export interface SetBorrowFeeBpsArgs {
  * @param reserveConfigBuilder - Function parameter
  * @param u64 - Function parameter
  */
-export function setBorrowFeeBps(
-  tx: Transaction,
-  args: SetBorrowFeeBpsArgs,
-): TransactionResult {
+export function setBorrowFeeBps(tx: Transaction, args: SetBorrowFeeBpsArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve_config::set_borrow_fee_bps`,
     arguments: [obj(tx, args.reserveConfigBuilder), pure(tx, args.u64, `u64`)],

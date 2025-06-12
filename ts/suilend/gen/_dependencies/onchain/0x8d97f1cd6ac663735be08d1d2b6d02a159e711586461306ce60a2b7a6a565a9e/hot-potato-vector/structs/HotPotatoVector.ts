@@ -63,10 +63,7 @@ export class HotPotatoVector<T0 extends TypeArgument> implements StructClass {
 
   readonly contents: ToField<Vector<T0>>;
 
-  private constructor(
-    typeArgs: [ToTypeStr<T0>],
-    fields: HotPotatoVectorFields<T0>,
-  ) {
+  private constructor(typeArgs: [ToTypeStr<T0>], fields: HotPotatoVectorFields<T0>) {
     this.$fullTypeName = composeSuiType(
       HotPotatoVector.$typeName,
       ...typeArgs,
@@ -88,21 +85,15 @@ export class HotPotatoVector<T0 extends TypeArgument> implements StructClass {
       typeArgs: [extractType(T0)] as [ToTypeStr<ToTypeArgument<T0>>],
       isPhantom: HotPotatoVector.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        HotPotatoVector.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        HotPotatoVector.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => HotPotatoVector.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => HotPotatoVector.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => HotPotatoVector.fromBcs(T0, data),
       bcs: HotPotatoVector.bcs(toBcs(T0)),
       fromJSONField: (field: any) => HotPotatoVector.fromJSONField(T0, field),
-      fromJSON: (json: Record<string, any>) =>
-        HotPotatoVector.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        HotPotatoVector.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        HotPotatoVector.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        HotPotatoVector.fetch(client, T0, id),
+      fromJSON: (json: Record<string, any>) => HotPotatoVector.fromJSON(T0, json),
+      fromSuiParsedData: (content: SuiParsedData) => HotPotatoVector.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => HotPotatoVector.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => HotPotatoVector.fetch(client, T0, id),
       new: (fields: HotPotatoVectorFields<ToTypeArgument<T0>>) => {
         return new HotPotatoVector([extractType(T0)], fields);
       },
@@ -149,10 +140,7 @@ export class HotPotatoVector<T0 extends TypeArgument> implements StructClass {
     assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
     return HotPotatoVector.reified(typeArg).new({
-      contents: decodeFromFieldsWithTypes(
-        reified.vector(typeArg),
-        item.fields.contents,
-      ),
+      contents: decodeFromFieldsWithTypes(reified.vector(typeArg), item.fields.contents),
     });
   }
 
@@ -160,27 +148,17 @@ export class HotPotatoVector<T0 extends TypeArgument> implements StructClass {
     typeArg: T0,
     data: Uint8Array,
   ): HotPotatoVector<ToTypeArgument<T0>> {
-    return HotPotatoVector.fromFields(
-      typeArg,
-      HotPotatoVector.bcs(toBcs(typeArg)).parse(data),
-    );
+    return HotPotatoVector.fromFields(typeArg, HotPotatoVector.bcs(toBcs(typeArg)).parse(data));
   }
 
   toJSONField() {
     return {
-      contents: fieldToJSON<Vector<T0>>(
-        `vector<${this.$typeArgs?.[0]}>`,
-        this.contents,
-      ),
+      contents: fieldToJSON<Vector<T0>>(`vector<${this.$typeArgs?.[0]}>`, this.contents),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
@@ -216,9 +194,7 @@ export class HotPotatoVector<T0 extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isHotPotatoVector(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a HotPotatoVector object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a HotPotatoVector object`);
     }
     return HotPotatoVector.fromFieldsWithTypes(typeArg, content);
   }
@@ -228,11 +204,8 @@ export class HotPotatoVector<T0 extends TypeArgument> implements StructClass {
     data: SuiObjectData,
   ): HotPotatoVector<ToTypeArgument<T0>> {
     if (data.bcs) {
-      if (
-        data.bcs.dataType !== "moveObject" ||
-        !isHotPotatoVector(data.bcs.type)
-      ) {
-        throw new Error(`object at is not a HotPotatoVector object`);
+      if (data.bcs.dataType !== "moveObject" || !isHotPotatoVector(data.bcs.type)) {
+        throw new Error(`object at ${data.objectId} is not a HotPotatoVector object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -267,14 +240,9 @@ export class HotPotatoVector<T0 extends TypeArgument> implements StructClass {
   ): Promise<HotPotatoVector<ToTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching HotPotatoVector object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching HotPotatoVector object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isHotPotatoVector(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isHotPotatoVector(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a HotPotatoVector object`);
     }
 

@@ -1,11 +1,7 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
 import { String } from "../index.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface AppendUtf8Args {
   string: string | TransactionArgument;
@@ -20,15 +16,9 @@ export interface AppendUtf8Args {
  * @param string - Function parameter
  * @param vecU8 - Function parameter
  */
-export function appendUtf8(
-  tx: Transaction,
-  args: AppendUtf8Args,
-): TransactionResult {
+export function appendUtf8(tx: Transaction, args: AppendUtf8Args): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::string::append_utf8`,
-    arguments: [
-      pure(tx, args.string, `${String.$typeName}`),
-      pure(tx, args.vecU8, `vector<u8>`),
-    ],
+    arguments: [pure(tx, args.string, `${String.$typeName}`), pure(tx, args.vecU8, `vector<u8>`)],
   });
 }

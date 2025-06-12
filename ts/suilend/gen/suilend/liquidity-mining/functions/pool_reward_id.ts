@@ -21,10 +21,7 @@ export interface PoolRewardIdArgs {
  * @param u64 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function poolRewardId(
-  tx: Transaction,
-  args: PoolRewardIdArgs,
-): TransactionResult {
+export function poolRewardId(tx: Transaction, args: PoolRewardIdArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::liquidity_mining::pool_reward_id`,
     arguments: [obj(tx, args.poolRewardManager), pure(tx, args.u64, `u64`)],

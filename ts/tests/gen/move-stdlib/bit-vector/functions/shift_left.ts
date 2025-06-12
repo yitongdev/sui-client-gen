@@ -20,10 +20,7 @@ export interface ShiftLeftArgs {
  * @param bitvector - Function parameter
  * @param amount - Function parameter
  */
-export function shiftLeft(
-  tx: Transaction,
-  args: ShiftLeftArgs,
-): TransactionResult {
+export function shiftLeft(tx: Transaction, args: ShiftLeftArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::bit_vector::shift_left`,
     arguments: [obj(tx, args.bitvector), pure(tx, args.amount, `u64`)],

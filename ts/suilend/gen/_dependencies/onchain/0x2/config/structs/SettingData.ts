@@ -66,10 +66,7 @@ export class SettingData<T0 extends TypeArgument> implements StructClass {
   readonly newerValue: ToField<Option<T0>>;
   readonly olderValueOpt: ToField<Option<T0>>;
 
-  private constructor(
-    typeArgs: [ToTypeStr<T0>],
-    fields: SettingDataFields<T0>,
-  ) {
+  private constructor(typeArgs: [ToTypeStr<T0>], fields: SettingDataFields<T0>) {
     this.$fullTypeName = composeSuiType(
       SettingData.$typeName,
       ...typeArgs,
@@ -93,20 +90,15 @@ export class SettingData<T0 extends TypeArgument> implements StructClass {
       typeArgs: [extractType(T0)] as [ToTypeStr<ToTypeArgument<T0>>],
       isPhantom: SettingData.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        SettingData.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        SettingData.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => SettingData.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => SettingData.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => SettingData.fromBcs(T0, data),
       bcs: SettingData.bcs(toBcs(T0)),
       fromJSONField: (field: any) => SettingData.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => SettingData.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        SettingData.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        SettingData.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        SettingData.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => SettingData.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => SettingData.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => SettingData.fetch(client, T0, id),
       new: (fields: SettingDataFields<ToTypeArgument<T0>>) => {
         return new SettingData([extractType(T0)], fields);
       },
@@ -143,10 +135,7 @@ export class SettingData<T0 extends TypeArgument> implements StructClass {
     return SettingData.reified(typeArg).new({
       newerValueEpoch: decodeFromFields("u64", fields.newer_value_epoch),
       newerValue: decodeFromFields(Option.reified(typeArg), fields.newer_value),
-      olderValueOpt: decodeFromFields(
-        Option.reified(typeArg),
-        fields.older_value_opt,
-      ),
+      olderValueOpt: decodeFromFields(Option.reified(typeArg), fields.older_value_opt),
     });
   }
 
@@ -160,14 +149,8 @@ export class SettingData<T0 extends TypeArgument> implements StructClass {
     assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
     return SettingData.reified(typeArg).new({
-      newerValueEpoch: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.newer_value_epoch,
-      ),
-      newerValue: decodeFromFieldsWithTypes(
-        Option.reified(typeArg),
-        item.fields.newer_value,
-      ),
+      newerValueEpoch: decodeFromFieldsWithTypes("u64", item.fields.newer_value_epoch),
+      newerValue: decodeFromFieldsWithTypes(Option.reified(typeArg), item.fields.newer_value),
       olderValueOpt: decodeFromFieldsWithTypes(
         Option.reified(typeArg),
         item.fields.older_value_opt,
@@ -179,10 +162,7 @@ export class SettingData<T0 extends TypeArgument> implements StructClass {
     typeArg: T0,
     data: Uint8Array,
   ): SettingData<ToTypeArgument<T0>> {
-    return SettingData.fromFields(
-      typeArg,
-      SettingData.bcs(toBcs(typeArg)).parse(data),
-    );
+    return SettingData.fromFields(typeArg, SettingData.bcs(toBcs(typeArg)).parse(data));
   }
 
   toJSONField() {
@@ -200,11 +180,7 @@ export class SettingData<T0 extends TypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends Reified<TypeArgument, any>>(
@@ -213,14 +189,8 @@ export class SettingData<T0 extends TypeArgument> implements StructClass {
   ): SettingData<ToTypeArgument<T0>> {
     return SettingData.reified(typeArg).new({
       newerValueEpoch: decodeFromJSONField("u64", field.newerValueEpoch),
-      newerValue: decodeFromJSONField(
-        Option.reified(typeArg),
-        field.newerValue,
-      ),
-      olderValueOpt: decodeFromJSONField(
-        Option.reified(typeArg),
-        field.olderValueOpt,
-      ),
+      newerValue: decodeFromJSONField(Option.reified(typeArg), field.newerValue),
+      olderValueOpt: decodeFromJSONField(Option.reified(typeArg), field.olderValueOpt),
     });
   }
 
@@ -248,9 +218,7 @@ export class SettingData<T0 extends TypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isSettingData(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a SettingData object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a SettingData object`);
     }
     return SettingData.fromFieldsWithTypes(typeArg, content);
   }
@@ -261,7 +229,7 @@ export class SettingData<T0 extends TypeArgument> implements StructClass {
   ): SettingData<ToTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isSettingData(data.bcs.type)) {
-        throw new Error(`object at is not a SettingData object`);
+        throw new Error(`object at ${data.objectId} is not a SettingData object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -296,14 +264,9 @@ export class SettingData<T0 extends TypeArgument> implements StructClass {
   ): Promise<SettingData<ToTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching SettingData object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching SettingData object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isSettingData(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isSettingData(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a SettingData object`);
     }
 

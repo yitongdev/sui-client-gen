@@ -1,11 +1,7 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
 import { String } from "../index.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface SubstringArgs {
   string: string | TransactionArgument;
@@ -23,10 +19,7 @@ export interface SubstringArgs {
  * @param u642 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function substring(
-  tx: Transaction,
-  args: SubstringArgs,
-): TransactionResult {
+export function substring(tx: Transaction, args: SubstringArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::string::substring`,
     arguments: [

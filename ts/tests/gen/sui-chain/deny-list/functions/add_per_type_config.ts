@@ -23,10 +23,7 @@ export interface AddPerTypeConfigArgs {
  * @param vecU8 - Function parameter
  * @param txContext - Function parameter
  */
-export function addPerTypeConfig(
-  tx: Transaction,
-  args: AddPerTypeConfigArgs,
-): TransactionResult {
+export function addPerTypeConfig(tx: Transaction, args: AddPerTypeConfigArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::deny_list::add_per_type_config`,
     arguments: [

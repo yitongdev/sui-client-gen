@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface HmacSha3256Args {
   key: Array<number | TransactionArgument> | TransactionArgument;
@@ -20,15 +16,9 @@ export interface HmacSha3256Args {
  * @param msg - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function hmacSha3256(
-  tx: Transaction,
-  args: HmacSha3256Args,
-): TransactionResult {
+export function hmacSha3256(tx: Transaction, args: HmacSha3256Args): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::hmac::hmac_sha3_256`,
-    arguments: [
-      pure(tx, args.key, `vector<u8>`),
-      pure(tx, args.msg, `vector<u8>`),
-    ],
+    arguments: [pure(tx, args.key, `vector<u8>`), pure(tx, args.msg, `vector<u8>`)],
   });
 }

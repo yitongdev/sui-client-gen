@@ -61,24 +61,18 @@ export class SetFee implements StructClass {
   static reified(): SetFeeReified {
     return {
       typeName: SetFee.$typeName,
-      fullTypeName: composeSuiType(
-        SetFee.$typeName,
-        ...[],
-      ) as `${typeof PKG_V1}::set_fee::SetFee`,
+      fullTypeName: composeSuiType(SetFee.$typeName, ...[]) as `${typeof PKG_V1}::set_fee::SetFee`,
       typeArgs: [] as [],
       isPhantom: SetFee.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => SetFee.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        SetFee.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => SetFee.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => SetFee.fromBcs(data),
       bcs: SetFee.bcs,
       fromJSONField: (field: any) => SetFee.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => SetFee.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        SetFee.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        SetFee.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => SetFee.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => SetFee.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => SetFee.fetch(client, id),
       new: (fields: SetFeeFields) => {
         return new SetFee([], fields);
@@ -105,9 +99,7 @@ export class SetFee implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): SetFee {
-    return SetFee.reified().new({
-      amount: decodeFromFields("u64", fields.amount),
-    });
+    return SetFee.reified().new({ amount: decodeFromFields("u64", fields.amount) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): SetFee {
@@ -115,9 +107,7 @@ export class SetFee implements StructClass {
       throw new Error("not a SetFee type");
     }
 
-    return SetFee.reified().new({
-      amount: decodeFromFieldsWithTypes("u64", item.fields.amount),
-    });
+    return SetFee.reified().new({ amount: decodeFromFieldsWithTypes("u64", item.fields.amount) });
   }
 
   static fromBcs(data: Uint8Array): SetFee {
@@ -131,17 +121,11 @@ export class SetFee implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): SetFee {
-    return SetFee.reified().new({
-      amount: decodeFromJSONField("u64", field.amount),
-    });
+    return SetFee.reified().new({ amount: decodeFromJSONField("u64", field.amount) });
   }
 
   static fromJSON(json: Record<string, any>): SetFee {
@@ -157,9 +141,7 @@ export class SetFee implements StructClass {
       throw new Error("not an object");
     }
     if (!isSetFee(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a SetFee object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a SetFee object`);
     }
     return SetFee.fromFieldsWithTypes(content);
   }
@@ -167,7 +149,7 @@ export class SetFee implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): SetFee {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isSetFee(data.bcs.type)) {
-        throw new Error(`object at is not a SetFee object`);
+        throw new Error(`object at ${data.objectId} is not a SetFee object`);
       }
 
       return SetFee.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,14 +165,9 @@ export class SetFee implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<SetFee> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching SetFee object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching SetFee object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isSetFee(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isSetFee(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a SetFee object`);
     }
 

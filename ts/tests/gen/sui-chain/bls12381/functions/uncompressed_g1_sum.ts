@@ -23,12 +23,6 @@ export function uncompressedG1Sum(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::bls12381::uncompressed_g1_sum`,
-    arguments: [
-      vector(
-        tx,
-        `${Element.$typeName}<${UncompressedG1.$typeName}>`,
-        vecElement,
-      ),
-    ],
+    arguments: [vector(tx, `${Element.$typeName}<${UncompressedG1.$typeName}>`, vecElement)],
   });
 }

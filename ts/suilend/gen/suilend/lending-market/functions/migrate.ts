@@ -1,10 +1,6 @@
 import { obj } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionObjectInput,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionObjectInput, TransactionResult } from "@mysten/sui/transactions";
 
 export interface MigrateArgs {
   lendingMarketOwnerCap: TransactionObjectInput;
@@ -20,17 +16,10 @@ export interface MigrateArgs {
  * @param lendingMarketOwnerCap - Function parameter
  * @param lendingMarket - Function parameter
  */
-export function migrate(
-  tx: Transaction,
-  typeArg: string,
-  args: MigrateArgs,
-): TransactionResult {
+export function migrate(tx: Transaction, typeArg: string, args: MigrateArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::lending_market::migrate`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.lendingMarketOwnerCap),
-      obj(tx, args.lendingMarket),
-    ],
+    arguments: [obj(tx, args.lendingMarketOwnerCap), obj(tx, args.lendingMarket)],
   });
 }

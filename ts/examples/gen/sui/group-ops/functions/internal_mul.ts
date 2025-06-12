@@ -1,10 +1,6 @@
 import { pure } from "../../../_framework/util.js";
 import { PUBLISHED_AT } from "../../constants.js";
-import {
-  Transaction,
-  TransactionArgument,
-  TransactionResult,
-} from "@mysten/sui/transactions";
+import { Transaction, TransactionArgument, TransactionResult } from "@mysten/sui/transactions";
 
 export interface InternalMulArgs {
   type: number | TransactionArgument;
@@ -22,10 +18,7 @@ export interface InternalMulArgs {
  * @param e2 - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function internalMul(
-  tx: Transaction,
-  args: InternalMulArgs,
-): TransactionResult {
+export function internalMul(tx: Transaction, args: InternalMulArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::group_ops::internal_mul`,
     arguments: [

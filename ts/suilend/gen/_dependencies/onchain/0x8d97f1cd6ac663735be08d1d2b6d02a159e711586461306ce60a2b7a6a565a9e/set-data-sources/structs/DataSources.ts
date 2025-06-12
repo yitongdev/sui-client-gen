@@ -72,20 +72,15 @@ export class DataSources implements StructClass {
       typeArgs: [] as [],
       isPhantom: DataSources.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        DataSources.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        DataSources.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => DataSources.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => DataSources.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => DataSources.fromBcs(data),
       bcs: DataSources.bcs,
       fromJSONField: (field: any) => DataSources.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => DataSources.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        DataSources.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        DataSources.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        DataSources.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => DataSources.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => DataSources.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => DataSources.fetch(client, id),
       new: (fields: DataSourcesFields) => {
         return new DataSources([], fields);
       },
@@ -112,10 +107,7 @@ export class DataSources implements StructClass {
 
   static fromFields(fields: Record<string, any>): DataSources {
     return DataSources.reified().new({
-      sources: decodeFromFields(
-        reified.vector(DataSource.reified()),
-        fields.sources,
-      ),
+      sources: decodeFromFields(reified.vector(DataSource.reified()), fields.sources),
     });
   }
 
@@ -125,10 +117,7 @@ export class DataSources implements StructClass {
     }
 
     return DataSources.reified().new({
-      sources: decodeFromFieldsWithTypes(
-        reified.vector(DataSource.reified()),
-        item.fields.sources,
-      ),
+      sources: decodeFromFieldsWithTypes(reified.vector(DataSource.reified()), item.fields.sources),
     });
   }
 
@@ -138,27 +127,17 @@ export class DataSources implements StructClass {
 
   toJSONField() {
     return {
-      sources: fieldToJSON<Vector<DataSource>>(
-        `vector<${DataSource.$typeName}>`,
-        this.sources,
-      ),
+      sources: fieldToJSON<Vector<DataSource>>(`vector<${DataSource.$typeName}>`, this.sources),
     };
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): DataSources {
     return DataSources.reified().new({
-      sources: decodeFromJSONField(
-        reified.vector(DataSource.reified()),
-        field.sources,
-      ),
+      sources: decodeFromJSONField(reified.vector(DataSource.reified()), field.sources),
     });
   }
 
@@ -175,9 +154,7 @@ export class DataSources implements StructClass {
       throw new Error("not an object");
     }
     if (!isDataSources(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a DataSources object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a DataSources object`);
     }
     return DataSources.fromFieldsWithTypes(content);
   }
@@ -185,7 +162,7 @@ export class DataSources implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): DataSources {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isDataSources(data.bcs.type)) {
-        throw new Error(`object at is not a DataSources object`);
+        throw new Error(`object at ${data.objectId} is not a DataSources object`);
       }
 
       return DataSources.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -201,14 +178,9 @@ export class DataSources implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<DataSources> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching DataSources object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching DataSources object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isDataSources(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isDataSources(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a DataSources object`);
     }
 

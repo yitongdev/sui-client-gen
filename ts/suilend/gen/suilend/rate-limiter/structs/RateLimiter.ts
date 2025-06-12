@@ -9,11 +9,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V1 } from "../../constants.js";
 import { Decimal } from "../../decimal/structs/index.js";
 import { RateLimiterConfig as RateLimiterConfig1 } from "./RateLimiterConfig.js";
@@ -79,20 +75,15 @@ export class RateLimiter implements StructClass {
       typeArgs: [] as [],
       isPhantom: RateLimiter.$isPhantom,
       reifiedTypeArgs: [],
-      fromFields: (fields: Record<string, any>) =>
-        RateLimiter.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        RateLimiter.fromFieldsWithTypes(item),
+      fromFields: (fields: Record<string, any>) => RateLimiter.fromFields(fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => RateLimiter.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => RateLimiter.fromBcs(data),
       bcs: RateLimiter.bcs,
       fromJSONField: (field: any) => RateLimiter.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => RateLimiter.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        RateLimiter.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        RateLimiter.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        RateLimiter.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => RateLimiter.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => RateLimiter.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => RateLimiter.fetch(client, id),
       new: (fields: RateLimiterFields) => {
         return new RateLimiter([], fields);
       },
@@ -135,14 +126,8 @@ export class RateLimiter implements StructClass {
     }
 
     return RateLimiter.reified().new({
-      config: decodeFromFieldsWithTypes(
-        RateLimiterConfig1.reified(),
-        item.fields.config,
-      ),
-      prevQty: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.prev_qty,
-      ),
+      config: decodeFromFieldsWithTypes(RateLimiterConfig1.reified(), item.fields.config),
+      prevQty: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.prev_qty),
       windowStart: decodeFromFieldsWithTypes("u64", item.fields.window_start),
       curQty: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.cur_qty),
     });
@@ -162,11 +147,7 @@ export class RateLimiter implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): RateLimiter {
@@ -191,9 +172,7 @@ export class RateLimiter implements StructClass {
       throw new Error("not an object");
     }
     if (!isRateLimiter(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a RateLimiter object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a RateLimiter object`);
     }
     return RateLimiter.fromFieldsWithTypes(content);
   }
@@ -201,7 +180,7 @@ export class RateLimiter implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): RateLimiter {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isRateLimiter(data.bcs.type)) {
-        throw new Error(`object at is not a RateLimiter object`);
+        throw new Error(`object at ${data.objectId} is not a RateLimiter object`);
       }
 
       return RateLimiter.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -217,14 +196,9 @@ export class RateLimiter implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<RateLimiter> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching RateLimiter object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching RateLimiter object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isRateLimiter(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isRateLimiter(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a RateLimiter object`);
     }
 

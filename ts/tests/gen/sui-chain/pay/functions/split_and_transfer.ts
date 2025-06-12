@@ -32,10 +32,6 @@ export function splitAndTransfer(
   return tx.moveCall({
     target: `${PUBLISHED_AT}::pay::split_and_transfer`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.coin),
-      pure(tx, args.u64, `u64`),
-      pure(tx, args.address, `address`),
-    ],
+    arguments: [obj(tx, args.coin), pure(tx, args.u64, `u64`), pure(tx, args.address, `address`)],
   });
 }

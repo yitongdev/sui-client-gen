@@ -72,16 +72,13 @@ export class Bytes20 implements StructClass {
       isPhantom: Bytes20.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Bytes20.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Bytes20.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Bytes20.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Bytes20.fromBcs(data),
       bcs: Bytes20.bcs,
       fromJSONField: (field: any) => Bytes20.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Bytes20.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Bytes20.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Bytes20.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Bytes20.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Bytes20.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Bytes20.fetch(client, id),
       new: (fields: Bytes20Fields) => {
         return new Bytes20([], fields);
@@ -108,9 +105,7 @@ export class Bytes20 implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): Bytes20 {
-    return Bytes20.reified().new({
-      data: decodeFromFields(reified.vector("u8"), fields.data),
-    });
+    return Bytes20.reified().new({ data: decodeFromFields(reified.vector("u8"), fields.data) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): Bytes20 {
@@ -134,17 +129,11 @@ export class Bytes20 implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Bytes20 {
-    return Bytes20.reified().new({
-      data: decodeFromJSONField(reified.vector("u8"), field.data),
-    });
+    return Bytes20.reified().new({ data: decodeFromJSONField(reified.vector("u8"), field.data) });
   }
 
   static fromJSON(json: Record<string, any>): Bytes20 {
@@ -160,9 +149,7 @@ export class Bytes20 implements StructClass {
       throw new Error("not an object");
     }
     if (!isBytes20(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Bytes20 object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Bytes20 object`);
     }
     return Bytes20.fromFieldsWithTypes(content);
   }
@@ -170,7 +157,7 @@ export class Bytes20 implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Bytes20 {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isBytes20(data.bcs.type)) {
-        throw new Error(`object at is not a Bytes20 object`);
+        throw new Error(`object at ${data.objectId} is not a Bytes20 object`);
       }
 
       return Bytes20.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -186,14 +173,9 @@ export class Bytes20 implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Bytes20> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Bytes20 object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Bytes20 object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isBytes20(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isBytes20(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Bytes20 object`);
     }
 

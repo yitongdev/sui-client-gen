@@ -61,24 +61,18 @@ export class Unit implements StructClass {
   static reified(): UnitReified {
     return {
       typeName: Unit.$typeName,
-      fullTypeName: composeSuiType(
-        Unit.$typeName,
-        ...[],
-      ) as `${typeof PKG_V1}::set::Unit`,
+      fullTypeName: composeSuiType(Unit.$typeName, ...[]) as `${typeof PKG_V1}::set::Unit`,
       typeArgs: [] as [],
       isPhantom: Unit.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Unit.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Unit.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Unit.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Unit.fromBcs(data),
       bcs: Unit.bcs,
       fromJSONField: (field: any) => Unit.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Unit.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Unit.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Unit.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Unit.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Unit.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Unit.fetch(client, id),
       new: (fields: UnitFields) => {
         return new Unit([], fields);
@@ -105,9 +99,7 @@ export class Unit implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): Unit {
-    return Unit.reified().new({
-      dummyField: decodeFromFields("bool", fields.dummy_field),
-    });
+    return Unit.reified().new({ dummyField: decodeFromFields("bool", fields.dummy_field) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): Unit {
@@ -131,17 +123,11 @@ export class Unit implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Unit {
-    return Unit.reified().new({
-      dummyField: decodeFromJSONField("bool", field.dummyField),
-    });
+    return Unit.reified().new({ dummyField: decodeFromJSONField("bool", field.dummyField) });
   }
 
   static fromJSON(json: Record<string, any>): Unit {
@@ -157,9 +143,7 @@ export class Unit implements StructClass {
       throw new Error("not an object");
     }
     if (!isUnit(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Unit object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Unit object`);
     }
     return Unit.fromFieldsWithTypes(content);
   }
@@ -167,7 +151,7 @@ export class Unit implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Unit {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isUnit(data.bcs.type)) {
-        throw new Error(`object at is not a Unit object`);
+        throw new Error(`object at ${data.objectId} is not a Unit object`);
       }
 
       return Unit.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -183,14 +167,9 @@ export class Unit implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Unit> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Unit object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Unit object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isUnit(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isUnit(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Unit object`);
     }
 

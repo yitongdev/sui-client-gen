@@ -26,9 +26,6 @@ export function setInterestRateAprs(
 ): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::reserve_config::set_interest_rate_aprs`,
-    arguments: [
-      obj(tx, args.reserveConfigBuilder),
-      pure(tx, args.vecU64, `vector<u64>`),
-    ],
+    arguments: [obj(tx, args.reserveConfigBuilder), pure(tx, args.vecU64, `vector<u64>`)],
   });
 }

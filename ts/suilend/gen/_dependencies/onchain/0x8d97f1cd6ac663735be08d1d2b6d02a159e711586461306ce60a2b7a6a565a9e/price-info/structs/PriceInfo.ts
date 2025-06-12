@@ -76,18 +76,14 @@ export class PriceInfo implements StructClass {
       isPhantom: PriceInfo.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => PriceInfo.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        PriceInfo.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => PriceInfo.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => PriceInfo.fromBcs(data),
       bcs: PriceInfo.bcs,
       fromJSONField: (field: any) => PriceInfo.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => PriceInfo.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        PriceInfo.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        PriceInfo.fromSuiObjectData(content),
-      fetch: async (client: SuiClient, id: string) =>
-        PriceInfo.fetch(client, id),
+      fromSuiParsedData: (content: SuiParsedData) => PriceInfo.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => PriceInfo.fromSuiObjectData(content),
+      fetch: async (client: SuiClient, id: string) => PriceInfo.fetch(client, id),
       new: (fields: PriceInfoFields) => {
         return new PriceInfo([], fields);
       },
@@ -128,15 +124,9 @@ export class PriceInfo implements StructClass {
     }
 
     return PriceInfo.reified().new({
-      attestationTime: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.attestation_time,
-      ),
+      attestationTime: decodeFromFieldsWithTypes("u64", item.fields.attestation_time),
       arrivalTime: decodeFromFieldsWithTypes("u64", item.fields.arrival_time),
-      priceFeed: decodeFromFieldsWithTypes(
-        PriceFeed.reified(),
-        item.fields.price_feed,
-      ),
+      priceFeed: decodeFromFieldsWithTypes(PriceFeed.reified(), item.fields.price_feed),
     });
   }
 
@@ -153,11 +143,7 @@ export class PriceInfo implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): PriceInfo {
@@ -181,9 +167,7 @@ export class PriceInfo implements StructClass {
       throw new Error("not an object");
     }
     if (!isPriceInfo(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a PriceInfo object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a PriceInfo object`);
     }
     return PriceInfo.fromFieldsWithTypes(content);
   }
@@ -191,7 +175,7 @@ export class PriceInfo implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): PriceInfo {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isPriceInfo(data.bcs.type)) {
-        throw new Error(`object at is not a PriceInfo object`);
+        throw new Error(`object at ${data.objectId} is not a PriceInfo object`);
       }
 
       return PriceInfo.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -207,14 +191,9 @@ export class PriceInfo implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<PriceInfo> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching PriceInfo object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching PriceInfo object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isPriceInfo(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isPriceInfo(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a PriceInfo object`);
     }
 

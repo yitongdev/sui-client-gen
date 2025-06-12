@@ -1,8 +1,5 @@
 import { TypeName } from "../../../_dependencies/onchain/0x1/type-name/structs/index.js";
-import {
-  ID,
-  UID,
-} from "../../../_dependencies/onchain/0x2/object/structs/index.js";
+import { ID, UID } from "../../../_dependencies/onchain/0x2/object/structs/index.js";
 import { PriceIdentifier } from "../../../_dependencies/onchain/0x8d97f1cd6ac663735be08d1d2b6d02a159e711586461306ce60a2b7a6a565a9e/price-identifier/structs/index.js";
 import {
   PhantomReified,
@@ -106,10 +103,7 @@ export class Reserve<T0 extends PhantomTypeArgument> implements StructClass {
   readonly depositsPoolRewardManager: ToField<PoolRewardManager>;
   readonly borrowsPoolRewardManager: ToField<PoolRewardManager>;
 
-  private constructor(
-    typeArgs: [PhantomToTypeStr<T0>],
-    fields: ReserveFields<T0>,
-  ) {
+  private constructor(typeArgs: [PhantomToTypeStr<T0>], fields: ReserveFields<T0>) {
     this.$fullTypeName = composeSuiType(
       Reserve.$typeName,
       ...typeArgs,
@@ -146,25 +140,18 @@ export class Reserve<T0 extends PhantomTypeArgument> implements StructClass {
         Reserve.$typeName,
         ...[extractType(T0)],
       ) as `${typeof PKG_V1}::reserve::Reserve<${PhantomToTypeStr<ToPhantomTypeArgument<T0>>}>`,
-      typeArgs: [extractType(T0)] as [
-        PhantomToTypeStr<ToPhantomTypeArgument<T0>>,
-      ],
+      typeArgs: [extractType(T0)] as [PhantomToTypeStr<ToPhantomTypeArgument<T0>>],
       isPhantom: Reserve.$isPhantom,
       reifiedTypeArgs: [T0],
-      fromFields: (fields: Record<string, any>) =>
-        Reserve.fromFields(T0, fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Reserve.fromFieldsWithTypes(T0, item),
+      fromFields: (fields: Record<string, any>) => Reserve.fromFields(T0, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Reserve.fromFieldsWithTypes(T0, item),
       fromBcs: (data: Uint8Array) => Reserve.fromBcs(T0, data),
       bcs: Reserve.bcs,
       fromJSONField: (field: any) => Reserve.fromJSONField(T0, field),
       fromJSON: (json: Record<string, any>) => Reserve.fromJSON(T0, json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Reserve.fromSuiParsedData(T0, content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Reserve.fromSuiObjectData(T0, content),
-      fetch: async (client: SuiClient, id: string) =>
-        Reserve.fetch(client, T0, id),
+      fromSuiParsedData: (content: SuiParsedData) => Reserve.fromSuiParsedData(T0, content),
+      fromSuiObjectData: (content: SuiObjectData) => Reserve.fromSuiObjectData(T0, content),
+      fetch: async (client: SuiClient, id: string) => Reserve.fetch(client, T0, id),
       new: (fields: ReserveFields<ToPhantomTypeArgument<T0>>) => {
         return new Reserve([extractType(T0)], fields);
       },
@@ -218,43 +205,22 @@ export class Reserve<T0 extends PhantomTypeArgument> implements StructClass {
       lendingMarketId: decodeFromFields(ID.reified(), fields.lending_market_id),
       arrayIndex: decodeFromFields("u64", fields.array_index),
       coinType: decodeFromFields(TypeName.reified(), fields.coin_type),
-      config: decodeFromFields(
-        Cell.reified(ReserveConfig.reified()),
-        fields.config,
-      ),
+      config: decodeFromFields(Cell.reified(ReserveConfig.reified()), fields.config),
       mintDecimals: decodeFromFields("u8", fields.mint_decimals),
-      priceIdentifier: decodeFromFields(
-        PriceIdentifier.reified(),
-        fields.price_identifier,
-      ),
+      priceIdentifier: decodeFromFields(PriceIdentifier.reified(), fields.price_identifier),
       price: decodeFromFields(Decimal.reified(), fields.price),
       smoothedPrice: decodeFromFields(Decimal.reified(), fields.smoothed_price),
-      priceLastUpdateTimestampS: decodeFromFields(
-        "u64",
-        fields.price_last_update_timestamp_s,
-      ),
+      priceLastUpdateTimestampS: decodeFromFields("u64", fields.price_last_update_timestamp_s),
       availableAmount: decodeFromFields("u64", fields.available_amount),
       ctokenSupply: decodeFromFields("u64", fields.ctoken_supply),
-      borrowedAmount: decodeFromFields(
-        Decimal.reified(),
-        fields.borrowed_amount,
-      ),
-      cumulativeBorrowRate: decodeFromFields(
-        Decimal.reified(),
-        fields.cumulative_borrow_rate,
-      ),
+      borrowedAmount: decodeFromFields(Decimal.reified(), fields.borrowed_amount),
+      cumulativeBorrowRate: decodeFromFields(Decimal.reified(), fields.cumulative_borrow_rate),
       interestLastUpdateTimestampS: decodeFromFields(
         "u64",
         fields.interest_last_update_timestamp_s,
       ),
-      unclaimedSpreadFees: decodeFromFields(
-        Decimal.reified(),
-        fields.unclaimed_spread_fees,
-      ),
-      attributedBorrowValue: decodeFromFields(
-        Decimal.reified(),
-        fields.attributed_borrow_value,
-      ),
+      unclaimedSpreadFees: decodeFromFields(Decimal.reified(), fields.unclaimed_spread_fees),
+      attributedBorrowValue: decodeFromFields(Decimal.reified(), fields.attributed_borrow_value),
       depositsPoolRewardManager: decodeFromFields(
         PoolRewardManager.reified(),
         fields.deposits_pool_reward_manager,
@@ -277,42 +243,24 @@ export class Reserve<T0 extends PhantomTypeArgument> implements StructClass {
 
     return Reserve.reified(typeArg).new({
       id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
-      lendingMarketId: decodeFromFieldsWithTypes(
-        ID.reified(),
-        item.fields.lending_market_id,
-      ),
+      lendingMarketId: decodeFromFieldsWithTypes(ID.reified(), item.fields.lending_market_id),
       arrayIndex: decodeFromFieldsWithTypes("u64", item.fields.array_index),
-      coinType: decodeFromFieldsWithTypes(
-        TypeName.reified(),
-        item.fields.coin_type,
-      ),
-      config: decodeFromFieldsWithTypes(
-        Cell.reified(ReserveConfig.reified()),
-        item.fields.config,
-      ),
+      coinType: decodeFromFieldsWithTypes(TypeName.reified(), item.fields.coin_type),
+      config: decodeFromFieldsWithTypes(Cell.reified(ReserveConfig.reified()), item.fields.config),
       mintDecimals: decodeFromFieldsWithTypes("u8", item.fields.mint_decimals),
       priceIdentifier: decodeFromFieldsWithTypes(
         PriceIdentifier.reified(),
         item.fields.price_identifier,
       ),
       price: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.price),
-      smoothedPrice: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.smoothed_price,
-      ),
+      smoothedPrice: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.smoothed_price),
       priceLastUpdateTimestampS: decodeFromFieldsWithTypes(
         "u64",
         item.fields.price_last_update_timestamp_s,
       ),
-      availableAmount: decodeFromFieldsWithTypes(
-        "u64",
-        item.fields.available_amount,
-      ),
+      availableAmount: decodeFromFieldsWithTypes("u64", item.fields.available_amount),
       ctokenSupply: decodeFromFieldsWithTypes("u64", item.fields.ctoken_supply),
-      borrowedAmount: decodeFromFieldsWithTypes(
-        Decimal.reified(),
-        item.fields.borrowed_amount,
-      ),
+      borrowedAmount: decodeFromFieldsWithTypes(Decimal.reified(), item.fields.borrowed_amount),
       cumulativeBorrowRate: decodeFromFieldsWithTypes(
         Decimal.reified(),
         item.fields.cumulative_borrow_rate,
@@ -363,8 +311,7 @@ export class Reserve<T0 extends PhantomTypeArgument> implements StructClass {
       ctokenSupply: this.ctokenSupply.toString(),
       borrowedAmount: this.borrowedAmount.toJSONField(),
       cumulativeBorrowRate: this.cumulativeBorrowRate.toJSONField(),
-      interestLastUpdateTimestampS:
-        this.interestLastUpdateTimestampS.toString(),
+      interestLastUpdateTimestampS: this.interestLastUpdateTimestampS.toString(),
       unclaimedSpreadFees: this.unclaimedSpreadFees.toJSONField(),
       attributedBorrowValue: this.attributedBorrowValue.toJSONField(),
       depositsPoolRewardManager: this.depositsPoolRewardManager.toJSONField(),
@@ -373,11 +320,7 @@ export class Reserve<T0 extends PhantomTypeArgument> implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField<T0 extends PhantomReified<PhantomTypeArgument>>(
@@ -389,46 +332,19 @@ export class Reserve<T0 extends PhantomTypeArgument> implements StructClass {
       lendingMarketId: decodeFromJSONField(ID.reified(), field.lendingMarketId),
       arrayIndex: decodeFromJSONField("u64", field.arrayIndex),
       coinType: decodeFromJSONField(TypeName.reified(), field.coinType),
-      config: decodeFromJSONField(
-        Cell.reified(ReserveConfig.reified()),
-        field.config,
-      ),
+      config: decodeFromJSONField(Cell.reified(ReserveConfig.reified()), field.config),
       mintDecimals: decodeFromJSONField("u8", field.mintDecimals),
-      priceIdentifier: decodeFromJSONField(
-        PriceIdentifier.reified(),
-        field.priceIdentifier,
-      ),
+      priceIdentifier: decodeFromJSONField(PriceIdentifier.reified(), field.priceIdentifier),
       price: decodeFromJSONField(Decimal.reified(), field.price),
-      smoothedPrice: decodeFromJSONField(
-        Decimal.reified(),
-        field.smoothedPrice,
-      ),
-      priceLastUpdateTimestampS: decodeFromJSONField(
-        "u64",
-        field.priceLastUpdateTimestampS,
-      ),
+      smoothedPrice: decodeFromJSONField(Decimal.reified(), field.smoothedPrice),
+      priceLastUpdateTimestampS: decodeFromJSONField("u64", field.priceLastUpdateTimestampS),
       availableAmount: decodeFromJSONField("u64", field.availableAmount),
       ctokenSupply: decodeFromJSONField("u64", field.ctokenSupply),
-      borrowedAmount: decodeFromJSONField(
-        Decimal.reified(),
-        field.borrowedAmount,
-      ),
-      cumulativeBorrowRate: decodeFromJSONField(
-        Decimal.reified(),
-        field.cumulativeBorrowRate,
-      ),
-      interestLastUpdateTimestampS: decodeFromJSONField(
-        "u64",
-        field.interestLastUpdateTimestampS,
-      ),
-      unclaimedSpreadFees: decodeFromJSONField(
-        Decimal.reified(),
-        field.unclaimedSpreadFees,
-      ),
-      attributedBorrowValue: decodeFromJSONField(
-        Decimal.reified(),
-        field.attributedBorrowValue,
-      ),
+      borrowedAmount: decodeFromJSONField(Decimal.reified(), field.borrowedAmount),
+      cumulativeBorrowRate: decodeFromJSONField(Decimal.reified(), field.cumulativeBorrowRate),
+      interestLastUpdateTimestampS: decodeFromJSONField("u64", field.interestLastUpdateTimestampS),
+      unclaimedSpreadFees: decodeFromJSONField(Decimal.reified(), field.unclaimedSpreadFees),
+      attributedBorrowValue: decodeFromJSONField(Decimal.reified(), field.attributedBorrowValue),
       depositsPoolRewardManager: decodeFromJSONField(
         PoolRewardManager.reified(),
         field.depositsPoolRewardManager,
@@ -464,9 +380,7 @@ export class Reserve<T0 extends PhantomTypeArgument> implements StructClass {
       throw new Error("not an object");
     }
     if (!isReserve(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Reserve object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Reserve object`);
     }
     return Reserve.fromFieldsWithTypes(typeArg, content);
   }
@@ -477,7 +391,7 @@ export class Reserve<T0 extends PhantomTypeArgument> implements StructClass {
   ): Reserve<ToPhantomTypeArgument<T0>> {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isReserve(data.bcs.type)) {
-        throw new Error(`object at is not a Reserve object`);
+        throw new Error(`object at ${data.objectId} is not a Reserve object`);
       }
 
       const gotTypeArgs = parseTypeName(data.bcs.type).typeArgs;
@@ -512,14 +426,9 @@ export class Reserve<T0 extends PhantomTypeArgument> implements StructClass {
   ): Promise<Reserve<ToPhantomTypeArgument<T0>>> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Reserve object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Reserve object at id ${id}: ${res.error.code}`);
     }
-    if (
-      res.data?.bcs?.dataType !== "moveObject" ||
-      !isReserve(res.data.bcs.type)
-    ) {
+    if (res.data?.bcs?.dataType !== "moveObject" || !isReserve(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Reserve object`);
     }
 

@@ -9,8 +9,5 @@ import { Transaction, TransactionResult } from "@mysten/sui/transactions";
  * @param txContext - Function parameter
  */
 export function init(tx: Transaction): TransactionResult {
-  return tx.moveCall({
-    target: `${PUBLISHED_AT}::lending_market_registry::init`,
-    arguments: [],
-  });
+  return tx.moveCall({ target: `${PUBLISHED_AT}::lending_market_registry::init`, arguments: [] });
 }

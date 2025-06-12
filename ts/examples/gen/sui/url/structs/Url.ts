@@ -10,11 +10,7 @@ import {
   decodeFromJSONField,
   phantom,
 } from "../../../_framework/reified.js";
-import {
-  FieldsWithTypes,
-  composeSuiType,
-  compressSuiType,
-} from "../../../_framework/util.js";
+import { FieldsWithTypes, composeSuiType, compressSuiType } from "../../../_framework/util.js";
 import { PKG_V31 } from "../../constants.js";
 import { bcs } from "@mysten/sui/bcs";
 import { SuiClient, SuiObjectData, SuiParsedData } from "@mysten/sui/client";
@@ -62,24 +58,18 @@ export class Url implements StructClass {
   static reified(): UrlReified {
     return {
       typeName: Url.$typeName,
-      fullTypeName: composeSuiType(
-        Url.$typeName,
-        ...[],
-      ) as `${typeof PKG_V31}::url::Url`,
+      fullTypeName: composeSuiType(Url.$typeName, ...[]) as `${typeof PKG_V31}::url::Url`,
       typeArgs: [] as [],
       isPhantom: Url.$isPhantom,
       reifiedTypeArgs: [],
       fromFields: (fields: Record<string, any>) => Url.fromFields(fields),
-      fromFieldsWithTypes: (item: FieldsWithTypes) =>
-        Url.fromFieldsWithTypes(item),
+      fromFieldsWithTypes: (item: FieldsWithTypes) => Url.fromFieldsWithTypes(item),
       fromBcs: (data: Uint8Array) => Url.fromBcs(data),
       bcs: Url.bcs,
       fromJSONField: (field: any) => Url.fromJSONField(field),
       fromJSON: (json: Record<string, any>) => Url.fromJSON(json),
-      fromSuiParsedData: (content: SuiParsedData) =>
-        Url.fromSuiParsedData(content),
-      fromSuiObjectData: (content: SuiObjectData) =>
-        Url.fromSuiObjectData(content),
+      fromSuiParsedData: (content: SuiParsedData) => Url.fromSuiParsedData(content),
+      fromSuiObjectData: (content: SuiObjectData) => Url.fromSuiObjectData(content),
       fetch: async (client: SuiClient, id: string) => Url.fetch(client, id),
       new: (fields: UrlFields) => {
         return new Url([], fields);
@@ -106,9 +96,7 @@ export class Url implements StructClass {
   }
 
   static fromFields(fields: Record<string, any>): Url {
-    return Url.reified().new({
-      url: decodeFromFields(String.reified(), fields.url),
-    });
+    return Url.reified().new({ url: decodeFromFields(String.reified(), fields.url) });
   }
 
   static fromFieldsWithTypes(item: FieldsWithTypes): Url {
@@ -116,9 +104,7 @@ export class Url implements StructClass {
       throw new Error("not a Url type");
     }
 
-    return Url.reified().new({
-      url: decodeFromFieldsWithTypes(String.reified(), item.fields.url),
-    });
+    return Url.reified().new({ url: decodeFromFieldsWithTypes(String.reified(), item.fields.url) });
   }
 
   static fromBcs(data: Uint8Array): Url {
@@ -132,17 +118,11 @@ export class Url implements StructClass {
   }
 
   toJSON() {
-    return {
-      $typeName: this.$typeName,
-      $typeArgs: this.$typeArgs,
-      ...this.toJSONField(),
-    };
+    return { $typeName: this.$typeName, $typeArgs: this.$typeArgs, ...this.toJSONField() };
   }
 
   static fromJSONField(field: any): Url {
-    return Url.reified().new({
-      url: decodeFromJSONField(String.reified(), field.url),
-    });
+    return Url.reified().new({ url: decodeFromJSONField(String.reified(), field.url) });
   }
 
   static fromJSON(json: Record<string, any>): Url {
@@ -158,9 +138,7 @@ export class Url implements StructClass {
       throw new Error("not an object");
     }
     if (!isUrl(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a Url object`,
-      );
+      throw new Error(`object at ${(content.fields as any).id} is not a Url object`);
     }
     return Url.fromFieldsWithTypes(content);
   }
@@ -168,7 +146,7 @@ export class Url implements StructClass {
   static fromSuiObjectData(data: SuiObjectData): Url {
     if (data.bcs) {
       if (data.bcs.dataType !== "moveObject" || !isUrl(data.bcs.type)) {
-        throw new Error(`object at is not a Url object`);
+        throw new Error(`object at ${data.objectId} is not a Url object`);
       }
 
       return Url.fromBcs(fromBase64(data.bcs.bcsBytes));
@@ -184,9 +162,7 @@ export class Url implements StructClass {
   static async fetch(client: SuiClient, id: string): Promise<Url> {
     const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
-      throw new Error(
-        `error fetching Url object at id ${id}: ${res.error.code}`,
-      );
+      throw new Error(`error fetching Url object at id ${id}: ${res.error.code}`);
     }
     if (res.data?.bcs?.dataType !== "moveObject" || !isUrl(res.data.bcs.type)) {
       throw new Error(`object at id ${id} is not a Url object`);

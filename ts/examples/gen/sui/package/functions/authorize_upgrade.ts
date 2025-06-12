@@ -23,10 +23,7 @@ export interface AuthorizeUpgradeArgs {
  * @param digest - Function parameter
  * @returns TransactionResult - The transaction result
  */
-export function authorizeUpgrade(
-  tx: Transaction,
-  args: AuthorizeUpgradeArgs,
-): TransactionResult {
+export function authorizeUpgrade(tx: Transaction, args: AuthorizeUpgradeArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::package::authorize_upgrade`,
     arguments: [

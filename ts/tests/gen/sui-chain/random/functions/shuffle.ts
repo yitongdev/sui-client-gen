@@ -21,17 +21,10 @@ export interface ShuffleArgs {
  * @param randomGenerator - Function parameter
  * @param vecT0 - Function parameter
  */
-export function shuffle(
-  tx: Transaction,
-  typeArg: string,
-  args: ShuffleArgs,
-): TransactionResult {
+export function shuffle(tx: Transaction, typeArg: string, args: ShuffleArgs): TransactionResult {
   return tx.moveCall({
     target: `${PUBLISHED_AT}::random::shuffle`,
     typeArguments: [typeArg],
-    arguments: [
-      obj(tx, args.randomGenerator),
-      vector(tx, `${typeArg}`, args.vecT0),
-    ],
+    arguments: [obj(tx, args.randomGenerator), vector(tx, `${typeArg}`, args.vecT0)],
   });
 }
